@@ -77,8 +77,8 @@ def get_cla_parser() -> argparse.ArgumentParser:
         "--init-refs",
         nargs="+",
         help=(
-            "A list of SHA of object (commits, tags, trees, blobs) that represents "
-            "a limitation from where to display the DAG"
+            "A list of branches, tags, objects' SHA (commits, trees, blobs) that "
+            "represents a limitation from where to display the DAG"
         ),
     )
 

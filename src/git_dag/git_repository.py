@@ -415,7 +415,10 @@ class GitInspector:
         if abs(numb_not_found) > 0:  # no need but just in case use abs
             # https://stackoverflow.com/a/12166263
             # normally, we should be able to find them using ``git fsck``
-            LOG.warning(f"{numb_not_found} commits not found by --all --reflog")
+            LOG.warning(
+                f"{numb_not_found} Processing commits not included in "
+                "git rev-list --all --reflog"
+            )
 
         return headers
 
@@ -449,7 +452,7 @@ class GitInspector:
                     commit_object_file_data = self.commits_headers[sha]
                 else:
                     commit_object_file_data = self.git.read_object_file(sha)  # slow
-                    LOG.warning(f"[commit] manually doing git cat-file -p {sha}")
+                    LOG.warning(f"[commit] manually executing git cat-file -p {sha}")
 
                 return GitCommit(
                     sha=sha,
