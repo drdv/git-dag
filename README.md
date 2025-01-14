@@ -1,5 +1,5 @@
 ## Generates the DAG of a git repository
-  
+
 ### Install
 
 + `pip install git-dag`
@@ -62,7 +62,7 @@ options:
 + using `-n 10 -i my-branch my-tag` would display the 10 most recent commits accessible
   from `my-branch` or `my-tag`.
 
-### Color-codes
+### Default color-codes
 
 | object |  [color name](https://graphviz.org/doc/info/colors.html) |
 |---:|:---|
@@ -77,4 +77,3 @@ options:
 |remote branch | ${\texttt{\color{#b22222}firebrick}}$ |
 |stash | ${\texttt{\color{#87ceeb}skyblue}}$ |
 |HEAD | ${\texttt{\color{#6495ed}cornflowerblue}}$ |
-

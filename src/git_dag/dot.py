@@ -19,31 +19,13 @@ from typing import TYPE_CHECKING, Optional
 
 from graphviz import Digraph  # type: ignore[import-untyped]
 
-from .constants import GIT_EMPTY_TREE_OBJECT_SHA
+from .constants import GIT_EMPTY_TREE_OBJECT_SHA, GRAPHVIZ_NODE_COLORS, SHA_LIMIT
 from .pydantic_models import GitBlob, GitCommit, GitTree
 
 if TYPE_CHECKING:
     from .git_repository import GitRepository
 
 LOG = logging.getLogger(__name__)
-
-#: Node colors.
-NODE_COLORS = {
-    "commit": "gold3",
-    "commit-unreachable": "darkorange",
-    "tree": "deepskyblue4",
-    "the-empty-tree": "darkturquoise",
-    "blob": "gray",
-    "tag": "pink",
-    "tag-lw": "lightcoral",
-    "head": "cornflowerblue",
-    "local-branches": "forestgreen",
-    "remote-branches": "firebrick",
-    "stash": "skyblue",
-}
-
-#: Nuber of SHA characters to display in labels.
-SHA_LIMIT = 8
 
 
 class DagVisualizer:
@@ -150,8 +132,8 @@ class DagVisualizer:
             self.graph.node(
                 "HEAD",
                 label="HEAD *" if detached else "HEAD",
-                color=NODE_COLORS["head"],
-                fillcolor=NODE_COLORS["head"],
+                color=GRAPHVIZ_NODE_COLORS["head"],
+                fillcolor=GRAPHVIZ_NODE_COLORS["head"],
             )
             self.edges.add(("HEAD", head.sha))
 
@@ -163,8 +145,8 @@ class DagVisualizer:
                 self.graph.node(
                     node_id,
                     label=branch.name,
-                    color=NODE_COLORS["local-branches"],
-                    fillcolor=NODE_COLORS["local-branches"],
+                    color=GRAPHVIZ_NODE_COLORS["local-branches"],
+                    fillcolor=GRAPHVIZ_NODE_COLORS["local-branches"],
                     tooltip=f"-> {branch.tracking}",
                 )
                 self.edges.add((node_id, branch.commit.sha))
@@ -177,8 +159,8 @@ class DagVisualizer:
                 self.graph.node(
                     node_id,
                     label=branch.name,
-                    color=NODE_COLORS["remote-branches"],
-                    fillcolor=NODE_COLORS["remote-branches"],
+                    color=GRAPHVIZ_NODE_COLORS["remote-branches"],
+                    fillcolor=GRAPHVIZ_NODE_COLORS["remote-branches"],
                 )
                 self.edges.add((node_id, branch.commit.sha))
 
@@ -188,8 +170,8 @@ class DagVisualizer:
                 self.graph.node(
                     sha,
                     label=item.name,
-                    color=NODE_COLORS["tag"],
-                    fillcolor=NODE_COLORS["tag"],
+                    color=GRAPHVIZ_NODE_COLORS["tag"],
+                    fillcolor=GRAPHVIZ_NODE_COLORS["tag"],
                 )
                 if item.anchor.sha in self.included_nodes_id:
                     self.edges.add((sha, item.anchor.sha))
@@ -201,8 +183,8 @@ class DagVisualizer:
                 self.graph.node(
                     node_id,
                     label=name,
-                    color=NODE_COLORS["tag-lw"],
-                    fillcolor=NODE_COLORS["tag-lw"],
+                    color=GRAPHVIZ_NODE_COLORS["tag-lw"],
+                    fillcolor=GRAPHVIZ_NODE_COLORS["tag-lw"],
                 )
                 if item.anchor.sha in self.included_nodes_id:
                     self.edges.add((node_id, item.anchor.sha))
@@ -219,8 +201,8 @@ class DagVisualizer:
         self.graph.node(
             sha,
             label=sha[:SHA_LIMIT],
-            color=NODE_COLORS[color_label],
-            fillcolor=NODE_COLORS[color_label],
+            color=GRAPHVIZ_NODE_COLORS[color_label],
+            fillcolor=GRAPHVIZ_NODE_COLORS[color_label],
             shape="folder",
             tooltip=tooltip,
         )
@@ -234,8 +216,8 @@ class DagVisualizer:
         self.graph.node(
             sha,
             label=sha[:SHA_LIMIT],
-            color=NODE_COLORS["blob"],
-            fillcolor=NODE_COLORS["blob"],
+            color=GRAPHVIZ_NODE_COLORS["blob"],
+            fillcolor=GRAPHVIZ_NODE_COLORS["blob"],
             shape="note",
             tooltip=self.tooltip_names.get(sha, sha),
         )
@@ -247,8 +229,8 @@ class DagVisualizer:
             self.graph.node(
                 sha,
                 label=sha[:SHA_LIMIT],
-                color=NODE_COLORS[color],
-                fillcolor=NODE_COLORS[color],
+                color=GRAPHVIZ_NODE_COLORS[color],
+                fillcolor=GRAPHVIZ_NODE_COLORS[color],
                 tooltip=item.misc_info,
             )
 
@@ -266,8 +248,8 @@ class DagVisualizer:
                 self.graph.node(
                     stash_id,
                     label=f"stash:{stash.index}",
-                    color=NODE_COLORS["stash"],
-                    fillcolor=NODE_COLORS["stash"],
+                    color=GRAPHVIZ_NODE_COLORS["stash"],
+                    fillcolor=GRAPHVIZ_NODE_COLORS["stash"],
                     tooltip=stash.title,
                 )
                 self.edges.add((stash_id, stash.commit.sha))
