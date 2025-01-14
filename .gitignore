@@ -1,0 +1,6 @@
+.ipynb_checkpoints
+_version.py
+__pycache__
+*egg-info
+build
+.venv
