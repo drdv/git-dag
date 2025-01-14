@@ -72,7 +72,7 @@ See [Graphviz color names](https://graphviz.org/doc/info/colors.html):
 + the empty tree object: "darkturquoise"
 + blobs: "gray"
 + annotated tags: "pink"
-" lightweight tag: "lightcoral"
++ lightweight tag: "lightcoral"
 + local branches: "forestgreen"
 + remote branches: "firebrick"
 + stash: "skyblue"
