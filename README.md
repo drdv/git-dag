@@ -1,1 +1,1 @@
-# Generates the DAG of a git repository
+## Generates the DAG of a git repository

@@ -1,6 +1,6 @@
 PYTHON := python
-VENV_NAME := .venv
-VENV_ACTIVATE := source ${VENV_NAME}/bin/activate
+VENV := .venv
+VENV_ACTIVATE := source ${VENV}/bin/activate
 
 PYLINT := pylint
 
@@ -11,50 +11,74 @@ help: ## show this help
 	@test -f $(SCR) || wget -q -P $(DIR) $(URL)
 	@awk -f $(SCR) $(MAKEFILE_LIST)
 
-# ----------------------------------------------------------------
+##@
+##@----- Code quality -----
+##@
 
 ## Lint code
-lint: lint-run
+.PHONY: lint
+lint: .pylint_report.html
 
 ## Run mypy check
+.PHONY: mypy
 mypy: mypy-run
 
-## Editable install in venv
-install-local: setup-venv
-	$(VENV_ACTIVATE) && pip install -e .[dev]
-
-pre-commit: ## Execute pre-commit on all files
+## Execute pre-commit on all files
+.PHONY: pre-commit
+pre-commit:
 	@pre-commit run -a
 
-# ----------------------------------------------------------------
-
-lint-run:
+.pylint_report.html:
 	$(PYLINT) src/git_dag/* > .pylint_report.json || exit 0
-	pylint_report .pylint_report.json -o .pylint_report.html
+	pylint_report .pylint_report.json -o $@
 
+.PHONY: mypy-run
 mypy-run:
 	mypy || exit 0
 
-setup-venv: ## Install dependencies in a venv
-	${PYTHON} -m venv ${VENV_NAME} && $(VENV_ACTIVATE) && pip install --upgrade pip
+##@
+##@----- Installation and packaging -----
+##@
 
-.PHONY: dist-local
+## Editable install in venv
+.PHONY: install
+install: | $(VENV)
+	$(VENV_ACTIVATE) && pip install -e .[dev]
+
+$(VENV):
+	${PYTHON} -m venv $@ && $(VENV_ACTIVATE) && pip install --upgrade pip
+
 ## Build package
-dist-local: setup-venv
+.PHONY: package
+package: | $(VENV)
 	$(VENV_ACTIVATE) && pip install build && ${PYTHON} -m build
 
+.PHONY: release
+## Create github release at latest tag
+release: LATEST_TAG != git describe --tags
+release: RELEASE_NOTES := release_notes.md
+release:
+	@test -f $($(RELEASE_NOTES)) && \
+	gh release create $(LATEST_TAG) makefile-doc.awk \
+		--generate-notes \
+		--notes-file release_notes.md -t '$(LATEST_TAG)' || \
+	echo "No file $(RELEASE_NOTES)"
+
+##! Publish on PyPi
 .PHONY: publish
-##! Publish to PyPi
-publish: dist-local
+publish: package
 	$(VENV_ACTIVATE) && pip install twine && twine upload dist/* --verbose
+
+##@
+##@----- Other -----
+##@
 
 .PHONY: clean
 clean: ##! Clean all
-	rm -rf build
 	rm -rf .mypy_cache .mypy-html
 	rm -rf src/git_dag.egg-info
 	rm -rf src/git_dag/_version.py
 	find . -name "__pycache__" | xargs rm -rf
-	rm -rf *.egg-info dist .pytest_cache .coverage
+	rm -rf package .pytest_cache .coverage
 	rm -rf .venv
-	rm -rf .pylint_report*
+	rm -f .pylint_report*
