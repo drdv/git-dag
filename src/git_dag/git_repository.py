@@ -280,7 +280,7 @@ class RegexParser:
         """Collect commit related info."""
         parents = []
         misc_info: list[str] = [] if commit_misc_info is None else commit_misc_info
-        tree, tree_counter = None, 0
+        tree, tree_counter = "", 0
         for d in commit_object_data:
             sha, kind = IG(d)
             if kind == "tree":

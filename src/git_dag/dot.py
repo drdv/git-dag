@@ -15,11 +15,19 @@ from __future__ import annotations
 
 import logging
 import subprocess
+from dataclasses import dataclass
 from typing import TYPE_CHECKING, Optional
 
 from graphviz import Digraph  # type: ignore[import-untyped]
 
-from .constants import GIT_EMPTY_TREE_OBJECT_SHA, GRAPHVIZ_NODE_COLORS, SHA_LIMIT
+from .constants import (
+    GIT_EMPTY_TREE_OBJECT_SHA,
+    GRAPHVIZ_EDGE_ATTR,
+    GRAPHVIZ_GRAPH_ATTR,
+    GRAPHVIZ_NODE_ATTR,
+    GRAPHVIZ_NODE_COLORS,
+    SHA_LIMIT,
+)
 from .pydantic_models import GitBlob, GitCommit, GitTree
 
 if TYPE_CHECKING:
@@ -28,65 +36,40 @@ if TYPE_CHECKING:
 LOG = logging.getLogger(__name__)
 
 
+@dataclass
 class DagVisualizer:
     """Git DAG visualizer."""
 
-    def __init__(
-        # pylint: disable=too-many-positional-arguments
-        self,
-        repository: GitRepository,
-        objects_sha_to_include: Optional[set[str]] = None,
-        format: str = "svg",  # pylint: disable=redefined-builtin
-        show_tags: bool = True,
-        show_local_branches: bool = True,
-        show_remote_branches: bool = False,
-        show_trees: bool = False,
-        show_blobs: bool = False,
-        show_stash: bool = False,
-        filename: str = "git-dag.gv",
-        graph_attr: Optional[dict[str, str]] = None,
-    ) -> None:
-        """Initialize instance."""
-        self.repository = repository
-        self.filename = filename
-        self.format = format
-        self.show_tags = show_tags
-        self.show_local_branches = show_local_branches
-        self.show_remote_branches = show_remote_branches
-        self.show_trees = show_trees
-        self.show_blobs = show_blobs and show_trees and repository.inspector.parse_trees
-        self.show_stash = show_stash
+    repository: GitRepository
+    objects_sha_to_include: Optional[set[str]] = None
 
-        self.objects_sha_to_include = objects_sha_to_include
+    graph_attr: Optional[dict[str, str]] = None
+    format: str = "svg"
+    filename: str = "git-dag.gv"
+
+    show_local_branches: bool = True
+    show_remote_branches: bool = False
+    show_trees: bool = False
+    show_blobs: bool = False
+    show_tags: bool = True
+    show_stash: bool = False
+
+    def __post_init__(self) -> None:
         self.tooltip_names = self.repository.inspector.names_of_blobs_and_trees
         self.edges: set[tuple[str, str]] = set()
         self.included_nodes_id: set[str] = set()
 
-        defult_graph_attr = {
-            "rankdir": "TB",
-            "dpi": None,
-            "bgcolor": "gray42",
-        }
-        if graph_attr is None:
-            graph_attr = {}
-
         self.graph = Digraph(
             format=self.format,
-            node_attr={
-                "shape": "box",
-                "style": "filled",
-                "margin": "0.01,0.01",
-                "width": "0.02",
-                "height": "0.02",
+            node_attr=GRAPHVIZ_NODE_ATTR,
+            edge_attr=GRAPHVIZ_EDGE_ATTR,
+            graph_attr={
+                **GRAPHVIZ_GRAPH_ATTR,
+                **({} if self.graph_attr is None else self.graph_attr),
             },
-            edge_attr={
-                "arrowsize": "0.5",
-                "color": "gray10",
-            },
-            graph_attr={**defult_graph_attr, **graph_attr},
             filename=self.filename,
         )
-        self.build()
+        self._build_graph()
 
     def show(self, xdg_open: bool = False) -> Optional[Digraph]:
         """Show the graph.
@@ -254,8 +237,7 @@ class DagVisualizer:
                 )
                 self.edges.add((stash_id, stash.commit.sha))
 
-    def build(self) -> None:
-        """Build the graph."""
+    def _build_graph(self) -> None:
         # tags are not handled in this loop
         for sha, item in self.repository.objects.items():
             if self.show_trees:

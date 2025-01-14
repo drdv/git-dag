@@ -64,16 +64,16 @@ options:
 
 ### Default color-codes
 
-| object |  [color name](https://graphviz.org/doc/info/colors.html) |
-|---:|:---|
-|commit | ${\texttt{\color{#cdad00}gold3}}$ |
-|unreachable commit | ${\texttt{\color{#ff8c00}darkorange}}$ |
-|tree | ${\texttt{\color{#00688b}deepskyblue4}}$ |
-|the empty tree | ${\texttt{\color{#00ced1}darkturquoise}}$ |
-|blob | ${\texttt{\color{#bebebe}gray}}$ |
-|annotated tag | ${\texttt{\color{#ffc0cb}pink}}$ |
-|lightweight tag | ${\texttt{\color{#f08080}lightcoral}}$ |
-|local branch | ${\texttt{\color{#228b22}forestgreen}}$ |
-|remote branch | ${\texttt{\color{#b22222}firebrick}}$ |
-|stash | ${\texttt{\color{#87ceeb}skyblue}}$ |
-|HEAD | ${\texttt{\color{#6495ed}cornflowerblue}}$ |
+|             object | [color name](https://graphviz.org/doc/info/colors.html) |
+|-------------------:|:--------------------------------------------------------|
+|             commit | ${\texttt{\color{#cdad00}gold3}}$                       |
+| unreachable commit | ${\texttt{\color{#ff8c00}darkorange}}$                  |
+|               tree | ${\texttt{\color{#00688b}deepskyblue4}}$                |
+|     the empty tree | ${\texttt{\color{#00ced1}darkturquoise}}$               |
+|               blob | ${\texttt{\color{#bebebe}gray}}$                        |
+|      annotated tag | ${\texttt{\color{#ffc0cb}pink}}$                        |
+|    lightweight tag | ${\texttt{\color{#f08080}lightcoral}}$                  |
+|       local branch | ${\texttt{\color{#228b22}forestgreen}}$                 |
+|      remote branch | ${\texttt{\color{#b22222}firebrick}}$                   |
+|              stash | ${\texttt{\color{#87ceeb}skyblue}}$                     |
+|               HEAD | ${\texttt{\color{#6495ed}cornflowerblue}}$              |

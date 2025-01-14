@@ -18,5 +18,24 @@ GRAPHVIZ_NODE_COLORS = {
     "stash": "skyblue",
 }
 
+GRAPHVIZ_GRAPH_ATTR = {
+    "rankdir": "TB",
+    "dpi": None,
+    "bgcolor": "gray42",
+}
+
+GRAPHVIZ_NODE_ATTR = {
+    "shape": "box",
+    "style": "filled",
+    "margin": "0.01,0.01",
+    "width": "0.02",
+    "height": "0.02",
+}
+
+GRAPHVIZ_EDGE_ATTR = {
+    "arrowsize": "0.5",
+    "color": "gray10",
+}
+
 #: Nuber of SHA characters to display in labels.
 SHA_LIMIT = 8
