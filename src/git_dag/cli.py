@@ -6,6 +6,7 @@ import logging
 
 import argcomplete
 
+from .constants import DagBackends
 from .git_repository import GitRepository
 
 
@@ -25,8 +26,9 @@ class CustomArgparseNamespace(argparse.Namespace):
     format: str
     init_refs: list[str]
     max_numb_commits: int
+    dag_backend: str
 
-    dpi: str  # graph_attr expect arguments to be string
+    dpi: str
     rankdir: str
     bgcolor: str
 
@@ -56,6 +58,14 @@ def get_cla_parser() -> argparse.ArgumentParser:
         "--file",
         default="git-dag.gv",
         help="Output graphviz file (could include a directory e.g., mydir/myfile).",
+    )
+
+    parser.add_argument(
+        "-b",
+        "--dag-backend",
+        default="graphviz",
+        choices=["graphviz"],
+        help="Backend DAG library.",
     )
 
     parser.add_argument(
@@ -171,6 +181,7 @@ def main() -> None:
     logging.getLogger().setLevel(getattr(logging, args.log_level))
 
     GitRepository(args.path, parse_trees=args.show_trees).show(
+        dag_backend=DagBackends[args.dag_backend.upper()],
         xdg_open=args.xdg_open,
         format=args.format,
         show_tags=args.show_tags,
@@ -181,7 +192,7 @@ def main() -> None:
         show_stash=args.show_stash,
         starting_objects=args.init_refs,
         filename=args.file,
-        graph_attr={
+        dag_attr={
             "rankdir": args.rankdir,
             "dpi": args.dpi,
             "bgcolor": args.bgcolor,

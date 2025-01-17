@@ -9,10 +9,10 @@
 + `git dag -h` to display help
 
 ```
-usage: git-dag [-h] [-p PATH] [-f FILE] [--format FORMAT] [--dpi DPI]
-               [-i INIT_REFS [INIT_REFS ...]] [-n MAX_NUMB_COMMITS]
-               [--rankdir RANKDIR] [--bgcolor BGCOLOR] [-t] [-l] [-r] [-s]
-               [-T] [-B] [-o]
+usage: git-dag [-h] [-p PATH] [-f FILE] [-b {graphviz}] [--format FORMAT]
+               [--dpi DPI] [-i INIT_REFS [INIT_REFS ...]]
+               [-n MAX_NUMB_COMMITS] [--rankdir RANKDIR] [--bgcolor BGCOLOR]
+               [-t] [-l] [-r] [-s] [-T] [-B] [-o]
                [--log-level {NOTSET,INFO,WARNING,ERROR,CRITICAL}]
 
 Visualize the git DAG.
@@ -22,14 +22,16 @@ options:
   -p PATH, --path PATH  Path to git repository.
   -f FILE, --file FILE  Output graphviz file (could include a directory e.g.,
                         mydir/myfile).
+  -b {graphviz}, --dag-backend {graphviz}
+                        Backend DAG library.
   --format FORMAT       Graphviz output format (tooltips are available only
                         with svg). If the format is set to 'gv', only the
                         graphviz source file is generated
   --dpi DPI             DPI of output figure (used with --format png).
   -i INIT_REFS [INIT_REFS ...], --init-refs INIT_REFS [INIT_REFS ...]
-                        A list of SHA of object (commits, tags, trees, blobs)
-                        that represents a limitation from where to display the
-                        DAG
+                        A list of branches, tags, objects' SHA (commits,
+                        trees, blobs) that represents a limitation from where
+                        to display the DAG
   -n MAX_NUMB_COMMITS, --max-numb-commits MAX_NUMB_COMMITS
                         Max number of commits (set to 0 to remove limitation).
   --rankdir RANKDIR     rankdir argument of graphviz (LR, RL, TB, BT).
