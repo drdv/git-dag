@@ -2,12 +2,9 @@
 
 Note
 -----
-Naturally the edge connecting two commits should point to the parent. Following the same
-argument, the edge from a commit and its associated tree should point to the commit but,
-I find this counter-intuitive because then, following the same logic, the edges from
-blobs should point to the containing tree. So while commits point to parent commits, for
-trees and blobs the logic is inverted (and this leads to nicer layouts with graphviz,
-where trees and files end-up towards the bottom).
+The edge between two git objects points towards the parent object. I consider a commit
+to be the child of its associated tree (because it is formed from it) and this tree is a
+child of its blobs (and trees). A commit is the parent of a tag (that points to it).
 
 """
 
