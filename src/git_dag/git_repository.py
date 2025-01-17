@@ -13,11 +13,10 @@ from operator import itemgetter
 from time import time
 from typing import Annotated, Any, Callable, Optional, ParamSpec, TypeVar, cast
 
-import graphviz  # type: ignore[import-untyped]
 from pydantic import BeforeValidator, TypeAdapter
 
-from .constants import GIT_EMPTY_TREE_OBJECT_SHA
-from .dot import DagVisualizer
+from .constants import GIT_EMPTY_TREE_OBJECT_SHA, DagBackends
+from .dag import DagVisualizer
 from .pydantic_models import (
     DictStrStr,
     GenericTag,
@@ -697,17 +696,18 @@ class GitRepository:
     @time_it
     def show(
         self,
+        dag_backend: DagBackends = DagBackends.GRAPHVIZ,
         xdg_open: bool = False,
         starting_objects: Optional[list[str]] = None,
         max_numb_commits: Optional[int] = 1000,
         **kwargs: Any,
-    ) -> Optional[graphviz.Digraph]:
+    ) -> None:
         """Show dag.
 
         Parameters
         -----------
         xdg_open
-            Whether to open the graph using ``xdg-open``.
+            Whether to open the dag using ``xdg-open``.
         starting_objects
             A list of SHA of object (commits, tags, trees, blobs) that represents a
             limitation from where to display the DAG (there are no limitations when the
@@ -726,6 +726,7 @@ class GitRepository:
 
         return DagVisualizer(
             self,
+            dag_backend=dag_backend,
             objects_sha_to_include=objects_sha_to_include,
             **kwargs,
         ).show(xdg_open)
