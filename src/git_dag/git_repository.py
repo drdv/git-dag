@@ -19,7 +19,6 @@ from .constants import GIT_EMPTY_TREE_OBJECT_SHA, DagBackends
 from .dag import DagVisualizer
 from .pydantic_models import (
     DictStrStr,
-    GenericTag,
     GitBlob,
     GitBranch,
     GitCommit,
@@ -74,7 +73,13 @@ class GitCommand:
         self.command_prefix = f"git -C {path}"
 
     def get_all_objects_sha_kind(self) -> list[str]:
-        """Return the SHA and type of all git objects (in one string)."""
+        """Return the SHA and type of all git objects (in one string).
+
+        Note
+        -----
+        Just like unreachable commits, this returns deleted annotated tags.
+
+        """
         return self.run(
             'cat-file --batch-all-objects --batch-check="%(objectname) %(objecttype)"'
         ).splitlines()
@@ -179,7 +184,14 @@ class GitCommand:
         return sha_name
 
     def get_all_tags(self) -> dict[str, dict[str, DictStrStr]]:
-        """Get all annotated and lightweight tags."""
+        """Get all annotated and lightweight tags.
+
+        Note
+        -----
+        This doesn't return deleted annotated tags unlike
+        :func:`GitCommand.get_all_objects_sha_kind`.
+
+        """
         data = self.run(
             "for-each-ref --format "
             "'%(refname:short) %(objectname) %(object) %(type) %(tag)' refs/tags"
@@ -459,12 +471,20 @@ class GitInspector:
                     raw_data=RegexParser.parse_commit(commit_object_file_data),
                 )
             case GitObjectKind.tag:
-                # tag = RegexParser.parse_tag(self.git.read_object_file(sha))  # slower
-                tag = self.tags["annotated"][sha]
+                try:
+                    tag = self.tags["annotated"][sha]
+                    deleted = False
+                except KeyError:
+                    # slower
+                    tag = RegexParser.parse_tag(self.git.read_object_file(sha))
+                    deleted = True
+
                 return GitTag(
                     sha=sha,
                     name=tag["refname"],
+                    # FIXME: add misc info for annotated tags
                     raw_data={"sha": tag["object"], "misc": ""},
+                    deleted=deleted,
                 )
             case GitObjectKind.tree:
                 return GitTree(
@@ -558,7 +578,8 @@ class GitRepository:
         """Post-process inspector data (see :func:`GitInspector.get_raw_objects`)."""
         self.objects: dict[str, GitObject] = self._form_objects()
         self.head: GitCommit = self._form_head()
-        self.tags: GenericTag = self._form_tags()
+        self.an_tags: dict[str, GitTag] = self._form_annotated_tags()
+        self.lw_tags: dict[str, GitTagLightweight] = self._form_lightweight_tags()
         self.branches: list[GitBranch] = self._form_branches()
         self.stashes: list[GitStash] = self._form_stashes()
 
@@ -609,19 +630,32 @@ class GitRepository:
         return branches
 
     @time_it
-    def _form_tags(self) -> GenericTag:
-        """Post-process tags."""
-        tags_raw = self.inspector.tags
+    def _form_annotated_tags(self) -> dict[str, GitTag]:
+        """Post-process annotated tags."""
+        an_tags = {
+            sha: cast(GitTag, self.objects[sha])
+            for sha in self.inspector.tags["annotated"]
+        }
+        # add deleted annotated tags
+        for obj in self.objects.values():
+            match obj:
+                case GitTag():
+                    if obj.sha not in an_tags:
+                        an_tags[obj.sha] = obj
 
-        ats = {sha: cast(GitTag, self.objects[sha]) for sha in tags_raw["annotated"]}
-        lwts = {}
-        for name, tag in tags_raw["lightweight"].items():
-            lwts[name] = GitTagLightweight(
+        return an_tags
+
+    @time_it
+    def _form_lightweight_tags(self) -> dict[str, GitTagLightweight]:
+        """Post-process lightweight tags."""
+        lw_tags = {}
+        for name, tag in self.inspector.tags["lightweight"].items():
+            lw_tags[name] = GitTagLightweight(
                 name=name,
                 anchor=self.objects[tag["object"]],
             )
 
-        return {"annotated": ats, "lightweight": lwts}
+        return lw_tags
 
     @time_it
     def _form_objects(self) -> dict[str, GitObject]:
@@ -741,8 +775,8 @@ class GitRepository:
             f"  objects              : {len(self.inspector.all_objects_sha_kind)}\n"
             f"  commits (reachable)  : {len(self.inspector.commits_sha['reachable'])}\n"
             f"  commits (unreachable): {len(self.inspector.commits_sha['unreachable'])}\n"
-            f"  tags (annotated)     : {len(self.tags['annotated'])}\n"
-            f"  tags (lightweight)   : {len(self.tags['lightweight'])}\n"
+            f"  tags (annotated)     : {len(self.an_tags)}\n"
+            f"  tags (lightweight)   : {len(self.lw_tags)}\n"
             f"  branches (remote)    : {len(remote_branches)}\n"
             f"  branches (local)     : {len(local_branches)}"
         )

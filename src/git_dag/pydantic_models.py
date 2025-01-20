@@ -76,6 +76,10 @@ class GitTag(GitObject):
     name: str
 
     raw_data: GitTagRawDataType = Field(repr=False)
+
+    # I keep track of deleted (annotated) tags that haven't been garbage collected
+    deleted: bool = False
+
     _anchor: GitObject
 
     @property
@@ -181,6 +185,3 @@ class GitStash(BaseModel):
     index: int
     title: str
     commit: GitCommit
-
-
-GenericTag = dict[str, dict[str, GitTag] | dict[str, GitTagLightweight]]

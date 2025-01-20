@@ -20,6 +20,7 @@ DAG_NODE_COLORS = {
     "the-empty-tree": "darkturquoise",
     "blob": "gray",
     "tag": "pink",
+    "tag-deleted": "rosybrown4",
     "tag-lw": "lightcoral",
     "head": "cornflowerblue",
     "local-branches": "forestgreen",

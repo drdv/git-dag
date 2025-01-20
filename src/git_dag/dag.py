@@ -41,6 +41,7 @@ class MixinProtocol(Protocol):
     show_trees: bool
     show_blobs: bool
     show_tags: bool
+    show_deleted_tags: bool
     show_stash: bool
     included_nodes_id: set[str]
     tooltip_names: DictStrStr
@@ -114,19 +115,21 @@ class TagHandlerMixin:
     """Handle tags."""
 
     def _add_annotated_tags(self: MixinProtocol) -> None:
-        for sha, item in self.repository.tags["annotated"].items():
+        for sha, item in self.repository.an_tags.items():
+            color = "tag-deleted" if item.deleted else "tag"
             if self._is_object_to_include(item.anchor.sha):
-                self.dag.node(
-                    name=sha,
-                    label=item.name,
-                    color=DAG_NODE_COLORS["tag"],
-                    fillcolor=DAG_NODE_COLORS["tag"],
-                )
-                if item.anchor.sha in self.included_nodes_id:
-                    self.dag.edge(sha, item.anchor.sha)
+                if self.show_deleted_tags or not item.deleted:
+                    self.dag.node(
+                        name=sha,
+                        label=item.name,
+                        color=DAG_NODE_COLORS[color],
+                        fillcolor=DAG_NODE_COLORS[color],
+                    )
+                    if item.anchor.sha in self.included_nodes_id:
+                        self.dag.edge(sha, item.anchor.sha)
 
     def _add_lightweight_tags(self: MixinProtocol) -> None:
-        for name, item in self.repository.tags["lightweight"].items():
+        for name, item in self.repository.lw_tags.items():
             if self._is_object_to_include(item.anchor.sha):
                 node_id = f"lwt-{name}-{item.anchor.sha}"
                 self.dag.node(
@@ -227,6 +230,7 @@ class DagVisualizer(
     show_trees: bool = False
     show_blobs: bool = False
     show_tags: bool = True
+    show_deleted_tags: bool = False
     show_stash: bool = False
 
     def __post_init__(self) -> None:
