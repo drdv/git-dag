@@ -33,6 +33,7 @@ class CustomArgparseNamespace(argparse.Namespace):
     bgcolor: str
 
     show_tags: bool
+    show_deleted_tags: bool
     show_local_branches: bool
     show_remote_branches: bool
     show_stash: bool
@@ -119,6 +120,13 @@ def get_cla_parser() -> argparse.ArgumentParser:
     )
 
     parser.add_argument(
+        "-D",
+        dest="show_deleted_tags",
+        action="store_true",
+        help="Show deleted annotated tags.",
+    )
+
+    parser.add_argument(
         "-l",
         dest="show_local_branches",
         action="store_true",
@@ -185,6 +193,7 @@ def main() -> None:
         xdg_open=args.xdg_open,
         format=args.format,
         show_tags=args.show_tags,
+        show_deleted_tags=args.show_deleted_tags,
         show_local_branches=args.show_local_branches,
         show_remote_branches=args.show_remote_branches,
         show_trees=args.show_trees,
