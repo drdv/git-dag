@@ -12,7 +12,7 @@
 usage: git-dag [-h] [-p PATH] [-f FILE] [-b {graphviz}] [--format FORMAT]
                [--dpi DPI] [-i INIT_REFS [INIT_REFS ...]]
                [-n MAX_NUMB_COMMITS] [--rankdir RANKDIR] [--bgcolor BGCOLOR]
-               [-t] [-l] [-r] [-s] [-T] [-B] [-o]
+               [-t] [-D] [-l] [-r] [-s] [-T] [-B] [-o]
                [--log-level {NOTSET,INFO,WARNING,ERROR,CRITICAL}]
 
 Visualize the git DAG.
@@ -37,6 +37,7 @@ options:
   --rankdir RANKDIR     rankdir argument of graphviz (LR, RL, TB, BT).
   --bgcolor BGCOLOR     bgcolor argument of graphviz (e.g., transparent).
   -t                    Show tags.
+  -D                    Show deleted annotated tags.
   -l                    Show local branches.
   -r                    Show remote branches.
   -s                    Show stash.
