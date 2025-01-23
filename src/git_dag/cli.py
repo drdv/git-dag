@@ -57,14 +57,14 @@ def get_cla_parser() -> argparse.ArgumentParser:
         "-p",
         "--path",
         default=".",
-        help="Path to git repository.",
+        help="Path to a git repository.",
     )
 
     parser.add_argument(
         "-f",
         "--file",
         default="git-dag.gv",
-        help="Output graphviz file (could include a directory e.g., mydir/myfile).",
+        help="Output graphviz file (e.g., ``/path/to/file``).",
     )
 
     parser.add_argument(
@@ -86,7 +86,7 @@ def get_cla_parser() -> argparse.ArgumentParser:
 
     parser.add_argument(
         "--dpi",
-        help="DPI of output figure (used with --format png).",
+        help="DPI of output figure (used with ``--format png``).",
     )
 
     parser.add_argument(
@@ -94,7 +94,7 @@ def get_cla_parser() -> argparse.ArgumentParser:
         "--init-refs",
         nargs="+",
         help=(
-            "A list of branches, tags, objects' SHA (commits, trees, blobs) that "
+            "A list of branches, tags, git objects (commits, trees, blobs) that "
             "represents a limitation from where to display the DAG."
         ),
     )
@@ -187,7 +187,7 @@ def get_cla_parser() -> argparse.ArgumentParser:
         "-B",
         dest="show_blobs",
         action="store_true",
-        help="Show blobs (discarded if -T is not set).",
+        help="Show blobs (discarded if ``-T`` is not set).",
     )
 
     parser.add_argument(
@@ -206,7 +206,7 @@ def get_cla_parser() -> argparse.ArgumentParser:
         "-o",
         "--xdg-open",
         action="store_true",
-        help="Open output SVG file with xdg-open.",
+        help="Open output file with xdg-open.",
     )
 
     parser.add_argument(

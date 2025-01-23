@@ -1,4 +1,4 @@
-"""Graphviz visualization.
+"""DAG visualization.
 
 Note
 -----
@@ -306,9 +306,10 @@ class DagVisualizer(
         Note
         -----
         When the ``format`` is set to ``gv``, only the source file is generated and the
-        user can generate the DAG manually with any layout engine and parameters.
-        For example: ``dot -Gnslimit=2 -Tsvg git-dag.gv -o git-dag.gv.svg``, see
-        https://forum.graphviz.org/t/creating-a-dot-graph-with-thousands-of-nodes/1092/2
+        user can generate the DAG manually with any layout engine and parameters. For
+        example: ``dot -Gnslimit=2 -Tsvg git-dag.gv -o git-dag.gv.svg``, see `this
+        <https://forum.graphviz.org/t/creating-a-dot-graph-with-thousands-of-nodes/1092/2>`_
+        thread.
 
         Generating a DAG with more than 1000 nodes could be time-consuming. It is
         recommended to get an initial view using ``git dag -lrto`` and then limit to
