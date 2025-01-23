@@ -17,7 +17,8 @@ help: ## show this help
 
 ## Lint code
 .PHONY: lint
-lint: .pylint_report.html
+lint:
+	$(PYLINT) src/git_dag/*
 
 ## Run mypy check
 .PHONY: mypy
@@ -27,10 +28,6 @@ mypy: mypy-run
 .PHONY: pre-commit
 pre-commit:
 	@pre-commit run -a
-
-.pylint_report.html:
-	$(PYLINT) src/git_dag/* > .pylint_report.json || exit 0
-	pylint_report .pylint_report.json -o $@
 
 .PHONY: mypy-run
 mypy-run:
@@ -81,4 +78,3 @@ clean: ##! Clean all
 	find . -name "__pycache__" | xargs rm -rf
 	rm -rf package .pytest_cache .coverage
 	rm -rf .venv
-	rm -f .pylint_report*

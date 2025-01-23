@@ -21,20 +21,9 @@ authors = [
 text = "Apache 2.0"
 
 [project.optional-dependencies]
-lint = ["pylint", "pylint-report", "pydocstyle"]
-code = [
-     "black",
-     "isort",
-     "pre-commit",
-]
-types = [
-     "mypy",
-     "lxml",
-     "types-requests",
-     "pandas-stubs",
-     "types-openpyxl",
-     "types-Pillow",
-]
+lint = ["pylint", "pydocstyle"]
+code = ["black", "isort", "pre-commit"]
+types = ["mypy", "lxml"]
 dev = ["git_dag[lint,code,types]"]
 
 [project.urls]
@@ -67,10 +56,6 @@ profile = "black"
 
 [tool.pylint.MASTER]
 ignore = ["_version.py"]
-load-plugins = "pylint_report"
-
-[tool.pylint.REPORTS]
-output-format = "pylint_report.CustomJsonReporter"
 
 [tool.pylint.messages_control]
 max-line-length = 95  # give black some room
@@ -97,7 +82,7 @@ write_to = "src/git_dag/_version.py"
 [tool.mypy]
 mypy_path = "src"
 packages = ["git_dag"]
-plugins = ["pydantic.mypy", "numpy.typing.mypy_plugin"]
+plugins = ["pydantic.mypy"]
 
 #disable_error_code = ["no-redef", "method-assign"] # disable mypy warnings temporarily
 
