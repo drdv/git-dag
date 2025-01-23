@@ -1,0 +1,26 @@
+name: CI
+
+on:
+  push:
+    branches:
+      - main
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: set up git repository
+        uses: actions/checkout@v2
+
+      - name: generate docs
+        run: |
+          sudo apt-get install graphviz
+          pip install -e .[dev]
+          make docs MYPY_FLAGS=--no-install-types
+
+      - name: deploy pages
+        uses: JamesIves/github-pages-deploy-action@4.1.7
+        with:
+          branch: gh-pages
+          folder: docs/sphinx/build/html

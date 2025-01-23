@@ -21,11 +21,22 @@ authors = [
 text = "Apache 2.0"
 
 [project.optional-dependencies]
-lint = ["pylint", "pydocstyle"]
+lint = ["pylint", "pylint-report", "pydocstyle"]
+docs = [
+    "Sphinx",
+    "sphinx-rtd-theme",
+    "sphinxcontrib-jsmath",
+    "sphinxcontrib-websupport",
+    "sphinx-copybutton",
+    "sphinx-inline-tabs",
+    "sphinx-argparse",
+    "autodoc_pydantic",
+    "furo",
+]
 code = ["black", "isort", "pre-commit"]
-test = ["pytest", "pytest-cov"]
+test = ["pytest", "pytest-cov", "pytest-html"]
 types = ["mypy", "lxml"]
-dev = ["git_dag[lint,code,test,types]"]
+dev = ["git_dag[lint,code,test,docs,types]"]
 
 [project.urls]
 homepage = "https://github.com/drdv/git-dag"
@@ -57,6 +68,10 @@ profile = "black"
 
 [tool.pylint.MASTER]
 ignore = ["_version.py"]
+load-plugins = "pylint_report"
+
+[tool.pylint.REPORTS]
+output-format = "pylint_report.CustomJsonReporter"
 
 [tool.pylint.messages_control]
 max-line-length = 95  # give black some room
@@ -70,6 +85,11 @@ disable = [
     "multiple-statements",
     "logging-fstring-interpolation"
 ]
+
+[tool.pytest.ini_options]
+testpaths = ["src/git_dag/test"]
+norecursedirs = ["src/git_dag/test/resources/*"]
+addopts = ["--html=.test_reports/test_report.html"]
 
 [tool.setuptools.packages.find]
 where = ["src"]

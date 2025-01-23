@@ -2,6 +2,12 @@ PYTHON := python
 VENV := .venv
 VENV_ACTIVATE := source ${VENV}/bin/activate
 PYLINT := pylint
+LINT_REPORT := .pylint_report
+PYTEST_FLAGS := -v -s
+MYPY_FLAGS :=
+
+DOCS_DIR := docs/sphinx
+HTML_DIR := $(DOCS_DIR)/build/html
 
 INTEGR_TEST_DIR := integration_tests
 REPO_DIR := repos
@@ -26,16 +32,41 @@ help: ## show this help
 
 ## Lint code
 .PHONY: lint
-lint:
-	$(PYLINT) src/git_dag/* || exit 0
+lint: .pylint_report.html lint-copy-to-docs
+
+$(LINT_REPORT).html:
+	$(PYLINT) src/git_dag/* > $(LINT_REPORT).json || exit 0
+	pylint_report $(LINT_REPORT).json -o $@
+
+.PHONY: lint-copy-to-docs
+lint-copy-to-docs: | mkdir-html
+	rm -rf $(HTML_DIR)/$(LINT_REPORT).html
+	mv $(LINT_REPORT).html $(HTML_DIR)
+	rm $(LINT_REPORT).json
+
+.PHONY: test-copy-to-docs
+test-copy-to-docs: | mkdir-html
+	rm -rf $(HTML_DIR)/.htmlcov
+	rm -rf $(HTML_DIR)/.test_reports
+	mv .htmlcov $(HTML_DIR)
+	mv .test_reports $(HTML_DIR)
+
+.PHONY: mypy-copy-to-docs
+mypy-copy-to-docs: | mkdir-html
+	rm -rf $(HTML_DIR)/.mypy-html
+	mv .mypy-html $(HTML_DIR)
+
+.PHONY: mkdir-html
+mkdir-html:
+	mkdir -p $(HTML_DIR)
 
 ## Run mypy check
 .PHONY: mypy
-mypy: mypy-run
+mypy: mypy-run mypy-copy-to-docs
 
 ## Run tests
 .PHONY: test
-test: test-run
+test: test-run test-copy-to-docs
 
 ## Execute pre-commit on all files
 .PHONY: pre-commit
@@ -44,11 +75,11 @@ pre-commit:
 
 .PHONY: mypy-run
 mypy-run:
-	mypy
+	mypy $(MYPY_FLAGS)
 
 .PHONY: test-run
 test-run:
-	coverage run -m pytest -v -s src
+	coverage run -m pytest $(PYTEST_FLAGS)
 	coverage html
 
 ##@
@@ -82,6 +113,15 @@ process-integr-test-repos:
 		$(VENV_ACTIVATE) && time git dag -p $(INTEGR_TEST_DIR)/${REPO_DIR}/$$repo \
 		-lrtH -n 1000 -f $(INTEGR_TEST_DIR)/${OUT_DIR}/$$repo.gv ; \
 	done
+
+## Generate sphinx docs with tests lint mypy
+.PHONY: docs
+docs: docs-run lint mypy # test
+
+## Generate sphinx docs
+.PHONY: docs-run
+docs-run:
+	cd $(DOCS_DIR) && make html
 
 ##@
 ##@----- Installation and packaging -----
@@ -125,8 +165,19 @@ publish: package
 test-create-reference:
 	cd src/git_dag && $(PYTHON) git_commands.py
 
+## Open sphinx documentation
+.PHONY: open
+open:
+	xdg-open ${HTML_DIR}/index.html
+
+##! Delete generated docs
+rm-docs:
+	@rm -rf $(DOCS_DIR)/src/.autosummary $(DOCS_DIR)/build
+
+##! Clean all
 .PHONY: clean
-clean: ##! Clean all
+##! Clean all
+clean: rm-docs
 	rm -rf .mypy_cache .mypy-html .htmlcov .pytest_cache .coverage
 	rm -rf src/git_dag.egg-info src/git_dag/_version.py
 	find . -name "__pycache__" | xargs rm -rf

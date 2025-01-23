@@ -381,13 +381,17 @@ class GitInspector:
 
         Note
         -----
-        The objects are "raw", meaning that they are not fully initialized. For example,
-        even though all necessary data is available in :func:`GitTree.raw_data`,
-        :arg:`GitTree._children` is still not initialized (and the :class:`GitTree`
-        instances are not fully functional). The remaining post-processing is performed
-        in the ``GitRepository.post_process_inspector_data`` methods (as all instances
-        need to be formed first). The :func:`GitTree.is_ready` property indicates
-        whether an instance has been fully initialized.
+        The objects are "raw", in the sense that they are not fully initialized. For
+        example, consider a :class:`~git_dag.pydantic_models.GitTree` object. Even
+        though all necessary data is available in
+        :attr:`~git_dag.pydantic_models.GitTree.raw_data`, the ``GitTree._children``
+        field is still not initialized (and the
+        :class:`~git_dag.pydantic_models.GitTree` instances are not fully functional).
+        The remaining post-processing is performed in
+        :func:`~git_dag.git_repository.GitRepository.post_process_inspector_data` (as
+        all instances need to be formed first). The
+        :attr:`~git_dag.pydantic_models.GitObject.is_ready` property indicates whether
+        an instance has been fully initialized.
 
         """
 
