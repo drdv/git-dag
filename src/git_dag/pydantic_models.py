@@ -48,7 +48,7 @@ class GitObject(BaseModel, abc.ABC):
 
         Note
         -----
-        See note in :func:`~GitInspector.get_raw_objects`.
+        See note in :func:`~git_dag.git_repository.GitInspector.get_raw_objects`.
 
         """
         return self._is_ready
@@ -142,7 +142,10 @@ class GitTree(GitObject):
 
     kind: ClassVar[GitObjectKind] = GitObjectKind.tree
 
+    #: Raw data.
     raw_data: GitTreeRawDataType = Field(repr=False)
+
+    #: Child trees and blobs.
     _children: list[GitTree | GitBlob]
 
     # Set to True when it is known apriory that there would be no children

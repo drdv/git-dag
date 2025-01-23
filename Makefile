@@ -1,8 +1,13 @@
 PYTHON := python
-VENV := .venv
-VENV_ACTIVATE := source ${VENV}/bin/activate
-
 PYLINT := pylint
+
+VENV := .venv
+DOCS_DIR := docs/sphinx
+
+VENV_ACTIVATE := source ${VENV}/bin/activate
+HTML_DIR := $(DOCS_DIR)/build/html
+
+LINT_REPORT := .pylint_report
 
 help: URL := github.com/drdv/makefile-doc/releases/latest/download/makefile-doc.awk
 help: DIR := $(HOME)/.local/share/makefile-doc
@@ -17,8 +22,19 @@ help: ## show this help
 
 ## Lint code
 .PHONY: lint
-lint:
-	$(PYLINT) src/git_dag/*
+lint: .pylint_report.html lint-copy-to-docs
+
+$(LINT_REPORT).html:
+	$(PYLINT) src/git_dag/* > $(LINT_REPORT).json || exit 0
+	pylint_report $(LINT_REPORT).json -o $@
+
+lint-copy-to-docs: | mkdir-html
+	rm -rf $(HTML_DIR)/$(LINT_REPORT).html
+	mv -f $(LINT_REPORT).html $(HTML_DIR)
+	rm $(LINT_REPORT).json
+
+mkdir-html:
+	mkdir -p $(HTML_DIR)
 
 ## Run mypy check
 .PHONY: mypy
@@ -32,6 +48,11 @@ pre-commit:
 .PHONY: mypy-run
 mypy-run:
 	mypy || exit 0
+
+## Generate sphinx docs
+.PHONY: docs
+docs: lint #rm-docs
+	cd $(DOCS_DIR) && make html
 
 ##@
 ##@----- Installation and packaging -----
@@ -70,9 +91,20 @@ publish: package
 ##@----- Other -----
 ##@
 
+## Open sphinx documentation
+.PHONY: open
+open:
+	xdg-open ${HTML_DIR}/index.html
+
+##! Delete generated docs
+rm-docs:
+	@rm -rf $(DOCS_DIR)/source/.autosummary $(DOCS_DIR)/build
+
+##! Clean all
 .PHONY: clean
-clean: ##! Clean all
+clean: rm-docs
 	rm -rf .mypy_cache .mypy-html
+	rm -f .pylint_report.*
 	rm -rf src/git_dag.egg-info
 	rm -rf src/git_dag/_version.py
 	find . -name "__pycache__" | xargs rm -rf
