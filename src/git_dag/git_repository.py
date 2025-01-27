@@ -509,7 +509,7 @@ class GitInspector:
         The remaining post-processing is performed in
         :func:`~git_dag.git_repository.GitRepository.post_process_inspector_data` (as
         all instances need to be formed first). The
-        :arrt:`~git_dag.pydantic_models.GitObject.is_ready` property indicates whether
+        :attr:`~git_dag.pydantic_models.GitObject.is_ready` property indicates whether
         an instance has been fully initialized.
 
         """
