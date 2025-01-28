@@ -30,6 +30,7 @@ docs = [
     "sphinx-copybutton",
     "sphinx-inline-tabs",
     "sphinx-argparse",
+    "autodoc_pydantic",
     "furo",
 ]
 code = ["black", "isort", "pre-commit"]

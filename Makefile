@@ -51,7 +51,7 @@ mypy-run:
 
 ## Generate sphinx docs
 .PHONY: docs
-docs: lint #rm-docs
+docs: # lint #rm-docs
 	cd $(DOCS_DIR) && make html
 
 ##@
@@ -98,7 +98,7 @@ open:
 
 ##! Delete generated docs
 rm-docs:
-	@rm -rf $(DOCS_DIR)/source/.autosummary $(DOCS_DIR)/build
+	@rm -rf $(DOCS_DIR)/src/.autosummary $(DOCS_DIR)/build
 
 ##! Clean all
 .PHONY: clean

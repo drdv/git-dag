@@ -6,7 +6,7 @@ import abc
 from enum import Enum
 from typing import ClassVar, Optional, cast
 
-from pydantic import BaseModel, Field, computed_field
+from pydantic import BaseModel, ConfigDict, Field, computed_field
 
 DictStrStr = dict[str, str]
 GitCommitRawDataType = dict[str, str | list[str]]
@@ -36,13 +36,15 @@ class GitObjectKind(str, Enum):
 class GitObject(BaseModel, abc.ABC):
     """A base class for git objects."""
 
+    model_config = ConfigDict(extra="forbid")
+
     @property
     @abc.abstractmethod
     def kind(self) -> GitObjectKind:
         """The object type."""
 
     @property
-    @computed_field(repr=True)
+    # @computed_field(repr=True)
     def is_ready(self) -> bool:
         """Indicates whether the object is ready to use.
 
@@ -65,12 +67,16 @@ class GitObject(BaseModel, abc.ABC):
 class GitBlob(GitObject):
     """Git blob object."""
 
+    model_config = ConfigDict(extra="forbid")
+
     kind: ClassVar[GitObjectKind] = GitObjectKind.blob
     _is_ready: bool = True
 
 
 class GitTag(GitObject):
     """Git (annotated) tag object."""
+
+    model_config = ConfigDict(extra="forbid")
 
     kind: ClassVar[GitObjectKind] = GitObjectKind.tag
     name: str
@@ -106,6 +112,8 @@ class GitTag(GitObject):
 class GitCommit(GitObject):
     """Git commit object."""
 
+    model_config = ConfigDict(extra="forbid")
+
     kind: ClassVar[GitObjectKind] = GitObjectKind.commit
     reachable: bool
 
@@ -140,6 +148,8 @@ class GitCommit(GitObject):
 class GitTree(GitObject):
     """Git tree object."""
 
+    model_config = ConfigDict(extra="forbid")
+
     kind: ClassVar[GitObjectKind] = GitObjectKind.tree
 
     #: Raw data.
@@ -169,12 +179,16 @@ class GitTree(GitObject):
 class GitTagLightweight(BaseModel):
     """Git lightweight tag (this is not a ``GitObject``)."""
 
+    model_config = ConfigDict(extra="forbid")
+
     name: str
     anchor: GitObject
 
 
 class GitBranch(BaseModel):
     """A branch."""
+
+    model_config = ConfigDict(extra="forbid")
 
     name: str
     commit: GitCommit
@@ -184,6 +198,8 @@ class GitBranch(BaseModel):
 
 class GitStash(BaseModel):
     """A stash."""
+
+    model_config = ConfigDict(extra="forbid")
 
     index: int
     title: str
