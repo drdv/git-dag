@@ -289,6 +289,16 @@ class RegexParser:
         commit_misc_info: Optional[list[str]] = None,
     ) -> GitCommitRawDataType:
         """Collect commit related info."""
+
+        def extract_message(misc_info: list[str]) -> str:
+            return "\n".join(
+                [
+                    string.strip()
+                    for string in misc_info[2:]  # skip the author and the committer
+                    if string and not string.startswith("Co-authored-by")
+                ]
+            )
+
         parents = []
         misc_info: list[str] = [] if commit_misc_info is None else commit_misc_info
         tree, tree_counter = "", 0
@@ -307,7 +317,12 @@ class RegexParser:
                 f"Exactly one tree expected per commit (found {tree_counter})."
             )
 
-        return {"tree": tree, "parents": parents, "misc": "\n".join(misc_info)}
+        return {
+            "tree": tree,
+            "parents": parents,
+            "message": extract_message(misc_info),
+            "misc": misc_info,
+        }
 
     @staticmethod
     def parse_commit(data: list[str]) -> GitCommitRawDataType:
@@ -684,6 +699,7 @@ class GitRepository:
                     obj.parents = cast(
                         list[GitCommit], [git_objects[sha] for sha in parent_keys]
                     )
+                    obj.message = cast(str, obj.raw_data["message"])
                 case GitTree():
                     obj.children = [
                         cast(GitTree | GitBlob, git_objects[child["sha"]])
