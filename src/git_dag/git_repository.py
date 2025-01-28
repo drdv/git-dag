@@ -259,7 +259,7 @@ class RegexParser:
     @staticmethod
     def parse_object(string: str) -> DictStrStr:
         """Parse an object descriptor with format ``SHA OBJECT_TYPE``."""
-        pattern = f"{RegexParser.SHA_PATTERN} (?P<kind>.+)"
+        pattern = f"^{RegexParser.SHA_PATTERN} (?P<kind>.+)"
         match = re.search(pattern, string)
         if match:
             return {"sha": match.group("sha"), "kind": match.group("kind")}
@@ -312,15 +312,18 @@ class RegexParser:
     @staticmethod
     def parse_commit(data: list[str]) -> GitCommitRawDataType:
         """Parse a commit object file (read with ``git cat-file -p``)."""
-        pattern = f"(?P<kind>tree|parent) {RegexParser.SHA_PATTERN}"
+        pattern = f"^(?P<kind>tree|parent) {RegexParser.SHA_PATTERN}"
         output, misc_info = [], []
-        objects_metadata = False
+        # The tree and the parents always come first in the object file of a commit.
+        # Next is the author, and this is the start of what I call "misc info".
+        # collect_misc_info is used to avoid matching a commit message like "tree SHA".
+        collect_misc_info = False
         for string in data:
             match = re.search(pattern, string)
-            if not objects_metadata and match:
+            if not collect_misc_info and match:
                 output.append({"sha": match.group("sha"), "kind": match.group("kind")})
             else:
-                objects_metadata = True
+                collect_misc_info = True
                 misc_info.append(string)
 
         return RegexParser._collect_commit_info(output, misc_info)
@@ -328,13 +331,11 @@ class RegexParser:
     @staticmethod
     def parse_tag(data: list[str]) -> GitTagRawDataType:
         """Parse a tag object tile (read with ``git cat-file -p``)."""
-        pattern = f"(?P<kind>tree|parent) {RegexParser.SHA_PATTERN}"
-
         labels = ["sha", "type", "refname"]
         patterns = [
-            f"object {RegexParser.SHA_PATTERN}",
-            "type (?P<type>.+)",
-            "tag (?P<refname>.+)",
+            f"^object {RegexParser.SHA_PATTERN}",
+            "^type (?P<type>.+)",
+            "^tag (?P<refname>.+)",
         ]
 
         output = {}
