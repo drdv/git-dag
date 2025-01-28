@@ -259,7 +259,7 @@ class RegexParser:
     @staticmethod
     def parse_object(string: str) -> DictStrStr:
         """Parse an object descriptor with format ``SHA OBJECT_TYPE``."""
-        pattern = f"{RegexParser.SHA_PATTERN} (?P<kind>.+)"
+        pattern = f"^{RegexParser.SHA_PATTERN} (?P<kind>.+)"
         match = re.search(pattern, string)
         if match:
             return {"sha": match.group("sha"), "kind": match.group("kind")}
@@ -289,6 +289,16 @@ class RegexParser:
         commit_misc_info: Optional[list[str]] = None,
     ) -> GitCommitRawDataType:
         """Collect commit related info."""
+
+        def extract_message(misc_info: list[str]) -> str:
+            return "\n".join(
+                [
+                    string.strip()
+                    for string in misc_info[2:]  # skip the author and the committer
+                    if string and not string.startswith("Co-authored-by")
+                ]
+            )
+
         parents = []
         misc_info: list[str] = [] if commit_misc_info is None else commit_misc_info
         tree, tree_counter = "", 0
@@ -307,20 +317,28 @@ class RegexParser:
                 f"Exactly one tree expected per commit (found {tree_counter})."
             )
 
-        return {"tree": tree, "parents": parents, "misc": "\n".join(misc_info)}
+        return {
+            "tree": tree,
+            "parents": parents,
+            "message": extract_message(misc_info),
+            "misc": misc_info,
+        }
 
     @staticmethod
     def parse_commit(data: list[str]) -> GitCommitRawDataType:
         """Parse a commit object file (read with ``git cat-file -p``)."""
-        pattern = f"(?P<kind>tree|parent) {RegexParser.SHA_PATTERN}"
+        pattern = f"^(?P<kind>tree|parent) {RegexParser.SHA_PATTERN}"
         output, misc_info = [], []
-        objects_metadata = False
+        # The tree and the parents always come first in the object file of a commit.
+        # Next is the author, and this is the start of what I call "misc info".
+        # collect_misc_info is used to avoid matching a commit message like "tree SHA".
+        collect_misc_info = False
         for string in data:
             match = re.search(pattern, string)
-            if not objects_metadata and match:
+            if not collect_misc_info and match:
                 output.append({"sha": match.group("sha"), "kind": match.group("kind")})
             else:
-                objects_metadata = True
+                collect_misc_info = True
                 misc_info.append(string)
 
         return RegexParser._collect_commit_info(output, misc_info)
@@ -328,13 +346,11 @@ class RegexParser:
     @staticmethod
     def parse_tag(data: list[str]) -> GitTagRawDataType:
         """Parse a tag object tile (read with ``git cat-file -p``)."""
-        pattern = f"(?P<kind>tree|parent) {RegexParser.SHA_PATTERN}"
-
         labels = ["sha", "type", "refname"]
         patterns = [
-            f"object {RegexParser.SHA_PATTERN}",
-            "type (?P<type>.+)",
-            "tag (?P<refname>.+)",
+            f"^object {RegexParser.SHA_PATTERN}",
+            "^type (?P<type>.+)",
+            "^tag (?P<refname>.+)",
         ]
 
         output = {}
@@ -683,6 +699,7 @@ class GitRepository:
                     obj.parents = cast(
                         list[GitCommit], [git_objects[sha] for sha in parent_keys]
                     )
+                    obj.message = cast(str, obj.raw_data["message"])
                 case GitTree():
                     obj.children = [
                         cast(GitTree | GitBlob, git_objects[child["sha"]])

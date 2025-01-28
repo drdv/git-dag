@@ -43,6 +43,8 @@ class MixinProtocol(Protocol):
     show_tags: bool
     show_deleted_tags: bool
     show_stash: bool
+    show_head: bool
+    commit_message_as_label: int
     included_nodes_id: set[str]
     tooltip_names: DictStrStr
     repository: GitRepository
@@ -58,12 +60,17 @@ class CommitHandlerMixin:
         if self._is_object_to_include(sha):
             self.included_nodes_id.add(sha)
             color = "commit" if item.reachable else "commit-unreachable"
+            if self.commit_message_as_label > 0:
+                label = item.message[: self.commit_message_as_label]
+            else:
+                label = sha[:SHA_LIMIT]
+
             self.dag.node(
                 name=sha,
-                label=sha[:SHA_LIMIT],
+                label=label,
                 color=DAG_NODE_COLORS[color],
                 fillcolor=DAG_NODE_COLORS[color],
-                tooltip=item.misc_info,
+                tooltip="\n".join(item.misc_info),
             )
 
             if self.show_trees:
@@ -225,13 +232,16 @@ class DagVisualizer(
     format: str = "svg"
     filename: str = "git-dag.gv"
 
-    show_local_branches: bool = True
+    show_local_branches: bool = False
     show_remote_branches: bool = False
     show_trees: bool = False
     show_blobs: bool = False
-    show_tags: bool = True
+    show_tags: bool = False
     show_deleted_tags: bool = False
     show_stash: bool = False
+    show_head: bool = False
+
+    commit_message_as_label: int = 0
 
     def __post_init__(self) -> None:
         self.tooltip_names = self.repository.inspector.names_of_blobs_and_trees
@@ -313,7 +323,9 @@ class DagVisualizer(
         if self.show_stash:
             self._add_stashes()
 
-        self._add_head()
+        if self.show_head:
+            self._add_head()
+
         self.dag.build(
             format=self.format,
             node_attr=DAG_NODE_ATTR,

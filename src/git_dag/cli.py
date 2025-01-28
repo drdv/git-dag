@@ -39,6 +39,8 @@ class CustomArgparseNamespace(argparse.Namespace):
     show_stash: bool
     show_trees: bool
     show_blobs: bool
+    show_head: bool
+    commit_message_as_label: int
     xdg_open: bool
     log_level: str
 
@@ -148,6 +150,13 @@ def get_cla_parser() -> argparse.ArgumentParser:
     )
 
     parser.add_argument(
+        "-H",
+        dest="show_head",
+        action="store_true",
+        help="Show head.",
+    )
+
+    parser.add_argument(
         "-T",
         dest="show_trees",
         action="store_true",
@@ -159,6 +168,17 @@ def get_cla_parser() -> argparse.ArgumentParser:
         dest="show_blobs",
         action="store_true",
         help="Show blobs (discarded if -T is not set).",
+    )
+
+    parser.add_argument(
+        "--commit-message",
+        type=int,
+        default=0,
+        dest="commit_message_as_label",
+        help=(
+            "When greater than 0, this is the number of characters from the commit "
+            "message to use as a commit label. The commit SHA is used otherwise."
+        ),
     )
 
     parser.add_argument(
@@ -199,6 +219,8 @@ def main() -> None:
         show_trees=args.show_trees,
         show_blobs=args.show_blobs,
         show_stash=args.show_stash,
+        show_head=args.show_head,
+        commit_message_as_label=args.commit_message_as_label,
         starting_objects=args.init_refs,
         filename=args.file,
         dag_attr={

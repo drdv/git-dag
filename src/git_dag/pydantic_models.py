@@ -112,6 +112,7 @@ class GitCommit(GitObject):
     raw_data: GitCommitRawDataType = Field(repr=False)
     _tree: GitTree
     _parents: list[GitCommit]
+    _message: str
 
     @property
     def tree(self) -> GitTree:
@@ -130,6 +131,15 @@ class GitCommit(GitObject):
     @parents.setter
     def parents(self, parents: list[GitCommit]) -> None:
         self._parents = parents
+
+    @property
+    def message(self) -> str:
+        """Return the commit message."""
+        return self._message
+
+    @message.setter
+    def message(self, message: str) -> None:
+        self._message = message
 
     @property
     def misc_info(self) -> str:
