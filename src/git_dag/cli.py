@@ -32,6 +32,7 @@ class CustomArgparseNamespace(argparse.Namespace):
     rankdir: str
     bgcolor: str
 
+    show_unreachable_commits: bool
     show_tags: bool
     show_deleted_tags: bool
     show_local_branches: bool
@@ -112,6 +113,13 @@ def get_cla_parser() -> argparse.ArgumentParser:
         "--bgcolor",
         default="gray42",
         help="bgcolor argument of graphviz (e.g., transparent).",
+    )
+
+    parser.add_argument(
+        "-u",
+        dest="show_unreachable_commits",
+        action="store_true",
+        help="Show unreachable commits.",
     )
 
     parser.add_argument(
@@ -212,6 +220,7 @@ def main() -> None:
         dag_backend=DagBackends[args.dag_backend.upper()],
         xdg_open=args.xdg_open,
         format=args.format,
+        show_unreachable_commits=args.show_unreachable_commits,
         show_tags=args.show_tags,
         show_deleted_tags=args.show_deleted_tags,
         show_local_branches=args.show_local_branches,

@@ -12,7 +12,7 @@
 usage: git-dag [-h] [-p PATH] [-f FILE] [-b {graphviz}] [--format FORMAT]
                [--dpi DPI] [-i INIT_REFS [INIT_REFS ...]]
                [-n MAX_NUMB_COMMITS] [--rankdir RANKDIR] [--bgcolor BGCOLOR]
-               [-t] [-D] [-l] [-r] [-s] [-H] [-T] [-B]
+               [-u] [-t] [-D] [-l] [-r] [-s] [-H] [-T] [-B]
                [--commit-message COMMIT_MESSAGE_AS_LABEL] [-o]
                [--log-level {NOTSET,INFO,WARNING,ERROR,CRITICAL}]
 
@@ -37,6 +37,7 @@ options:
                         Max number of commits (set to 0 to remove limitation).
   --rankdir RANKDIR     rankdir argument of graphviz (LR, RL, TB, BT).
   --bgcolor BGCOLOR     bgcolor argument of graphviz (e.g., transparent).
+  -u                    Show unreachable commits.
   -t                    Show tags.
   -D                    Show deleted annotated tags.
   -l                    Show local branches.

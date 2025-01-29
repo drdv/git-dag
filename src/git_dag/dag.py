@@ -36,6 +36,7 @@ LOG = logging.getLogger(__name__)
 class MixinProtocol(Protocol):
     """Mixin protocol."""
 
+    show_unreachable_commits: bool
     show_local_branches: bool
     show_remote_branches: bool
     show_trees: bool
@@ -57,7 +58,8 @@ class CommitHandlerMixin:
     """Handle commits."""
 
     def _add_commit(self: MixinProtocol, sha: str, item: GitCommit) -> None:
-        if self._is_object_to_include(sha):
+        unreachable_switch = item.reachable or self.show_unreachable_commits
+        if self._is_object_to_include(sha) and unreachable_switch:
             self.included_nodes_id.add(sha)
             color = "commit" if item.reachable else "commit-unreachable"
             if self.commit_message_as_label > 0:
@@ -232,6 +234,7 @@ class DagVisualizer(
     format: str = "svg"
     filename: str = "git-dag.gv"
 
+    show_unreachable_commits: bool = False
     show_local_branches: bool = False
     show_remote_branches: bool = False
     show_trees: bool = False
