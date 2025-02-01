@@ -77,11 +77,15 @@ class GitCommand:
 
         Note
         -----
-        Just like unreachable commits, this returns deleted annotated tags.
+        Unreachable commits (and deleted annotated tags) are returned as well.
+
+        Note
+        -----
+        We don't need to order by SHA (``--unordered``).
 
         """
         return self.run(
-            'cat-file --batch-all-objects --batch-check="%(objectname) %(objecttype)"'
+            'cat-file --batch-all-objects --unordered --batch-check="%(objectname) %(objecttype)"'
         ).splitlines()
 
     def read_object_file(self, sha: str) -> list[str]:

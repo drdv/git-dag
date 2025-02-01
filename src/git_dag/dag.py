@@ -248,7 +248,6 @@ class DagVisualizer(
 
     def __post_init__(self) -> None:
         self.tooltip_names = self.repository.inspector.names_of_blobs_and_trees
-        self.edges: set[tuple[str, str]] = set()
         self.included_nodes_id: set[str] = set()
         self.dag_attr_normalized = {
             **DAG_ATTR,
