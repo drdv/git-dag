@@ -49,7 +49,8 @@ class DagGraphviz(DagBase):
             filename=filename,
         )
 
-        for node in self.nodes:
+        # node order influences DAG
+        for node in sorted(self.nodes, key=lambda x: (x["label"], x["tooltip"])):
             self._dag.node(**node)
         self._dag.edges(self.edges)
 
