@@ -45,6 +45,7 @@ class MixinProtocol(Protocol):
     show_deleted_tags: bool
     show_stash: bool
     show_head: bool
+    range: Optional[list[str]]
     commit_message_as_label: int
     included_nodes_id: set[str]
     tooltip_names: DictStrStr
@@ -61,7 +62,9 @@ class CommitHandlerMixin:
         unreachable_switch = item.reachable or self.show_unreachable_commits
         if self._is_object_to_include(sha) and unreachable_switch:
             self.included_nodes_id.add(sha)
-            color = "commit" if item.reachable else "commit-unreachable"
+            color_label = "commit" if item.reachable else "commit-unreachable"
+            in_range = self.range is None or sha not in self.range
+
             if self.commit_message_as_label > 0:
                 label = item.message[: self.commit_message_as_label]
             else:
@@ -70,8 +73,8 @@ class CommitHandlerMixin:
             self.dag.node(
                 name=sha,
                 label=label,
-                color=DAG_NODE_COLORS[color],
-                fillcolor=DAG_NODE_COLORS[color],
+                color=DAG_NODE_COLORS[color_label] if in_range else None,
+                fillcolor=DAG_NODE_COLORS[color_label],
                 tooltip="\n".join(item.misc_info),
             )
 
@@ -125,14 +128,14 @@ class TagHandlerMixin:
 
     def _add_annotated_tags(self: MixinProtocol) -> None:
         for sha, item in self.repository.an_tags.items():
-            color = "tag-deleted" if item.deleted else "tag"
+            color_label = "tag-deleted" if item.deleted else "tag"
             if self._is_object_to_include(item.anchor.sha):
                 if self.show_deleted_tags or not item.deleted:
                     self.dag.node(
                         name=sha,
                         label=item.name,
-                        color=DAG_NODE_COLORS[color],
-                        fillcolor=DAG_NODE_COLORS[color],
+                        color=DAG_NODE_COLORS[color_label],
+                        fillcolor=DAG_NODE_COLORS[color_label],
                     )
                     if item.anchor.sha in self.included_nodes_id:
                         self.dag.edge(sha, item.anchor.sha)
@@ -243,6 +246,7 @@ class DagVisualizer(
     show_deleted_tags: bool = False
     show_stash: bool = False
     show_head: bool = False
+    range: Optional[list[str]] = None
 
     commit_message_as_label: int = 0
 

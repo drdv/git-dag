@@ -3,6 +3,7 @@
 """Comman-line interface."""
 import argparse
 import logging
+from typing import Optional
 
 import argcomplete
 
@@ -41,6 +42,7 @@ class CustomArgparseNamespace(argparse.Namespace):
     show_trees: bool
     show_blobs: bool
     show_head: bool
+    range: Optional[list[str]]
     commit_message_as_label: int
     xdg_open: bool
     log_level: str
@@ -94,6 +96,13 @@ def get_cla_parser() -> argparse.ArgumentParser:
             "A list of branches, tags, objects' SHA (commits, trees, blobs) that "
             "represents a limitation from where to display the DAG"
         ),
+    )
+
+    parser.add_argument(
+        "-R",
+        "--range",
+        nargs="+",
+        help="A list to commits in a range to display.",
     )
 
     parser.add_argument(
@@ -229,6 +238,7 @@ def main() -> None:
         show_blobs=args.show_blobs,
         show_stash=args.show_stash,
         show_head=args.show_head,
+        range=args.range,
         commit_message_as_label=args.commit_message_as_label,
         starting_objects=args.init_refs,
         filename=args.file,
