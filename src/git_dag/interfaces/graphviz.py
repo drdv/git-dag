@@ -17,8 +17,8 @@ class DagGraphviz(DagBase):
         self,
         name: str,
         label: str,
-        color: str,
-        fillcolor: str,
+        color: Optional[str] = None,
+        fillcolor: Optional[str] = None,
         shape: Optional[str] = None,
         tooltip: Optional[str] = None,
     ) -> None:
