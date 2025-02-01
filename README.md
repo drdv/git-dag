@@ -11,8 +11,9 @@
 ```
 usage: git-dag [-h] [-p PATH] [-f FILE] [-b {graphviz}] [--format FORMAT]
                [--dpi DPI] [-i INIT_REFS [INIT_REFS ...]]
-               [-n MAX_NUMB_COMMITS] [--rankdir RANKDIR] [--bgcolor BGCOLOR]
-               [-u] [-t] [-D] [-l] [-r] [-s] [-H] [-T] [-B]
+               [-R RANGE [RANGE ...]] [-n MAX_NUMB_COMMITS]
+               [--rankdir RANKDIR] [--bgcolor BGCOLOR] [-u] [-t] [-D] [-l]
+               [-r] [-s] [-H] [-T] [-B]
                [--commit-message COMMIT_MESSAGE_AS_LABEL] [-o]
                [--log-level {NOTSET,INFO,WARNING,ERROR,CRITICAL}]
 
@@ -33,6 +34,8 @@ options:
                         A list of branches, tags, objects' SHA (commits,
                         trees, blobs) that represents a limitation from where
                         to display the DAG
+  -R, --range RANGE [RANGE ...]
+                        A list to commits in a range to display.
   -n, --max-numb-commits MAX_NUMB_COMMITS
                         Max number of commits (set to 0 to remove limitation).
   --rankdir RANKDIR     rankdir argument of graphviz (LR, RL, TB, BT).
