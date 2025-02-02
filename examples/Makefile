@@ -1,5 +1,6 @@
 REPO_DIR := repo
 OUT_DIR := out
+FLAGS := -lo
 
 MSG_MAX_LENGTH := 5
 RANKDIR := RL
@@ -13,17 +14,17 @@ help: ## show this help
 
 ## show git dag
 open: mkdir-out
-	@git dag -f $(OUT_DIR)/out.gv -p $(REPO_DIR) --commit-message $(MSG_MAX_LENGTH) --rankdir $(RANKDIR) -lo
+	@git dag -f $(OUT_DIR)/out.gv -p $(REPO_DIR) --commit-message $(MSG_MAX_LENGTH) --rankdir $(RANKDIR) ${FLAGS}
 
 ## create repository (e.g., repo_ex1_2)
 repo_%: clean mkdir-repo
 	@source ./examples.sh; cd $(REPO_DIR); $@
 
 mkdir-repo:
-	mkdir -p $(REPO_DIR)
+	@mkdir -p $(REPO_DIR)
 
 mkdir-out:
-	mkdir -p $(OUT_DIR)
+	@mkdir -p $(OUT_DIR)
 
 clean: ##! clean all
 	@rm -rf $(REPO_DIR)
