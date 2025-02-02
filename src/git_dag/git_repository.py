@@ -15,7 +15,7 @@ from typing import Annotated, Any, Callable, Optional, ParamSpec, TypeVar, cast
 
 from pydantic import BeforeValidator, TypeAdapter
 
-from .constants import GIT_EMPTY_TREE_OBJECT_SHA, DagBackends
+from .constants import GIT_EMPTY_TREE_OBJECT_SHA, TAG_MISC_FORMAT, DagBackends
 from .dag import DagVisualizer
 from .pydantic_models import (
     DictStrStr,
@@ -215,6 +215,11 @@ class GitCommand:
         }
         for raw_tag in [dict(zip(keys, t.split())) for t in data]:
             if "object" in raw_tag:
+                # FIXME: don't do this one tag at a time (same as using git cat-file -p)
+                raw_tag["misc"] = self.run(
+                    f"for-each-ref --format '{TAG_MISC_FORMAT}' "
+                    f"refs/tags/{raw_tag['refname']}"
+                )
                 # indexed by SHA
                 all_tags["annotated"][raw_tag.pop("sha")] = raw_tag
             else:
@@ -495,15 +500,14 @@ class GitInspector:
                     tag = self.tags["annotated"][sha]
                     deleted = False
                 except KeyError:
-                    # slower
+                    # slower (used only for deleted annotated tags)
                     tag = RegexParser.parse_tag(self.git.read_object_file(sha))
                     deleted = True
 
                 return GitTag(
                     sha=sha,
                     name=tag["refname"],
-                    # FIXME: add misc info for annotated tags
-                    raw_data={"sha": tag["object"], "misc": ""},
+                    raw_data={"sha": tag["object"], "misc": tag["misc"]},
                     deleted=deleted,
                 )
             case GitObjectKind.tree:
