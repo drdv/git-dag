@@ -2,6 +2,14 @@
 
 from enum import Enum
 
+#: Tag misc info format (same as the one in :func:`RegexParser.parse_tag`).
+TAG_MISC_FORMAT = """tagger %(tagger)
+
+%(subject)
+
+%(body)
+"""
+
 
 class DagBackends(Enum):
     """Backend libraries for DAG visualisation."""

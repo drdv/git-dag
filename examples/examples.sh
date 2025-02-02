@@ -17,7 +17,7 @@ repo_ex1_1 () {
     co topic
 
     tg 0.1 main -m T1
-    tg 0.2 -m T2
+    tg 0.2 -m "Summary line" -m "Body:\n * First line\n * Second line\n * Third line"
     tg 0.3 main
     tg 0.4
     tg -d 0.1
