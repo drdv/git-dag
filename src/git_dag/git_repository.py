@@ -15,7 +15,12 @@ from typing import Annotated, Any, Callable, Optional, ParamSpec, TypeVar, cast
 
 from pydantic import BeforeValidator, TypeAdapter
 
-from .constants import GIT_EMPTY_TREE_OBJECT_SHA, TAG_MISC_FORMAT, DagBackends
+from .constants import (
+    CMD_TAGS_INFO,
+    GIT_EMPTY_TREE_OBJECT_SHA,
+    TAG_FORMAT_FIELDS,
+    DagBackends,
+)
 from .dag import DagVisualizer
 from .pydantic_models import (
     DictStrStr,
@@ -32,6 +37,7 @@ from .pydantic_models import (
     GitTree,
     GitTreeRawDataType,
 )
+from .utils import timestamp_format
 
 IG = itemgetter("sha", "kind")
 logging.basicConfig(level=logging.INFO)
@@ -85,7 +91,8 @@ class GitCommand:
 
         """
         return self.run(
-            'cat-file --batch-all-objects --unordered --batch-check="%(objectname) %(objecttype)"'
+            "cat-file --batch-all-objects --unordered "
+            '--batch-check="%(objectname) %(objecttype)"'
         ).splitlines()
 
     def read_object_file(self, sha: str) -> list[str]:
@@ -192,44 +199,31 @@ class GitCommand:
 
         Note
         -----
-        This doesn't return deleted annotated tags unlike
-        :func:`GitCommand.get_all_objects_sha_kind`.
+        The ``git for-each-ref ...`` command used in this function doesn't return
+        deleted annotated tags (they are handled in
+        :func:`GitCommand.get_all_objects_sha_kind`).
 
         """
-        data = self.run(
-            "for-each-ref --format "
-            "'%(refname:short) %(objectname) %(object) %(type) %(tag)' refs/tags"
-        ).splitlines()
-
-        keys = [
-            "refname",  # short name of lightweight tag (LWT)
-            "sha",  # SHA of tag object (for annotated tags) or pointed object for LWT
-            "object",  # SHA of pointed object
-            "type",  # type of pointed object
-            "tag",  # name of annotated tag
-        ]
-
-        all_tags: dict[str, dict[str, DictStrStr]] = {
-            "annotated": {},
-            "lightweight": {},
-        }
-        for raw_tag in [dict(zip(keys, t.split())) for t in data]:
-            if "object" in raw_tag:
-                # FIXME: don't do this one tag at a time (same as using git cat-file -p)
-                raw_tag["misc"] = self.run(
-                    f"for-each-ref --format '{TAG_MISC_FORMAT}' "
-                    f"refs/tags/{raw_tag['refname']}"
+        tags: dict[str, dict[str, DictStrStr]] = {"annotated": {}, "lightweight": {}}
+        for raw_tag in [
+            dict(zip(TAG_FORMAT_FIELDS, re.findall("'(.*?)'", t)))
+            for t in self.run(CMD_TAGS_INFO).splitlines()
+        ]:
+            if raw_tag["object"]:
+                raw_tag["misc"] = (
+                    f"{raw_tag['subject']}\n"
+                    f"{raw_tag['taggername']} {raw_tag['taggeremail']}\n"
+                    f"{raw_tag['taggerdate']}\n\n"
+                    # decode escapes of escapes, e.g., \\\\n -> \\n
+                    f"{raw_tag['body'].encode().decode('unicode_escape')}"
                 )
-                # indexed by SHA
-                all_tags["annotated"][raw_tag.pop("sha")] = raw_tag
+                tags["annotated"][raw_tag.pop("sha")] = raw_tag  # indexed by SHA
             else:
                 # sha is the SHA of the pointed object (rename for consistency)
                 raw_tag["object"] = raw_tag.pop("sha")
+                tags["lightweight"][raw_tag.pop("refname")] = raw_tag  # indexed by name
 
-                # indexed by name
-                all_tags["lightweight"][raw_tag.pop("refname")] = raw_tag
-
-        return all_tags
+        return tags
 
     def run(self, command: str) -> str:
         """Run a git command."""
@@ -354,12 +348,13 @@ class RegexParser:
 
     @staticmethod
     def parse_tag(data: list[str]) -> GitTagRawDataType:
-        """Parse a tag object tile (read with ``git cat-file -p``)."""
-        labels = ["sha", "type", "refname"]
+        """Parse a tag object file (read using ``git cat-file -p``)."""
+        labels = ["sha", "type", "refname", "tagger"]
         patterns = [
             f"^object {RegexParser.SHA_PATTERN}",
             "^type (?P<type>.+)",
             "^tag (?P<refname>.+)",
+            "^tagger (?P<tagger>.+)",
         ]
 
         output = {}
@@ -370,7 +365,17 @@ class RegexParser:
             else:
                 raise RuntimeError(f"tag string {string} not matched")
 
-        output["misc"] = "\n".join(data[3:])
+        match = re.search("(?P<name_mail>.*<.*>) (?P<date>.*)", output["tagger"])
+        if match:
+            tagger = (
+                f"{match.group('name_mail')}\n"
+                f"{timestamp_format(match.group('date'))}"
+            )
+        else:
+            tagger = output["tagger"]
+            LOG.warning("Tagger format not matched!")
+
+        output["misc"] = f"{data[5]}\n{tagger}\n" "\n".join(data[6:])
         output["object"] = output.pop("sha")
         output["tag"] = output["refname"]  # abusing things a bit
         return output
