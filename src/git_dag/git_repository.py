@@ -37,7 +37,7 @@ from .pydantic_models import (
     GitTree,
     GitTreeRawDataType,
 )
-from .utils import timestamp_format
+from .utils import timestamp_modify
 
 IG = itemgetter("sha", "kind")
 logging.basicConfig(level=logging.INFO)
@@ -320,6 +320,8 @@ class RegexParser:
                 f"Exactly one tree expected per commit (found {tree_counter})."
             )
 
+        misc_info[0] = timestamp_modify(misc_info[0])  # author
+        misc_info[1] = timestamp_modify(misc_info[1])  # committer
         return {
             "tree": tree,
             "parents": parents,
@@ -365,16 +367,7 @@ class RegexParser:
             else:
                 raise RuntimeError(f"tag string {string} not matched")
 
-        match = re.search("(?P<name_mail>.*<.*>) (?P<date>.*)", output["tagger"])
-        if match:
-            tagger = (
-                f"{match.group('name_mail')}\n"
-                f"{timestamp_format(match.group('date'))}"
-            )
-        else:
-            tagger = output["tagger"]
-            LOG.warning("Tagger format not matched!")
-
+        tagger = timestamp_modify(output["tagger"])
         output["misc"] = f"{data[5]}\n{tagger}\n" "\n".join(data[6:])
         output["object"] = output.pop("sha")
         output["tag"] = output["refname"]  # abusing things a bit
