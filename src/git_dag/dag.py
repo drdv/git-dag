@@ -150,6 +150,7 @@ class TagHandlerMixin:
                     label=name,
                     color=DAG_NODE_COLORS["tag-lw"],
                     fillcolor=DAG_NODE_COLORS["tag-lw"],
+                    tooltip=item.anchor.sha,
                 )
                 if item.anchor.sha in self.included_nodes_id:
                     self.dag.edge(node_id, item.anchor.sha)

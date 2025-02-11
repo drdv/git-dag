@@ -2,13 +2,27 @@
 
 from enum import Enum
 
-#: Tag misc info format (same as the one in :func:`RegexParser.parse_tag`).
-TAG_MISC_FORMAT = """tagger %(tagger)
+#: See https://stackoverflow.com/a/21868228
+TAG_FORMAT_FIELDS = [
+    "refname",  # short name of lightweight tag (LWT)
+    "sha",  # SHA of tag object (for annotated tags) or pointed object for LWT
+    "object",  # SHA of pointed object
+    "type",  # type of pointed object
+    "tag",  # name of annotated tag
+    "taggername",
+    "taggeremail",
+    "taggerdate",
+    "subject",
+    "body",
+]
 
-%(subject)
-
-%(body)
-"""
+#: Plumbing command to get tag info
+CMD_TAGS_INFO = (
+    "for-each-ref --python --format '"
+    "%(refname:short) %(objectname) %(object) %(type) %(tag) "
+    "%(taggername) %(taggeremail) %(taggerdate) %(subject) %(body)"
+    "' refs/tags"
+)
 
 
 class DagBackends(Enum):
