@@ -225,16 +225,16 @@ class GitCommand:
 
         return tags
 
-    def run(self, command: str) -> str:
+    def run(self, command: str, encoding: str = "utf-8") -> str:
         """Run a git command."""
         return subprocess.run(
             shlex.split(f"{self.command_prefix} {command}"),
             stdout=subprocess.PIPE,
             stderr=subprocess.PIPE,
             check=True,
-        ).stdout.decode("latin-1")
+        ).stdout.decode(encoding)
 
-    def run_general(self, command: str) -> str:
+    def run_general(self, command: str, encoding: str = "utf-8") -> str:
         """Run a general command."""
         with subprocess.Popen(
             command,
@@ -245,7 +245,7 @@ class GitCommand:
             output, error = process.communicate()
             if error:
                 raise ValueError(error)
-            return output.decode("latin-1").strip()
+            return output.decode(encoding).strip()
 
 
 class RegexParser:
