@@ -1,0 +1,17 @@
+# -*- mode: org -*-
+
+* 0.0.7    UNRELEASED
+
+* 0.0.6    2025-02-13
+
++ Handle ascii control characters in messages
++ Change default encoding from latin-1 to utf-8
++ Improve annotated tags misc info
++ Add annotated tag description to tooltip
+
+* 0.0.5    2025-02-01
+
++ Display commit range
++ Sort nodes by label before creating DAG
++ Use commit message as label
++ Add flag to show unreachable commits
