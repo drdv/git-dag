@@ -14,7 +14,7 @@ def transform_ascii_control_chars(text: str) -> str:
 
     """
 
-    def ascii_to_caret_notation(match):
+    def ascii_to_caret_notation(match: re.Match[str]) -> str:
         char = match.group(0)
         return f"^{chr(ord(char) + 64)}"
 

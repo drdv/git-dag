@@ -216,11 +216,14 @@ class GitCommand:
                     f"{raw_tag['subject']}\n"
                     f"{raw_tag['taggername']} {raw_tag['taggeremail']}\n"
                     f"{raw_tag['taggerdate']}\n\n"
-                    # decode escapes of escapes, e.g., \\n -> \n while preserving
-                    # unicode characters (see https://stackoverflow.com/a/23151714)
+                    # decode escapes of escapes, e.g., \\n -> \n, while preserving
+                    # unicode characters (see https://stackoverflow.com/a/37059682)
                     # we need to do this because of the --python flag of
                     # git for-each-ref ... (see CMD_TAGS_INFO)
-                    f"{codecs.escape_decode(raw_tag['body'].encode())[0].decode()}"
+                    # https://stackoverflow.com/a/37059682
+                    # FIXME: codecs.escape_decode is internal:
+                    # https://github.com/python/cpython/issues/74773
+                    f"{codecs.escape_decode(raw_tag['body'].encode())[0].decode()}"  # type: ignore
                 )
                 tags["annotated"][raw_tag.pop("sha")] = raw_tag  # indexed by SHA
             else:
