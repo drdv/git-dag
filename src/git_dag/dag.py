@@ -26,6 +26,7 @@ from .constants import (
 )
 from .interfaces.graphviz import DagGraphviz
 from .pydantic_models import DictStrStr, GitBlob, GitCommit, GitTree
+from .utils import transform_ascii_control_chars
 
 if TYPE_CHECKING:
     from .git_repository import GitRepository
@@ -75,7 +76,7 @@ class CommitHandlerMixin:
                 label=label,
                 color=DAG_NODE_COLORS[color_label] if in_range else None,
                 fillcolor=DAG_NODE_COLORS[color_label],
-                tooltip="\n".join(item.misc_info),
+                tooltip=transform_ascii_control_chars("\n".join(item.misc_info)),
             )
 
             if self.show_trees:
@@ -136,7 +137,7 @@ class TagHandlerMixin:
                         label=item.name,
                         color=DAG_NODE_COLORS[color_label],
                         fillcolor=DAG_NODE_COLORS[color_label],
-                        tooltip=item.raw_data["misc"],
+                        tooltip=transform_ascii_control_chars(item.raw_data["misc"]),
                     )
                     if item.anchor.sha in self.included_nodes_id:
                         self.dag.edge(sha, item.anchor.sha)

@@ -2,6 +2,7 @@
 
 from __future__ import annotations
 
+import codecs
 import logging
 import multiprocessing
 import re
@@ -200,8 +201,9 @@ class GitCommand:
         Note
         -----
         The ``git for-each-ref ...`` command used in this function doesn't return
-        deleted annotated tags (they are handled in
-        :func:`GitCommand.get_all_objects_sha_kind`).
+        deleted annotated tags (they are available in the output of
+        :func:`GitCommand.get_all_objects_sha_kind`). See the tag related part of the
+        code in :func:`GitInspector._get_object_info` and :func:`RegexParser.parse_tag`.
 
         """
         tags: dict[str, dict[str, DictStrStr]] = {"annotated": {}, "lightweight": {}}
@@ -214,8 +216,11 @@ class GitCommand:
                     f"{raw_tag['subject']}\n"
                     f"{raw_tag['taggername']} {raw_tag['taggeremail']}\n"
                     f"{raw_tag['taggerdate']}\n\n"
-                    # decode escapes of escapes, e.g., \\\\n -> \\n
-                    f"{raw_tag['body'].encode().decode('unicode_escape')}"
+                    # decode escapes of escapes, e.g., \\n -> \n while preserving
+                    # unicode characters (see https://stackoverflow.com/a/23151714)
+                    # we need to do this because of the --python flag of
+                    # git for-each-ref ... (see CMD_TAGS_INFO)
+                    f"{codecs.escape_decode(raw_tag['body'].encode())[0].decode()}"
                 )
                 tags["annotated"][raw_tag.pop("sha")] = raw_tag  # indexed by SHA
             else:
@@ -367,8 +372,10 @@ class RegexParser:
             else:
                 raise RuntimeError(f"tag string {string} not matched")
 
+        subject = data[5]
         tagger = timestamp_modify(output["tagger"])
-        output["misc"] = f"{data[5]}\n{tagger}\n" "\n".join(data[6:])
+        body = "\n".join(data[6:])
+        output["misc"] = f"{subject}\n{tagger}\n{body}"
         output["object"] = output.pop("sha")
         output["tag"] = output["refname"]  # abusing things a bit
         return output

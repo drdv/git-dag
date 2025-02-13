@@ -4,6 +4,25 @@ import re
 from datetime import datetime
 
 
+def transform_ascii_control_chars(text: str) -> str:
+    """Transform ascii control characters.
+
+    Note
+    -----
+    This is necessary because SVGs exported from graphviz cannot be displayed when they
+    contain certain ascii control characters.
+
+    """
+
+    def ascii_to_caret_notation(match):
+        char = match.group(0)
+        return f"^{chr(ord(char) + 64)}"
+
+    # do not transform \a \b \t \n \v \f \r (which correspond to ^G-^M)
+    # https://en.wikipedia.org/wiki/ASCII#Control_code_table
+    return re.sub(r"[\x01-\x06\x0E-\x1A]", ascii_to_caret_notation, text)
+
+
 def timestamp_format(
     timestamp_timezone: str, format: str = "%a %b %d %H:%M:%S %Y"
 ) -> str:
