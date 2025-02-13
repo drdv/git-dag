@@ -23,24 +23,22 @@ def transform_ascii_control_chars(text: str) -> str:
     return re.sub(r"[\x01-\x06\x0E-\x1A]", ascii_to_caret_notation, text)
 
 
-def timestamp_format(
-    timestamp_timezone: str, format: str = "%a %b %d %H:%M:%S %Y"
-) -> str:
-    """Convert a string containing a timestamp and maybe timezone to given format.
+def timestamp_format(data: str, fmt: str = "%a %b %d %H:%M:%S %Y") -> str:
+    """Format a timestamp.
 
     Note
     -----
-    The default ``format`` is the same as the default format used by git.
+    The default format (``fmt``) is the same as the default format used by git.
 
     """
-    split = timestamp_timezone.split()
-    date_time = datetime.fromtimestamp(int(split[0])).strftime(format)
-    return f"{date_time} {split[1]}" if len(split) == 2 else date_time
 
+    def formatter(timestamp_timezone: str) -> str:
+        """Convert a string containing a timestamp and maybe a timezone."""
+        split = timestamp_timezone.split()
+        date_time = datetime.fromtimestamp(int(split[0])).strftime(fmt)
+        return f"{date_time} {split[1]}" if len(split) == 2 else date_time
 
-def timestamp_modify(data: str) -> str:
-    """Modify the timestamp"""
     match = re.search("(?P<who>.*<.*>) (?P<date>.*)", data)
     if match:
-        return f"{match.group('who')}\n" f"{timestamp_format(match.group('date'))}"
+        return f"{match.group('who')}\n" f"{formatter(match.group('date'))}"
     return data

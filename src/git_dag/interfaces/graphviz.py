@@ -13,7 +13,7 @@ class DagGraphviz(DagBase):
     def edge(self, node1_name: str, node2_name: str) -> None:
         self.edges.add((node1_name, node2_name))
 
-    def node(
+    def node(  # pylint: disable=too-many-positional-arguments
         self,
         name: str,
         label: str,
@@ -33,7 +33,7 @@ class DagGraphviz(DagBase):
             }
         )
 
-    def build(
+    def build(  # pylint: disable=too-many-positional-arguments
         self,
         format: str,  # pylint: disable=redefined-builtin
         node_attr: dict[str, str],
@@ -58,4 +58,4 @@ class DagGraphviz(DagBase):
         self._dag.render()
 
     def source(self) -> str:
-        return str(self._dag.source())  # FIXME: str(.) is to make mypy happy
+        return str(self._dag.source())  # use str(.) is to make mypy happy

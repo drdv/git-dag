@@ -17,7 +17,7 @@ class DagBase(ABC):
         """Add an edge."""
 
     @abstractmethod
-    def node(
+    def node(  # pylint: disable=too-many-positional-arguments
         self,
         name: str,
         label: str,
@@ -29,7 +29,7 @@ class DagBase(ABC):
         """Add a node."""
 
     @abstractmethod
-    def build(
+    def build(  # pylint: disable=too-many-positional-arguments
         self,
         format: str,  # pylint: disable=redefined-builtin
         node_attr: dict[str, str],

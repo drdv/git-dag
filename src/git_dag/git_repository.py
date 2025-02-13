@@ -38,7 +38,7 @@ from .pydantic_models import (
     GitTree,
     GitTreeRawDataType,
 )
-from .utils import timestamp_modify
+from .utils import timestamp_format
 
 IG = itemgetter("sha", "kind")
 logging.basicConfig(level=logging.INFO)
@@ -106,9 +106,9 @@ class GitCommand:
         """
         return self.run(f"cat-file -p {sha}").splitlines()
 
-    def get_branches(self, local: bool = True) -> DictStrStr:
+    def get_branches(self) -> dict[str, DictStrStr]:
         """Get local/remote branches."""
-        refs = {"local": {}, "remote": {}}
+        refs: dict[str, DictStrStr] = {"local": {}, "remote": {}}
 
         try:
             cmd_output = self.run("show-ref").splitlines()
@@ -339,8 +339,8 @@ class RegexParser:
                 f"Exactly one tree expected per commit (found {tree_counter})."
             )
 
-        misc_info[0] = timestamp_modify(misc_info[0])  # author
-        misc_info[1] = timestamp_modify(misc_info[1])  # committer
+        misc_info[0] = timestamp_format(misc_info[0])  # author
+        misc_info[1] = timestamp_format(misc_info[1])  # committer
         return {
             "tree": tree,
             "parents": parents,
@@ -387,7 +387,7 @@ class RegexParser:
                 raise RuntimeError(f"tag string {string} not matched")
 
         subject = data[5]
-        tagger = timestamp_modify(output["tagger"])
+        tagger = timestamp_format(output["tagger"])
         body = "\n".join(data[6:])
         output["misc"] = f"{subject}\n{tagger}\n{body}"
         output["object"] = output.pop("sha")
@@ -728,7 +728,7 @@ class GitRepository:
                         obj.parents = cast(
                             list[GitCommit], [git_objects[sha] for sha in parent_keys]
                         )
-                    except:
+                    except KeyError:
                         # the only way to be here is if the repo is cloned with --depth
                         obj.parents = []
                     obj.message = cast(str, obj.raw_data["message"])
