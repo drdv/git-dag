@@ -2,6 +2,8 @@
 
 * 0.0.7    UNRELEASED
 
++ Handle repositories cloned using --depth 1
+
 * 0.0.6    2025-02-13
 
 + Handle ascii control characters in messages

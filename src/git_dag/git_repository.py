@@ -108,12 +108,23 @@ class GitCommand:
 
     def get_branches(self, local: bool = True) -> DictStrStr:
         """Get local/remote branches."""
-        pattern = "refs/heads" if local else "refs/remotes"
-        refs = {}
-        for ref in self.run("show-ref").splitlines():
-            if pattern in ref:
-                sha, name = ref.split()
-                refs["/".join(name.split("/")[2:])] = sha
+        refs = {"local": {}, "remote": {}}
+
+        try:
+            cmd_output = self.run("show-ref").splitlines()
+        except subprocess.CalledProcessError as error:
+            LOG.warning(
+                f"{error}\n        Likely repository has been cloned using --depth"
+            )
+            return refs
+
+        for ref in cmd_output:
+            sha, name = ref.split()
+            if "refs/heads" in ref:
+                refs["local"]["/".join(name.split("/")[2:])] = sha
+
+            if "refs/remotes" in ref:
+                refs["remote"]["/".join(name.split("/")[2:])] = sha
 
         return refs
 
@@ -639,9 +650,10 @@ class GitRepository:
     @time_it
     def _form_branches(self) -> list[GitBranch]:
         """Post-process branches."""
+        branches_raw = self.inspector.git.get_branches()
         branches: list[GitBranch] = []
 
-        for branch_name, sha in self.inspector.git.get_branches().items():
+        for branch_name, sha in branches_raw["local"].items():
             branches.append(
                 GitBranch(
                     name=branch_name,
@@ -651,7 +663,7 @@ class GitRepository:
                 )
             )
 
-        for branch_name, sha in self.inspector.git.get_branches(local=False).items():
+        for branch_name, sha in branches_raw["remote"].items():
             branches.append(
                 GitBranch(
                     name=branch_name,
@@ -712,9 +724,13 @@ class GitRepository:
                         # I prefer for the key-lookup to fail if tree_key is missing
                         obj.tree = cast(GitTree, git_objects[tree_key])
 
-                    obj.parents = cast(
-                        list[GitCommit], [git_objects[sha] for sha in parent_keys]
-                    )
+                    try:
+                        obj.parents = cast(
+                            list[GitCommit], [git_objects[sha] for sha in parent_keys]
+                        )
+                    except:
+                        # the only way to be here is if the repo is cloned with --depth
+                        obj.parents = []
                     obj.message = cast(str, obj.raw_data["message"])
                 case GitTree():
                     obj.children = [
