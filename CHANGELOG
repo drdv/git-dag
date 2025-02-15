@@ -2,22 +2,22 @@
 
 * 0.0.7    UNRELEASED
 
-+ Handle repositories cloned using --depth 1
++ Handle repositories cloned using --depth 1 (#26)
 
 ** Bugfixes
 
-+ Fix tag parsing when there are CRLF characters
++ Fix tag parsing when there are CRLF characters (#30)
 
 * 0.0.6    2025-02-13
 
-+ Handle ascii control characters in messages
-+ Change default encoding from latin-1 to utf-8
-+ Improve annotated tags misc info
-+ Add annotated tag description to tooltip
++ Handle ascii control characters in messages (#27)
++ Change default encoding from latin-1 to utf-8 (#21)
++ Improve annotated tags misc info (#23)
++ Add annotated tag description to tooltip (#8)
 
 * 0.0.5    2025-02-01
 
 + Display commit range
-+ Sort nodes by label before creating DAG
-+ Use commit message as label
-+ Add flag to show unreachable commits
++ Sort nodes by label before creating DAG (#13)
++ Use commit message as label (#11)
++ Add flag to show unreachable commits (#14)
