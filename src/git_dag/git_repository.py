@@ -218,9 +218,14 @@ class GitCommand:
 
         """
         tags: dict[str, dict[str, DictStrStr]] = {"annotated": {}, "lightweight": {}}
+        # .split("\n") is used instead of splitlines() because the latter splits on CRLF
+        # characters as well, and this is undesirable because it breaks groups formed by
+        # the --python flag (which are delimited by '...') see CMD_TAGS_INFO and
+        # https://docs.python.org/3/library/stdtypes.html#str.splitlines
         for raw_tag in [
             dict(zip(TAG_FORMAT_FIELDS, re.findall("'(.*?)'", t)))
-            for t in self.run(CMD_TAGS_INFO).splitlines()
+            for t in self.run(CMD_TAGS_INFO).split("\n")
+            if t  # handle empty strings produced by .split("\n")
         ]:
             if raw_tag["object"]:
                 raw_tag["misc"] = (
