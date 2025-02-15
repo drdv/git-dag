@@ -2,7 +2,7 @@ REPO_DIR := repo
 OUT_DIR := out
 FLAGS := -lo
 
-MSG_MAX_LENGTH := 5
+MSG_MAX_LENGTH := 1
 RANKDIR := RL
 
 help: URL := github.com/drdv/makefile-doc/releases/latest/download/makefile-doc.awk

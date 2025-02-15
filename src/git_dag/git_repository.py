@@ -9,6 +9,7 @@ import subprocess
 import sys
 from functools import wraps
 from operator import itemgetter
+from pathlib import Path
 from time import time
 from typing import Annotated, Any, Callable, Optional, ParamSpec, TypeVar, cast
 
@@ -227,7 +228,7 @@ class GitInspector:
     """Git inspector."""
 
     @time_it
-    def __init__(self, repository_path: str = ".", parse_trees: bool = False):
+    def __init__(self, repository_path: str | Path = ".", parse_trees: bool = False):
         """Initialize instance (read most required info from the repository).
 
         Parameters
@@ -410,16 +411,6 @@ class GitInspector:
         }
 
 
-def filter_objects(
-    git_objects: dict[str, GitObject],
-    object_type: Any = GitCommit | GitTag,
-) -> dict[str, GitObject]:
-    """Filter objects - a convenience function."""
-    return {
-        sha: obj for sha, obj in git_objects.items() if isinstance(obj, object_type)
-    }
-
-
 class GitRepository:
     """Git repository.
 
@@ -434,7 +425,7 @@ class GitRepository:
 
     def __init__(
         self,
-        repository_path: str = ".",
+        repository_path: str | Path = ".",
         parse_trees: bool = False,
     ) -> None:
         """Initialize instance.
@@ -603,6 +594,14 @@ class GitRepository:
         if max_numb_commits is not None:
             cmd += f" -n {max_numb_commits}"
         return set(self.inspector.git.rev_list(cmd).strip().split("\n"))
+
+    def filter_objects(self, object_type: type = GitCommit) -> dict[str, GitObject]:
+        """Filter objects."""
+        return {
+            sha: obj
+            for sha, obj in self.objects.items()
+            if isinstance(obj, object_type)
+        }
 
     @time_it
     def show(

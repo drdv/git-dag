@@ -25,12 +25,17 @@ LOG = logging.getLogger(__name__)
 class GitCommandBase:
     """Base class for git commands."""
 
-    def __init__(self, path: str = ".") -> None:
+    def __init__(self, path: str | Path = ".") -> None:
         """Initialize instance."""
         self.path = path
         self.command_prefix = f"git -C {path}"
 
-    def _run(self, command: str, env=None, encoding: str = "utf-8") -> str:
+    def _run(
+        self,
+        command: str,
+        env: Optional[dict[str, str]] = None,
+        encoding: str = "utf-8",
+    ) -> str:
         """Run a git command."""
         return subprocess.run(
             shlex.split(f"{self.command_prefix} {command}"),
@@ -40,7 +45,12 @@ class GitCommandBase:
             env=env,
         ).stdout.decode(encoding)
 
-    def _run_general(self, command: str, env=None, encoding: str = "utf-8") -> str:
+    def _run_general(
+        self,
+        command: str,
+        env: Optional[dict[str, str]] = None,
+        encoding: str = "utf-8",
+    ) -> str:
         """Run a general command."""
         with subprocess.Popen(
             command,
@@ -67,12 +77,11 @@ class GitCommandMutate(GitCommandBase):
 
     def __init__(
         self,
-        path: str = ".",
+        path: str | Path = ".",  # assumed to exist
         author: str = "First Last <first.last@mail.com>",
         committer: str = "Nom Prenom <nom.prenom@mail.com>",
     ) -> None:
         """Initialize instance."""
-        Path(path).mkdir(parents=True, exist_ok=False)
         self.author = author
         self.committer = committer
         self.env = self._get_env()
@@ -121,7 +130,7 @@ class GitCommandMutate(GitCommandBase):
         if isinstance(messages, str):
             if add is not None:
                 for filename, contents in add.items():
-                    with open(Path(self.path) / filename, "w") as h:
+                    with open(Path(self.path) / filename, "w", encoding="utf-8") as h:
                         h.write(contents)
                     self._run(f"add {filename}")
 
@@ -144,7 +153,7 @@ class GitCommandMutate(GitCommandBase):
         else:
             self._run(f"switch {'-c' if create else ''} {branch}")
 
-    def mg(self, branch: str, message: str = "m", strategy: str = "theirs"):
+    def mg(self, branch: str, message: str = "m", strategy: str = "theirs") -> None:
         """Merge."""
         self._run(f'merge -X {strategy} {branch} -m "{message}"', env=self.env)
 
@@ -154,7 +163,7 @@ class GitCommandMutate(GitCommandBase):
         message: Optional[str] = None,
         branch: Optional[str] = None,
         delete: bool = False,
-    ):
+    ) -> None:
         """Create/delete annotated or lightweight tag.
 
         Note
