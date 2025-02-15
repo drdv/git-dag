@@ -24,6 +24,10 @@ lint:
 .PHONY: mypy
 mypy: mypy-run
 
+## Run tests
+.PHONY: test
+test: test-run
+
 ## Execute pre-commit on all files
 .PHONY: pre-commit
 pre-commit:
@@ -32,6 +36,10 @@ pre-commit:
 .PHONY: mypy-run
 mypy-run:
 	mypy || exit 0
+
+test-run:
+	coverage run -m pytest -v
+	coverage html
 
 ##@
 ##@----- Installation and packaging -----

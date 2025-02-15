@@ -12,18 +12,68 @@ repo_ex1_1 () {
     init; cm A
     br topic; cm D
     br feature; cm F; add file G; cm G
-    co topic; add file E; cm E; mg feature; cm H
+    co topic; add file E; cm E; mg feature
+    tg 0.1 -m "Summary line" -m "Body:\n * First line\n * Second line\n * Third line"
+    tg 0.2 -m "Summary line" -m "Body:\n * First line\n * Second line\n * Third line"
+    cm H
     co main; cm B C; brD feature
     co topic
 
-    tg 0.1 main -m T1
-    tg 0.2 -m "Summary line" -m "Body:\n * First line\n * Second line\n * Third line"
-    tg 0.5 -m "Summary line" -m "Body:\n * First line\n * Second line\n * Third line"
-    tg 0.6 -m "Test:                    €."
-    tg 0.3 main
-    tg 0.4
-    tg -d 0.5
+    tg 0.3 main -m T1
+    tg 0.4 main
+    tg 0.5 main
+    tg -d 0.1
     tg -d 0.4
+
+    br bugfix; cm I
+    tg 0.6 -m "Test:                    €."
+    cm J
+    co topic
+    brD bugfix
+}
+
+repo_ex1_tmp () {
+    git init
+    git commit --allow-empty -m "A" -m "Body:\n * First line\n * Second line\n * Third line"
+    git switch -c topic
+    git commit --allow-empty -m "D"
+    git switch -c feature
+    git commit --allow-empty -m "F"
+    echo "G" > file
+    git add file
+    git commit -m "G"
+
+    git switch topic
+
+    echo "E" > file
+    git add file
+    git commit -m "E"
+    git merge -X theirs feature -m "m"
+    git tag 0.1 -m "Summary line" -m "Body:\n * First line\n * Second line\n * Third line"
+    git tag 0.2 -m "Summary line" -m "Body:\n * First line\n * Second line\n * Third line"
+    git commit --allow-empty -m "H"
+
+    git switch main
+    git commit --allow-empty -m "B"
+    git commit --allow-empty -m "C"
+
+    git branch -D feature
+    git switch topic
+
+    git tag 0.3 main -m "T1"
+    git tag 0.4 main
+    git tag 0.5 main
+    git tag -d 0.1
+    git tag -d 0.4
+
+    git switch -c bugfix
+    git commit --allow-empty -m "I"
+
+    git tag 0.6 -m "Test:                    €."
+    git commit --allow-empty -m "J"
+
+    git switch topic
+    git branch -D bugfix
 }
 
 repo_ex1_2 () {

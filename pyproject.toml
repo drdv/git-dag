@@ -23,8 +23,9 @@ text = "Apache 2.0"
 [project.optional-dependencies]
 lint = ["pylint", "pydocstyle"]
 code = ["black", "isort", "pre-commit"]
+test = ["pytest", "pytest-cov"]
 types = ["mypy", "lxml"]
-dev = ["git_dag[lint,code,types]"]
+dev = ["git_dag[lint,code,test,types]"]
 
 [project.urls]
 homepage = "https://github.com/drdv/git-dag"
