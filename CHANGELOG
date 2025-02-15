@@ -4,6 +4,10 @@
 
 + Handle repositories cloned using --depth 1
 
+** Bugfixes
+
++ Fix tag parsing when there are CRLF characters
+
 * 0.0.6    2025-02-13
 
 + Handle ascii control characters in messages
