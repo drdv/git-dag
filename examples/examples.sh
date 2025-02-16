@@ -2,7 +2,7 @@
 # Example git repositories
 #
 
-source ./git_utils.sh
+source ./git_aliases.sh
 
 # --------------------------------------------------------------------------------------
 # Examples from [ex1](https://stackoverflow.com/a/15915431)
