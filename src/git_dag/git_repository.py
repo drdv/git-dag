@@ -88,30 +88,35 @@ class GitCommand:
 
         Note
         -----
-        We don't need to order by SHA (``--unordered``).
+        The ``--unordered`` flag is used because ordering by SHA is not necessary.
 
         """
-        return self.run(
-            "cat-file --batch-all-objects --unordered "
-            '--batch-check="%(objectname) %(objecttype)"'
-        ).splitlines()
+        return (
+            self.run(
+                "cat-file --batch-all-objects --unordered "
+                '--batch-check="%(objectname) %(objecttype)"'
+            )
+            .strip()
+            .split("\n")
+        )
 
     def read_object_file(self, sha: str) -> list[str]:
         """Read the file associated with an object.
 
         Note
         -----
-        This is quite slow (note that ``-p`` stands for pretty-print).
+        It is quite slow if all objects are to be read like this (``-p`` stands for
+        pretty-print).
 
         """
-        return self.run(f"cat-file -p {sha}").splitlines()
+        return self.run(f"cat-file -p {sha}").strip().split("\n")
 
     def get_branches(self) -> dict[str, DictStrStr]:
         """Get local/remote branches."""
         refs: dict[str, DictStrStr] = {"local": {}, "remote": {}}
 
         try:
-            cmd_output = self.run("show-ref").splitlines()
+            cmd_output = self.run("show-ref").strip().split("\n")
         except subprocess.CalledProcessError as error:
             LOG.warning(
                 f"{error}\n        Likely repository has been cloned using --depth"
@@ -177,13 +182,16 @@ class GitCommand:
     def get_names_of_blobs_and_trees(self) -> DictStrStr:
         """Return actual names of blobs and trees.
 
-        Based on https://stackoverflow.com/a/25954360
+        Note
+        -----
+        Based on https://stackoverflow.com/a/25954360.
 
         Note
         -----
-        I am not sure why, but some blobs don't have a name (it is clear why sometimes
-        a tree wouldn't have a name - we always have a tree associated with a commit
-        and sometimes there are no directories).
+        It is normal for a tree object to sometimes have no name. This happens when a
+        repository has no directories (note that a commit always has an associated tree
+        object). Sometimes blobs don't have names (I am not sure why -- FIXME: to
+        investigate).
 
         """
         cmd_out = (
@@ -218,14 +226,14 @@ class GitCommand:
 
         """
         tags: dict[str, dict[str, DictStrStr]] = {"annotated": {}, "lightweight": {}}
-        # .split("\n") is used instead of splitlines() because the latter splits on CRLF
-        # characters as well, and this is undesirable because it breaks groups formed by
-        # the --python flag (which are delimited by '...') see CMD_TAGS_INFO and
-        # https://docs.python.org/3/library/stdtypes.html#str.splitlines
+        # The --python flag (see CMD_TAGS_INFO) forms groups delimited by '...'. This
+        # helps parsing as groups can be processed one by one. Note that below we cannot
+        # use splitlines() because if a group contains CRLF characters it is split and
+        # this is undesirable (docs.python.org/3/library/stdtypes.html#str.splitlines).
         for raw_tag in [
             dict(zip(TAG_FORMAT_FIELDS, re.findall("'(.*?)'", t)))
-            for t in self.run(CMD_TAGS_INFO).split("\n")
-            if t  # handle empty strings produced by .split("\n")
+            for t in self.run(CMD_TAGS_INFO).strip().split("\n")
+            if t  # when there are no tags "".split("\n") results in [""]
         ]:
             if raw_tag["object"]:
                 raw_tag["misc"] = (
@@ -290,7 +298,7 @@ class RegexParser:
         match = re.search(pattern, string)
         if match:
             return {"sha": match.group("sha"), "kind": match.group("kind")}
-        raise RuntimeError(f"object string {string} not matched")
+        raise RuntimeError(f"object string '{string}' not matched")
 
     @staticmethod
     def parse_tree(data: Optional[list[str]] = None) -> GitTreeRawDataType:
@@ -459,7 +467,7 @@ class GitInspector:
         all_commits = set(
             obj.split()[0] for obj in self.all_objects_sha_kind if "commit" in obj
         )
-        reachable = set(self.git.rev_list("--all").splitlines())
+        reachable = set(self.git.rev_list("--all").strip().split("\n"))
         unreachable = all_commits - reachable
         return {"all": all_commits, "reachable": reachable, "unreachable": unreachable}
 
