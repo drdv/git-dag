@@ -98,6 +98,26 @@ class GitTag(GitObject):
         self._anchor = anchor
 
     @property
+    def tagger(self) -> str:
+        """Return tagger."""
+        return self.raw_data["taggername"]
+
+    @property
+    def tagger_email(self) -> str:
+        """Return tagger email."""
+        return self.raw_data["taggeremail"]
+
+    @property
+    def tagger_date(self) -> str:
+        """Return tagger date."""
+        return self.raw_data["taggerdate"]
+
+    @property
+    def message(self) -> str:
+        """Return the message."""
+        return self.raw_data["message"]
+
+    @property
     def misc_info(self) -> str:
         """Return misc info (e.g., tag message)."""
         return self.raw_data["misc"]
@@ -112,7 +132,6 @@ class GitCommit(GitObject):
     raw_data: GitCommitRawDataType = Field(repr=False)
     _tree: GitTree
     _parents: list[GitCommit]
-    _message: str
 
     @property
     def tree(self) -> GitTree:
@@ -133,13 +152,39 @@ class GitCommit(GitObject):
         self._parents = parents
 
     @property
+    def author(self) -> str:
+        """Return the author."""
+        return cast(str, self.raw_data["author"])
+
+    @property
+    def author_email(self) -> str:
+        """Return the author email."""
+        return cast(str, self.raw_data["author_email"])
+
+    @property
+    def author_date(self) -> str:
+        """Return the author date."""
+        return cast(str, self.raw_data["author_date"])
+
+    @property
+    def committer(self) -> str:
+        """Return the committer."""
+        return cast(str, self.raw_data["committer"])
+
+    @property
+    def committer_email(self) -> str:
+        """Return the committer email."""
+        return cast(str, self.raw_data["committer_email"])
+
+    @property
+    def committer_date(self) -> str:
+        """Return the committer date."""
+        return cast(str, self.raw_data["committer_date"])
+
+    @property
     def message(self) -> str:
         """Return the commit message."""
-        return self._message
-
-    @message.setter
-    def message(self, message: str) -> None:
-        self._message = message
+        return cast(str, self.raw_data["message"])
 
     @property
     def misc_info(self) -> str:

@@ -12,15 +12,14 @@ TAG_FORMAT_FIELDS = [
     "taggername",
     "taggeremail",
     "taggerdate",
-    "subject",
-    "body",
+    "contents",
 ]
 
 #: Plumbing command to get tag info
 CMD_TAGS_INFO = (
     "for-each-ref --python --format '"
     "%(refname:short) %(objectname) %(object) %(type) %(tag) "
-    "%(taggername) %(taggeremail) %(taggerdate) %(subject) %(body)"
+    "%(taggername) %(taggeremail) %(taggerdate) %(contents)"
     "' refs/tags"
 )
 

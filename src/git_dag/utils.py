@@ -1,7 +1,21 @@
 """Misc utils."""
 
+import codecs
 import re
 from datetime import datetime
+
+
+def escape_decode(text: str) -> str:
+    """Decode escapes of escapes (e.g., ``\\n -> \n``).
+
+    Note
+    -----
+    The approach in https://stackoverflow.com/a/37059682 is used because it handles
+    unicode characters. FIXME: unfortunately, it relies on the internal function
+    ``codecs.escape_decode`` (https://github.com/python/cpython/issues/74773).
+
+    """
+    return codecs.escape_decode(text.encode())[0].decode()  # type: ignore
 
 
 def transform_ascii_control_chars(text: str) -> str:
@@ -23,8 +37,10 @@ def transform_ascii_control_chars(text: str) -> str:
     return re.sub(r"[\x01-\x06\x0E-\x1A]", ascii_to_caret_notation, text)
 
 
-def timestamp_format(data: str, fmt: str = "%a %b %d %H:%M:%S %Y") -> str:
-    """Format a timestamp.
+def creator_timestamp_format(
+    data: str, fmt: str = "%a %b %d %H:%M:%S %Y"
+) -> tuple[str, str, str]:
+    """Format a creator (author/committer) and timestamp.
 
     Note
     -----
@@ -38,7 +54,11 @@ def timestamp_format(data: str, fmt: str = "%a %b %d %H:%M:%S %Y") -> str:
         date_time = datetime.fromtimestamp(int(split[0])).strftime(fmt)
         return f"{date_time} {split[1]}" if len(split) == 2 else date_time
 
-    match = re.search("(?P<who>.*<.*>) (?P<date>.*)", data)
+    match = re.search("(?P<name>.*) (?P<email><.*>) (?P<date>.*)", data)
     if match:
-        return f"{match.group('who')}\n" f"{formatter(match.group('date'))}"
-    return data
+        creator = match.group("name")
+        email = match.group("email")
+        date = formatter(match.group("date"))
+        return creator, email, date
+
+    raise ValueError("Creator pattern not matched.")

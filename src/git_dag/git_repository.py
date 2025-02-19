@@ -2,7 +2,6 @@
 
 from __future__ import annotations
 
-import codecs
 import logging
 import multiprocessing
 import re
@@ -38,7 +37,7 @@ from .pydantic_models import (
     GitTree,
     GitTreeRawDataType,
 )
-from .utils import timestamp_format
+from .utils import creator_timestamp_format, escape_decode
 
 IG = itemgetter("sha", "kind")
 logging.basicConfig(level=logging.INFO)
@@ -48,8 +47,7 @@ P = ParamSpec("P")
 R = TypeVar("R")
 
 # https://stackoverflow.com/q/9765453
-# I always see that an empty git tree object is created when I use git rebase -i --root,
-# even if I end-up squashing with a commit different from the initial one.
+# For example it is created when using git rebase -i --root
 GIT_EMPTY_TREE_OBJECT = GitTree(
     sha=GIT_EMPTY_TREE_OBJECT_SHA,
     raw_data=[],
@@ -79,7 +77,7 @@ class GitCommand:
         self.path = path
         self.command_prefix = f"git -C {path}"
 
-    def get_all_objects_sha_kind(self) -> list[str]:
+    def get_objects_sha_kind(self) -> list[str]:
         """Return the SHA and type of all git objects (in one string).
 
         Note
@@ -119,7 +117,8 @@ class GitCommand:
             cmd_output = self.run("show-ref").strip().split("\n")
         except subprocess.CalledProcessError as error:
             LOG.warning(
-                f"{error}\n        Likely repository has been cloned using --depth"
+                f"{error}\n        "
+                "Probably the repository has been cloned using the --depth flag."
             )
             return refs
 
@@ -179,7 +178,7 @@ class GitCommand:
         """
         return self.run(f"ls-tree {sha}").strip().split("\n")
 
-    def get_names_of_blobs_and_trees(self) -> DictStrStr:
+    def get_blobs_and_trees_names(self) -> DictStrStr:
         """Return actual names of blobs and trees.
 
         Note
@@ -214,45 +213,37 @@ class GitCommand:
 
         return sha_name
 
-    def get_all_tags(self) -> dict[str, dict[str, DictStrStr]]:
-        """Get all annotated and lightweight tags.
+    def get_tags_info_parsed(self) -> dict[str, dict[str, DictStrStr]]:
+        """Return parsed info for all annotated and lightweight tags.
 
         Note
         -----
         The ``git for-each-ref ...`` command used in this function doesn't return
-        deleted annotated tags (they are available in the output of
-        :func:`GitCommand.get_all_objects_sha_kind`). See the tag related part of the
-        code in :func:`GitInspector._get_object_info` and :func:`RegexParser.parse_tag`.
+        deleted annotated tags. They are handled separately in
+        :func:`GitInspector._get_objects_info_parsed` (note that their SHA is contained
+        in the output of :func:`GitCommand.get_objects_sha_kind`).
+
+        Note
+        -----
+        The ``--python`` flag (see `constants.CMD_TAGS_INFO`) forms groups delimited by
+        '...' which makes them easy to split and parse. On the flip-side, we have to
+        decode escapes of escapes while preserving unicode characters. Note that if the
+        message contains explitic ``\n``-s, they would appear as ``\\\\n``.
 
         """
         tags: dict[str, dict[str, DictStrStr]] = {"annotated": {}, "lightweight": {}}
-        # The --python flag (see CMD_TAGS_INFO) forms groups delimited by '...'. This
-        # helps parsing as groups can be processed one by one. Note that below we cannot
-        # use splitlines() because if a group contains CRLF characters it is split and
-        # this is undesirable (docs.python.org/3/library/stdtypes.html#str.splitlines).
         for raw_tag in [
             dict(zip(TAG_FORMAT_FIELDS, re.findall("'(.*?)'", t)))
+            # splitlines() cannot be used here because it splits on CRLF characters
             for t in self.run(CMD_TAGS_INFO).strip().split("\n")
             if t  # when there are no tags "".split("\n") results in [""]
         ]:
             if raw_tag["object"]:
-                raw_tag["misc"] = (
-                    f"{raw_tag['subject']}\n"
-                    f"{raw_tag['taggername']} {raw_tag['taggeremail']}\n"
-                    f"{raw_tag['taggerdate']}\n\n"
-                    # decode escapes of escapes, e.g., \\n -> \n, while preserving
-                    # unicode characters (see https://stackoverflow.com/a/37059682)
-                    # we need to do this because of the --python flag of
-                    # git for-each-ref ... (see CMD_TAGS_INFO)
-                    # https://stackoverflow.com/a/37059682
-                    # FIXME: codecs.escape_decode is internal:
-                    # https://github.com/python/cpython/issues/74773
-                    f"{codecs.escape_decode(raw_tag['body'].encode())[0].decode()}"  # type: ignore
-                )
+                raw_tag["anchor"] = raw_tag.pop("object")
+                raw_tag["message"] = escape_decode(raw_tag["contents"])
                 tags["annotated"][raw_tag.pop("sha")] = raw_tag  # indexed by SHA
             else:
-                # sha is the SHA of the pointed object (rename for consistency)
-                raw_tag["object"] = raw_tag.pop("sha")
+                raw_tag["anchor"] = raw_tag.pop("sha")
                 tags["lightweight"][raw_tag.pop("refname")] = raw_tag  # indexed by name
 
         return tags
@@ -292,7 +283,7 @@ class RegexParser:
     SHA_PATTERN = "(?P<sha>[0-9a-f]{40})"
 
     @staticmethod
-    def parse_object(string: str) -> DictStrStr:
+    def parse_object_descriptor(string: str) -> DictStrStr:
         """Parse an object descriptor with format ``SHA OBJECT_TYPE``."""
         pattern = f"^{RegexParser.SHA_PATTERN} (?P<kind>.+)"
         match = re.search(pattern, string)
@@ -301,7 +292,7 @@ class RegexParser:
         raise RuntimeError(f"object string '{string}' not matched")
 
     @staticmethod
-    def parse_tree(data: Optional[list[str]] = None) -> GitTreeRawDataType:
+    def parse_tree_info(data: Optional[list[str]] = None) -> GitTreeRawDataType:
         """Parse a tree object file (read with ``cat-file -p``)."""
         # for the empty tree object, data = [""]
         if data is None or (len(data) == 1 and not data[0]):
@@ -321,48 +312,59 @@ class RegexParser:
     @staticmethod
     def _collect_commit_info(
         commit_object_data: list[DictStrStr],
-        commit_misc_info: Optional[list[str]] = None,
+        misc_info: list[str],
     ) -> GitCommitRawDataType:
         """Collect commit related info."""
+
+        def strip_creator_label(string: str) -> str:
+            """Remove the author/committer label.
+
+            E.g., remove the  "author" from "author First Last <first.last.mail.com>".
+            """
+            return " ".join(string.split()[1:])
 
         def extract_message(misc_info: list[str]) -> str:
             return "\n".join(
                 [
                     string.strip()
-                    for string in misc_info[2:]  # skip the author and the committer
+                    for string in misc_info[2:]  # skip author and committer
                     if string and not string.startswith("Co-authored-by")
                 ]
             )
 
         parents = []
-        misc_info: list[str] = [] if commit_misc_info is None else commit_misc_info
-        tree, tree_counter = "", 0
+        tree = ""
         for d in commit_object_data:
             sha, kind = IG(d)
             if kind == "tree":
+                if tree:
+                    raise ValueError("Exactly one tree expected per commit.")
                 tree = sha
-                tree_counter += 1
             elif kind == "parent":
                 parents.append(sha)
             else:
-                raise ValueError("Handle something else?")
+                raise ValueError("It is not expected to be here!")
 
-        if tree_counter != 1:
-            raise ValueError(
-                f"Exactly one tree expected per commit (found {tree_counter})."
-            )
-
-        misc_info[0] = timestamp_format(misc_info[0])  # author
-        misc_info[1] = timestamp_format(misc_info[1])  # committer
+        author, author_email, author_date = creator_timestamp_format(
+            strip_creator_label(misc_info[0])
+        )
+        committer, committer_email, committer_date = creator_timestamp_format(
+            strip_creator_label(misc_info[1])
+        )
         return {
             "tree": tree,
             "parents": parents,
             "message": extract_message(misc_info),
-            "misc": misc_info,
+            "author": author,
+            "author_email": author_email,
+            "author_date": author_date,
+            "committer": committer,
+            "committer_email": committer_email,
+            "committer_date": committer_date,
         }
 
     @staticmethod
-    def parse_commit(data: list[str]) -> GitCommitRawDataType:
+    def parse_commit_info(data: list[str]) -> GitCommitRawDataType:
         """Parse a commit object file (read with ``git cat-file -p``)."""
         pattern = f"^(?P<kind>tree|parent) {RegexParser.SHA_PATTERN}"
         output, misc_info = [], []
@@ -381,7 +383,7 @@ class RegexParser:
         return RegexParser._collect_commit_info(output, misc_info)
 
     @staticmethod
-    def parse_tag(data: list[str]) -> GitTagRawDataType:
+    def parse_tag_info(data: list[str]) -> GitTagRawDataType:
         """Parse a tag object file (read using ``git cat-file -p``)."""
         labels = ["sha", "type", "refname", "tagger"]
         patterns = [
@@ -399,11 +401,12 @@ class RegexParser:
             else:
                 raise RuntimeError(f"tag string {string} not matched")
 
-        subject = data[5]
-        tagger = timestamp_format(output["tagger"])
-        body = "\n".join(data[6:])
-        output["misc"] = f"{subject}\n{tagger}\n{body}"
-        output["object"] = output.pop("sha")
+        tagger, tagger_email, tag_date = creator_timestamp_format(output["tagger"])
+        output["taggername"] = tagger
+        output["taggeremail"] = tagger_email
+        output["taggerdate"] = tag_date
+        output["message"] = "\n".join(data[5:])
+        output["anchor"] = output.pop("sha")
         output["tag"] = output["refname"]  # abusing things a bit
         return output
 
@@ -432,7 +435,7 @@ class GitInspector:
 
     @time_it
     def __init__(self, repository_path: str = ".", parse_trees: bool = False):
-        """Initialize instance (here we read most info we need from the repository).
+        """Initialize instance (read most required info from the repository).
 
         Parameters
         -----------
@@ -448,62 +451,85 @@ class GitInspector:
         self.repository_path = repository_path
         self.git = GitCommand(repository_path)
 
-        self.all_objects_sha_kind = self.git.get_all_objects_sha_kind()
-        self.commits_sha = self._pre_process_commits_sha()
-        self.commits_headers = self._pre_process_commits_headers()
-        self.tags = self.git.get_all_tags()
-        self.names_of_blobs_and_trees = self.git.get_names_of_blobs_and_trees()
-        self.trees_children = self._pre_process_trees() if self.parse_trees else {}
-        self.stashes = RegexParser.parse_stash_info(self.git.get_stash_info())
-
-    def _pre_process_commits_sha(self) -> dict[str, set[str]]:
-        """
-        Here my logic to distinguish between reachable and unreachable commits is not
-        entirely correct. It fails with stashes. Note that git handles stashes through
-        the reflog and it keeps only the last stash in ``.git/refs/stash``. When I
-        stash multiple times ``git fsck`` doesn't flag older stashes as unreachable
-        while my logic does. FIXME: something can be improved here.
-        """
-        all_commits = set(
-            obj.split()[0] for obj in self.all_objects_sha_kind if "commit" in obj
+        self.objects_sha_kind = self.git.get_objects_sha_kind()
+        self.commits_sha = self._get_commits_sha()
+        self.commits_info = self._get_commits_info()
+        self.tags_info_parsed = self.git.get_tags_info_parsed()
+        self.blobs_and_trees_names = self.git.get_blobs_and_trees_names()
+        self.trees_info = self._get_trees_info() if self.parse_trees else {}
+        self.stashes_info_parsed = RegexParser.parse_stash_info(
+            self.git.get_stash_info()
         )
-        reachable = set(self.git.rev_list("--all").strip().split("\n"))
-        unreachable = all_commits - reachable
-        return {"all": all_commits, "reachable": reachable, "unreachable": unreachable}
 
-    def _pre_process_commits_headers(self) -> dict[str, list[str]]:
-        headers = {}
-        # the --reflog flag includes unreachable commits as well
-        for commit_string in self.git.rev_list("--all --reflog --header").split("\x00"):
-            if commit_string:
-                commit_sha, *commit_header = commit_string.split("\n")
-                headers[commit_sha] = commit_header
-
-        numb_not_found = len(self.commits_sha["all"]) - len(headers)
-        if abs(numb_not_found) > 0:  # no need but just in case use abs
-            # https://stackoverflow.com/a/12166263
-            # normally, we should be able to find them using ``git fsck``
-            LOG.warning(
-                f"{numb_not_found} Processing commits not included in "
-                "git rev-list --all --reflog"
-            )
-
-        return headers
-
-    def _pre_process_trees(self) -> dict[str, list[str]]:
-        """Read object files of trees.
+    def _get_commits_sha(self) -> dict[str, set[str]]:
+        """Return SHA of all reachable/unreachable commits.
 
         Note
         -----
-        FIXME: This is slow! I simply don't know how to speed-up this operation. I
-        ended-up using multiprocessing but there must be a better way. In ``GitPython``
-        they interact with ``git cat-file --batch`` with streams (to explore). It seems
-        strange to be able to read all object files for commits at once (using
-        ``git rev-list``) and to not be able to do it for trees (I must be missing
-        something).
+        Here my logic to distinguish between reachable and unreachable commits is not
+        entirely correct. It fails with stashes. Note that git handles stashes through
+        the reflog and it keeps only the last stash in ``.git/refs/stash``. When I stash
+        multiple times ``git fsck`` doesn't flag older stashes as unreachable while my
+        logic does. FIXME: something can be improved here.
 
         """
-        all_sha = [obj.split()[0] for obj in self.all_objects_sha_kind if "tree" in obj]
+        reachable_commits = set(self.git.rev_list("--all").strip().split("\n"))
+        all_commits = set(
+            obj.split()[0] for obj in self.objects_sha_kind if "commit" in obj
+        )
+        return {
+            "all": all_commits,
+            "reachable": reachable_commits,
+            "unreachable": all_commits - reachable_commits,
+        }
+
+    def _get_commits_info(self) -> dict[str, list[str]]:
+        """Get content of object files for all commits.
+
+        Note
+        -----
+        It is much faster to read the info for all commits using ``git rev-list --all
+        --reflog --header`` instead of using ``git cat-file -p SHA`` per commit. The
+        ``--reflog`` flag includes unreachable commits as well.
+
+        Warning
+        --------
+        I am not sure why, but ``git rev-list --all --reflog`` doesn't return all
+        unreachable commits (FIXME: to understand what is the logic and compare with
+        ``git fsck``).
+
+        """
+        commits_info = {}
+        for info in self.git.rev_list("--all --reflog --header").split("\x00"):
+            if info:
+                commit_sha, *rest = info.split("\n")
+                commits_info[commit_sha] = rest
+
+        numb_commits_not_found = len(self.commits_sha["all"]) - len(commits_info)
+        if numb_commits_not_found > 0:  # FIXME: to test this
+            LOG.warning(
+                f"{numb_commits_not_found} commits not found in "
+                "git rev-list --all --reflog"
+            )
+        elif numb_commits_not_found < 0:
+            raise ValueError("We shouldn't be here.")
+
+        return commits_info
+
+    def _get_trees_info(self) -> dict[str, list[str]]:
+        """Get content of object files for all trees.
+
+        Warning
+        --------
+        This is slow! I simply don't know how to speed-up this operation. I ended-up
+        using multiprocessing but there must be a better way. In ``GitPython`` they
+        interact with ``git cat-file --batch`` with streams (to explore). It seems
+        strange to be able to read all object files for commits at once (using ``git
+        rev-list``) and to not be able to do it for trees (I must be missing something).
+        FIXME: to find a better way to do this.
+
+        """
+        all_sha = [obj.split()[0] for obj in self.objects_sha_kind if "tree" in obj]
         with multiprocessing.Pool() as pool:
             object_file_content = pool.map(
                 self.git.ls_tree,
@@ -511,41 +537,41 @@ class GitInspector:
             )
         return dict(zip(all_sha, object_file_content))
 
-    def _get_object_info(self, sha: str, kind: str) -> GitObject:
+    def _get_objects_info_parsed(self, sha: str, kind: str) -> GitObject:
         match kind:
             case GitObjectKind.blob:
                 return GitBlob(sha=sha)
             case GitObjectKind.commit:
-                if sha in self.commits_headers:
-                    commit_object_file_data = self.commits_headers[sha]
+                if sha in self.commits_info:
+                    commit_info = self.commits_info[sha]
                 else:
-                    commit_object_file_data = self.git.read_object_file(sha)  # slow
+                    commit_info = self.git.read_object_file(sha)  # slower
                     LOG.warning(f"[commit] manually executing git cat-file -p {sha}")
 
                 return GitCommit(
                     sha=sha,
                     reachable=sha in self.commits_sha["reachable"],
-                    raw_data=RegexParser.parse_commit(commit_object_file_data),
+                    raw_data=RegexParser.parse_commit_info(commit_info),
                 )
             case GitObjectKind.tag:
                 try:
-                    tag = self.tags["annotated"][sha]
+                    tag = self.tags_info_parsed["annotated"][sha]
                     deleted = False
                 except KeyError:
                     # slower (used only for deleted annotated tags)
-                    tag = RegexParser.parse_tag(self.git.read_object_file(sha))
+                    tag = RegexParser.parse_tag_info(self.git.read_object_file(sha))
                     deleted = True
 
                 return GitTag(
                     sha=sha,
                     name=tag["refname"],
-                    raw_data={"sha": tag["object"], "misc": tag["misc"]},
+                    raw_data=tag,
                     deleted=deleted,
                 )
             case GitObjectKind.tree:
                 return GitTree(
                     sha=sha,
-                    raw_data=RegexParser.parse_tree(self.trees_children.get(sha)),
+                    raw_data=RegexParser.parse_tree_info(self.trees_info.get(sha)),
                 )
             case _:
                 raise RuntimeError("Leaking objects!")
@@ -566,7 +592,7 @@ class GitInspector:
 
         """
 
-        def git_entity_before_validator(obj_descriptor: str) -> GitObject:
+        def git_entity_before_validator(object_descriptor: str) -> GitObject:
             """Transform/validate data.
 
             Note
@@ -574,7 +600,9 @@ class GitInspector:
             ``self`` is used from the closure.
 
             """
-            return self._get_object_info(*IG(RegexParser.parse_object(obj_descriptor)))
+            return self._get_objects_info_parsed(
+                *IG(RegexParser.parse_object_descriptor(object_descriptor))
+            )
 
         GitObjectAnnotated = Annotated[
             GitObject,
@@ -584,7 +612,7 @@ class GitInspector:
         return {
             obj.sha: obj
             for obj in TypeAdapter(list[GitObjectAnnotated]).validate_python(
-                self.all_objects_sha_kind
+                self.objects_sha_kind
             )
         }
 
@@ -634,8 +662,8 @@ class GitRepository:
         """Post-process inspector data (see :func:`GitInspector.get_raw_objects`)."""
         self.objects: dict[str, GitObject] = self._form_objects()
         self.head: GitCommit = self._form_head()
-        self.an_tags: dict[str, GitTag] = self._form_annotated_tags()
-        self.lw_tags: dict[str, GitTagLightweight] = self._form_lightweight_tags()
+        self.tags: dict[str, GitTag] = self._form_annotated_tags()
+        self.tags_lw: dict[str, GitTagLightweight] = self._form_lightweight_tags()
         self.branches: list[GitBranch] = self._form_branches()
         self.stashes: list[GitStash] = self._form_stashes()
 
@@ -689,27 +717,22 @@ class GitRepository:
     @time_it
     def _form_annotated_tags(self) -> dict[str, GitTag]:
         """Post-process annotated tags."""
-        an_tags = {
-            sha: cast(GitTag, self.objects[sha])
-            for sha in self.inspector.tags["annotated"]
-        }
-        # add deleted annotated tags
-        for obj in self.objects.values():
+        tags = {}
+        for sha, obj in self.objects.items():
             match obj:
                 case GitTag():
-                    if obj.sha not in an_tags:
-                        an_tags[obj.sha] = obj
+                    tags[sha] = obj
 
-        return an_tags
+        return tags
 
     @time_it
     def _form_lightweight_tags(self) -> dict[str, GitTagLightweight]:
         """Post-process lightweight tags."""
         lw_tags = {}
-        for name, tag in self.inspector.tags["lightweight"].items():
+        for name, tag in self.inspector.tags_info_parsed["lightweight"].items():
             lw_tags[name] = GitTagLightweight(
                 name=name,
-                anchor=self.objects[tag["object"]],
+                anchor=self.objects[tag["anchor"]],
             )
 
         return lw_tags
@@ -744,14 +767,13 @@ class GitRepository:
                     except KeyError:
                         # the only way to be here is if the repo is cloned with --depth
                         obj.parents = []
-                    obj.message = cast(str, obj.raw_data["message"])
                 case GitTree():
                     obj.children = [
                         cast(GitTree | GitBlob, git_objects[child["sha"]])
                         for child in obj.raw_data
                     ]
                 case GitTag():
-                    obj.anchor = git_objects[obj.raw_data["sha"]]
+                    obj.anchor = git_objects[obj.raw_data["anchor"]]
                 case GitBlob():
                     pass  # no need of post-processing
 
@@ -773,7 +795,7 @@ class GitRepository:
                 title=stash["title"],
                 commit=cast(GitCommit, self.objects[stash["sha"]]),
             )
-            for stash in self.inspector.stashes
+            for stash in self.inspector.stashes_info_parsed
         ]
 
     @time_it
@@ -834,11 +856,11 @@ class GitRepository:
         out = (
             f"[GitRepository: {self.inspector.repository_path}]\n"
             f"  parsed trees         : {self.inspector.parse_trees}\n"
-            f"  objects              : {len(self.inspector.all_objects_sha_kind)}\n"
+            f"  objects              : {len(self.inspector.objects_sha_kind)}\n"
             f"  commits (reachable)  : {len(self.inspector.commits_sha['reachable'])}\n"
             f"  commits (unreachable): {len(self.inspector.commits_sha['unreachable'])}\n"
-            f"  tags (annotated)     : {len(self.an_tags)}\n"
-            f"  tags (lightweight)   : {len(self.lw_tags)}\n"
+            f"  tags (annotated)     : {len(self.tags)}\n"
+            f"  tags (lightweight)   : {len(self.tags_lw)}\n"
             f"  branches (remote)    : {len(remote_branches)}\n"
             f"  branches (local)     : {len(local_branches)}"
         )
