@@ -25,7 +25,7 @@ from .constants import (
     DagBackends,
 )
 from .interfaces.graphviz import DagGraphviz
-from .pydantic_models import DictStrStr, GitBlob, GitCommit, GitTree
+from .pydantic_models import DictStrStr, GitBlob, GitCommit, GitTag, GitTree
 from .utils import transform_ascii_control_chars
 
 if TYPE_CHECKING:
@@ -60,6 +60,15 @@ class CommitHandlerMixin:
     """Handle commits."""
 
     def _add_commit(self: MixinProtocol, sha: str, item: GitCommit) -> None:
+        def form_tooltip(item: GitCommit) -> str:
+            return (
+                f"author: {item.author} {item.author_email}\n"
+                f"{item.author_date}\n"
+                f"committer: {item.committer} {item.committer_email}\n"
+                f"{item.committer_date}\n\n"
+                f"{transform_ascii_control_chars(item.message)}"
+            )
+
         unreachable_switch = item.reachable or self.show_unreachable_commits
         if self._is_object_to_include(sha) and unreachable_switch:
             self.included_nodes_id.add(sha)
@@ -76,7 +85,7 @@ class CommitHandlerMixin:
                 label=label,
                 color=DAG_NODE_COLORS[color_label] if in_range else None,
                 fillcolor=DAG_NODE_COLORS[color_label],
-                tooltip=transform_ascii_control_chars("\n".join(item.misc_info)),
+                tooltip=form_tooltip(item),
             )
 
             if self.show_trees:
@@ -128,7 +137,14 @@ class TagHandlerMixin:
     """Handle tags."""
 
     def _add_annotated_tags(self: MixinProtocol) -> None:
-        for sha, item in self.repository.an_tags.items():
+        def form_tooltip(item: GitTag) -> str:
+            return (
+                f"{item.tagger} {item.tagger_email}\n"
+                f"{item.tagger_date}\n\n"
+                f"{transform_ascii_control_chars(item.message)}"
+            )
+
+        for sha, item in self.repository.tags.items():
             color_label = "tag-deleted" if item.deleted else "tag"
             if self._is_object_to_include(item.anchor.sha):
                 if self.show_deleted_tags or not item.deleted:
@@ -137,13 +153,13 @@ class TagHandlerMixin:
                         label=item.name,
                         color=DAG_NODE_COLORS[color_label],
                         fillcolor=DAG_NODE_COLORS[color_label],
-                        tooltip=transform_ascii_control_chars(item.raw_data["misc"]),
+                        tooltip=form_tooltip(item),
                     )
                     if item.anchor.sha in self.included_nodes_id:
                         self.dag.edge(sha, item.anchor.sha)
 
     def _add_lightweight_tags(self: MixinProtocol) -> None:
-        for name, item in self.repository.lw_tags.items():
+        for name, item in self.repository.tags_lw.items():
             if self._is_object_to_include(item.anchor.sha):
                 node_id = f"lwt-{name}-{item.anchor.sha}"
                 self.dag.node(
@@ -254,7 +270,7 @@ class DagVisualizer(
     commit_message_as_label: int = 0
 
     def __post_init__(self) -> None:
-        self.tooltip_names = self.repository.inspector.names_of_blobs_and_trees
+        self.tooltip_names = self.repository.inspector.blobs_and_trees_names
         self.included_nodes_id: set[str] = set()
         self.dag_attr_normalized = {
             **DAG_ATTR,
