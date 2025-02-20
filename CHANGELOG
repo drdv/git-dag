@@ -2,6 +2,7 @@
 
 * 0.0.7    UNRELEASED
 
++ Form tooltips without using misc_info (#33)
 + Handle repositories cloned using --depth 1 (#26)
 
 ** Bugfixes
