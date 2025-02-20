@@ -188,7 +188,8 @@ def get_cla_parser() -> argparse.ArgumentParser:
     )
 
     parser.add_argument(
-        "--commit-message",
+        "-m",
+        "--message",
         type=int,
         default=0,
         dest="commit_message_as_label",
