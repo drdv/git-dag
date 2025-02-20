@@ -1,7 +1,10 @@
 # -*- mode: org -*-
 
-* 0.0.7    UNRELEASED
+* 0.0.8    UNRELEASED
 
+* 0.0.7    2025-02-20
+
++ Rename --commit-message CLI flag (#19)
 + Form tooltips without using misc_info (#33)
 + Handle repositories cloned using --depth 1 (#26)
 

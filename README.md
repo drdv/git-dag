@@ -13,8 +13,7 @@ usage: git-dag [-h] [-p PATH] [-f FILE] [-b {graphviz}] [--format FORMAT]
                [--dpi DPI] [-i INIT_REFS [INIT_REFS ...]]
                [-R RANGE [RANGE ...]] [-n MAX_NUMB_COMMITS]
                [--rankdir RANKDIR] [--bgcolor BGCOLOR] [-u] [-t] [-D] [-l]
-               [-r] [-s] [-H] [-T] [-B]
-               [--commit-message COMMIT_MESSAGE_AS_LABEL] [-o]
+               [-r] [-s] [-H] [-T] [-B] [-m COMMIT_MESSAGE_AS_LABEL] [-o]
                [--log-level {NOTSET,INFO,WARNING,ERROR,CRITICAL}]
 
 Visualize the git DAG.
@@ -50,7 +49,7 @@ options:
   -T                    Show trees (WARNING: should be used only with small
                         repositories).
   -B                    Show blobs (discarded if -T is not set).
-  --commit-message COMMIT_MESSAGE_AS_LABEL
+  -m, --message COMMIT_MESSAGE_AS_LABEL
                         When greater than 0, this is the number of characters
                         from the commit message to use as a commit label. The
                         commit SHA is used otherwise.

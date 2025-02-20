@@ -14,7 +14,7 @@ help: ## show this help
 
 ## show git dag
 open: mkdir-out
-	@git dag -f $(OUT_DIR)/out.gv -p $(REPO_DIR) --commit-message $(MSG_MAX_LENGTH) --rankdir $(RANKDIR) ${FLAGS}
+	@git dag -f $(OUT_DIR)/out.gv -p $(REPO_DIR) -m $(MSG_MAX_LENGTH) --rankdir $(RANKDIR) ${FLAGS}
 
 ## create repository (e.g., repo_ex1_2)
 repo_%: clean mkdir-repo
