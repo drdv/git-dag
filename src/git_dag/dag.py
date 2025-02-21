@@ -51,7 +51,7 @@ class MixinProtocol(Protocol):
     included_nodes_id: set[str]
     tooltip_names: DictStrStr
     repository: GitRepository
-    dag: Any  # FIXME: be specific with the type
+    dag: Any
 
     def _is_object_to_include(self, sha: str) -> bool: ...
 
@@ -69,10 +69,10 @@ class CommitHandlerMixin:
                 f"{transform_ascii_control_chars(item.message)}"
             )
 
-        unreachable_switch = item.reachable or self.show_unreachable_commits
+        unreachable_switch = item.is_reachable or self.show_unreachable_commits
         if self._is_object_to_include(sha) and unreachable_switch:
             self.included_nodes_id.add(sha)
-            color_label = "commit" if item.reachable else "commit-unreachable"
+            color_label = "commit" if item.is_reachable else "commit-unreachable"
             in_range = self.range is None or sha not in self.range
 
             if self.commit_message_as_label > 0:
@@ -145,9 +145,9 @@ class TagHandlerMixin:
             )
 
         for sha, item in self.repository.tags.items():
-            color_label = "tag-deleted" if item.deleted else "tag"
+            color_label = "tag-deleted" if item.is_deleted else "tag"
             if self._is_object_to_include(item.anchor.sha):
-                if self.show_deleted_tags or not item.deleted:
+                if self.show_deleted_tags or not item.is_deleted:
                     self.dag.node(
                         name=sha,
                         label=item.name,
@@ -288,7 +288,7 @@ class DagVisualizer(
 
         self._build_dag()
 
-    def show(self, xdg_open: bool = False) -> None:
+    def show(self, xdg_open: bool = False) -> Any:
         """Show the dag.
 
         Note
@@ -314,6 +314,8 @@ class DagVisualizer(
                     shell=True,
                     check=True,
                 )
+
+        return self.dag.get()
 
     def _is_object_to_include(self, sha: str) -> bool:
         """Return ``True`` if the object with given ``sha`` is to be displayed."""

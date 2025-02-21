@@ -79,7 +79,7 @@ def get_cla_parser() -> argparse.ArgumentParser:
         default="svg",
         help=(
             "Graphviz output format (tooltips are available only with svg). "
-            "If the format is set to 'gv', only the graphviz source file is generated"
+            "If the format is set to 'gv', only the graphviz source file is generated."
         ),
     )
 
@@ -94,7 +94,7 @@ def get_cla_parser() -> argparse.ArgumentParser:
         nargs="+",
         help=(
             "A list of branches, tags, objects' SHA (commits, trees, blobs) that "
-            "represents a limitation from where to display the DAG"
+            "represents a limitation from where to display the DAG."
         ),
     )
 
@@ -115,7 +115,9 @@ def get_cla_parser() -> argparse.ArgumentParser:
 
     parser.add_argument(
         "--rankdir",
-        help="rankdir argument of graphviz (LR, RL, TB, BT).",
+        default="TB",
+        choices=["LR", "RL", "TB", "BT"],
+        help="rankdir argument of graphviz.",
     )
 
     parser.add_argument(

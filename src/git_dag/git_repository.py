@@ -300,7 +300,7 @@ class GitInspector:
                 commits_info[commit_sha] = rest
 
         numb_commits_not_found = len(self.commits_sha["all"]) - len(commits_info)
-        if numb_commits_not_found > 0:  # FIXME: to test this
+        if numb_commits_not_found > 0:  # FIXME: to reproduce and test
             LOG.warning(
                 f"{numb_commits_not_found} commits not found in "
                 "git rev-list --all --reflog"
@@ -344,23 +344,23 @@ class GitInspector:
 
                 return GitCommit(
                     sha=sha,
-                    reachable=sha in self.commits_sha["reachable"],
+                    is_reachable=sha in self.commits_sha["reachable"],
                     raw_data=RegexParser.parse_commit_info(commit_info),
                 )
             case GitObjectKind.tag:
                 try:
                     tag = self.tags_info_parsed["annotated"][sha]
-                    deleted = False
+                    is_deleted = False
                 except KeyError:
                     # slower (used only for deleted annotated tags)
                     tag = RegexParser.parse_tag_info(self.git.read_object_file(sha))
-                    deleted = True
+                    is_deleted = True
 
                 return GitTag(
                     sha=sha,
                     name=tag["refname"],
                     raw_data=tag,
-                    deleted=deleted,
+                    is_deleted=is_deleted,
                 )
             case GitObjectKind.tree:
                 return GitTree(
@@ -611,7 +611,7 @@ class GitRepository:
         starting_objects: Optional[list[str]] = None,
         max_numb_commits: Optional[int] = 1000,
         **kwargs: Any,
-    ) -> None:
+    ) -> Any:
         """Show dag.
 
         Parameters
