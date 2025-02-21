@@ -51,7 +51,7 @@ DAG_NODE_COLORS = {
 
 DAG_ATTR = {
     "rankdir": "TB",
-    "dpi": "96.0",
+    "dpi": "None",
     "bgcolor": "gray42",
 }
 

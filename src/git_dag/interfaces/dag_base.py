@@ -8,7 +8,7 @@ class DagBase(ABC):
     """DAG base class."""
 
     def __init__(self) -> None:
-        self._dag: Any = None  # FIXME: be specific with the type
+        self._dag: Any = None
         self.nodes: list[dict[str, Optional[str]]] = []
         self.edges: set[tuple[str, str]] = set()
 
@@ -46,3 +46,7 @@ class DagBase(ABC):
     @abstractmethod
     def source(self) -> str:
         """Return graph source file."""
+
+    @abstractmethod
+    def get(self) -> Any:
+        """Return the backend graph object."""

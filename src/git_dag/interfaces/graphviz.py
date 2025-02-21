@@ -1,6 +1,6 @@
 """Interface for graphviz (https://github.com/xflr6/graphviz)."""
 
-from typing import Optional
+from typing import Any, Optional
 
 from graphviz import Digraph  # type: ignore[import-untyped]
 
@@ -59,3 +59,6 @@ class DagGraphviz(DagBase):
 
     def source(self) -> str:
         return str(self._dag.source())  # use str(.) is to make mypy happy
+
+    def get(self) -> Any:
+        return self._dag

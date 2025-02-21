@@ -77,8 +77,8 @@ class GitTag(GitObject):
 
     raw_data: GitTagRawDataType = Field(repr=False)
 
-    # I keep track of deleted (annotated) tags that haven't been garbage collected
-    deleted: bool = False
+    # I keep track of deleted (annotated) tags that haven't been garbage-collected
+    is_deleted: bool = False
 
     _anchor: GitObject
 
@@ -127,7 +127,7 @@ class GitCommit(GitObject):
     """Git commit object."""
 
     kind: ClassVar[GitObjectKind] = GitObjectKind.commit
-    reachable: bool
+    is_reachable: bool
 
     raw_data: GitCommitRawDataType = Field(repr=False)
     _tree: GitTree
