@@ -5,7 +5,6 @@ from __future__ import annotations
 import logging
 import multiprocessing
 import re
-import shlex
 import subprocess
 import sys
 from functools import wraps
@@ -15,13 +14,9 @@ from typing import Annotated, Any, Callable, Optional, ParamSpec, TypeVar, cast
 
 from pydantic import BeforeValidator, TypeAdapter
 
-from .constants import (
-    CMD_TAGS_INFO,
-    GIT_EMPTY_TREE_OBJECT_SHA,
-    TAG_FORMAT_FIELDS,
-    DagBackends,
-)
+from .constants import GIT_EMPTY_TREE_OBJECT_SHA, DagBackends
 from .dag import DagVisualizer
+from .git_commands import GitCommand
 from .pydantic_models import (
     DictStrStr,
     GitBlob,
@@ -37,7 +32,7 @@ from .pydantic_models import (
     GitTree,
     GitTreeRawDataType,
 )
-from .utils import creator_timestamp_format, escape_decode
+from .utils import creator_timestamp_format
 
 IG = itemgetter("sha", "kind")
 logging.basicConfig(level=logging.INFO)
@@ -67,208 +62,6 @@ def time_it(f: Callable[P, R]) -> Callable[P, R]:
         return result
 
     return wrap
-
-
-class GitCommand:
-    """Execute useful commands for quering a git repository."""
-
-    def __init__(self, path: str = ".") -> None:
-        """Initialize instance."""
-        self.path = path
-        self.command_prefix = f"git -C {path}"
-
-    def get_objects_sha_kind(self) -> list[str]:
-        """Return the SHA and type of all git objects (in one string).
-
-        Note
-        -----
-        Unreachable commits (and deleted annotated tags) are returned as well.
-
-        Note
-        -----
-        The ``--unordered`` flag is used because ordering by SHA is not necessary.
-
-        """
-        return (
-            self.run(
-                "cat-file --batch-all-objects --unordered "
-                '--batch-check="%(objectname) %(objecttype)"'
-            )
-            .strip()
-            .split("\n")
-        )
-
-    def read_object_file(self, sha: str) -> list[str]:
-        """Read the file associated with an object.
-
-        Note
-        -----
-        It is quite slow if all objects are to be read like this (``-p`` stands for
-        pretty-print).
-
-        """
-        return self.run(f"cat-file -p {sha}").strip().split("\n")
-
-    def get_branches(self) -> dict[str, DictStrStr]:
-        """Get local/remote branches."""
-        refs: dict[str, DictStrStr] = {"local": {}, "remote": {}}
-
-        try:
-            cmd_output = self.run("show-ref").strip().split("\n")
-        except subprocess.CalledProcessError as error:
-            LOG.warning(
-                f"{error}\n        "
-                "Probably the repository has been cloned using the --depth flag."
-            )
-            return refs
-
-        for ref in cmd_output:
-            sha, name = ref.split()
-            if "refs/heads" in ref:
-                refs["local"]["/".join(name.split("/")[2:])] = sha
-
-            if "refs/remotes" in ref:
-                refs["remote"]["/".join(name.split("/")[2:])] = sha
-
-        return refs
-
-    def get_local_head(self) -> str:
-        """Return local HEAD."""
-        return self.run("rev-parse HEAD").strip()
-
-    def is_detached_head(self) -> bool:
-        """Detect if in detached HEAD."""
-        return not self.run("branch --show-current").strip()
-
-    def local_branch_is_tracking(self, local_branch_sha: str) -> Optional[str]:
-        """Detect if a local branch is tracking a remote one."""
-        try:
-            cmd = f"rev-parse --symbolic-full-name {local_branch_sha}@{{upstream}}"
-            return self.run(cmd).strip()
-        except subprocess.CalledProcessError:
-            return None
-
-    def get_stash_info(self) -> Optional[list[str]]:
-        """Return stash IDs and their associated SHAs."""
-        if not self.run("stash list").strip():
-            return None
-
-        cmd = "reflog stash --no-abbrev --format='%H %gD %gs'"
-        return self.run(cmd).strip().split("\n")
-
-    def rev_list(self, args: str) -> str:
-        """Return output of ``git-rev-list``.
-
-        Note
-        -----
-        The ``--all`` flag doesn't imply all commits but all commits reachable from
-        any reference.
-
-        """
-        return self.run(f"rev-list {args}")
-
-    def ls_tree(self, sha: str) -> list[str]:
-        """Return children of a tree object.
-
-        Note
-        -----
-        The default output of ``git ls-tree SHA`` is the same as
-        ``git cat-file -p SHA``. Maybe I should use the ``--object-only`` flag.
-
-        """
-        return self.run(f"ls-tree {sha}").strip().split("\n")
-
-    def get_blobs_and_trees_names(self) -> DictStrStr:
-        """Return actual names of blobs and trees.
-
-        Note
-        -----
-        Based on https://stackoverflow.com/a/25954360.
-
-        Note
-        -----
-        It is normal for a tree object to sometimes have no name. This happens when a
-        repository has no directories (note that a commit always has an associated tree
-        object). Sometimes blobs don't have names (I am not sure why -- FIXME: to
-        investigate).
-
-        """
-        cmd_out = (
-            self.run_general(
-                f"{self.command_prefix} rev-list --objects --reflog --all | "
-                f"{self.command_prefix} cat-file "
-                "--batch-check='%(objectname) %(objecttype) %(rest)' | "
-                r"grep '^[^ ]* blob\|tree' | "
-                "cut -d' ' -f1,3"
-            )
-            .strip()
-            .split("\n")
-        )
-
-        sha_name = {}
-        for blob_or_tree in cmd_out:
-            components = blob_or_tree.split()
-            if len(components) == 2:
-                sha_name[components[0]] = components[1]
-
-        return sha_name
-
-    def get_tags_info_parsed(self) -> dict[str, dict[str, DictStrStr]]:
-        """Return parsed info for all annotated and lightweight tags.
-
-        Note
-        -----
-        The ``git for-each-ref ...`` command used in this function doesn't return
-        deleted annotated tags. They are handled separately in
-        :func:`GitInspector._get_objects_info_parsed` (note that their SHA is contained
-        in the output of :func:`GitCommand.get_objects_sha_kind`).
-
-        Note
-        -----
-        The ``--python`` flag (see `constants.CMD_TAGS_INFO`) forms groups delimited by
-        '...' which makes them easy to split and parse. On the flip-side, we have to
-        decode escapes of escapes while preserving unicode characters. Note that if the
-        message contains explitic ``\n``-s, they would appear as ``\\\\n``.
-
-        """
-        tags: dict[str, dict[str, DictStrStr]] = {"annotated": {}, "lightweight": {}}
-        for raw_tag in [
-            dict(zip(TAG_FORMAT_FIELDS, re.findall("'(.*?)'", t)))
-            # splitlines() cannot be used here because it splits on CRLF characters
-            for t in self.run(CMD_TAGS_INFO).strip().split("\n")
-            if t  # when there are no tags "".split("\n") results in [""]
-        ]:
-            if raw_tag["object"]:
-                raw_tag["anchor"] = raw_tag.pop("object")
-                raw_tag["message"] = escape_decode(raw_tag["contents"])
-                tags["annotated"][raw_tag.pop("sha")] = raw_tag  # indexed by SHA
-            else:
-                raw_tag["anchor"] = raw_tag.pop("sha")
-                tags["lightweight"][raw_tag.pop("refname")] = raw_tag  # indexed by name
-
-        return tags
-
-    def run(self, command: str, encoding: str = "utf-8") -> str:
-        """Run a git command."""
-        return subprocess.run(
-            shlex.split(f"{self.command_prefix} {command}"),
-            stdout=subprocess.PIPE,
-            stderr=subprocess.PIPE,
-            check=True,
-        ).stdout.decode(encoding)
-
-    def run_general(self, command: str, encoding: str = "utf-8") -> str:
-        """Run a general command."""
-        with subprocess.Popen(
-            command,
-            shell=True,
-            stdout=subprocess.PIPE,
-            stderr=subprocess.PIPE,
-        ) as process:
-            output, error = process.communicate()
-            if error:
-                raise ValueError(error)
-            return output.decode(encoding).strip()
 
 
 class RegexParser:
