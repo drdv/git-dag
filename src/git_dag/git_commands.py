@@ -204,7 +204,7 @@ class GitCommand(GitCommandBase):
 
         Note
         -----
-        Unreachable commits (and deleted annotated tags) are returned as well.
+        Unreachable commits (and deleted annotated tags) are included as well.
 
         Note
         -----

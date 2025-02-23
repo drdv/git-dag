@@ -4,6 +4,10 @@
 
 + Add scaffolding for unit tests (#2)
 
+** Bugfixes
+
++ Display only reachable stash-commits (#37)
+
 * 0.0.7    2025-02-20
 
 + Rename --commit-message CLI flag (#19)
