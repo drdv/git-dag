@@ -187,7 +187,8 @@ class StashHandlerMixin:
                     fillcolor=DAG_NODE_COLORS["stash"],
                     tooltip=stash.title,
                 )
-                self.dag.edge(stash_id, stash.commit.sha)
+                if self.show_unreachable_commits or stash.commit.is_reachable:
+                    self.dag.edge(stash_id, stash.commit.sha)
 
 
 class BranchHandlerMixin:

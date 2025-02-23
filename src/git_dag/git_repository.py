@@ -260,11 +260,10 @@ class GitInspector:
 
         Note
         -----
-        Here my logic to distinguish between reachable and unreachable commits is not
-        entirely correct. It fails with stashes. Note that git handles stashes through
-        the reflog and it keeps only the last stash in ``.git/refs/stash``. When I stash
-        multiple times ``git fsck`` doesn't flag older stashes as unreachable while my
-        logic does. FIXME: something can be improved here.
+        Git handles stashes through the reflog and it keeps only the last stash in
+        ``.git/refs/stash`` (see output of ``git reflog stash``). Hence, we consider
+        commits associated with earlier stashes to be unreachable (as they are not
+        referred by any reference).
 
         """
         reachable_commits = set(self.git.rev_list("--all").strip().split("\n"))
@@ -288,9 +287,9 @@ class GitInspector:
 
         Warning
         --------
-        I am not sure why, but ``git rev-list --all --reflog`` doesn't return all
-        unreachable commits (FIXME: to understand what is the logic and compare with
-        ``git fsck``).
+        In some cases, ``git rev-list --all --reflog`` doesn't return all unreachable
+        commits (when this happens, the corresponding object files are read using ``git
+        cat-file -p``).
 
         """
         commits_info = {}
@@ -300,7 +299,7 @@ class GitInspector:
                 commits_info[commit_sha] = rest
 
         numb_commits_not_found = len(self.commits_sha["all"]) - len(commits_info)
-        if numb_commits_not_found > 0:  # FIXME: to reproduce and test
+        if numb_commits_not_found > 0:
             LOG.warning(
                 f"{numb_commits_not_found} commits not found in "
                 "git rev-list --all --reflog"
