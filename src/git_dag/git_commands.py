@@ -112,31 +112,31 @@ class GitCommandMutate(GitCommandBase):
         return env
 
     def cm(
-        self, messages: str | list[str], add: Optional[dict[str, str]] = None
+        self, messages: str | list[str], files: Optional[dict[str, str]] = None
     ) -> None:
         """Add commit(s).
 
-        ``add`` specifies files to be added to the index before committing (its format
+        ``files`` specifies files to be added to the index before committing (its format
         is ``{'filename': 'file contents', ...}``, if not specified an empty commit is
         created). Names of files should not include the path to the repository (it is
         prepended).
 
         Note
         -----
-        When ``messages`` is a list, multiple empty commits are created (``add`` cannot
-        be specified).
+        When ``messages`` is a list, multiple empty commits are created (``files``
+        cannot be specified).
 
         """
         if isinstance(messages, str):
-            if add is not None:
-                for filename, contents in add.items():
+            if files is not None:
+                for filename, contents in files.items():
                     with open(Path(self.path) / filename, "w", encoding="utf-8") as h:
                         h.write(contents)
                     self._run(f"add {filename}")
 
             self._run(f'commit --allow-empty -m "{messages}"', env=self.env)
         elif isinstance(messages, (list, tuple)):
-            if add is not None:
+            if files is not None:
                 raise ValueError("Cannot add files with multiple commits.")
             for msg in messages:
                 self._run(f'commit --allow-empty -m "{msg}"', env=self.env)
@@ -156,6 +156,20 @@ class GitCommandMutate(GitCommandBase):
     def mg(self, branch: str, message: str = "m", strategy: str = "theirs") -> None:
         """Merge."""
         self._run(f'merge -X {strategy} {branch} -m "{message}"', env=self.env)
+
+    def stash(self, files: dict[str, str]) -> None:
+        """Stash.
+
+        ``files`` specifies files to be modified before we stash (its format is
+        ``{'filename': 'file contents', ...}``. At least one file should be modified in
+        order for ``git stash`` to be meaningful.
+
+        """
+        for filename, contents in files.items():
+            with open(Path(self.path) / filename, "w", encoding="utf-8") as h:
+                h.write(contents)
+
+        self._run("stash")
 
     def tag(
         self,
