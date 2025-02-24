@@ -447,6 +447,7 @@ class GitRepository:
     def post_process_inspector_data(self) -> None:
         """Post-process inspector data (see :func:`GitInspector.get_raw_objects`)."""
         self.objects: dict[str, GitObject] = self._form_objects()
+        self.commits = self.filter_objects(GitCommit)
         self.head: GitCommit = self._form_head()
         self.tags: dict[str, GitTag] = self._form_annotated_tags()
         self.tags_lw: dict[str, GitTagLightweight] = self._form_lightweight_tags()
@@ -472,7 +473,7 @@ class GitRepository:
             LOG.error(f"   OUTPUT: {e.output}")
             # LOG.error(f"EXIT CODE: {e.returncode}")
             sys.exit(1)
-        return cast(GitCommit, self.objects[head])
+        return self.commits[head]
 
     @time_it
     def _form_branches(self) -> list[GitBranch]:
@@ -484,7 +485,7 @@ class GitRepository:
             branches.append(
                 GitBranch(
                     name=branch_name,
-                    commit=cast(GitCommit, self.objects[sha]),
+                    commit=self.commits[sha],
                     is_local=True,
                     tracking=self.inspector.git.local_branch_is_tracking(branch_name),
                 )
@@ -494,7 +495,7 @@ class GitRepository:
             branches.append(
                 GitBranch(
                     name=branch_name,
-                    commit=cast(GitCommit, self.objects[sha]),
+                    commit=self.commits[sha],
                 )
             )
 
@@ -579,7 +580,7 @@ class GitRepository:
             GitStash(
                 index=int(stash["index"]),
                 title=stash["title"],
-                commit=cast(GitCommit, self.objects[stash["sha"]]),
+                commit=self.commits[stash["sha"]],
             )
             for stash in self.inspector.stashes_info_parsed
         ]
