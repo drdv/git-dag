@@ -44,7 +44,7 @@ class GitCommandBase:
             stderr=subprocess.PIPE,
             check=True,
             env=env,
-        ).stdout.decode(encoding)
+        ).stdout.decode(encoding, errors="replace")
 
     def _run_general(
         self,
@@ -63,7 +63,7 @@ class GitCommandBase:
             output, error = process.communicate()
             if error:
                 raise ValueError(error)
-            return output.decode(encoding).strip()
+            return output.decode(encoding, errors="replace").strip()
 
 
 class GitCommandMutate(GitCommandBase):
