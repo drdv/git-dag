@@ -8,6 +8,7 @@ from typing import Optional
 import argcomplete
 
 from .constants import DagBackends
+from .exceptions import EmptyGitRepository
 from .git_repository import GitRepository
 
 
@@ -227,31 +228,35 @@ def main() -> None:
     max_numb_commits = None if args.max_numb_commits < 1 else args.max_numb_commits
 
     logging.getLogger().setLevel(getattr(logging, args.log_level))
+    LOG = logging.getLogger(__name__)
 
-    GitRepository(args.path, parse_trees=args.show_trees).show(
-        dag_backend=DagBackends[args.dag_backend.upper()],
-        xdg_open=args.xdg_open,
-        format=args.format,
-        show_unreachable_commits=args.show_unreachable_commits,
-        show_tags=args.show_tags,
-        show_deleted_tags=args.show_deleted_tags,
-        show_local_branches=args.show_local_branches,
-        show_remote_branches=args.show_remote_branches,
-        show_trees=args.show_trees,
-        show_blobs=args.show_blobs,
-        show_stash=args.show_stash,
-        show_head=args.show_head,
-        range=args.range,
-        commit_message_as_label=args.commit_message_as_label,
-        starting_objects=args.init_refs,
-        filename=args.file,
-        dag_attr={
-            "rankdir": args.rankdir,
-            "dpi": args.dpi,
-            "bgcolor": args.bgcolor,
-        },
-        max_numb_commits=max_numb_commits,
-    )
+    try:
+        GitRepository(args.path, parse_trees=args.show_trees).show(
+            dag_backend=DagBackends[args.dag_backend.upper()],
+            xdg_open=args.xdg_open,
+            format=args.format,
+            show_unreachable_commits=args.show_unreachable_commits,
+            show_tags=args.show_tags,
+            show_deleted_tags=args.show_deleted_tags,
+            show_local_branches=args.show_local_branches,
+            show_remote_branches=args.show_remote_branches,
+            show_trees=args.show_trees,
+            show_blobs=args.show_blobs,
+            show_stash=args.show_stash,
+            show_head=args.show_head,
+            range=args.range,
+            commit_message_as_label=args.commit_message_as_label,
+            starting_objects=args.init_refs,
+            filename=args.file,
+            dag_attr={
+                "rankdir": args.rankdir,
+                "dpi": args.dpi,
+                "bgcolor": args.bgcolor,
+            },
+            max_numb_commits=max_numb_commits,
+        )
+    except EmptyGitRepository as e:
+        LOG.error(e)
 
 
 if __name__ == "__main__":
