@@ -9,7 +9,7 @@ import pytest
 from git_dag.exceptions import EmptyGitRepository
 from git_dag.git_commands import GitCommandMutate
 from git_dag.git_repository import GitRepository
-from git_dag.pydantic_models import GitBlob, GitTag, GitTree
+from git_dag.pydantic_models import GitBlob, GitCommit, GitTag, GitTree
 
 
 @pytest.fixture
@@ -73,7 +73,7 @@ def test_repository(repository_default: Path) -> None:
     repo = GitRepository(repository_default, parse_trees=True)
     print(repo)
 
-    commits = repo.filter_objects().values()
+    commits = repo.filter_objects(GitCommit).values()
     assert len([c for c in commits if c.is_reachable]) == 12
     assert len([c for c in commits if not c.is_reachable]) == 3
 
