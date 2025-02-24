@@ -15,6 +15,7 @@ from pathlib import Path
 from typing import Optional
 
 from .constants import CMD_TAGS_INFO, TAG_FORMAT_FIELDS
+from .exceptions import EmptyGitRepository
 from .pydantic_models import DictStrStr
 from .utils import escape_decode
 
@@ -157,7 +158,7 @@ class GitCommandMutate(GitCommandBase):
         """Merge."""
         self._run(f'merge -X {strategy} {branch} -m "{message}"', env=self.env)
 
-    def stash(self, files: dict[str, str]) -> None:
+    def stash(self, files: dict[str, str], title: Optional[str] = None) -> None:
         """Stash.
 
         ``files`` specifies files to be modified before we stash (its format is
@@ -169,7 +170,10 @@ class GitCommandMutate(GitCommandBase):
             with open(Path(self.path) / filename, "w", encoding="utf-8") as h:
                 h.write(contents)
 
-        self._run("stash")
+        if title is None:
+            self._run("stash")
+        else:
+            self._run(f'stash push -m "{title}"')
 
     def tag(
         self,
@@ -211,14 +215,15 @@ class GitCommand(GitCommandBase):
         The ``--unordered`` flag is used because ordering by SHA is not necessary.
 
         """
-        return (
-            self._run(
-                "cat-file --batch-all-objects --unordered "
-                '--batch-check="%(objectname) %(objecttype)"'
-            )
-            .strip()
-            .split("\n")
+        CMD = (
+            "cat-file --batch-all-objects --unordered "
+            '--batch-check="%(objectname) %(objecttype)"'
         )
+        objects = self._run(CMD).strip().split("\n")
+        if len(objects) == 1 and not objects[0]:
+            raise EmptyGitRepository("No objects, probably the repository is empty.")
+
+        return objects
 
     def read_object_file(self, sha: str) -> list[str]:
         """Read the file associated with an object.
