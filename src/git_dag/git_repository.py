@@ -11,7 +11,7 @@ from functools import wraps
 from operator import itemgetter
 from pathlib import Path
 from time import time
-from typing import Annotated, Any, Callable, Optional, ParamSpec, TypeVar, cast
+from typing import Annotated, Any, Callable, Optional, Type, cast
 
 from pydantic import BeforeValidator, TypeAdapter
 
@@ -39,9 +39,6 @@ IG = itemgetter("sha", "kind")
 logging.basicConfig(level=logging.INFO)
 LOG = logging.getLogger(__name__)
 
-P = ParamSpec("P")
-R = TypeVar("R")
-
 # https://stackoverflow.com/q/9765453
 # For example it is created when using git rebase -i --root
 GIT_EMPTY_TREE_OBJECT = GitTree(
@@ -51,8 +48,14 @@ GIT_EMPTY_TREE_OBJECT = GitTree(
 )
 
 
-def time_it(f: Callable[P, R]) -> Callable[P, R]:
-    """Return decorator for timing."""
+def time_it[R, **P](f: Callable[P, R]) -> Callable[P, R]:
+    """Return decorator for timing.
+
+    Note
+    -----
+    The generic ``P`` is a ``ParamSpec``.
+
+    """
 
     @wraps(f)
     def wrap(*args: P.args, **kwargs: P.kwargs) -> R:
@@ -527,7 +530,7 @@ class GitRepository:
 
         # Commits can heve an empty tree object but it isn't returned by:
         # git cat-file --batch-all-objects --batch-check="%(objectname) %(objecttype)"
-        # FIXME: maybe I have to pass a flag to git cat-file to include it.
+        # FIXME: maybe it is possible to pass a flag to git cat-file to include it?
         # Meanwhile I detect it manually.
         git_empty_tree_object_exists = False
         for obj in git_objects.values():
@@ -594,7 +597,7 @@ class GitRepository:
             cmd += f" -n {max_numb_commits}"
         return set(self.inspector.git.rev_list(cmd).strip().split("\n"))
 
-    def filter_objects(self, object_type: type = GitCommit) -> dict[str, GitObject]:
+    def filter_objects[T: GitObject](self, object_type: Type[T]) -> dict[str, T]:
         """Filter objects."""
         return {
             sha: obj
