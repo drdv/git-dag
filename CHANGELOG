@@ -2,6 +2,7 @@
 
 * 0.0.8    UNRELEASED
 
++ Add commits field to GitRepository (#41)
 + Add scaffolding for unit tests (#2)
 
 ** Bugfixes
