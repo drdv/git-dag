@@ -360,7 +360,7 @@ class GitCommand(GitCommandBase):
         """
         tags: dict[str, dict[str, DictStrStr]] = {"annotated": {}, "lightweight": {}}
         for raw_tag in [
-            dict(zip(TAG_FORMAT_FIELDS, re.findall("'(.*?)'", t)))
+            dict(zip(TAG_FORMAT_FIELDS, re.findall(r"'((?:[^'\\]|\\.)*)'", t)))
             # splitlines() cannot be used here because it splits on CRLF characters
             for t in self._run(CMD_TAGS_INFO).strip().split("\n")
             if t  # when there are no tags "".split("\n") results in [""]
