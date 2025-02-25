@@ -1,6 +1,12 @@
 # -*- mode: org -*-
 
-* 0.0.9    UNRELEASED
+* 0.1.0    UNRELEASED
+
+* 0.0.9    2025-02-25
+
+** Bugfixes
+
++ Fix python version dependency in pyproject.toml (#47)
 
 * 0.0.8    2025-02-25
 

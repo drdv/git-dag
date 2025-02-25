@@ -6,7 +6,7 @@ build-backend = "setuptools.build_meta"
 name = "git-dag"
 description = "Generates the DAG of a git repository"
 readme = "README.md"
-requires-python = ">=3.10"
+requires-python = ">=3.12"
 dependencies = [
     "pydantic",
     "graphviz",
@@ -39,7 +39,7 @@ git-dag = "git_dag.cli:main"
 
 [tool.black]
 line-length = 88
-target-version = ['py310']
+target-version = ['py312']
 
 [tool.coverage.html]
 directory = ".htmlcov"
