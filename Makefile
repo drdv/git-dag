@@ -2,7 +2,16 @@ PYTHON := python
 VENV := .venv
 VENV_ACTIVATE := source ${VENV}/bin/activate
 
+INTEGRATION_TEST_DIR := integration_tests
+INTEGRATION_TEST_REPOS_DIR := $(INTEGRATION_TEST_DIR)/repos
+INTEGRATION_TEST_OUT_DIR := $(INTEGRATION_TEST_DIR)/out
+INTEGRATION_TEST_REFS_DIR := $(INTEGRATION_TEST_DIR)/references
+
 PYLINT := pylint
+
+define clone_repo
+	@cd ${INTEGRATION_TEST_REPOS_DIR} && git clone $1 $2
+endef
 
 help: URL := github.com/drdv/makefile-doc/releases/latest/download/makefile-doc.awk
 help: DIR := $(HOME)/.local/share/makefile-doc
@@ -82,6 +91,33 @@ publish: package
 .PHONY: test-create-reference
 test-create-reference:
 	cd src/git_dag && $(PYTHON) git_commands.py
+
+## Clone integration test data
+get-integration-test-data: clone-integration-test-references clone-integration-test-repos
+
+## Clone repos for integration test
+clone-integration-test-repos:
+	mkdir -p ${INTEGRATION_TEST_REPOS_DIR}
+	-$(call clone_repo, https://github.com/drdv/git)
+	-$(call clone_repo, https://github.com/drdv/magit)
+	-$(call clone_repo, https://github.com/drdv/pydantic)
+	-$(call clone_repo, https://github.com/drdv/casadi)
+
+## Clone references for integration test
+# I don't want to add them as a submodule
+clone-integration-test-references:
+	mkdir -p ${INTEGRATION_TEST_REPOS_DIR} ${INTEGRATION_TEST_REFS_DIR}
+	-$(call clone_repo, https://github.com/drdv/git-dag-integration-tests, ../references)
+
+## Process integration test repositories
+process-integration-test-repos:
+	@rm -rf ${INTEGRATION_TEST_OUT_DIR}
+	@mkdir -p ${INTEGRATION_TEST_OUT_DIR}
+	@for repo in $(notdir $(shell find ${INTEGRATION_TEST_REPOS_DIR} -mindepth 1 -maxdepth 1 -type d)); do \
+		echo -e "--------\n$$repo\n--------"; \
+		$(VENV_ACTIVATE) && time git dag -p ${INTEGRATION_TEST_REPOS_DIR}/$$repo \
+		-lrtH -n 1000 -f ${INTEGRATION_TEST_OUT_DIR}/$$repo.gv ; \
+	done
 
 .PHONY: clean
 clean: ##! Clean all
