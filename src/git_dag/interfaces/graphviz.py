@@ -58,7 +58,7 @@ class DagGraphviz(DagBase):
         self._dag.render()
 
     def source(self) -> str:
-        return str(self._dag.source())  # use str(.) is to make mypy happy
+        return str(self._dag.source)  # use str(.) is to make mypy happy
 
     def get(self) -> Any:
         return self._dag
