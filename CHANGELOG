@@ -2,6 +2,7 @@
 
 * 0.1.0    UNRELEASED
 
++ Add integration tests with real repositories (59)
 + Add unit tests that verify the created dag (#55)
 
 ** Bugfixes

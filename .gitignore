@@ -6,3 +6,5 @@ build
 .venv
 .coverage
 dist
+integration_tests
+.mypy-html
