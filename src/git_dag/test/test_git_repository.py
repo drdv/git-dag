@@ -1,6 +1,6 @@
 """Tests."""
 
-# pylint: disable=missing-function-docstring
+# pylint: disable=missing-function-docstring,redefined-outer-name
 
 from pathlib import Path
 
@@ -9,7 +9,7 @@ import pytest
 from git_dag.exceptions import EmptyGitRepository
 from git_dag.git_commands import GitCommandMutate
 from git_dag.git_repository import GitRepository
-from git_dag.pydantic_models import GitBlob, GitCommit, GitTag, GitTree
+from git_dag.pydantic_models import GitBlob, GitTree
 
 
 @pytest.fixture
@@ -69,11 +69,33 @@ def test_repository_empty(repository_empty: Path) -> None:
         GitRepository(repository_empty)
 
 
+def test_clone_repository_depth_1(repository_default: Path) -> None:
+    src_repo = str(repository_default)
+    target_repo = src_repo + "_cloned"
+    GitCommandMutate.clone_local_depth_1(src_repo, target_repo)
+
+    repo = GitRepository(target_repo, parse_trees=True)
+
+    commits = repo.commits.values()
+    assert len([c for c in commits if c.is_reachable]) == 1
+    assert len([c for c in commits if not c.is_reachable]) == 0
+
+    tags = repo.tags.values()
+    assert len([c for c in tags if not c.is_deleted]) == 1
+
+    assert len(repo.tags_lw) == 1
+
+    assert len(repo.filter_objects(GitTree).values()) == 1
+    assert len(repo.filter_objects(GitBlob).values()) == 1
+
+    assert {b.name for b in repo.branches} == {"origin/HEAD", "origin/topic", "topic"}
+    assert not repo.is_detached_head
+
+
 def test_repository(repository_default: Path) -> None:
     repo = GitRepository(repository_default, parse_trees=True)
-    print(repo)
 
-    commits = repo.filter_objects(GitCommit).values()
+    commits = repo.commits.values()
     assert len([c for c in commits if c.is_reachable]) == 12
     assert len([c for c in commits if not c.is_reachable]) == 3
 
@@ -96,4 +118,4 @@ def test_repository(repository_default: Path) -> None:
     assert not stashes[2].commit.is_reachable
 
     assert {b.name for b in repo.branches} == {"main", "topic"}
-    assert not repo.inspector.git.is_detached_head()
+    assert not repo.is_detached_head

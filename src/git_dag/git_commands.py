@@ -46,8 +46,8 @@ class GitCommandBase:
             env=env,
         ).stdout.decode(encoding, errors="replace")
 
-    def _run_general(
-        self,
+    @staticmethod
+    def run_general(
         command: str,
         env: Optional[dict[str, str]] = None,
         encoding: str = "utf-8",
@@ -199,6 +199,19 @@ class GitCommandMutate(GitCommandBase):
             message_str = f'-m "{message}"' if message is not None else ""
             self._run(f"tag {name} {branch_str} {message_str}", env=self.env)
 
+    @classmethod
+    def clone_local_depth_1(cls, src_dir: str, target_dir: str) -> None:
+        """Clone a local repository with ``--depth 1`` flag.
+
+        Note
+        -----
+        This command doesn't mutate a repository but appears under
+        :class:`GitCommandMutate` as it is meant to be used only in the unit tests.
+
+        """
+        # note that git clone sends to stderr (so I suppress it using -q)
+        cls.run_general(f"git clone -q --depth 1 file://{src_dir} {target_dir}")
+
 
 class GitCommand(GitCommandBase):
     """Git commands that query the repository to process (without modifications)."""
@@ -243,10 +256,7 @@ class GitCommand(GitCommandBase):
         try:
             cmd_output = self._run("show-ref").strip().split("\n")
         except subprocess.CalledProcessError as error:
-            LOG.warning(
-                f"{error}\n        "
-                "Probably the repository has been cloned using the --depth flag."
-            )
+            LOG.warning(error)
             return refs
 
         for ref in cmd_output:
@@ -264,7 +274,7 @@ class GitCommand(GitCommandBase):
         return self._run("rev-parse HEAD").strip()
 
     def is_detached_head(self) -> bool:
-        """Detect if in detached HEAD."""
+        """Check if the repository is in a detached HEAD state."""
         return not self._run("branch --show-current").strip()
 
     def local_branch_is_tracking(self, local_branch_sha: str) -> Optional[str]:
@@ -321,7 +331,7 @@ class GitCommand(GitCommandBase):
 
         """
         cmd_out = (
-            self._run_general(
+            self.run_general(
                 f"{self.command_prefix} rev-list --objects --reflog --all | "
                 f"{self.command_prefix} cat-file "
                 "--batch-check='%(objectname) %(objecttype) %(rest)' | "

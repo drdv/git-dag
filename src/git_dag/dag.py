@@ -227,11 +227,10 @@ class HeadHandlerMixin:
 
     def _add_head(self: MixinProtocol) -> None:
         head = self.repository.head
-        detached = self.repository.inspector.git.is_detached_head()
         if self._is_object_to_include(head.sha):
             self.dag.node(
                 name="HEAD",
-                label="HEAD *" if detached else "HEAD",
+                label="HEAD *" if self.repository.is_detached_head else "HEAD",
                 color=DAG_NODE_COLORS["head"],
                 fillcolor=DAG_NODE_COLORS["head"],
             )

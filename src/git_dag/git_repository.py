@@ -453,6 +453,7 @@ class GitRepository:
         self.tags_lw: dict[str, GitTagLightweight] = self._form_lightweight_tags()
         self.branches: list[GitBranch] = self._form_branches()
         self.stashes: list[GitStash] = self._form_stashes()
+        self.head_branches = [b for b in self.branches if b.commit == self.head]
 
     @time_it
     def _form_head(self) -> GitCommit:
@@ -606,6 +607,11 @@ class GitRepository:
             if isinstance(obj, object_type)
         }
 
+    @property
+    def is_detached_head(self) -> bool:
+        """Check if the repository is in a detached HEAD state."""
+        return not self.head_branches
+
     @time_it
     def show(
         self,
@@ -663,8 +669,11 @@ class GitRepository:
             out += f"\n    {branch.name}"
 
         out += f"\n  HEAD: {self.head.sha[:8]}"
-        for branch in [b for b in self.branches if b.commit == self.head]:
-            out += f"\n    {branch.name}"
+        if self.is_detached_head:
+            out += " (DETACHED)"
+        else:
+            for branch in self.head_branches:
+                out += f"\n    {branch.name}"
 
         if self.stashes:
             out += f"\n  stashes: {len(self.stashes)}"
