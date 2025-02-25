@@ -1,6 +1,8 @@
 # -*- mode: org -*-
 
-* 0.0.8    UNRELEASED
+* 0.0.9    UNRELEASED
+
+* 0.0.8    2025-02-25
 
 + Add commits field to GitRepository (#41)
 + Add scaffolding for unit tests (#2)
