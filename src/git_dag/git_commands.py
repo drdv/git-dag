@@ -179,7 +179,7 @@ class GitCommandMutate(GitCommandBase):
         self,
         name: str,
         message: Optional[str] = None,
-        branch: Optional[str] = None,
+        ref: Optional[str] = None,
         delete: bool = False,
     ) -> None:
         """Create/delete annotated or lightweight tag.
@@ -195,9 +195,9 @@ class GitCommandMutate(GitCommandBase):
         if delete:
             self._run(f"tag -d {name}")
         else:
-            branch_str = branch if branch is not None else ""
+            ref_str = ref if ref is not None else ""
             message_str = f'-m "{message}"' if message is not None else ""
-            self._run(f"tag {name} {branch_str} {message_str}", env=self.env)
+            self._run(f"tag {name} {ref_str} {message_str}", env=self.env)
 
     @classmethod
     def clone_local_depth_1(cls, src_dir: str, target_dir: str) -> None:

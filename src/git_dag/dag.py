@@ -54,6 +54,7 @@ class MixinProtocol(Protocol):
     dag: Any
 
     def _is_object_to_include(self, sha: str) -> bool: ...
+    def _is_tag_to_include(self, item: GitTag) -> bool: ...
 
 
 class CommitHandlerMixin:
@@ -136,6 +137,18 @@ class TreeBlobHandlerMixin:
 class TagHandlerMixin:
     """Handle tags."""
 
+    def _is_tag_to_include(self: MixinProtocol, item: GitTag) -> bool:
+        """Check if an annotated tag should be displayed.
+
+        Note
+        -----
+        Lightweight tags cannot point to other tags or be pointed by annotated tags.
+
+        """
+        while isinstance(item.anchor, GitTag):
+            item = item.anchor
+        return item.anchor.sha in self.included_nodes_id
+
     def _add_annotated_tags(self: MixinProtocol) -> None:
         def form_tooltip(item: GitTag) -> str:
             return (
@@ -146,7 +159,7 @@ class TagHandlerMixin:
 
         for sha, item in self.repository.tags.items():
             color_label = "tag-deleted" if item.is_deleted else "tag"
-            if self._is_object_to_include(item.anchor.sha):
+            if self._is_tag_to_include(item):
                 if self.show_deleted_tags or not item.is_deleted:
                     self.dag.node(
                         name=sha,
@@ -155,8 +168,7 @@ class TagHandlerMixin:
                         fillcolor=DAG_NODE_COLORS[color_label],
                         tooltip=form_tooltip(item),
                     )
-                    if item.anchor.sha in self.included_nodes_id:
-                        self.dag.edge(sha, item.anchor.sha)
+                    self.dag.edge(sha, item.anchor.sha)
 
     def _add_lightweight_tags(self: MixinProtocol) -> None:
         for name, item in self.repository.tags_lw.items():

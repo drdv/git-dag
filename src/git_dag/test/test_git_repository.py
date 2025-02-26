@@ -44,6 +44,9 @@ def repository_default(tmp_path: Path) -> Path:
     git.cm("H")
     git.br("main")
     git.cm(["B", "C"])
+    git.tag("0.7", "tag 0.7")
+    git.tag("0.7r", "ref to tag 0.7", ref="0.7")
+    git.tag("0.7rr", "ref to ref to tag 0.7", ref="0.7r")
     git.br("feature", delete=True)
     git.br("topic")
     git.tag("0.3", "T1")
@@ -53,7 +56,9 @@ def repository_default(tmp_path: Path) -> Path:
     git.tag("0.4", delete=True)
     git.br("bugfix", create=True)
     git.cm("I")
-    git.tag("0.6", "Test:                    €.")
+    git.tag(
+        "0.6", "Test:                    €."  # pylint: disable=invalid-character-sub
+    )
     git.cm("J")
     git.br("topic")
     git.br("bugfix", delete=True)
@@ -100,7 +105,7 @@ def test_repository(repository_default: Path) -> None:
     assert len([c for c in commits if not c.is_reachable]) == 3
 
     tags = repo.tags.values()
-    assert len([c for c in tags if not c.is_deleted]) == 3
+    assert len([c for c in tags if not c.is_deleted]) == 6
     assert len([c for c in tags if c.is_deleted]) == 1
 
     assert len(repo.tags_lw) == 1
