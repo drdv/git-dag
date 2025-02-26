@@ -568,13 +568,13 @@ class GitRepository:
                 case GitBlob():
                     pass  # no need of post-processing
 
-        # setting is_ready here is a bit sloppy (but let's have feith)
-        for obj in git_objects.values():
-            obj.is_ready = True
-
         # add the empty tree if it was detected
         if git_empty_tree_object_exists:
             git_objects[GIT_EMPTY_TREE_OBJECT.sha] = GIT_EMPTY_TREE_OBJECT
+
+        for obj in git_objects.values():
+            obj.is_ready = True  # type: ignore[method-assign]
+
         return git_objects
 
     @time_it
@@ -628,6 +628,8 @@ class GitRepository:
 
         Parameters
         -----------
+        dag_backend
+            DAG backend to use.
         xdg_open
             Whether to open the dag using ``xdg-open``.
         starting_objects

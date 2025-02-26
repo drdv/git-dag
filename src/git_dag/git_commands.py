@@ -171,9 +171,9 @@ class GitCommandMutate(GitCommandBase):
                 h.write(contents)
 
         if title is None:
-            self._run("stash")
+            self._run("stash", env=self.env)
         else:
-            self._run(f'stash push -m "{title}"')
+            self._run(f'stash push -m "{title}"', env=self.env)
 
     def tag(
         self,

@@ -41,7 +41,6 @@ class GitObject(BaseModel, abc.ABC):
     def kind(self) -> GitObjectKind:
         """The object type."""
 
-    @property
     @computed_field(repr=True)
     def is_ready(self) -> bool:
         """Indicates whether the object is ready to use.
@@ -53,7 +52,8 @@ class GitObject(BaseModel, abc.ABC):
         """
         return self._is_ready
 
-    @is_ready.setter
+    # https://docs.pydantic.dev/2.0/usage/computed_fields/
+    @is_ready.setter  # type: ignore[no-redef]
     def is_ready(self, ready: bool) -> None:
         self._is_ready = ready
 
@@ -116,11 +116,6 @@ class GitTag(GitObject):
     def message(self) -> str:
         """Return the message."""
         return self.raw_data["message"]
-
-    @property
-    def misc_info(self) -> str:
-        """Return misc info (e.g., tag message)."""
-        return self.raw_data["misc"]
 
 
 class GitCommit(GitObject):
@@ -185,11 +180,6 @@ class GitCommit(GitObject):
     def message(self) -> str:
         """Return the commit message."""
         return cast(str, self.raw_data["message"])
-
-    @property
-    def misc_info(self) -> str:
-        """Return misc info (e.g., commit message)."""
-        return cast(str, self.raw_data["misc"])
 
 
 class GitTree(GitObject):

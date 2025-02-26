@@ -100,6 +100,9 @@ def test_clone_repository_depth_1(repository_default: Path) -> None:
 def test_repository(repository_default: Path) -> None:
     repo = GitRepository(repository_default, parse_trees=True)
 
+    for obj in repo.objects.values():
+        assert obj.is_ready
+
     commits = repo.commits.values()
     assert len([c for c in commits if c.is_reachable]) == 12
     assert len([c for c in commits if not c.is_reachable]) == 3
