@@ -38,7 +38,7 @@ mypy-run:
 	mypy || exit 0
 
 test-run:
-	coverage run -m pytest -v -s
+	coverage run -m pytest -v -s src
 	coverage html
 
 ##@
