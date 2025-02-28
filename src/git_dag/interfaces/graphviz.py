@@ -52,7 +52,7 @@ class DagGraphviz(DagBase):
         # node order influences DAG
         for node in sorted(self.nodes, key=lambda x: (x["label"], x["tooltip"])):
             self._dag.node(**node)
-        self._dag.edges(self.edges)
+        self._dag.edges(sorted(self.edges))
 
     def render(self) -> None:
         self._dag.render()
