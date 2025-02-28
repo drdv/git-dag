@@ -2,6 +2,8 @@
 
 * 0.1.0    UNRELEASED
 
++ Add unit tests that verify the created dag (#55)
+
 ** Bugfixes
 
 + Handle tags referring to other tags (#51)

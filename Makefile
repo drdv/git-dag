@@ -78,6 +78,11 @@ publish: package
 ##@----- Other -----
 ##@
 
+##! Create reference dag for tests
+.PHONY: test-create-reference
+test-create-reference:
+	cd src/git_dag && $(PYTHON) git_commands.py
+
 .PHONY: clean
 clean: ##! Clean all
 	rm -rf .mypy_cache .mypy-html

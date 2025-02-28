@@ -6,76 +6,40 @@ from pathlib import Path
 
 import pytest
 
+from git_dag.constants import GIT_EMPTY_TREE_OBJECT_SHA
 from git_dag.exceptions import EmptyGitRepository
-from git_dag.git_commands import GitCommandMutate
+from git_dag.git_commands import GitCommandMutate, TestGitRepository
 from git_dag.git_repository import GitRepository
 from git_dag.pydantic_models import GitBlob, GitTree
 
+TEST_DIR = Path(__file__).parent
+
 
 @pytest.fixture
-def repository_empty(tmp_path: Path) -> Path:
+def git_repository_empty(tmp_path: Path) -> Path:
     repo_path = tmp_path / "empty_repo"
     repo_path.mkdir()
 
-    git = GitCommandMutate(repo_path)
-    git.init()
-
+    TestGitRepository.create("empty", repo_path)
     return repo_path
 
 
 @pytest.fixture
-def repository_default(tmp_path: Path) -> Path:
-    repo_path = tmp_path / "test_repo"
+def git_repository_default(tmp_path: Path) -> Path:
+    repo_path = tmp_path / "default_repo"
     repo_path.mkdir()
 
-    git = GitCommandMutate(repo_path)
-    git.init()
-    git.cm("A\n\nBody:\n * First line\n * Second line\n * Third line")
-    git.br("topic", create=True)
-    git.cm("D")
-    git.br("feature", create=True)
-    git.cm("F")
-    git.cm("G", files={"file": "G"})
-    git.br("topic")
-    git.cm("E", files={"file": "E"})
-    git.mg("feature")
-    git.tag("0.1", "Summary\n\nBody:\n * First line\n * Second line\n * Third line")
-    git.tag("0.2", "Summary\n\nBody:\n * First line\n * Second line\n * Third line")
-    git.cm("H")
-    git.br("main")
-    git.cm(["B", "C"])
-    git.tag("0.7", "tag 0.7")
-    git.tag("0.7r", "ref to tag 0.7", ref="0.7")
-    git.tag("0.7rr", "ref to ref to tag 0.7", ref="0.7r")
-    git.br("feature", delete=True)
-    git.br("topic")
-    git.tag("0.3", "T1")
-    git.tag("0.4")
-    git.tag("0.5")
-    git.tag("0.1", delete=True)
-    git.tag("0.4", delete=True)
-    git.br("bugfix", create=True)
-    git.cm("I")
-    git.tag(
-        "0.6", "Test:                    €."  # pylint: disable=invalid-character-sub
-    )
-    git.cm("J")
-    git.br("topic")
-    git.br("bugfix", delete=True)
-    git.stash({"file": "stash:first"})
-    git.stash({"file": "stash:second"}, title="second")
-    git.stash({"file": "stash:third"}, title="third")
-
+    TestGitRepository.create("default", repo_path)
     return repo_path
 
 
-def test_repository_empty(repository_empty: Path) -> None:
+def test_repository_empty(git_repository_empty: Path) -> None:
     with pytest.raises(EmptyGitRepository):
-        GitRepository(repository_empty)
+        GitRepository(git_repository_empty)
 
 
-def test_clone_repository_depth_1(repository_default: Path) -> None:
-    src_repo = str(repository_default)
+def test_repository_clone_depth_1(git_repository_default: Path) -> None:
+    src_repo = str(git_repository_default)
     target_repo = src_repo + "_cloned"
     GitCommandMutate.clone_local_depth_1(src_repo, target_repo)
 
@@ -97,8 +61,8 @@ def test_clone_repository_depth_1(repository_default: Path) -> None:
     assert not repo.is_detached_head
 
 
-def test_repository(repository_default: Path) -> None:
-    repo = GitRepository(repository_default, parse_trees=True)
+def test_repository_default(git_repository_default: Path) -> None:
+    repo = GitRepository(git_repository_default, parse_trees=True)
 
     for obj in repo.objects.values():
         assert obj.is_ready
@@ -127,3 +91,63 @@ def test_repository(repository_default: Path) -> None:
 
     assert {b.name for b in repo.branches} == {"main", "topic"}
     assert not repo.is_detached_head
+
+
+def test_repository_default_dag(tmp_path: Path) -> None:
+    # pylint: disable=duplicate-code
+
+    repo_path = tmp_path
+    TestGitRepository.untar(
+        TEST_DIR / "resources/default_repo.tar.gz",
+        repo_path,
+    )
+    repo = GitRepository(repo_path, parse_trees=True)
+
+    # FIXME: to test setting the show_* flags to False one at a time
+    repo.show(
+        show_unreachable_commits=True,
+        show_local_branches=True,
+        show_remote_branches=True,
+        show_trees=True,
+        show_blobs=True,
+        show_tags=True,
+        show_deleted_tags=True,
+        show_stash=True,
+        show_head=True,
+        format="gv",
+        filename=repo_path / "default_repo.gv",
+    )
+
+    with open(TEST_DIR / "resources/default_repo.gv", "r", encoding="utf-8") as h:
+        reference_gv = h.read()
+
+    with open(repo_path / "default_repo.gv", "r", encoding="utf-8") as h:
+        result_gv = h.read()
+
+    assert result_gv == reference_gv
+
+    with open(TEST_DIR / "resources/default_repo.repr", "r", encoding="utf-8") as h:
+        reference_repr = h.read()
+
+    result_repr = repr(repo).replace(str(repo_path), "test/resources/default_repo")
+    assert result_repr == reference_repr
+
+
+def test_repository_default_dag_svg(tmp_path: Path) -> None:
+    repo_path = tmp_path
+    TestGitRepository.untar(
+        TEST_DIR / "resources/default_repo.tar.gz",
+        repo_path,
+    )
+    repo = GitRepository(repo_path, parse_trees=True)
+    repo.show(filename=repo_path / "default_repo.gv")
+    assert (repo_path / "default_repo.gv.svg").is_file()
+
+
+def test_gittree_children() -> None:
+    tree = GitTree(sha=GIT_EMPTY_TREE_OBJECT_SHA, raw_data=[], no_children=True)
+    with pytest.raises(
+        TypeError,
+        match="Attempting to set children when there should be none.",
+    ):
+        tree.children = [GitBlob(sha="2086abdf88ac520682ae9cbacc913bfa3f1eb541")]

@@ -1,4 +1,5 @@
 """Module interface."""
+
 try:
     from ._version import __version__
 except ModuleNotFoundError:

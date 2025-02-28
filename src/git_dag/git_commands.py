@@ -11,13 +11,14 @@ import logging
 import re
 import shlex
 import subprocess
+import tarfile
 from pathlib import Path
-from typing import Optional
+from typing import Literal, Optional
 
-from .constants import CMD_TAGS_INFO, TAG_FORMAT_FIELDS
-from .exceptions import EmptyGitRepository
-from .pydantic_models import DictStrStr
-from .utils import escape_decode
+from git_dag.constants import CMD_TAGS_INFO, TAG_FORMAT_FIELDS
+from git_dag.exceptions import EmptyGitRepository
+from git_dag.pydantic_models import DictStrStr
+from git_dag.utils import escape_decode
 
 logging.basicConfig(level=logging.INFO)
 LOG = logging.getLogger(__name__)
@@ -198,6 +199,10 @@ class GitCommandMutate(GitCommandBase):
             ref_str = ref if ref is not None else ""
             message_str = f'-m "{message}"' if message is not None else ""
             self._run(f"tag {name} {ref_str} {message_str}", env=self.env)
+
+    def config(self, option: str) -> None:
+        """Set a gonfig option."""
+        self._run(f"config {option}")
 
     @classmethod
     def clone_local_depth_1(cls, src_dir: str, target_dir: str) -> None:
@@ -384,3 +389,133 @@ class GitCommand(GitCommandBase):
                 tags["lightweight"][raw_tag.pop("refname")] = raw_tag  # indexed by name
 
         return tags
+
+
+class TestGitRepository:
+    """Create test git repository."""
+
+    @classmethod
+    def create(
+        cls,
+        label: Literal["default", "empty"],
+        repo_path: Path | str,  # assumed to exist
+        tar_file_name: Optional[str] = None,
+    ) -> None:
+        """Git repository creation displatch."""
+        match label:
+            case "default":
+                cls.repository_default(repo_path)
+            case "empty":
+                cls.repository_empty(repo_path)
+            case _:
+                raise ValueError(f"Unknown repository label: {label}")
+
+        if tar_file_name is not None:
+            cls.tar(repo_path, tar_file_name)
+
+    @staticmethod
+    def tar(src_path: Path | str, tar_file_name: Path | str) -> None:
+        """Tar a git repository."""
+        with tarfile.open(tar_file_name, "w:gz") as h:
+            h.add(src_path, arcname=".")
+
+    @staticmethod
+    def untar(tar_file_name: Path | str, extract_path: Path | str) -> None:
+        """Untar a git repository."""
+        with tarfile.open(tar_file_name, "r:gz") as tar:
+            tar.extractall(path=extract_path, filter="fully_trusted")
+
+    @staticmethod
+    def repository_empty(path: Path | str) -> None:
+        """Empty repository."""
+        git = GitCommandMutate(path)
+        git.init()
+
+    @staticmethod
+    def repository_default(path: Path | str) -> None:
+        """Default repository."""
+        git = GitCommandMutate(path)
+        git.init()
+        git.cm("A\n\nBody:\n * First line\n * Second line\n * Third line")
+        git.br("topic", create=True)
+        git.cm("D")
+        git.br("feature", create=True)
+        git.cm("F")
+        git.cm("G", files={"file": "G"})
+        git.br("topic")
+        git.cm("E", files={"file": "E"})
+        git.mg("feature")
+        git.tag("0.1", "Summary\n\nBody:\n * First line\n * Second line\n * Third line")
+        git.tag("0.2", "Summary\n\nBody:\n * First line\n * Second line\n * Third line")
+        git.cm("H")
+        git.br("main")
+        git.cm(["B", "C"])
+        git.tag("0.7", "tag 0.7")
+        git.tag("0.7r", "ref to tag 0.7", ref="0.7")
+        git.tag("0.7rr", "ref to ref to tag 0.7", ref="0.7r")
+        git.br("feature", delete=True)
+        git.br("topic")
+        git.tag("0.3", "T1")
+        git.tag("0.4")
+        git.tag("0.5")
+        git.tag("0.1", delete=True)
+        git.tag("0.4", delete=True)
+        git.br("bugfix", create=True)
+        git.cm("I")
+        git.tag(
+            # pylint: disable=invalid-character-sub
+            "0.6",
+            "Test:                    €.",
+        )
+        git.cm("J")
+        git.br("topic")
+        git.br("bugfix", delete=True)
+        git.stash({"file": "stash:first"})
+        git.stash({"file": "stash:second"}, title="second")
+        git.stash({"file": "stash:third"}, title="third")
+        git.config("gc.auto 0")
+
+
+def create_test_repo_and_reference_dot_file() -> None:
+    """Create a git repository and its associated DOT file (to use as reference).
+
+    Note
+    -----
+    This is meant to be used only when the test resources should be changed. To execute:
+    ``cd src/git_dag && python git_commands.py``.
+
+    """
+    # pylint: disable=import-outside-toplevel
+    import shutil
+
+    from git_dag.git_repository import GitRepository  # pylint: disable=cyclic-import
+
+    path = Path("test/resources/default_repo")
+    path.mkdir()
+    TestGitRepository.create("default", path)
+
+    repo = GitRepository(path, parse_trees=True)
+    repo.show(
+        show_unreachable_commits=True,
+        show_local_branches=True,
+        show_remote_branches=True,
+        show_trees=True,
+        show_blobs=True,
+        show_tags=True,
+        show_deleted_tags=True,
+        show_stash=True,
+        show_head=True,
+        format="gv",
+        filename=path / "../default_repo.gv",
+    )
+
+    TestGitRepository.tar(path, path / "../default_repo.tar.gz")
+
+    with open(path / "../default_repo.repr", "w", encoding="utf-8") as h:
+        h.write(repr(repo))
+
+    shutil.rmtree(path)
+
+
+if __name__ == "__main__":
+    create_test_repo_and_reference_dot_file()

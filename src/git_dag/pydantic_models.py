@@ -204,7 +204,7 @@ class GitTree(GitObject):
     @children.setter
     def children(self, children: list[GitTree | GitBlob]) -> None:
         if self.no_children and children:
-            raise TypeError("Setting children when there should be none.")
+            raise TypeError("Attempting to set children when there should be none.")
         self._children = children
 
 
