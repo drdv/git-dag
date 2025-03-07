@@ -62,13 +62,13 @@ class CommitHandlerMixin:
 
     def _add_commit(self: MixinProtocol, sha: str, item: GitCommit) -> None:
         def form_tooltip(item: GitCommit) -> str:
-            return (
+            return repr(
                 f"author: {item.author} {item.author_email}\n"
                 f"{item.author_date}\n"
                 f"committer: {item.committer} {item.committer_email}\n"
                 f"{item.committer_date}\n\n"
                 f"{transform_ascii_control_chars(item.message)}"
-            )
+            )[1:-1]
 
         unreachable_switch = item.is_reachable or self.show_unreachable_commits
         if self._is_object_to_include(sha) and unreachable_switch:
@@ -151,11 +151,11 @@ class TagHandlerMixin:
 
     def _add_annotated_tags(self: MixinProtocol) -> None:
         def form_tooltip(item: GitTag) -> str:
-            return (
+            return repr(
                 f"{item.tagger} {item.tagger_email}\n"
                 f"{item.tagger_date}\n\n"
                 f"{transform_ascii_control_chars(item.message)}"
-            )
+            )[1:-1]
 
         for sha, item in self.repository.tags.items():
             color_label = "tag-deleted" if item.is_deleted else "tag"
