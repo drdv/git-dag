@@ -1,6 +1,8 @@
 # -*- mode: org -*-
 
-* 0.1.0    UNRELEASED
+* 0.1.1    UNRELEASED
+
+* 0.1.0    2025-03-07
 
 + Add integration tests with real repositories (59)
 + Add unit tests that verify the created dag (#55)
