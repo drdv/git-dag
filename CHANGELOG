@@ -6,6 +6,7 @@
 
 ** Bugfixes
 
++ Fix problem with escapes in tooltips (#57)
 + Handle tags referring to other tags (#51)
 + Fix tree info parser
 
