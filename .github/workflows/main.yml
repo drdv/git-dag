@@ -20,6 +20,6 @@ jobs:
           make docs MYPY_FLAGS=--no-install-types
 
       - name: deploy pages
-        uses: JamesIves/github-pages-deploy-action@4
+        uses: JamesIves/github-pages-deploy-action@v4
         with:
           folder: docs/sphinx/build/html
