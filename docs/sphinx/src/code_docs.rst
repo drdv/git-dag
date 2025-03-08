@@ -8,16 +8,16 @@ Code
    :template: custom-module-template.rst
    :recursive:
 
-   constants
-   git_repository
    cli
+   constants
    dag
+   git_commands
+   git_repository
    interfaces.dag_base
    interfaces.graphviz
+   utils
+   exceptions
 
-
-Git objects (pydantic models)
-==============================
 .. toctree::
    :maxdepth: 2
 

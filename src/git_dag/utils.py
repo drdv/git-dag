@@ -6,7 +6,7 @@ from datetime import datetime
 
 
 def escape_decode(text: str) -> str:
-    """Decode escapes of escapes (e.g., ``\\n -> \n``).
+    """Decode escapes of escapes (e.g., ``\\\\n -> \\n``).
 
     Note
     -----

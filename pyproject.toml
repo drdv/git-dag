@@ -40,7 +40,7 @@ dev = ["git_dag[lint,code,test,docs,types]"]
 
 [project.urls]
 homepage = "https://github.com/drdv/git-dag"
-documentation = "https://github.com/drdv/git-dag"
+documentation = "https://drdv.github.io/git-dag"
 
 [project.scripts]
 # using a dash here is important (i.e., git-dag and not git_dag)

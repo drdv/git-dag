@@ -16,7 +16,7 @@ TAG_FORMAT_FIELDS: Final[list[str]] = [
     "contents",
 ]
 
-#: Plumbing command to get tag info
+#: Plumbing command to get tag info.
 CMD_TAGS_INFO: Final[str] = (
     "for-each-ref --python --format '"
     "%(refname:short) %(objectname) %(object) %(type) %(tag) "

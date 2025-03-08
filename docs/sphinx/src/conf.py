@@ -28,3 +28,5 @@ todo_include_todos = True
 exclude_patterns = []
 templates_path = [".templates"]
 html_static_path = [".static"]
+
+html_title = "git-dag"

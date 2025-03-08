@@ -2,8 +2,8 @@
 
 Note
 -----
-The are two kinds of comments: such that simply read data from the repository, and such
-that modify the repository.
+The are two kinds of commands: such that simply read data from the repository, and such
+that modify the repository (the latter is used only in unit tests).
 
 """
 
@@ -92,7 +92,7 @@ class GitCommandMutate(GitCommandBase):
 
     def init(self) -> None:
         """Initialise a git repository."""
-        self._run("init")
+        self._run("init -b main")
 
     def _get_env(self) -> dict[str, str]:
         """Return environment with author and committer to pass to commands."""
@@ -360,17 +360,19 @@ class GitCommand(GitCommandBase):
 
         Note
         -----
-        The ``git for-each-ref ...`` command used in this function doesn't return
+        The ``git for-each-ref ...`` command (see
+        :obj:`~git_dag.constants.CMD_TAGS_INFO`) used in this function doesn't return
         deleted annotated tags. They are handled separately in
-        :func:`GitInspector._get_objects_info_parsed` (note that their SHA is contained
+        :func:`GitInspector._get_objects_info_parsed` (note that their SHA is included
         in the output of :func:`GitCommand.get_objects_sha_kind`).
 
         Note
         -----
-        The ``--python`` flag (see `constants.CMD_TAGS_INFO`) forms groups delimited by
-        '...' which makes them easy to split and parse. On the flip-side, we have to
-        decode escapes of escapes while preserving unicode characters. Note that if the
-        message contains explitic ``\n``-s, they would appear as ``\\\\n``.
+        The ``--python`` flag (see :obj:`~git_dag.constants.CMD_TAGS_INFO`) forms
+        groups delimited by ``'...'`` which makes them easy to split and parse. On the
+        flip-side, we have to decode escapes of escapes while preserving unicode
+        characters. Note that if the message contains ``\\n``-s (i.e., one backlash),
+        they would appear as ``\\\\\\\\n`` (four backlashes).
 
         """
         tags: dict[str, dict[str, DictStrStr]] = {"annotated": {}, "lightweight": {}}

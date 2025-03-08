@@ -49,6 +49,7 @@ test-copy-to-docs: | mkdir-html
 	rm -rf $(HTML_DIR)/.htmlcov
 	rm -rf $(HTML_DIR)/.test_reports
 	mv .htmlcov $(HTML_DIR)
+	rm -f $(HTML_DIR)/.htmlcov/.gitignore
 	mv .test_reports $(HTML_DIR)
 
 .PHONY: mypy-copy-to-docs
@@ -116,7 +117,7 @@ process-integr-test-repos:
 
 ## Generate sphinx docs with tests lint mypy
 .PHONY: docs
-docs: docs-run lint mypy # test
+docs: docs-run lint mypy test
 
 ## Generate sphinx docs
 .PHONY: docs-run
