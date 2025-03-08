@@ -17,7 +17,7 @@ from typing import Literal, Optional
 
 from git_dag.constants import CMD_TAGS_INFO, TAG_FORMAT_FIELDS
 from git_dag.exceptions import EmptyGitRepository
-from git_dag.pydantic_models import DictStrStr
+from git_dag.git_objects import DictStrStr
 from git_dag.utils import escape_decode
 
 logging.basicConfig(level=logging.INFO)

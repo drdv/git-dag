@@ -9,8 +9,8 @@ import pytest
 from git_dag.constants import GIT_EMPTY_TREE_OBJECT_SHA
 from git_dag.exceptions import EmptyGitRepository
 from git_dag.git_commands import GitCommandMutate, TestGitRepository
+from git_dag.git_objects import GitBlob, GitTree
 from git_dag.git_repository import GitRepository
-from git_dag.pydantic_models import GitBlob, GitTree
 
 TEST_DIR = Path(__file__).parent
 

@@ -24,8 +24,8 @@ from .constants import (
     SHA_LIMIT,
     DagBackends,
 )
+from .git_objects import DictStrStr, GitBlob, GitCommit, GitTag, GitTree
 from .interfaces.graphviz import DagGraphviz
-from .pydantic_models import DictStrStr, GitBlob, GitCommit, GitTag, GitTree
 from .utils import transform_ascii_control_chars
 
 if TYPE_CHECKING:
