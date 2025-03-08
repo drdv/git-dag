@@ -1,0 +1,6 @@
+git\_dag.constants.TAG\_FORMAT\_FIELDS
+======================================
+
+.. currentmodule:: git_dag.constants
+
+.. autodata:: TAG_FORMAT_FIELDS

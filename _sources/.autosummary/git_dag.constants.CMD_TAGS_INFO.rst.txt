@@ -1,0 +1,6 @@
+git\_dag.constants.CMD\_TAGS\_INFO
+==================================
+
+.. currentmodule:: git_dag.constants
+
+.. autodata:: CMD_TAGS_INFO

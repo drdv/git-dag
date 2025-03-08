@@ -1,0 +1,6 @@
+git\_dag.constants.GIT\_EMPTY\_TREE\_OBJECT\_SHA
+================================================
+
+.. currentmodule:: git_dag.constants
+
+.. autodata:: GIT_EMPTY_TREE_OBJECT_SHA

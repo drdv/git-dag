@@ -1,0 +1,41 @@
+﻿git\_dag.cli
+============
+
+.. automodule:: git_dag.cli
+
+   
+   
+   
+
+   
+   
+   .. rubric:: Functions
+
+   .. autosummary::
+      :toctree:
+      :nosignatures:
+   
+      get_cla_parser
+      main
+   
+   
+
+   
+   
+   .. rubric:: Classes
+
+   .. autosummary::
+      :toctree:
+      :template: custom-class-template.rst
+      :nosignatures:
+   
+      CustomArgparseNamespace
+   
+   
+
+   
+   
+   
+
+
+

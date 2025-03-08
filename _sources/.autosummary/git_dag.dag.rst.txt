@@ -1,0 +1,39 @@
+﻿git\_dag.dag
+============
+
+.. automodule:: git_dag.dag
+
+   
+   
+   
+
+   
+   
+   
+
+   
+   
+   .. rubric:: Classes
+
+   .. autosummary::
+      :toctree:
+      :template: custom-class-template.rst
+      :nosignatures:
+   
+      BranchHandlerMixin
+      CommitHandlerMixin
+      DagVisualizer
+      HeadHandlerMixin
+      MixinProtocol
+      StashHandlerMixin
+      TagHandlerMixin
+      TreeBlobHandlerMixin
+   
+   
+
+   
+   
+   
+
+
+

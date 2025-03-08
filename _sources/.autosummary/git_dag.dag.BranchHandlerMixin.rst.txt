@@ -1,0 +1,24 @@
+git\_dag.dag.BranchHandlerMixin
+===============================
+
+.. currentmodule:: git_dag.dag
+
+.. autoclass:: BranchHandlerMixin
+   :members:
+   :show-inheritance:
+   :inherited-members:
+   :special-members: __call__, __add__, __mul__
+
+   
+   
+   .. rubric:: Methods
+
+   .. autosummary::
+      :nosignatures:
+   
+   
+   
+
+   
+   
+   

@@ -1,0 +1,24 @@
+git\_dag.dag.TagHandlerMixin
+============================
+
+.. currentmodule:: git_dag.dag
+
+.. autoclass:: TagHandlerMixin
+   :members:
+   :show-inheritance:
+   :inherited-members:
+   :special-members: __call__, __add__, __mul__
+
+   
+   
+   .. rubric:: Methods
+
+   .. autosummary::
+      :nosignatures:
+   
+   
+   
+
+   
+   
+   

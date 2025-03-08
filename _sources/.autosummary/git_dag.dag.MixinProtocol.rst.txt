@@ -1,0 +1,44 @@
+git\_dag.dag.MixinProtocol
+==========================
+
+.. currentmodule:: git_dag.dag
+
+.. autoclass:: MixinProtocol
+   :members:
+   :show-inheritance:
+   :inherited-members:
+   :special-members: __call__, __add__, __mul__
+
+   
+   
+   .. rubric:: Methods
+
+   .. autosummary::
+      :nosignatures:
+   
+   
+   
+
+   
+   
+   .. rubric:: Attributes
+
+   .. autosummary::
+   
+      ~MixinProtocol.show_unreachable_commits
+      ~MixinProtocol.show_local_branches
+      ~MixinProtocol.show_remote_branches
+      ~MixinProtocol.show_trees
+      ~MixinProtocol.show_blobs
+      ~MixinProtocol.show_tags
+      ~MixinProtocol.show_deleted_tags
+      ~MixinProtocol.show_stash
+      ~MixinProtocol.show_head
+      ~MixinProtocol.range
+      ~MixinProtocol.commit_message_as_label
+      ~MixinProtocol.included_nodes_id
+      ~MixinProtocol.tooltip_names
+      ~MixinProtocol.repository
+      ~MixinProtocol.dag
+   
+   

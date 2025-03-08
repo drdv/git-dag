@@ -1,0 +1,34 @@
+git\_dag.git\_repository.GitRepository
+======================================
+
+.. currentmodule:: git_dag.git_repository
+
+.. autoclass:: GitRepository
+   :members:
+   :show-inheritance:
+   :inherited-members:
+   :special-members: __call__, __add__, __mul__
+
+   
+   
+   .. rubric:: Methods
+
+   .. autosummary::
+      :nosignatures:
+   
+      ~GitRepository.filter_objects
+      ~GitRepository.get_objects_reachable_from
+      ~GitRepository.post_process_inspector_data
+      ~GitRepository.show
+   
+   
+
+   
+   
+   .. rubric:: Attributes
+
+   .. autosummary::
+   
+      ~GitRepository.is_detached_head
+   
+   

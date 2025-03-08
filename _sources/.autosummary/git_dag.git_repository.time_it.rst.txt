@@ -1,0 +1,6 @@
+git\_dag.git\_repository.time\_it
+=================================
+
+.. currentmodule:: git_dag.git_repository
+
+.. autofunction:: time_it

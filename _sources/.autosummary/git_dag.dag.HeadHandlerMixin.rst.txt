@@ -1,0 +1,24 @@
+git\_dag.dag.HeadHandlerMixin
+=============================
+
+.. currentmodule:: git_dag.dag
+
+.. autoclass:: HeadHandlerMixin
+   :members:
+   :show-inheritance:
+   :inherited-members:
+   :special-members: __call__, __add__, __mul__
+
+   
+   
+   .. rubric:: Methods
+
+   .. autosummary::
+      :nosignatures:
+   
+   
+   
+
+   
+   
+   

@@ -1,0 +1,30 @@
+git\_dag.interfaces.graphviz.DagGraphviz
+========================================
+
+.. currentmodule:: git_dag.interfaces.graphviz
+
+.. autoclass:: DagGraphviz
+   :members:
+   :show-inheritance:
+   :inherited-members:
+   :special-members: __call__, __add__, __mul__
+
+   
+   
+   .. rubric:: Methods
+
+   .. autosummary::
+      :nosignatures:
+   
+      ~DagGraphviz.build
+      ~DagGraphviz.edge
+      ~DagGraphviz.get
+      ~DagGraphviz.node
+      ~DagGraphviz.render
+      ~DagGraphviz.source
+   
+   
+
+   
+   
+   

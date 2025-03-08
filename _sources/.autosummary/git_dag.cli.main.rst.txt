@@ -1,0 +1,6 @@
+git\_dag.cli.main
+=================
+
+.. currentmodule:: git_dag.cli
+
+.. autofunction:: main

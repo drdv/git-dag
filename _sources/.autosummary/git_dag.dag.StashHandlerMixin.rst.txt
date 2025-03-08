@@ -1,0 +1,24 @@
+git\_dag.dag.StashHandlerMixin
+==============================
+
+.. currentmodule:: git_dag.dag
+
+.. autoclass:: StashHandlerMixin
+   :members:
+   :show-inheritance:
+   :inherited-members:
+   :special-members: __call__, __add__, __mul__
+
+   
+   
+   .. rubric:: Methods
+
+   .. autosummary::
+      :nosignatures:
+   
+   
+   
+
+   
+   
+   

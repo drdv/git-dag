@@ -1,0 +1,35 @@
+git\_dag.git\_repository.RegexParser
+====================================
+
+.. currentmodule:: git_dag.git_repository
+
+.. autoclass:: RegexParser
+   :members:
+   :show-inheritance:
+   :inherited-members:
+   :special-members: __call__, __add__, __mul__
+
+   
+   
+   .. rubric:: Methods
+
+   .. autosummary::
+      :nosignatures:
+   
+      ~RegexParser.parse_commit_info
+      ~RegexParser.parse_object_descriptor
+      ~RegexParser.parse_stash_info
+      ~RegexParser.parse_tag_info
+      ~RegexParser.parse_tree_info
+   
+   
+
+   
+   
+   .. rubric:: Attributes
+
+   .. autosummary::
+   
+      ~RegexParser.SHA_PATTERN
+   
+   

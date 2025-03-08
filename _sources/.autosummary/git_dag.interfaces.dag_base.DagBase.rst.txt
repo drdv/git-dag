@@ -1,0 +1,30 @@
+git\_dag.interfaces.dag\_base.DagBase
+=====================================
+
+.. currentmodule:: git_dag.interfaces.dag_base
+
+.. autoclass:: DagBase
+   :members:
+   :show-inheritance:
+   :inherited-members:
+   :special-members: __call__, __add__, __mul__
+
+   
+   
+   .. rubric:: Methods
+
+   .. autosummary::
+      :nosignatures:
+   
+      ~DagBase.build
+      ~DagBase.edge
+      ~DagBase.get
+      ~DagBase.node
+      ~DagBase.render
+      ~DagBase.source
+   
+   
+
+   
+   
+   

@@ -1,0 +1,47 @@
+git\_dag.dag.DagVisualizer
+==========================
+
+.. currentmodule:: git_dag.dag
+
+.. autoclass:: DagVisualizer
+   :members:
+   :show-inheritance:
+   :inherited-members:
+   :special-members: __call__, __add__, __mul__
+
+   
+   
+   .. rubric:: Methods
+
+   .. autosummary::
+      :nosignatures:
+   
+      ~DagVisualizer.show
+   
+   
+
+   
+   
+   .. rubric:: Attributes
+
+   .. autosummary::
+   
+      ~DagVisualizer.commit_message_as_label
+      ~DagVisualizer.dag_attr
+      ~DagVisualizer.filename
+      ~DagVisualizer.format
+      ~DagVisualizer.objects_sha_to_include
+      ~DagVisualizer.range
+      ~DagVisualizer.show_blobs
+      ~DagVisualizer.show_deleted_tags
+      ~DagVisualizer.show_head
+      ~DagVisualizer.show_local_branches
+      ~DagVisualizer.show_remote_branches
+      ~DagVisualizer.show_stash
+      ~DagVisualizer.show_tags
+      ~DagVisualizer.show_trees
+      ~DagVisualizer.show_unreachable_commits
+      ~DagVisualizer.repository
+      ~DagVisualizer.dag_backend
+   
+   

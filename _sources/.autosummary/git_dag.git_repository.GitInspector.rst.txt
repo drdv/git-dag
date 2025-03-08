@@ -1,0 +1,25 @@
+git\_dag.git\_repository.GitInspector
+=====================================
+
+.. currentmodule:: git_dag.git_repository
+
+.. autoclass:: GitInspector
+   :members:
+   :show-inheritance:
+   :inherited-members:
+   :special-members: __call__, __add__, __mul__
+
+   
+   
+   .. rubric:: Methods
+
+   .. autosummary::
+      :nosignatures:
+   
+      ~GitInspector.get_raw_objects
+   
+   
+
+   
+   
+   

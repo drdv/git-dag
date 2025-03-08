@@ -1,0 +1,32 @@
+﻿git\_dag.interfaces.dag\_base
+=============================
+
+.. automodule:: git_dag.interfaces.dag_base
+
+   
+   
+   
+
+   
+   
+   
+
+   
+   
+   .. rubric:: Classes
+
+   .. autosummary::
+      :toctree:
+      :template: custom-class-template.rst
+      :nosignatures:
+   
+      DagBase
+   
+   
+
+   
+   
+   
+
+
+

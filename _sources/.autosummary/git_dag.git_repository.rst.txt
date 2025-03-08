@@ -1,0 +1,42 @@
+﻿git\_dag.git\_repository
+========================
+
+.. automodule:: git_dag.git_repository
+
+   
+   
+   
+
+   
+   
+   .. rubric:: Functions
+
+   .. autosummary::
+      :toctree:
+      :nosignatures:
+   
+      time_it
+   
+   
+
+   
+   
+   .. rubric:: Classes
+
+   .. autosummary::
+      :toctree:
+      :template: custom-class-template.rst
+      :nosignatures:
+   
+      GitInspector
+      GitRepository
+      RegexParser
+   
+   
+
+   
+   
+   
+
+
+
