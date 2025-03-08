@@ -18,7 +18,7 @@ from pydantic import BeforeValidator, TypeAdapter
 from .constants import GIT_EMPTY_TREE_OBJECT_SHA, DagBackends
 from .dag import DagVisualizer
 from .git_commands import GitCommand
-from .pydantic_models import (
+from .git_objects import (
     DictStrStr,
     GitBlob,
     GitBranch,

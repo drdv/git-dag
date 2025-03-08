@@ -2,9 +2,11 @@
 
 * 0.1.1    UNRELEASED
 
++ Rename module pydantic_models (#61)
+
 * 0.1.0    2025-03-07
 
-+ Add integration tests with real repositories (59)
++ Add integration tests with real repositories (#59)
 + Add unit tests that verify the created dag (#55)
 
 ** Bugfixes
