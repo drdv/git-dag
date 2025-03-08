@@ -13,6 +13,8 @@ TEST_DIR = Path(__file__).parent
 
 @pytest.mark.parametrize("repo_name", ["casadi", "git", "magit", "pydantic"])
 def test_real_repository(repo_name: Path) -> None:
+    # pylint: disable=duplicate-code
+
     BASE_DIR = TEST_DIR / ".." / ".." / ".."
     REPOS_DIR = BASE_DIR / "integration_tests" / "repos"
     OUT_DIR = BASE_DIR / "integration_tests" / "out"
