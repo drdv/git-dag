@@ -1,0 +1,33 @@
+git\_dag.git\_commands.GitCommandMutate
+=======================================
+
+.. currentmodule:: git_dag.git_commands
+
+.. autoclass:: GitCommandMutate
+   :members:
+   :show-inheritance:
+   :inherited-members:
+   :special-members: __call__, __add__, __mul__
+
+   
+   
+   .. rubric:: Methods
+
+   .. autosummary::
+      :nosignatures:
+   
+      ~GitCommandMutate.br
+      ~GitCommandMutate.clone_local_depth_1
+      ~GitCommandMutate.cm
+      ~GitCommandMutate.config
+      ~GitCommandMutate.init
+      ~GitCommandMutate.mg
+      ~GitCommandMutate.run_general
+      ~GitCommandMutate.stash
+      ~GitCommandMutate.tag
+   
+   
+
+   
+   
+   

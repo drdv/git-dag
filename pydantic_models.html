@@ -3,10 +3,10 @@
   <head><meta charset="utf-8"/>
     <meta name="viewport" content="width=device-width,initial-scale=1"/>
     <meta name="color-scheme" content="light dark"><meta name="viewport" content="width=device-width, initial-scale=1" />
-<link rel="index" title="Index" href="genindex.html" /><link rel="search" title="Search" href="search.html" /><link rel="prev" title="git_dag.interfaces.graphviz.DagGraphviz" href=".autosummary/git_dag.interfaces.graphviz.DagGraphviz.html" />
+<link rel="index" title="Index" href="genindex.html" /><link rel="search" title="Search" href="search.html" /><link rel="prev" title="git_dag.exceptions.EmptyGitRepository" href=".autosummary/git_dag.exceptions.EmptyGitRepository.html" />
 
     <!-- Generated with Sphinx 8.2.3 and Furo 2024.08.06 -->
-        <title>Git objects (pydantic models) - git-dag 0.1.dev1+g123a512 documentation</title>
+        <title>Git objects (pydantic models) - git-dag</title>
       <link rel="stylesheet" type="text/css" href="_static/pygments.css?v=a746c00c" />
     <link rel="stylesheet" type="text/css" href="_static/styles/furo.css?v=354aac6f" />
     <link rel="stylesheet" type="text/css" href="_static/autodoc_pydantic.css" />
@@ -169,7 +169,7 @@
       </label>
     </div>
     <div class="header-center">
-      <a href="index.html"><div class="brand">git-dag 0.1.dev1+g123a512 documentation</div></a>
+      <a href="index.html"><div class="brand">git-dag</div></a>
     </div>
     <div class="header-right">
       <div class="theme-toggle-container theme-toggle-header">
@@ -193,7 +193,7 @@
       <div class="sidebar-sticky"><a class="sidebar-brand" href="index.html">
   
   
-  <span class="sidebar-brand-text">git-dag 0.1.dev1+g123a512 documentation</span>
+  <span class="sidebar-brand-text">git-dag</span>
   
 </a><form class="sidebar-search-container" method="get" action="search.html" role="search">
   <input class="sidebar-search" placeholder="Search" name="q" aria-label="Search">
@@ -206,8 +206,14 @@
 <li class="toctree-l1"><a class="reference internal" href="install.html">Install</a></li>
 <li class="toctree-l1"><a class="reference internal" href="examples.html">Examples</a></li>
 <li class="toctree-l1"><a class="reference internal" href="cli.html">Command-line interface</a></li>
-<li class="toctree-l1 has-children"><a class="reference internal" href="code_docs.html">Code</a><input class="toctree-checkbox" id="toctree-checkbox-1" name="toctree-checkbox-1" role="switch" type="checkbox"/><label for="toctree-checkbox-1"><div class="visually-hidden">Toggle navigation of Code</div><i class="icon"><svg><use href="#svg-arrow-right"></use></svg></i></label><ul>
-<li class="toctree-l2 has-children"><a class="reference internal" href=".autosummary/git_dag.constants.html">git_dag.constants</a><input class="toctree-checkbox" id="toctree-checkbox-2" name="toctree-checkbox-2" role="switch" type="checkbox"/><label for="toctree-checkbox-2"><div class="visually-hidden">Toggle navigation of git_dag.constants</div><i class="icon"><svg><use href="#svg-arrow-right"></use></svg></i></label><ul>
+<li class="toctree-l1 current has-children"><a class="reference internal" href="code_docs.html">Code</a><input checked="" class="toctree-checkbox" id="toctree-checkbox-1" name="toctree-checkbox-1" role="switch" type="checkbox"/><label for="toctree-checkbox-1"><div class="visually-hidden">Toggle navigation of Code</div><i class="icon"><svg><use href="#svg-arrow-right"></use></svg></i></label><ul class="current">
+<li class="toctree-l2 has-children"><a class="reference internal" href=".autosummary/git_dag.cli.html">git_dag.cli</a><input class="toctree-checkbox" id="toctree-checkbox-2" name="toctree-checkbox-2" role="switch" type="checkbox"/><label for="toctree-checkbox-2"><div class="visually-hidden">Toggle navigation of git_dag.cli</div><i class="icon"><svg><use href="#svg-arrow-right"></use></svg></i></label><ul>
+<li class="toctree-l3"><a class="reference internal" href=".autosummary/git_dag.cli.get_cla_parser.html">git_dag.cli.get_cla_parser</a></li>
+<li class="toctree-l3"><a class="reference internal" href=".autosummary/git_dag.cli.main.html">git_dag.cli.main</a></li>
+<li class="toctree-l3"><a class="reference internal" href=".autosummary/git_dag.cli.CustomArgparseNamespace.html">git_dag.cli.CustomArgparseNamespace</a></li>
+</ul>
+</li>
+<li class="toctree-l2 has-children"><a class="reference internal" href=".autosummary/git_dag.constants.html">git_dag.constants</a><input class="toctree-checkbox" id="toctree-checkbox-3" name="toctree-checkbox-3" role="switch" type="checkbox"/><label for="toctree-checkbox-3"><div class="visually-hidden">Toggle navigation of git_dag.constants</div><i class="icon"><svg><use href="#svg-arrow-right"></use></svg></i></label><ul>
 <li class="toctree-l3"><a class="reference internal" href=".autosummary/git_dag.constants.TAG_FORMAT_FIELDS.html">git_dag.constants.TAG_FORMAT_FIELDS</a></li>
 <li class="toctree-l3"><a class="reference internal" href=".autosummary/git_dag.constants.CMD_TAGS_INFO.html">git_dag.constants.CMD_TAGS_INFO</a></li>
 <li class="toctree-l3"><a class="reference internal" href=".autosummary/git_dag.constants.GIT_EMPTY_TREE_OBJECT_SHA.html">git_dag.constants.GIT_EMPTY_TREE_OBJECT_SHA</a></li>
@@ -216,20 +222,7 @@
 <li class="toctree-l3"><a class="reference internal" href=".autosummary/git_dag.constants.DagBackends.html">git_dag.constants.DagBackends</a></li>
 </ul>
 </li>
-<li class="toctree-l2 has-children"><a class="reference internal" href=".autosummary/git_dag.git_repository.html">git_dag.git_repository</a><input class="toctree-checkbox" id="toctree-checkbox-3" name="toctree-checkbox-3" role="switch" type="checkbox"/><label for="toctree-checkbox-3"><div class="visually-hidden">Toggle navigation of git_dag.git_repository</div><i class="icon"><svg><use href="#svg-arrow-right"></use></svg></i></label><ul>
-<li class="toctree-l3"><a class="reference internal" href=".autosummary/git_dag.git_repository.time_it.html">git_dag.git_repository.time_it</a></li>
-<li class="toctree-l3"><a class="reference internal" href=".autosummary/git_dag.git_repository.GitInspector.html">git_dag.git_repository.GitInspector</a></li>
-<li class="toctree-l3"><a class="reference internal" href=".autosummary/git_dag.git_repository.GitRepository.html">git_dag.git_repository.GitRepository</a></li>
-<li class="toctree-l3"><a class="reference internal" href=".autosummary/git_dag.git_repository.RegexParser.html">git_dag.git_repository.RegexParser</a></li>
-</ul>
-</li>
-<li class="toctree-l2 has-children"><a class="reference internal" href=".autosummary/git_dag.cli.html">git_dag.cli</a><input class="toctree-checkbox" id="toctree-checkbox-4" name="toctree-checkbox-4" role="switch" type="checkbox"/><label for="toctree-checkbox-4"><div class="visually-hidden">Toggle navigation of git_dag.cli</div><i class="icon"><svg><use href="#svg-arrow-right"></use></svg></i></label><ul>
-<li class="toctree-l3"><a class="reference internal" href=".autosummary/git_dag.cli.get_cla_parser.html">git_dag.cli.get_cla_parser</a></li>
-<li class="toctree-l3"><a class="reference internal" href=".autosummary/git_dag.cli.main.html">git_dag.cli.main</a></li>
-<li class="toctree-l3"><a class="reference internal" href=".autosummary/git_dag.cli.CustomArgparseNamespace.html">git_dag.cli.CustomArgparseNamespace</a></li>
-</ul>
-</li>
-<li class="toctree-l2 has-children"><a class="reference internal" href=".autosummary/git_dag.dag.html">git_dag.dag</a><input class="toctree-checkbox" id="toctree-checkbox-5" name="toctree-checkbox-5" role="switch" type="checkbox"/><label for="toctree-checkbox-5"><div class="visually-hidden">Toggle navigation of git_dag.dag</div><i class="icon"><svg><use href="#svg-arrow-right"></use></svg></i></label><ul>
+<li class="toctree-l2 has-children"><a class="reference internal" href=".autosummary/git_dag.dag.html">git_dag.dag</a><input class="toctree-checkbox" id="toctree-checkbox-4" name="toctree-checkbox-4" role="switch" type="checkbox"/><label for="toctree-checkbox-4"><div class="visually-hidden">Toggle navigation of git_dag.dag</div><i class="icon"><svg><use href="#svg-arrow-right"></use></svg></i></label><ul>
 <li class="toctree-l3"><a class="reference internal" href=".autosummary/git_dag.dag.BranchHandlerMixin.html">git_dag.dag.BranchHandlerMixin</a></li>
 <li class="toctree-l3"><a class="reference internal" href=".autosummary/git_dag.dag.CommitHandlerMixin.html">git_dag.dag.CommitHandlerMixin</a></li>
 <li class="toctree-l3"><a class="reference internal" href=".autosummary/git_dag.dag.DagVisualizer.html">git_dag.dag.DagVisualizer</a></li>
@@ -240,17 +233,39 @@
 <li class="toctree-l3"><a class="reference internal" href=".autosummary/git_dag.dag.TreeBlobHandlerMixin.html">git_dag.dag.TreeBlobHandlerMixin</a></li>
 </ul>
 </li>
-<li class="toctree-l2 has-children"><a class="reference internal" href=".autosummary/git_dag.interfaces.dag_base.html">git_dag.interfaces.dag_base</a><input class="toctree-checkbox" id="toctree-checkbox-6" name="toctree-checkbox-6" role="switch" type="checkbox"/><label for="toctree-checkbox-6"><div class="visually-hidden">Toggle navigation of git_dag.interfaces.dag_base</div><i class="icon"><svg><use href="#svg-arrow-right"></use></svg></i></label><ul>
+<li class="toctree-l2 has-children"><a class="reference internal" href=".autosummary/git_dag.git_commands.html">git_dag.git_commands</a><input class="toctree-checkbox" id="toctree-checkbox-5" name="toctree-checkbox-5" role="switch" type="checkbox"/><label for="toctree-checkbox-5"><div class="visually-hidden">Toggle navigation of git_dag.git_commands</div><i class="icon"><svg><use href="#svg-arrow-right"></use></svg></i></label><ul>
+<li class="toctree-l3"><a class="reference internal" href=".autosummary/git_dag.git_commands.create_test_repo_and_reference_dot_file.html">git_dag.git_commands.create_test_repo_and_reference_dot_file</a></li>
+<li class="toctree-l3"><a class="reference internal" href=".autosummary/git_dag.git_commands.GitCommand.html">git_dag.git_commands.GitCommand</a></li>
+<li class="toctree-l3"><a class="reference internal" href=".autosummary/git_dag.git_commands.GitCommandBase.html">git_dag.git_commands.GitCommandBase</a></li>
+<li class="toctree-l3"><a class="reference internal" href=".autosummary/git_dag.git_commands.GitCommandMutate.html">git_dag.git_commands.GitCommandMutate</a></li>
+<li class="toctree-l3"><a class="reference internal" href=".autosummary/git_dag.git_commands.TestGitRepository.html">git_dag.git_commands.TestGitRepository</a></li>
+</ul>
+</li>
+<li class="toctree-l2 has-children"><a class="reference internal" href=".autosummary/git_dag.git_repository.html">git_dag.git_repository</a><input class="toctree-checkbox" id="toctree-checkbox-6" name="toctree-checkbox-6" role="switch" type="checkbox"/><label for="toctree-checkbox-6"><div class="visually-hidden">Toggle navigation of git_dag.git_repository</div><i class="icon"><svg><use href="#svg-arrow-right"></use></svg></i></label><ul>
+<li class="toctree-l3"><a class="reference internal" href=".autosummary/git_dag.git_repository.time_it.html">git_dag.git_repository.time_it</a></li>
+<li class="toctree-l3"><a class="reference internal" href=".autosummary/git_dag.git_repository.GitInspector.html">git_dag.git_repository.GitInspector</a></li>
+<li class="toctree-l3"><a class="reference internal" href=".autosummary/git_dag.git_repository.GitRepository.html">git_dag.git_repository.GitRepository</a></li>
+<li class="toctree-l3"><a class="reference internal" href=".autosummary/git_dag.git_repository.RegexParser.html">git_dag.git_repository.RegexParser</a></li>
+</ul>
+</li>
+<li class="toctree-l2 has-children"><a class="reference internal" href=".autosummary/git_dag.interfaces.dag_base.html">git_dag.interfaces.dag_base</a><input class="toctree-checkbox" id="toctree-checkbox-7" name="toctree-checkbox-7" role="switch" type="checkbox"/><label for="toctree-checkbox-7"><div class="visually-hidden">Toggle navigation of git_dag.interfaces.dag_base</div><i class="icon"><svg><use href="#svg-arrow-right"></use></svg></i></label><ul>
 <li class="toctree-l3"><a class="reference internal" href=".autosummary/git_dag.interfaces.dag_base.DagBase.html">git_dag.interfaces.dag_base.DagBase</a></li>
 </ul>
 </li>
-<li class="toctree-l2 has-children"><a class="reference internal" href=".autosummary/git_dag.interfaces.graphviz.html">git_dag.interfaces.graphviz</a><input class="toctree-checkbox" id="toctree-checkbox-7" name="toctree-checkbox-7" role="switch" type="checkbox"/><label for="toctree-checkbox-7"><div class="visually-hidden">Toggle navigation of git_dag.interfaces.graphviz</div><i class="icon"><svg><use href="#svg-arrow-right"></use></svg></i></label><ul>
+<li class="toctree-l2 has-children"><a class="reference internal" href=".autosummary/git_dag.interfaces.graphviz.html">git_dag.interfaces.graphviz</a><input class="toctree-checkbox" id="toctree-checkbox-8" name="toctree-checkbox-8" role="switch" type="checkbox"/><label for="toctree-checkbox-8"><div class="visually-hidden">Toggle navigation of git_dag.interfaces.graphviz</div><i class="icon"><svg><use href="#svg-arrow-right"></use></svg></i></label><ul>
 <li class="toctree-l3"><a class="reference internal" href=".autosummary/git_dag.interfaces.graphviz.DagGraphviz.html">git_dag.interfaces.graphviz.DagGraphviz</a></li>
 </ul>
 </li>
+<li class="toctree-l2 has-children"><a class="reference internal" href=".autosummary/git_dag.utils.html">git_dag.utils</a><input class="toctree-checkbox" id="toctree-checkbox-9" name="toctree-checkbox-9" role="switch" type="checkbox"/><label for="toctree-checkbox-9"><div class="visually-hidden">Toggle navigation of git_dag.utils</div><i class="icon"><svg><use href="#svg-arrow-right"></use></svg></i></label><ul>
+<li class="toctree-l3"><a class="reference internal" href=".autosummary/git_dag.utils.creator_timestamp_format.html">git_dag.utils.creator_timestamp_format</a></li>
+<li class="toctree-l3"><a class="reference internal" href=".autosummary/git_dag.utils.escape_decode.html">git_dag.utils.escape_decode</a></li>
+<li class="toctree-l3"><a class="reference internal" href=".autosummary/git_dag.utils.transform_ascii_control_chars.html">git_dag.utils.transform_ascii_control_chars</a></li>
 </ul>
 </li>
-<li class="toctree-l1 current has-children"><a class="reference internal" href="code_docs.html#git-objects-pydantic-models">Git objects (pydantic models)</a><input checked="" class="toctree-checkbox" id="toctree-checkbox-8" name="toctree-checkbox-8" role="switch" type="checkbox"/><label for="toctree-checkbox-8"><div class="visually-hidden">Toggle navigation of Git objects (pydantic models)</div><i class="icon"><svg><use href="#svg-arrow-right"></use></svg></i></label><ul class="current">
+<li class="toctree-l2 has-children"><a class="reference internal" href=".autosummary/git_dag.exceptions.html">git_dag.exceptions</a><input class="toctree-checkbox" id="toctree-checkbox-10" name="toctree-checkbox-10" role="switch" type="checkbox"/><label for="toctree-checkbox-10"><div class="visually-hidden">Toggle navigation of git_dag.exceptions</div><i class="icon"><svg><use href="#svg-arrow-right"></use></svg></i></label><ul>
+<li class="toctree-l3"><a class="reference internal" href=".autosummary/git_dag.exceptions.EmptyGitRepository.html">git_dag.exceptions.EmptyGitRepository</a></li>
+</ul>
+</li>
 <li class="toctree-l2 current current-page"><a class="current reference internal" href="#">Git objects (pydantic models)</a></li>
 </ul>
 </li>
@@ -998,14 +1013,14 @@ method.</p>
         
         <div class="related-pages">
           
-          <a class="prev-page" href=".autosummary/git_dag.interfaces.graphviz.DagGraphviz.html">
+          <a class="prev-page" href=".autosummary/git_dag.exceptions.EmptyGitRepository.html">
               <svg class="furo-related-icon"><use href="#svg-arrow-right"></use></svg>
               <div class="page-info">
                 <div class="context">
                   <span>Previous</span>
                 </div>
                 
-                <div class="title">git_dag.interfaces.graphviz.DagGraphviz</div>
+                <div class="title">git_dag.exceptions.EmptyGitRepository</div>
                 
               </div>
             </a>
@@ -1113,7 +1128,7 @@ method.</p>
       
     </aside>
   </div>
-</div><script src="_static/documentation_options.js?v=27eed00a"></script>
+</div><script src="_static/documentation_options.js?v=232c8961"></script>
     <script src="_static/doctools.js?v=9bcbadda"></script>
     <script src="_static/sphinx_highlight.js?v=dc90522c"></script>
     <script src="_static/scripts/furo.js?v=5fa4622c"></script>

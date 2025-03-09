@@ -1,0 +1,6 @@
+git\_dag.utils.escape\_decode
+=============================
+
+.. currentmodule:: git_dag.utils
+
+.. autofunction:: escape_decode

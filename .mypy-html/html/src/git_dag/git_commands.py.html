@@ -529,13 +529,15 @@
 <span id="L519" class="lineno"><a class="lineno" href="#L519">519</a></span>
 <span id="L520" class="lineno"><a class="lineno" href="#L520">520</a></span>
 <span id="L521" class="lineno"><a class="lineno" href="#L521">521</a></span>
+<span id="L522" class="lineno"><a class="lineno" href="#L522">522</a></span>
+<span id="L523" class="lineno"><a class="lineno" href="#L523">523</a></span>
 </pre></td>
 <td class="table-code"><pre><span class="line-empty" title="No Anys on this line!">"""Git commands related functionality.</span>
 <span class="line-empty" title="No Anys on this line!"></span>
 <span class="line-empty" title="No Anys on this line!">Note</span>
 <span class="line-empty" title="No Anys on this line!">-----</span>
-<span class="line-empty" title="No Anys on this line!">The are two kinds of comments: such that simply read data from the repository, and such</span>
-<span class="line-empty" title="No Anys on this line!">that modify the repository.</span>
+<span class="line-empty" title="No Anys on this line!">The are two kinds of commands: such that simply read data from the repository, and such</span>
+<span class="line-empty" title="No Anys on this line!">that modify the repository (the latter is used only in unit tests).</span>
 <span class="line-empty" title="No Anys on this line!"></span>
 <span class="line-empty" title="No Anys on this line!">"""</span>
 <span class="line-empty" title="No Anys on this line!"></span>
@@ -899,17 +901,19 @@ Explicit (x1)">            with open(Path(self.path) / filename, "w", encoding="
 <span class="line-empty" title="No Anys on this line!"></span>
 <span class="line-empty" title="No Anys on this line!">        Note</span>
 <span class="line-empty" title="No Anys on this line!">        -----</span>
-<span class="line-empty" title="No Anys on this line!">        The ``git for-each-ref ...`` command used in this function doesn't return</span>
+<span class="line-empty" title="No Anys on this line!">        The ``git for-each-ref ...`` command (see</span>
+<span class="line-empty" title="No Anys on this line!">        :obj:`~git_dag.constants.CMD_TAGS_INFO`) used in this function doesn't return</span>
 <span class="line-empty" title="No Anys on this line!">        deleted annotated tags. They are handled separately in</span>
-<span class="line-empty" title="No Anys on this line!">        :func:`GitInspector._get_objects_info_parsed` (note that their SHA is contained</span>
+<span class="line-empty" title="No Anys on this line!">        :func:`GitInspector._get_objects_info_parsed` (note that their SHA is included</span>
 <span class="line-empty" title="No Anys on this line!">        in the output of :func:`GitCommand.get_objects_sha_kind`).</span>
 <span class="line-empty" title="No Anys on this line!"></span>
 <span class="line-empty" title="No Anys on this line!">        Note</span>
 <span class="line-empty" title="No Anys on this line!">        -----</span>
-<span class="line-empty" title="No Anys on this line!">        The ``--python`` flag (see `constants.CMD_TAGS_INFO`) forms groups delimited by</span>
-<span class="line-empty" title="No Anys on this line!">        '...' which makes them easy to split and parse. On the flip-side, we have to</span>
-<span class="line-empty" title="No Anys on this line!">        decode escapes of escapes while preserving unicode characters. Note that if the</span>
-<span class="line-empty" title="No Anys on this line!">        message contains explitic ``\n``-s, they would appear as ``\\\\n``.</span>
+<span class="line-empty" title="No Anys on this line!">        The ``--python`` flag (see :obj:`~git_dag.constants.CMD_TAGS_INFO`) forms</span>
+<span class="line-empty" title="No Anys on this line!">        groups delimited by ``'...'`` which makes them easy to split and parse. On the</span>
+<span class="line-empty" title="No Anys on this line!">        flip-side, we have to decode escapes of escapes while preserving unicode</span>
+<span class="line-empty" title="No Anys on this line!">        characters. Note that if the message contains ``\\n``-s (i.e., one backlash),</span>
+<span class="line-empty" title="No Anys on this line!">        they would appear as ``\\\\\\\\n`` (four backlashes).</span>
 <span class="line-empty" title="No Anys on this line!"></span>
 <span class="line-empty" title="No Anys on this line!">        """</span>
 <span class="line-precise" title="No Anys on this line!">        tags: dict[str, dict[str, DictStrStr]] = {"annotated": {}, "lightweight": {}}</span>

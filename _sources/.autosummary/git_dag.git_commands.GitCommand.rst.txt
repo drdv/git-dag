@@ -1,0 +1,36 @@
+git\_dag.git\_commands.GitCommand
+=================================
+
+.. currentmodule:: git_dag.git_commands
+
+.. autoclass:: GitCommand
+   :members:
+   :show-inheritance:
+   :inherited-members:
+   :special-members: __call__, __add__, __mul__
+
+   
+   
+   .. rubric:: Methods
+
+   .. autosummary::
+      :nosignatures:
+   
+      ~GitCommand.get_blobs_and_trees_names
+      ~GitCommand.get_branches
+      ~GitCommand.get_local_head
+      ~GitCommand.get_objects_sha_kind
+      ~GitCommand.get_stash_info
+      ~GitCommand.get_tags_info_parsed
+      ~GitCommand.is_detached_head
+      ~GitCommand.local_branch_is_tracking
+      ~GitCommand.ls_tree
+      ~GitCommand.read_object_file
+      ~GitCommand.rev_list
+      ~GitCommand.run_general
+   
+   
+
+   
+   
+   

@@ -1,0 +1,6 @@
+git\_dag.exceptions.EmptyGitRepository
+======================================
+
+.. currentmodule:: git_dag.exceptions
+
+.. autoexception:: EmptyGitRepository

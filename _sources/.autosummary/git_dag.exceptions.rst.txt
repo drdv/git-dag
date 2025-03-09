@@ -1,0 +1,30 @@
+﻿git\_dag.exceptions
+===================
+
+.. automodule:: git_dag.exceptions
+
+   
+   
+   
+
+   
+   
+   
+
+   
+   
+   
+
+   
+   
+   .. rubric:: Exceptions
+
+   .. autosummary::
+      :toctree:
+   
+      EmptyGitRepository
+   
+   
+
+
+

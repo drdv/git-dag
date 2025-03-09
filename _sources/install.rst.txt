@@ -13,7 +13,7 @@ or, for a development version (with all optional dependencies)
 
    pip install git-dag[dev]
 
-or, an editable install
+or, an editable install (in a venv)
 
 .. code-block:: bash
 

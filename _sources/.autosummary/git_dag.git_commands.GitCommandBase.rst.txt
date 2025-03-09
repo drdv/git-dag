@@ -1,0 +1,25 @@
+git\_dag.git\_commands.GitCommandBase
+=====================================
+
+.. currentmodule:: git_dag.git_commands
+
+.. autoclass:: GitCommandBase
+   :members:
+   :show-inheritance:
+   :inherited-members:
+   :special-members: __call__, __add__, __mul__
+
+   
+   
+   .. rubric:: Methods
+
+   .. autosummary::
+      :nosignatures:
+   
+      ~GitCommandBase.run_general
+   
+   
+
+   
+   
+   

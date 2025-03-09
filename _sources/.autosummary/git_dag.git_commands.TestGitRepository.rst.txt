@@ -1,0 +1,29 @@
+git\_dag.git\_commands.TestGitRepository
+========================================
+
+.. currentmodule:: git_dag.git_commands
+
+.. autoclass:: TestGitRepository
+   :members:
+   :show-inheritance:
+   :inherited-members:
+   :special-members: __call__, __add__, __mul__
+
+   
+   
+   .. rubric:: Methods
+
+   .. autosummary::
+      :nosignatures:
+   
+      ~TestGitRepository.create
+      ~TestGitRepository.repository_default
+      ~TestGitRepository.repository_empty
+      ~TestGitRepository.tar
+      ~TestGitRepository.untar
+   
+   
+
+   
+   
+   

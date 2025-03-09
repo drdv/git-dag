@@ -1,0 +1,6 @@
+git\_dag.utils.creator\_timestamp\_format
+=========================================
+
+.. currentmodule:: git_dag.utils
+
+.. autofunction:: creator_timestamp_format

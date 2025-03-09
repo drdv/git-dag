@@ -1,0 +1,6 @@
+git\_dag.utils.transform\_ascii\_control\_chars
+===============================================
+
+.. currentmodule:: git_dag.utils
+
+.. autofunction:: transform_ascii_control_chars

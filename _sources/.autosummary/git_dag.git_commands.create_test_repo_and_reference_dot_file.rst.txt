@@ -1,0 +1,6 @@
+git\_dag.git\_commands.create\_test\_repo\_and\_reference\_dot\_file
+====================================================================
+
+.. currentmodule:: git_dag.git_commands
+
+.. autofunction:: create_test_repo_and_reference_dot_file

@@ -1,0 +1,43 @@
+﻿git\_dag.git\_commands
+======================
+
+.. automodule:: git_dag.git_commands
+
+   
+   
+   
+
+   
+   
+   .. rubric:: Functions
+
+   .. autosummary::
+      :toctree:
+      :nosignatures:
+   
+      create_test_repo_and_reference_dot_file
+   
+   
+
+   
+   
+   .. rubric:: Classes
+
+   .. autosummary::
+      :toctree:
+      :template: custom-class-template.rst
+      :nosignatures:
+   
+      GitCommand
+      GitCommandBase
+      GitCommandMutate
+      TestGitRepository
+   
+   
+
+   
+   
+   
+
+
+

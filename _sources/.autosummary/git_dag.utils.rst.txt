@@ -1,0 +1,33 @@
+﻿git\_dag.utils
+==============
+
+.. automodule:: git_dag.utils
+
+   
+   
+   
+
+   
+   
+   .. rubric:: Functions
+
+   .. autosummary::
+      :toctree:
+      :nosignatures:
+   
+      creator_timestamp_format
+      escape_decode
+      transform_ascii_control_chars
+   
+   
+
+   
+   
+   
+
+   
+   
+   
+
+
+
