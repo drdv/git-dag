@@ -17,11 +17,10 @@ git_dag
 .. _lint: .pylint_report.html
 
 The code is aviailable at `git-dag <https://github.com/drdv/git-dag>`_. It can be used
-to generate the DAG of a git repository.
+to generate the DAG of a git repository (either from the command-line or from python).
 
 .. toctree::
-   :maxdepth: 2
-   :caption: Contents:
+   :hidden:
 
    install
    examples
