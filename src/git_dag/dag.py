@@ -45,6 +45,7 @@ class MixinProtocol(Protocol):
     show_tags: bool
     show_deleted_tags: bool
     show_stash: bool
+    show_index: bool
     show_head: bool
     range: Optional[list[str]]
     commit_message_as_label: int
@@ -185,6 +186,46 @@ class TagHandlerMixin:
                     self.dag.edge(node_id, item.anchor.sha)
 
 
+class IndexHandlerMixin:
+    """Handle index (staging area)."""
+
+    def _add_index_node(self: MixinProtocol, index):
+        table = (
+            '<<table color="black" '
+            'border="0" cellborder="1" cellspacing="0" cellpadding="5">\n'
+        )
+        for name, blob in index.items():
+            col1 = f'<td align="left">{blob.sha[:SHA_LIMIT]}</td>'
+            col2 = f'<td align="left">{name}</td>'
+            table += f"<tr>{col1}{col2}\n</tr>"
+        table += "</table>>\n"
+        self.dag.node("INDEX", table)
+        self.dag.edge("INDEX_ID", "INDEX")
+
+    def _add_index(self: MixinProtocol) -> None:
+        self.dag.node(
+            name="INDEX_ID",
+            label="INDEX",
+            fillcolor=DAG_NODE_COLORS["index"],
+            shape="oval",
+            tooltip="INDEX",
+        )
+
+        index = self.repository.index
+        if index is not None:
+            self._add_index_node(index)
+            # for filename, blob in index.items():
+            #     self.dag.node(
+            #         name=blob.sha,
+            #         label=blob.sha[:SHA_LIMIT],
+            #         color=DAG_NODE_COLORS["blob"],
+            #         fillcolor=DAG_NODE_COLORS["blob"],
+            #         shape="note",
+            #         tooltip=filename,
+            #     )
+            #     self.dag.edge("INDEX", blob.sha)
+
+
 class StashHandlerMixin:
     """Handle stash."""
 
@@ -255,6 +296,7 @@ class DagVisualizer(
     TreeBlobHandlerMixin,
     TagHandlerMixin,
     StashHandlerMixin,
+    IndexHandlerMixin,
     BranchHandlerMixin,
     HeadHandlerMixin,
 ):
@@ -276,6 +318,7 @@ class DagVisualizer(
     show_tags: bool = False
     show_deleted_tags: bool = False
     show_stash: bool = False
+    show_index: bool = False
     show_head: bool = False
     range: Optional[list[str]] = None
 
@@ -362,6 +405,9 @@ class DagVisualizer(
 
         if self.show_stash:
             self._add_stashes()
+
+        if self.show_index:
+            self._add_index()
 
         if self.show_head:
             self._add_head()

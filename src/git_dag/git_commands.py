@@ -327,6 +327,26 @@ class GitCommand(GitCommandBase):
         """
         return self._run(f"ls-tree {sha}").strip().split("\n")
 
+    def get_index(self) -> Optional[dict[str, str]]:
+        """Return the index (staging area).
+
+        Note
+        -----
+        This function returns only modified files (wrt HEAD) that are in the index.
+
+        """
+        diff_output = self._run("diff --staged --name-only").strip().split("\n")
+        if len(diff_output) == 1 and not diff_output[0]:
+            return None
+
+        modified_index = {}
+        for line in self._run("ls-files -s").strip().split("\n"):
+            tokens = line.split()
+            sha, name = tokens[1], tokens[3]
+            if name in diff_output:
+                modified_index[sha] = name
+        return modified_index
+
     def get_blobs_and_trees_names(self) -> DictStrStr:
         """Return actual names of blobs and trees.
 

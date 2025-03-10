@@ -39,6 +39,7 @@ class CustomArgparseNamespace(argparse.Namespace):
     show_local_branches: bool
     show_remote_branches: bool
     show_stash: bool
+    show_index: bool
     show_trees: bool
     show_blobs: bool
     show_head: bool
@@ -169,6 +170,13 @@ def get_cla_parser() -> argparse.ArgumentParser:
     )
 
     parser.add_argument(
+        "-I",
+        dest="show_index",
+        action="store_true",
+        help="Show index (staging area).",
+    )
+
+    parser.add_argument(
         "-H",
         dest="show_head",
         action="store_true",
@@ -240,6 +248,7 @@ def main() -> None:
         show_trees=args.show_trees,
         show_blobs=args.show_blobs,
         show_stash=args.show_stash,
+        show_index=args.show_index,
         show_head=args.show_head,
         range=args.range,
         commit_message_as_label=args.commit_message_as_label,

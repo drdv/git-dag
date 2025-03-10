@@ -459,6 +459,7 @@ class GitRepository:
         self.tags_lw: dict[str, GitTagLightweight] = self._form_lightweight_tags()
         self.branches: list[GitBranch] = self._form_branches()
         self.stashes: list[GitStash] = self._form_stashes()
+        self.index: Optional[dict[str, GitBlob]] = self._form_index()
         self.head_branches = [b for b in self.branches if b.commit == self.head]
 
     @time_it
@@ -576,6 +577,14 @@ class GitRepository:
             obj.is_ready = True  # type: ignore[method-assign]
 
         return git_objects
+
+    @time_it
+    def _form_index(self) -> Optional[dict[str, GitBlob]]:
+        """Form the index."""
+        index = self.inspector.git.get_index()
+        if index is not None:
+            return {name: GitBlob(sha=sha) for sha, name in sorted(index.items())}
+        return {}
 
     @time_it
     def _form_stashes(self) -> list[GitStash]:
