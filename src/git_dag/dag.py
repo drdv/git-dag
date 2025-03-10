@@ -239,7 +239,7 @@ class HeadHandlerMixin:
 
     def _add_head(self: MixinProtocol) -> None:
         head = self.repository.head
-        if self._is_object_to_include(head.sha):
+        if head is not None and self._is_object_to_include(head.sha):
             self.dag.node(
                 name="HEAD",
                 label="HEAD *" if self.repository.is_detached_head else "HEAD",

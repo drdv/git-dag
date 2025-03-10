@@ -13,10 +13,9 @@ import shlex
 import subprocess
 import tarfile
 from pathlib import Path
-from typing import Literal, Optional
+from typing import Any, Literal, Optional
 
 from git_dag.constants import CMD_TAGS_INFO, TAG_FORMAT_FIELDS
-from git_dag.exceptions import EmptyGitRepository
 from git_dag.git_objects import DictStrStr
 from git_dag.utils import escape_decode
 
@@ -113,15 +112,25 @@ class GitCommandMutate(GitCommandBase):
 
         return env
 
+    def add(self, files: dict[str, str]) -> None:
+        """Add files to the index.
+
+        ``files`` specifies files to be added to the index (its format is ``{'filename':
+        'file contents', ...}``). Names of files should not include the path to the
+        repository (it is prepended).
+
+        """
+        for filename, contents in files.items():
+            with open(Path(self.path) / filename, "w", encoding="utf-8") as h:
+                h.write(contents)
+            self._run(f"add {filename}")
+
     def cm(
         self, messages: str | list[str], files: Optional[dict[str, str]] = None
     ) -> None:
         """Add commit(s).
 
-        ``files`` specifies files to be added to the index before committing (its format
-        is ``{'filename': 'file contents', ...}``, if not specified an empty commit is
-        created). Names of files should not include the path to the repository (it is
-        prepended).
+        If ``files`` is not specified an empty commit is created.
 
         Note
         -----
@@ -131,10 +140,7 @@ class GitCommandMutate(GitCommandBase):
         """
         if isinstance(messages, str):
             if files is not None:
-                for filename, contents in files.items():
-                    with open(Path(self.path) / filename, "w", encoding="utf-8") as h:
-                        h.write(contents)
-                    self._run(f"add {filename}")
+                self.add(files)
 
             self._run(f'commit --allow-empty -m "{messages}"', env=self.env)
         elif isinstance(messages, (list, tuple)):
@@ -239,7 +245,8 @@ class GitCommand(GitCommandBase):
         )
         objects = self._run(CMD).strip().split("\n")
         if len(objects) == 1 and not objects[0]:
-            raise EmptyGitRepository("No objects, probably the repository is empty.")
+            LOG.warning("No objects")
+            return []
 
         return objects
 
@@ -260,8 +267,8 @@ class GitCommand(GitCommandBase):
 
         try:
             cmd_output = self._run("show-ref").strip().split("\n")
-        except subprocess.CalledProcessError as error:
-            LOG.warning(error)
+        except subprocess.CalledProcessError:
+            LOG.warning("No refs")
             return refs
 
         for ref in cmd_output:
@@ -402,13 +409,14 @@ class TestGitRepository:
         label: Literal["default", "empty"],
         repo_path: Path | str,  # assumed to exist
         tar_file_name: Optional[str] = None,
+        **kwargs: dict[str, Any],
     ) -> None:
         """Git repository creation displatch."""
         match label:
             case "default":
                 cls.repository_default(repo_path)
             case "empty":
-                cls.repository_empty(repo_path)
+                cls.repository_empty(repo_path, **kwargs)
             case _:
                 raise ValueError(f"Unknown repository label: {label}")
 
@@ -428,10 +436,16 @@ class TestGitRepository:
             tar.extractall(path=extract_path, filter="fully_trusted")
 
     @staticmethod
-    def repository_empty(path: Path | str) -> None:
-        """Empty repository."""
+    def repository_empty(
+        path: Path | str,
+        files: Optional[dict[str, str]] = None,
+    ) -> None:
+        """Empty repository (possibly with files added to the index)."""
         git = GitCommandMutate(path)
         git.init()
+
+        if files is not None:
+            git.add(files)
 
     @staticmethod
     def repository_default(path: Path | str) -> None:

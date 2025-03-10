@@ -6,7 +6,6 @@ import logging
 import multiprocessing
 import re
 import subprocess
-import sys
 from functools import wraps
 from operator import itemgetter
 from pathlib import Path
@@ -455,7 +454,7 @@ class GitRepository:
         """Post-process inspector data (see :func:`GitInspector.get_raw_objects`)."""
         self.objects: dict[str, GitObject] = self._form_objects()
         self.commits = self.filter_objects(GitCommit)
-        self.head: GitCommit = self._form_head()
+        self.head: Optional[GitCommit] = self._form_head()
         self.tags: dict[str, GitTag] = self._form_annotated_tags()
         self.tags_lw: dict[str, GitTagLightweight] = self._form_lightweight_tags()
         self.branches: list[GitBranch] = self._form_branches()
@@ -463,7 +462,7 @@ class GitRepository:
         self.head_branches = [b for b in self.branches if b.commit == self.head]
 
     @time_it
-    def _form_head(self) -> GitCommit:
+    def _form_head(self) -> Optional[GitCommit]:
         """Post-process HEAD.
 
         Note
@@ -475,12 +474,9 @@ class GitRepository:
         """
         try:
             head = self.inspector.git.get_local_head()
-        except subprocess.CalledProcessError as e:
-            LOG.error("Head is not defined (probably the repository is empty)")
-            LOG.error(f"  COMMAND: {' '.join(e.cmd)}")
-            LOG.error(f"   OUTPUT: {e.output}")
-            # LOG.error(f"EXIT CODE: {e.returncode}")
-            sys.exit(1)
+        except subprocess.CalledProcessError:
+            LOG.warning("No Head")
+            return None
         return self.commits[head]
 
     @time_it
@@ -617,6 +613,8 @@ class GitRepository:
     @property
     def is_detached_head(self) -> bool:
         """Check if the repository is in a detached HEAD state."""
+        if self.head is None:
+            return False  # HEAD cannot be detached if it doesn't exist!
         return not self.head_branches
 
     @time_it
@@ -677,7 +675,7 @@ class GitRepository:
         for branch in local_branches:
             out += f"\n    {branch.name}"
 
-        out += f"\n  HEAD: {self.head.sha[:8]}"
+        out += f"\n  HEAD: {None if self.head is None else self.head.sha[:8]}"
         if self.is_detached_head:
             out += " (DETACHED)"
         else:

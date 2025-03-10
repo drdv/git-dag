@@ -2,17 +2,18 @@
 
 # pylint: disable=missing-function-docstring,redefined-outer-name
 
+import logging
 from pathlib import Path
 
 import pytest
 
 from git_dag.constants import GIT_EMPTY_TREE_OBJECT_SHA
-from git_dag.exceptions import EmptyGitRepository
 from git_dag.git_commands import GitCommandMutate, TestGitRepository
 from git_dag.git_objects import GitBlob, GitTree
 from git_dag.git_repository import GitRepository
 
 TEST_DIR = Path(__file__).parent
+LOG = logging.getLogger(__name__)
 
 
 @pytest.fixture
@@ -25,6 +26,15 @@ def git_repository_empty(tmp_path: Path) -> Path:
 
 
 @pytest.fixture
+def git_repository_empty_with_index(tmp_path: Path) -> Path:
+    repo_path = tmp_path / "empty_repo_with_index"
+    repo_path.mkdir()
+
+    TestGitRepository.create("empty", repo_path, files={"tmp_file": "1"})
+    return repo_path
+
+
+@pytest.fixture
 def git_repository_default(tmp_path: Path) -> Path:
     repo_path = tmp_path / "default_repo"
     repo_path.mkdir()
@@ -33,9 +43,28 @@ def git_repository_default(tmp_path: Path) -> Path:
     return repo_path
 
 
-def test_repository_empty(git_repository_empty: Path) -> None:
-    with pytest.raises(EmptyGitRepository):
+def test_repository_empty(
+    git_repository_empty: Path,
+    caplog: pytest.LogCaptureFixture,
+) -> None:
+    with caplog.at_level(logging.WARNING):
         GitRepository(git_repository_empty)
+
+    assert "No objects" in caplog.text
+    assert "No Head" in caplog.text
+    assert "No refs" in caplog.text
+
+
+def test_repository_empty_with_index(
+    git_repository_empty_with_index: Path,
+    caplog: pytest.LogCaptureFixture,
+) -> None:
+    with caplog.at_level(logging.WARNING):
+        GitRepository(git_repository_empty_with_index)
+
+    assert "No objects" not in caplog.text
+    assert "No Head" in caplog.text
+    assert "No refs" in caplog.text
 
 
 def test_repository_clone_depth_1(git_repository_default: Path) -> None:
