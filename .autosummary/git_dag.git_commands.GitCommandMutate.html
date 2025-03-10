@@ -261,10 +261,6 @@
 <li class="toctree-l3"><a class="reference internal" href="git_dag.utils.transform_ascii_control_chars.html">git_dag.utils.transform_ascii_control_chars</a></li>
 </ul>
 </li>
-<li class="toctree-l2 has-children"><a class="reference internal" href="git_dag.exceptions.html">git_dag.exceptions</a><input class="toctree-checkbox" id="toctree-checkbox-10" name="toctree-checkbox-10" role="switch" type="checkbox"/><label for="toctree-checkbox-10"><div class="visually-hidden">Toggle navigation of git_dag.exceptions</div><i class="icon"><svg><use href="#svg-arrow-right"></use></svg></i></label><ul>
-<li class="toctree-l3"><a class="reference internal" href="git_dag.exceptions.EmptyGitRepository.html">git_dag.exceptions.EmptyGitRepository</a></li>
-</ul>
-</li>
 <li class="toctree-l2"><a class="reference internal" href="../pydantic_models.html">Git objects (pydantic models)</a></li>
 </ul>
 </li>
@@ -323,36 +319,48 @@ repository for the tests.</p>
 <div class="table-wrapper autosummary longtable docutils container">
 <table class="autosummary longtable docutils align-default">
 <tbody>
-<tr class="row-odd"><td><p><a class="reference internal" href="#git_dag.git_commands.GitCommandMutate.br" title="git_dag.git_commands.GitCommandMutate.br"><code class="xref py py-obj docutils literal notranslate"><span class="pre">br</span></code></a></p></td>
+<tr class="row-odd"><td><p><a class="reference internal" href="#git_dag.git_commands.GitCommandMutate.add" title="git_dag.git_commands.GitCommandMutate.add"><code class="xref py py-obj docutils literal notranslate"><span class="pre">add</span></code></a></p></td>
+<td><p>Add files to the index.</p></td>
+</tr>
+<tr class="row-even"><td><p><a class="reference internal" href="#git_dag.git_commands.GitCommandMutate.br" title="git_dag.git_commands.GitCommandMutate.br"><code class="xref py py-obj docutils literal notranslate"><span class="pre">br</span></code></a></p></td>
 <td><p>Create/switch/delete branch.</p></td>
 </tr>
-<tr class="row-even"><td><p><a class="reference internal" href="#git_dag.git_commands.GitCommandMutate.clone_local_depth_1" title="git_dag.git_commands.GitCommandMutate.clone_local_depth_1"><code class="xref py py-obj docutils literal notranslate"><span class="pre">clone_local_depth_1</span></code></a></p></td>
+<tr class="row-odd"><td><p><a class="reference internal" href="#git_dag.git_commands.GitCommandMutate.clone_local_depth_1" title="git_dag.git_commands.GitCommandMutate.clone_local_depth_1"><code class="xref py py-obj docutils literal notranslate"><span class="pre">clone_local_depth_1</span></code></a></p></td>
 <td><p>Clone a local repository with <code class="docutils literal notranslate"><span class="pre">--depth</span> <span class="pre">1</span></code> flag.</p></td>
 </tr>
-<tr class="row-odd"><td><p><a class="reference internal" href="#git_dag.git_commands.GitCommandMutate.cm" title="git_dag.git_commands.GitCommandMutate.cm"><code class="xref py py-obj docutils literal notranslate"><span class="pre">cm</span></code></a></p></td>
+<tr class="row-even"><td><p><a class="reference internal" href="#git_dag.git_commands.GitCommandMutate.cm" title="git_dag.git_commands.GitCommandMutate.cm"><code class="xref py py-obj docutils literal notranslate"><span class="pre">cm</span></code></a></p></td>
 <td><p>Add commit(s).</p></td>
 </tr>
-<tr class="row-even"><td><p><a class="reference internal" href="#git_dag.git_commands.GitCommandMutate.config" title="git_dag.git_commands.GitCommandMutate.config"><code class="xref py py-obj docutils literal notranslate"><span class="pre">config</span></code></a></p></td>
+<tr class="row-odd"><td><p><a class="reference internal" href="#git_dag.git_commands.GitCommandMutate.config" title="git_dag.git_commands.GitCommandMutate.config"><code class="xref py py-obj docutils literal notranslate"><span class="pre">config</span></code></a></p></td>
 <td><p>Set a gonfig option.</p></td>
 </tr>
-<tr class="row-odd"><td><p><a class="reference internal" href="#git_dag.git_commands.GitCommandMutate.init" title="git_dag.git_commands.GitCommandMutate.init"><code class="xref py py-obj docutils literal notranslate"><span class="pre">init</span></code></a></p></td>
+<tr class="row-even"><td><p><a class="reference internal" href="#git_dag.git_commands.GitCommandMutate.init" title="git_dag.git_commands.GitCommandMutate.init"><code class="xref py py-obj docutils literal notranslate"><span class="pre">init</span></code></a></p></td>
 <td><p>Initialise a git repository.</p></td>
 </tr>
-<tr class="row-even"><td><p><a class="reference internal" href="#git_dag.git_commands.GitCommandMutate.mg" title="git_dag.git_commands.GitCommandMutate.mg"><code class="xref py py-obj docutils literal notranslate"><span class="pre">mg</span></code></a></p></td>
+<tr class="row-odd"><td><p><a class="reference internal" href="#git_dag.git_commands.GitCommandMutate.mg" title="git_dag.git_commands.GitCommandMutate.mg"><code class="xref py py-obj docutils literal notranslate"><span class="pre">mg</span></code></a></p></td>
 <td><p>Merge.</p></td>
 </tr>
-<tr class="row-odd"><td><p><a class="reference internal" href="#git_dag.git_commands.GitCommandMutate.run_general" title="git_dag.git_commands.GitCommandMutate.run_general"><code class="xref py py-obj docutils literal notranslate"><span class="pre">run_general</span></code></a></p></td>
+<tr class="row-even"><td><p><a class="reference internal" href="#git_dag.git_commands.GitCommandMutate.run_general" title="git_dag.git_commands.GitCommandMutate.run_general"><code class="xref py py-obj docutils literal notranslate"><span class="pre">run_general</span></code></a></p></td>
 <td><p>Run a general command.</p></td>
 </tr>
-<tr class="row-even"><td><p><a class="reference internal" href="#git_dag.git_commands.GitCommandMutate.stash" title="git_dag.git_commands.GitCommandMutate.stash"><code class="xref py py-obj docutils literal notranslate"><span class="pre">stash</span></code></a></p></td>
+<tr class="row-odd"><td><p><a class="reference internal" href="#git_dag.git_commands.GitCommandMutate.stash" title="git_dag.git_commands.GitCommandMutate.stash"><code class="xref py py-obj docutils literal notranslate"><span class="pre">stash</span></code></a></p></td>
 <td><p>Stash.</p></td>
 </tr>
-<tr class="row-odd"><td><p><a class="reference internal" href="#git_dag.git_commands.GitCommandMutate.tag" title="git_dag.git_commands.GitCommandMutate.tag"><code class="xref py py-obj docutils literal notranslate"><span class="pre">tag</span></code></a></p></td>
+<tr class="row-even"><td><p><a class="reference internal" href="#git_dag.git_commands.GitCommandMutate.tag" title="git_dag.git_commands.GitCommandMutate.tag"><code class="xref py py-obj docutils literal notranslate"><span class="pre">tag</span></code></a></p></td>
 <td><p>Create/delete annotated or lightweight tag.</p></td>
 </tr>
 </tbody>
 </table>
 </div>
+<dl class="py method">
+<dt class="sig sig-object py" id="git_dag.git_commands.GitCommandMutate.add">
+<span class="sig-name descname"><span class="pre">add</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">files</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">dict</span><span class="p"><span class="pre">[</span></span><span class="pre">str</span><span class="p"><span class="pre">,</span></span><span class="w"> </span><span class="pre">str</span><span class="p"><span class="pre">]</span></span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">None</span></span></span><a class="reference internal" href="../_modules/git_dag/git_commands.html#GitCommandMutate.add"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#git_dag.git_commands.GitCommandMutate.add" title="Link to this definition">¶</a></dt>
+<dd><p>Add files to the index.</p>
+<p><code class="docutils literal notranslate"><span class="pre">files</span></code> specifies files to be added to the index (its format is <code class="docutils literal notranslate"><span class="pre">{'filename':</span>
+<span class="pre">'file</span> <span class="pre">contents',</span> <span class="pre">...}</span></code>). Names of files should not include the path to the
+repository (it is prepended).</p>
+</dd></dl>
+
 <dl class="py method">
 <dt class="sig sig-object py" id="git_dag.git_commands.GitCommandMutate.br">
 <span class="sig-name descname"><span class="pre">br</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">branch</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">str</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">create</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">bool</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">False</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">delete</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">bool</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">False</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">None</span></span></span><a class="reference internal" href="../_modules/git_dag/git_commands.html#GitCommandMutate.br"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#git_dag.git_commands.GitCommandMutate.br" title="Link to this definition">¶</a></dt>
@@ -374,10 +382,7 @@ repository for the tests.</p>
 <dt class="sig sig-object py" id="git_dag.git_commands.GitCommandMutate.cm">
 <span class="sig-name descname"><span class="pre">cm</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">messages</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">str</span><span class="w"> </span><span class="p"><span class="pre">|</span></span><span class="w"> </span><span class="pre">list</span><span class="p"><span class="pre">[</span></span><span class="pre">str</span><span class="p"><span class="pre">]</span></span></span></em>, <em class="sig-param"><span class="n"><span class="pre">files</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">dict</span><span class="p"><span class="pre">[</span></span><span class="pre">str</span><span class="p"><span class="pre">,</span></span><span class="w"> </span><span class="pre">str</span><span class="p"><span class="pre">]</span></span><span class="w"> </span><span class="p"><span class="pre">|</span></span><span class="w"> </span><span class="pre">None</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">None</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">None</span></span></span><a class="reference internal" href="../_modules/git_dag/git_commands.html#GitCommandMutate.cm"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#git_dag.git_commands.GitCommandMutate.cm" title="Link to this definition">¶</a></dt>
 <dd><p>Add commit(s).</p>
-<p><code class="docutils literal notranslate"><span class="pre">files</span></code> specifies files to be added to the index before committing (its format
-is <code class="docutils literal notranslate"><span class="pre">{'filename':</span> <span class="pre">'file</span> <span class="pre">contents',</span> <span class="pre">...}</span></code>, if not specified an empty commit is
-created). Names of files should not include the path to the repository (it is
-prepended).</p>
+<p>If <code class="docutils literal notranslate"><span class="pre">files</span></code> is not specified an empty commit is created.</p>
 <section id="id1">
 <h3>Note<a class="headerlink" href="#id1" title="Link to this heading">¶</a></h3>
 <p>When <code class="docutils literal notranslate"><span class="pre">messages</span></code> is a list, multiple empty commits are created (<code class="docutils literal notranslate"><span class="pre">files</span></code>
@@ -490,6 +495,7 @@ order for <code class="docutils literal notranslate"><span class="pre">git</span
             <ul>
 <li><a class="reference internal" href="#">git_dag.git_commands.GitCommandMutate</a><ul>
 <li><a class="reference internal" href="#git_dag.git_commands.GitCommandMutate"><code class="docutils literal notranslate"><span class="pre">GitCommandMutate</span></code></a><ul>
+<li><a class="reference internal" href="#git_dag.git_commands.GitCommandMutate.add"><code class="docutils literal notranslate"><span class="pre">GitCommandMutate.add()</span></code></a></li>
 <li><a class="reference internal" href="#git_dag.git_commands.GitCommandMutate.br"><code class="docutils literal notranslate"><span class="pre">GitCommandMutate.br()</span></code></a></li>
 <li><a class="reference internal" href="#git_dag.git_commands.GitCommandMutate.clone_local_depth_1"><code class="docutils literal notranslate"><span class="pre">GitCommandMutate.clone_local_depth_1()</span></code></a></li>
 <li><a class="reference internal" href="#git_dag.git_commands.GitCommandMutate.cm"><code class="docutils literal notranslate"><span class="pre">GitCommandMutate.cm()</span></code></a></li>
@@ -512,7 +518,7 @@ order for <code class="docutils literal notranslate"><span class="pre">git</span
       
     </aside>
   </div>
-</div><script src="../_static/documentation_options.js?v=ebae5d7c"></script>
+</div><script src="../_static/documentation_options.js?v=a8d885de"></script>
     <script src="../_static/doctools.js?v=9bcbadda"></script>
     <script src="../_static/sphinx_highlight.js?v=dc90522c"></script>
     <script src="../_static/scripts/furo.js?v=5fa4622c"></script>

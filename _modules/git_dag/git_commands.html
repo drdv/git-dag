@@ -260,10 +260,6 @@
 <li class="toctree-l3"><a class="reference internal" href="../../.autosummary/git_dag.utils.transform_ascii_control_chars.html">git_dag.utils.transform_ascii_control_chars</a></li>
 </ul>
 </li>
-<li class="toctree-l2 has-children"><a class="reference internal" href="../../.autosummary/git_dag.exceptions.html">git_dag.exceptions</a><input class="toctree-checkbox" id="toctree-checkbox-10" name="toctree-checkbox-10" role="switch" type="checkbox"/><label for="toctree-checkbox-10"><div class="visually-hidden">Toggle navigation of git_dag.exceptions</div><i class="icon"><svg><use href="#svg-arrow-right"></use></svg></i></label><ul>
-<li class="toctree-l3"><a class="reference internal" href="../../.autosummary/git_dag.exceptions.EmptyGitRepository.html">git_dag.exceptions.EmptyGitRepository</a></li>
-</ul>
-</li>
 <li class="toctree-l2"><a class="reference internal" href="../../pydantic_models.html">Git objects (pydantic models)</a></li>
 </ul>
 </li>
@@ -317,10 +313,9 @@
 <span class="kn">import</span> <span class="nn">subprocess</span>
 <span class="kn">import</span> <span class="nn">tarfile</span>
 <span class="kn">from</span> <span class="nn">pathlib</span> <span class="kn">import</span> <span class="n">Path</span>
-<span class="kn">from</span> <span class="nn">typing</span> <span class="kn">import</span> <span class="n">Literal</span><span class="p">,</span> <span class="n">Optional</span>
+<span class="kn">from</span> <span class="nn">typing</span> <span class="kn">import</span> <span class="n">Any</span><span class="p">,</span> <span class="n">Literal</span><span class="p">,</span> <span class="n">Optional</span>
 
 <span class="kn">from</span> <span class="nn">git_dag.constants</span> <span class="kn">import</span> <span class="n">CMD_TAGS_INFO</span><span class="p">,</span> <span class="n">TAG_FORMAT_FIELDS</span>
-<span class="kn">from</span> <span class="nn">git_dag.exceptions</span> <span class="kn">import</span> <span class="n">EmptyGitRepository</span>
 <span class="kn">from</span> <span class="nn">git_dag.git_objects</span> <span class="kn">import</span> <span class="n">DictStrStr</span>
 <span class="kn">from</span> <span class="nn">git_dag.utils</span> <span class="kn">import</span> <span class="n">escape_decode</span>
 
@@ -428,6 +423,22 @@
 
         <span class="k">return</span> <span class="n">env</span>
 
+<div class="viewcode-block" id="GitCommandMutate.add">
+<a class="viewcode-back" href="../../.autosummary/git_dag.git_commands.GitCommandMutate.html#git_dag.git_commands.GitCommandMutate.add">[docs]</a>
+    <span class="k">def</span> <span class="nf">add</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">files</span><span class="p">:</span> <span class="nb">dict</span><span class="p">[</span><span class="nb">str</span><span class="p">,</span> <span class="nb">str</span><span class="p">])</span> <span class="o">-&gt;</span> <span class="kc">None</span><span class="p">:</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;Add files to the index.</span>
+
+<span class="sd">        ``files`` specifies files to be added to the index (its format is ``{&#39;filename&#39;:</span>
+<span class="sd">        &#39;file contents&#39;, ...}``). Names of files should not include the path to the</span>
+<span class="sd">        repository (it is prepended).</span>
+
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="k">for</span> <span class="n">filename</span><span class="p">,</span> <span class="n">contents</span> <span class="ow">in</span> <span class="n">files</span><span class="o">.</span><span class="n">items</span><span class="p">():</span>
+            <span class="k">with</span> <span class="nb">open</span><span class="p">(</span><span class="n">Path</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">path</span><span class="p">)</span> <span class="o">/</span> <span class="n">filename</span><span class="p">,</span> <span class="s2">&quot;w&quot;</span><span class="p">,</span> <span class="n">encoding</span><span class="o">=</span><span class="s2">&quot;utf-8&quot;</span><span class="p">)</span> <span class="k">as</span> <span class="n">h</span><span class="p">:</span>
+                <span class="n">h</span><span class="o">.</span><span class="n">write</span><span class="p">(</span><span class="n">contents</span><span class="p">)</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">_run</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;add </span><span class="si">{</span><span class="n">filename</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span></div>
+
+
 <div class="viewcode-block" id="GitCommandMutate.cm">
 <a class="viewcode-back" href="../../.autosummary/git_dag.git_commands.GitCommandMutate.html#git_dag.git_commands.GitCommandMutate.cm">[docs]</a>
     <span class="k">def</span> <span class="nf">cm</span><span class="p">(</span>
@@ -435,10 +446,7 @@
     <span class="p">)</span> <span class="o">-&gt;</span> <span class="kc">None</span><span class="p">:</span>
 <span class="w">        </span><span class="sd">&quot;&quot;&quot;Add commit(s).</span>
 
-<span class="sd">        ``files`` specifies files to be added to the index before committing (its format</span>
-<span class="sd">        is ``{&#39;filename&#39;: &#39;file contents&#39;, ...}``, if not specified an empty commit is</span>
-<span class="sd">        created). Names of files should not include the path to the repository (it is</span>
-<span class="sd">        prepended).</span>
+<span class="sd">        If ``files`` is not specified an empty commit is created.</span>
 
 <span class="sd">        Note</span>
 <span class="sd">        -----</span>
@@ -448,10 +456,7 @@
 <span class="sd">        &quot;&quot;&quot;</span>
         <span class="k">if</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">messages</span><span class="p">,</span> <span class="nb">str</span><span class="p">):</span>
             <span class="k">if</span> <span class="n">files</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span><span class="p">:</span>
-                <span class="k">for</span> <span class="n">filename</span><span class="p">,</span> <span class="n">contents</span> <span class="ow">in</span> <span class="n">files</span><span class="o">.</span><span class="n">items</span><span class="p">():</span>
-                    <span class="k">with</span> <span class="nb">open</span><span class="p">(</span><span class="n">Path</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">path</span><span class="p">)</span> <span class="o">/</span> <span class="n">filename</span><span class="p">,</span> <span class="s2">&quot;w&quot;</span><span class="p">,</span> <span class="n">encoding</span><span class="o">=</span><span class="s2">&quot;utf-8&quot;</span><span class="p">)</span> <span class="k">as</span> <span class="n">h</span><span class="p">:</span>
-                        <span class="n">h</span><span class="o">.</span><span class="n">write</span><span class="p">(</span><span class="n">contents</span><span class="p">)</span>
-                    <span class="bp">self</span><span class="o">.</span><span class="n">_run</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;add </span><span class="si">{</span><span class="n">filename</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
+                <span class="bp">self</span><span class="o">.</span><span class="n">add</span><span class="p">(</span><span class="n">files</span><span class="p">)</span>
 
             <span class="bp">self</span><span class="o">.</span><span class="n">_run</span><span class="p">(</span><span class="sa">f</span><span class="s1">&#39;commit --allow-empty -m &quot;</span><span class="si">{</span><span class="n">messages</span><span class="si">}</span><span class="s1">&quot;&#39;</span><span class="p">,</span> <span class="n">env</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">env</span><span class="p">)</span>
         <span class="k">elif</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">messages</span><span class="p">,</span> <span class="p">(</span><span class="nb">list</span><span class="p">,</span> <span class="nb">tuple</span><span class="p">)):</span>
@@ -580,7 +585,8 @@
         <span class="p">)</span>
         <span class="n">objects</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">_run</span><span class="p">(</span><span class="n">CMD</span><span class="p">)</span><span class="o">.</span><span class="n">strip</span><span class="p">()</span><span class="o">.</span><span class="n">split</span><span class="p">(</span><span class="s2">&quot;</span><span class="se">\n</span><span class="s2">&quot;</span><span class="p">)</span>
         <span class="k">if</span> <span class="nb">len</span><span class="p">(</span><span class="n">objects</span><span class="p">)</span> <span class="o">==</span> <span class="mi">1</span> <span class="ow">and</span> <span class="ow">not</span> <span class="n">objects</span><span class="p">[</span><span class="mi">0</span><span class="p">]:</span>
-            <span class="k">raise</span> <span class="n">EmptyGitRepository</span><span class="p">(</span><span class="s2">&quot;No objects, probably the repository is empty.&quot;</span><span class="p">)</span>
+            <span class="n">LOG</span><span class="o">.</span><span class="n">warning</span><span class="p">(</span><span class="s2">&quot;No objects&quot;</span><span class="p">)</span>
+            <span class="k">return</span> <span class="p">[]</span>
 
         <span class="k">return</span> <span class="n">objects</span></div>
 
@@ -607,8 +613,8 @@
 
         <span class="k">try</span><span class="p">:</span>
             <span class="n">cmd_output</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">_run</span><span class="p">(</span><span class="s2">&quot;show-ref&quot;</span><span class="p">)</span><span class="o">.</span><span class="n">strip</span><span class="p">()</span><span class="o">.</span><span class="n">split</span><span class="p">(</span><span class="s2">&quot;</span><span class="se">\n</span><span class="s2">&quot;</span><span class="p">)</span>
-        <span class="k">except</span> <span class="n">subprocess</span><span class="o">.</span><span class="n">CalledProcessError</span> <span class="k">as</span> <span class="n">error</span><span class="p">:</span>
-            <span class="n">LOG</span><span class="o">.</span><span class="n">warning</span><span class="p">(</span><span class="n">error</span><span class="p">)</span>
+        <span class="k">except</span> <span class="n">subprocess</span><span class="o">.</span><span class="n">CalledProcessError</span><span class="p">:</span>
+            <span class="n">LOG</span><span class="o">.</span><span class="n">warning</span><span class="p">(</span><span class="s2">&quot;No refs&quot;</span><span class="p">)</span>
             <span class="k">return</span> <span class="n">refs</span>
 
         <span class="k">for</span> <span class="n">ref</span> <span class="ow">in</span> <span class="n">cmd_output</span><span class="p">:</span>
@@ -779,13 +785,14 @@
         <span class="n">label</span><span class="p">:</span> <span class="n">Literal</span><span class="p">[</span><span class="s2">&quot;default&quot;</span><span class="p">,</span> <span class="s2">&quot;empty&quot;</span><span class="p">],</span>
         <span class="n">repo_path</span><span class="p">:</span> <span class="n">Path</span> <span class="o">|</span> <span class="nb">str</span><span class="p">,</span>  <span class="c1"># assumed to exist</span>
         <span class="n">tar_file_name</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="nb">str</span><span class="p">]</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span>
+        <span class="o">**</span><span class="n">kwargs</span><span class="p">:</span> <span class="nb">dict</span><span class="p">[</span><span class="nb">str</span><span class="p">,</span> <span class="n">Any</span><span class="p">],</span>
     <span class="p">)</span> <span class="o">-&gt;</span> <span class="kc">None</span><span class="p">:</span>
 <span class="w">        </span><span class="sd">&quot;&quot;&quot;Git repository creation displatch.&quot;&quot;&quot;</span>
         <span class="k">match</span> <span class="n">label</span><span class="p">:</span>
             <span class="k">case</span> <span class="s2">&quot;default&quot;</span><span class="p">:</span>
                 <span class="bp">cls</span><span class="o">.</span><span class="n">repository_default</span><span class="p">(</span><span class="n">repo_path</span><span class="p">)</span>
             <span class="k">case</span> <span class="s2">&quot;empty&quot;</span><span class="p">:</span>
-                <span class="bp">cls</span><span class="o">.</span><span class="n">repository_empty</span><span class="p">(</span><span class="n">repo_path</span><span class="p">)</span>
+                <span class="bp">cls</span><span class="o">.</span><span class="n">repository_empty</span><span class="p">(</span><span class="n">repo_path</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">)</span>
             <span class="k">case</span><span class="w"> </span><span class="k">_</span><span class="p">:</span>
                 <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;Unknown repository label: </span><span class="si">{</span><span class="n">label</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
 
@@ -814,10 +821,16 @@
 <div class="viewcode-block" id="TestGitRepository.repository_empty">
 <a class="viewcode-back" href="../../.autosummary/git_dag.git_commands.TestGitRepository.html#git_dag.git_commands.TestGitRepository.repository_empty">[docs]</a>
     <span class="nd">@staticmethod</span>
-    <span class="k">def</span> <span class="nf">repository_empty</span><span class="p">(</span><span class="n">path</span><span class="p">:</span> <span class="n">Path</span> <span class="o">|</span> <span class="nb">str</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="kc">None</span><span class="p">:</span>
-<span class="w">        </span><span class="sd">&quot;&quot;&quot;Empty repository.&quot;&quot;&quot;</span>
+    <span class="k">def</span> <span class="nf">repository_empty</span><span class="p">(</span>
+        <span class="n">path</span><span class="p">:</span> <span class="n">Path</span> <span class="o">|</span> <span class="nb">str</span><span class="p">,</span>
+        <span class="n">files</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="nb">dict</span><span class="p">[</span><span class="nb">str</span><span class="p">,</span> <span class="nb">str</span><span class="p">]]</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span>
+    <span class="p">)</span> <span class="o">-&gt;</span> <span class="kc">None</span><span class="p">:</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;Empty repository (possibly with files added to the index).&quot;&quot;&quot;</span>
         <span class="n">git</span> <span class="o">=</span> <span class="n">GitCommandMutate</span><span class="p">(</span><span class="n">path</span><span class="p">)</span>
-        <span class="n">git</span><span class="o">.</span><span class="n">init</span><span class="p">()</span></div>
+        <span class="n">git</span><span class="o">.</span><span class="n">init</span><span class="p">()</span>
+
+        <span class="k">if</span> <span class="n">files</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span><span class="p">:</span>
+            <span class="n">git</span><span class="o">.</span><span class="n">add</span><span class="p">(</span><span class="n">files</span><span class="p">)</span></div>
 
 
 <div class="viewcode-block" id="TestGitRepository.repository_default">
@@ -947,7 +960,7 @@
       
     </aside>
   </div>
-</div><script src="../../_static/documentation_options.js?v=ebae5d7c"></script>
+</div><script src="../../_static/documentation_options.js?v=a8d885de"></script>
     <script src="../../_static/doctools.js?v=9bcbadda"></script>
     <script src="../../_static/sphinx_highlight.js?v=dc90522c"></script>
     <script src="../../_static/scripts/furo.js?v=5fa4622c"></script>

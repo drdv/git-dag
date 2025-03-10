@@ -16,6 +16,7 @@ git\_dag.git\_commands.GitCommandMutate
    .. autosummary::
       :nosignatures:
    
+      ~GitCommandMutate.add
       ~GitCommandMutate.br
       ~GitCommandMutate.clone_local_depth_1
       ~GitCommandMutate.cm

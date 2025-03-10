@@ -644,7 +644,7 @@ Explicit (x3)">                self.dag.edge(node_id, branch.commit.sha)</span>
 <span class="line-empty" title="No Anys on this line!"></span>
 <span class="line-precise" title="No Anys on this line!">    def _add_head(self: MixinProtocol) -&gt; None:</span>
 <span class="line-precise" title="No Anys on this line!">        head = self.repository.head</span>
-<span class="line-precise" title="No Anys on this line!">        if self._is_object_to_include(head.sha):</span>
+<span class="line-precise" title="No Anys on this line!">        if head is not None and self._is_object_to_include(head.sha):</span>
 <span class="line-any" title="Any Types on this line: 
 Explicit (x3)">            self.dag.node(</span>
 <span class="line-precise" title="No Anys on this line!">                name="HEAD",</span>

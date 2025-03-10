@@ -161,22 +161,52 @@
 <span id="L151" class="lineno"><a class="lineno" href="#L151">151</a></span>
 <span id="L152" class="lineno"><a class="lineno" href="#L152">152</a></span>
 <span id="L153" class="lineno"><a class="lineno" href="#L153">153</a></span>
+<span id="L154" class="lineno"><a class="lineno" href="#L154">154</a></span>
+<span id="L155" class="lineno"><a class="lineno" href="#L155">155</a></span>
+<span id="L156" class="lineno"><a class="lineno" href="#L156">156</a></span>
+<span id="L157" class="lineno"><a class="lineno" href="#L157">157</a></span>
+<span id="L158" class="lineno"><a class="lineno" href="#L158">158</a></span>
+<span id="L159" class="lineno"><a class="lineno" href="#L159">159</a></span>
+<span id="L160" class="lineno"><a class="lineno" href="#L160">160</a></span>
+<span id="L161" class="lineno"><a class="lineno" href="#L161">161</a></span>
+<span id="L162" class="lineno"><a class="lineno" href="#L162">162</a></span>
+<span id="L163" class="lineno"><a class="lineno" href="#L163">163</a></span>
+<span id="L164" class="lineno"><a class="lineno" href="#L164">164</a></span>
+<span id="L165" class="lineno"><a class="lineno" href="#L165">165</a></span>
+<span id="L166" class="lineno"><a class="lineno" href="#L166">166</a></span>
+<span id="L167" class="lineno"><a class="lineno" href="#L167">167</a></span>
+<span id="L168" class="lineno"><a class="lineno" href="#L168">168</a></span>
+<span id="L169" class="lineno"><a class="lineno" href="#L169">169</a></span>
+<span id="L170" class="lineno"><a class="lineno" href="#L170">170</a></span>
+<span id="L171" class="lineno"><a class="lineno" href="#L171">171</a></span>
+<span id="L172" class="lineno"><a class="lineno" href="#L172">172</a></span>
+<span id="L173" class="lineno"><a class="lineno" href="#L173">173</a></span>
+<span id="L174" class="lineno"><a class="lineno" href="#L174">174</a></span>
+<span id="L175" class="lineno"><a class="lineno" href="#L175">175</a></span>
+<span id="L176" class="lineno"><a class="lineno" href="#L176">176</a></span>
+<span id="L177" class="lineno"><a class="lineno" href="#L177">177</a></span>
+<span id="L178" class="lineno"><a class="lineno" href="#L178">178</a></span>
+<span id="L179" class="lineno"><a class="lineno" href="#L179">179</a></span>
+<span id="L180" class="lineno"><a class="lineno" href="#L180">180</a></span>
+<span id="L181" class="lineno"><a class="lineno" href="#L181">181</a></span>
+<span id="L182" class="lineno"><a class="lineno" href="#L182">182</a></span>
 </pre></td>
 <td class="table-code"><pre><span class="line-empty" title="No Anys on this line!">"""Tests."""</span>
 <span class="line-empty" title="No Anys on this line!"></span>
 <span class="line-empty" title="No Anys on this line!"># pylint: disable=missing-function-docstring,redefined-outer-name</span>
 <span class="line-empty" title="No Anys on this line!"></span>
+<span class="line-precise" title="No Anys on this line!">import logging</span>
 <span class="line-precise" title="No Anys on this line!">from pathlib import Path</span>
 <span class="line-empty" title="No Anys on this line!"></span>
 <span class="line-precise" title="No Anys on this line!">import pytest</span>
 <span class="line-empty" title="No Anys on this line!"></span>
 <span class="line-precise" title="No Anys on this line!">from git_dag.constants import GIT_EMPTY_TREE_OBJECT_SHA</span>
-<span class="line-precise" title="No Anys on this line!">from git_dag.exceptions import EmptyGitRepository</span>
 <span class="line-precise" title="No Anys on this line!">from git_dag.git_commands import GitCommandMutate, TestGitRepository</span>
 <span class="line-precise" title="No Anys on this line!">from git_dag.git_objects import GitBlob, GitTree</span>
 <span class="line-precise" title="No Anys on this line!">from git_dag.git_repository import GitRepository</span>
 <span class="line-empty" title="No Anys on this line!"></span>
 <span class="line-precise" title="No Anys on this line!">TEST_DIR = Path(__file__).parent</span>
+<span class="line-precise" title="No Anys on this line!">LOG = logging.getLogger(__name__)</span>
 <span class="line-empty" title="No Anys on this line!"></span>
 <span class="line-empty" title="No Anys on this line!"></span>
 <span class="line-precise" title="Any Types on this line: 
@@ -186,7 +216,20 @@ Omitted Generics (x2)">@pytest.fixture</span>
 <span class="line-precise" title="No Anys on this line!">    repo_path = tmp_path / "empty_repo"</span>
 <span class="line-precise" title="No Anys on this line!">    repo_path.mkdir()</span>
 <span class="line-empty" title="No Anys on this line!"></span>
-<span class="line-precise" title="No Anys on this line!">    TestGitRepository.create("empty", repo_path)</span>
+<span class="line-precise" title="Any Types on this line: 
+Explicit (x1)">    TestGitRepository.create("empty", repo_path)</span>
+<span class="line-precise" title="No Anys on this line!">    return repo_path</span>
+<span class="line-empty" title="No Anys on this line!"></span>
+<span class="line-empty" title="No Anys on this line!"></span>
+<span class="line-precise" title="Any Types on this line: 
+Explicit (x6)
+Omitted Generics (x2)">@pytest.fixture</span>
+<span class="line-precise" title="No Anys on this line!">def git_repository_empty_with_index(tmp_path: Path) -&gt; Path:</span>
+<span class="line-precise" title="No Anys on this line!">    repo_path = tmp_path / "empty_repo_with_index"</span>
+<span class="line-precise" title="No Anys on this line!">    repo_path.mkdir()</span>
+<span class="line-empty" title="No Anys on this line!"></span>
+<span class="line-imprecise" title="Any Types on this line: 
+Explicit (x1)">    TestGitRepository.create("empty", repo_path, files={"tmp_file": "1"})</span>
 <span class="line-precise" title="No Anys on this line!">    return repo_path</span>
 <span class="line-empty" title="No Anys on this line!"></span>
 <span class="line-empty" title="No Anys on this line!"></span>
@@ -197,15 +240,33 @@ Omitted Generics (x2)">@pytest.fixture</span>
 <span class="line-precise" title="No Anys on this line!">    repo_path = tmp_path / "default_repo"</span>
 <span class="line-precise" title="No Anys on this line!">    repo_path.mkdir()</span>
 <span class="line-empty" title="No Anys on this line!"></span>
-<span class="line-precise" title="No Anys on this line!">    TestGitRepository.create("default", repo_path)</span>
+<span class="line-precise" title="Any Types on this line: 
+Explicit (x1)">    TestGitRepository.create("default", repo_path)</span>
 <span class="line-precise" title="No Anys on this line!">    return repo_path</span>
 <span class="line-empty" title="No Anys on this line!"></span>
 <span class="line-empty" title="No Anys on this line!"></span>
-<span class="line-precise" title="No Anys on this line!">def test_repository_empty(git_repository_empty: Path) -&gt; None:</span>
-<span class="line-precise" title="Any Types on this line: 
-Omitted Generics (x6)
-Explicit (x5)">    with pytest.raises(EmptyGitRepository):</span>
+<span class="line-precise" title="No Anys on this line!">def test_repository_empty(</span>
+<span class="line-empty" title="No Anys on this line!">    git_repository_empty: Path,</span>
+<span class="line-empty" title="No Anys on this line!">    caplog: pytest.LogCaptureFixture,</span>
+<span class="line-empty" title="No Anys on this line!">) -&gt; None:</span>
+<span class="line-precise" title="No Anys on this line!">    with caplog.at_level(logging.WARNING):</span>
 <span class="line-precise" title="No Anys on this line!">        GitRepository(git_repository_empty)</span>
+<span class="line-empty" title="No Anys on this line!"></span>
+<span class="line-precise" title="No Anys on this line!">    assert "No objects" in caplog.text</span>
+<span class="line-precise" title="No Anys on this line!">    assert "No Head" in caplog.text</span>
+<span class="line-precise" title="No Anys on this line!">    assert "No refs" in caplog.text</span>
+<span class="line-empty" title="No Anys on this line!"></span>
+<span class="line-empty" title="No Anys on this line!"></span>
+<span class="line-precise" title="No Anys on this line!">def test_repository_empty_with_index(</span>
+<span class="line-empty" title="No Anys on this line!">    git_repository_empty_with_index: Path,</span>
+<span class="line-empty" title="No Anys on this line!">    caplog: pytest.LogCaptureFixture,</span>
+<span class="line-empty" title="No Anys on this line!">) -&gt; None:</span>
+<span class="line-precise" title="No Anys on this line!">    with caplog.at_level(logging.WARNING):</span>
+<span class="line-precise" title="No Anys on this line!">        GitRepository(git_repository_empty_with_index)</span>
+<span class="line-empty" title="No Anys on this line!"></span>
+<span class="line-precise" title="No Anys on this line!">    assert "No objects" not in caplog.text</span>
+<span class="line-precise" title="No Anys on this line!">    assert "No Head" in caplog.text</span>
+<span class="line-precise" title="No Anys on this line!">    assert "No refs" in caplog.text</span>
 <span class="line-empty" title="No Anys on this line!"></span>
 <span class="line-empty" title="No Anys on this line!"></span>
 <span class="line-precise" title="No Anys on this line!">def test_repository_clone_depth_1(git_repository_default: Path) -&gt; None:</span>

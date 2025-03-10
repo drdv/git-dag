@@ -531,6 +531,20 @@
 <span id="L521" class="lineno"><a class="lineno" href="#L521">521</a></span>
 <span id="L522" class="lineno"><a class="lineno" href="#L522">522</a></span>
 <span id="L523" class="lineno"><a class="lineno" href="#L523">523</a></span>
+<span id="L524" class="lineno"><a class="lineno" href="#L524">524</a></span>
+<span id="L525" class="lineno"><a class="lineno" href="#L525">525</a></span>
+<span id="L526" class="lineno"><a class="lineno" href="#L526">526</a></span>
+<span id="L527" class="lineno"><a class="lineno" href="#L527">527</a></span>
+<span id="L528" class="lineno"><a class="lineno" href="#L528">528</a></span>
+<span id="L529" class="lineno"><a class="lineno" href="#L529">529</a></span>
+<span id="L530" class="lineno"><a class="lineno" href="#L530">530</a></span>
+<span id="L531" class="lineno"><a class="lineno" href="#L531">531</a></span>
+<span id="L532" class="lineno"><a class="lineno" href="#L532">532</a></span>
+<span id="L533" class="lineno"><a class="lineno" href="#L533">533</a></span>
+<span id="L534" class="lineno"><a class="lineno" href="#L534">534</a></span>
+<span id="L535" class="lineno"><a class="lineno" href="#L535">535</a></span>
+<span id="L536" class="lineno"><a class="lineno" href="#L536">536</a></span>
+<span id="L537" class="lineno"><a class="lineno" href="#L537">537</a></span>
 </pre></td>
 <td class="table-code"><pre><span class="line-empty" title="No Anys on this line!">"""Git commands related functionality.</span>
 <span class="line-empty" title="No Anys on this line!"></span>
@@ -547,10 +561,9 @@
 <span class="line-precise" title="No Anys on this line!">import subprocess</span>
 <span class="line-precise" title="No Anys on this line!">import tarfile</span>
 <span class="line-precise" title="No Anys on this line!">from pathlib import Path</span>
-<span class="line-precise" title="No Anys on this line!">from typing import Literal, Optional</span>
+<span class="line-precise" title="No Anys on this line!">from typing import Any, Literal, Optional</span>
 <span class="line-empty" title="No Anys on this line!"></span>
 <span class="line-precise" title="No Anys on this line!">from git_dag.constants import CMD_TAGS_INFO, TAG_FORMAT_FIELDS</span>
-<span class="line-precise" title="No Anys on this line!">from git_dag.exceptions import EmptyGitRepository</span>
 <span class="line-precise" title="No Anys on this line!">from git_dag.git_objects import DictStrStr</span>
 <span class="line-precise" title="No Anys on this line!">from git_dag.utils import escape_decode</span>
 <span class="line-empty" title="No Anys on this line!"></span>
@@ -649,15 +662,27 @@ Explicit (x13)">        with subprocess.Popen(</span>
 <span class="line-empty" title="No Anys on this line!"></span>
 <span class="line-precise" title="No Anys on this line!">        return env</span>
 <span class="line-empty" title="No Anys on this line!"></span>
+<span class="line-precise" title="No Anys on this line!">    def add(self, files: dict[str, str]) -&gt; None:</span>
+<span class="line-empty" title="No Anys on this line!">        """Add files to the index.</span>
+<span class="line-empty" title="No Anys on this line!"></span>
+<span class="line-empty" title="No Anys on this line!">        ``files`` specifies files to be added to the index (its format is ``{'filename':</span>
+<span class="line-empty" title="No Anys on this line!">        'file contents', ...}``). Names of files should not include the path to the</span>
+<span class="line-empty" title="No Anys on this line!">        repository (it is prepended).</span>
+<span class="line-empty" title="No Anys on this line!"></span>
+<span class="line-empty" title="No Anys on this line!">        """</span>
+<span class="line-precise" title="No Anys on this line!">        for filename, contents in files.items():</span>
+<span class="line-precise" title="Any Types on this line: 
+Unimported (x7)
+Explicit (x1)">            with open(Path(self.path) / filename, "w", encoding="utf-8") as h:</span>
+<span class="line-precise" title="No Anys on this line!">                h.write(contents)</span>
+<span class="line-precise" title="No Anys on this line!">            self._run(f"add {filename}")</span>
+<span class="line-empty" title="No Anys on this line!"></span>
 <span class="line-precise" title="No Anys on this line!">    def cm(</span>
 <span class="line-precise" title="No Anys on this line!">        self, messages: str | list[str], files: Optional[dict[str, str]] = None</span>
 <span class="line-empty" title="No Anys on this line!">    ) -&gt; None:</span>
 <span class="line-empty" title="No Anys on this line!">        """Add commit(s).</span>
 <span class="line-empty" title="No Anys on this line!"></span>
-<span class="line-empty" title="No Anys on this line!">        ``files`` specifies files to be added to the index before committing (its format</span>
-<span class="line-empty" title="No Anys on this line!">        is ``{'filename': 'file contents', ...}``, if not specified an empty commit is</span>
-<span class="line-empty" title="No Anys on this line!">        created). Names of files should not include the path to the repository (it is</span>
-<span class="line-empty" title="No Anys on this line!">        prepended).</span>
+<span class="line-empty" title="No Anys on this line!">        If ``files`` is not specified an empty commit is created.</span>
 <span class="line-empty" title="No Anys on this line!"></span>
 <span class="line-empty" title="No Anys on this line!">        Note</span>
 <span class="line-empty" title="No Anys on this line!">        -----</span>
@@ -667,12 +692,7 @@ Explicit (x13)">        with subprocess.Popen(</span>
 <span class="line-empty" title="No Anys on this line!">        """</span>
 <span class="line-precise" title="No Anys on this line!">        if isinstance(messages, str):</span>
 <span class="line-precise" title="No Anys on this line!">            if files is not None:</span>
-<span class="line-precise" title="No Anys on this line!">                for filename, contents in files.items():</span>
-<span class="line-precise" title="Any Types on this line: 
-Unimported (x7)
-Explicit (x1)">                    with open(Path(self.path) / filename, "w", encoding="utf-8") as h:</span>
-<span class="line-precise" title="No Anys on this line!">                        h.write(contents)</span>
-<span class="line-precise" title="No Anys on this line!">                    self._run(f"add {filename}")</span>
+<span class="line-precise" title="No Anys on this line!">                self.add(files)</span>
 <span class="line-empty" title="No Anys on this line!"></span>
 <span class="line-precise" title="No Anys on this line!">            self._run(f'commit --allow-empty -m "{messages}"', env=self.env)</span>
 <span class="line-precise" title="Any Types on this line: 
@@ -780,7 +800,8 @@ Explicit (x1)">            with open(Path(self.path) / filename, "w", encoding="
 <span class="line-empty" title="No Anys on this line!">        )</span>
 <span class="line-precise" title="No Anys on this line!">        objects = self._run(CMD).strip().split("\n")</span>
 <span class="line-precise" title="No Anys on this line!">        if len(objects) == 1 and not objects[0]:</span>
-<span class="line-precise" title="No Anys on this line!">            raise EmptyGitRepository("No objects, probably the repository is empty.")</span>
+<span class="line-precise" title="No Anys on this line!">            LOG.warning("No objects")</span>
+<span class="line-empty" title="No Anys on this line!">            return []</span>
 <span class="line-empty" title="No Anys on this line!"></span>
 <span class="line-precise" title="No Anys on this line!">        return objects</span>
 <span class="line-empty" title="No Anys on this line!"></span>
@@ -801,8 +822,8 @@ Explicit (x1)">            with open(Path(self.path) / filename, "w", encoding="
 <span class="line-empty" title="No Anys on this line!"></span>
 <span class="line-empty" title="No Anys on this line!">        try:</span>
 <span class="line-precise" title="No Anys on this line!">            cmd_output = self._run("show-ref").strip().split("\n")</span>
-<span class="line-precise" title="No Anys on this line!">        except subprocess.CalledProcessError as error:</span>
-<span class="line-precise" title="No Anys on this line!">            LOG.warning(error)</span>
+<span class="line-precise" title="No Anys on this line!">        except subprocess.CalledProcessError:</span>
+<span class="line-precise" title="No Anys on this line!">            LOG.warning("No refs")</span>
 <span class="line-precise" title="No Anys on this line!">            return refs</span>
 <span class="line-empty" title="No Anys on this line!"></span>
 <span class="line-precise" title="No Anys on this line!">        for ref in cmd_output:</span>
@@ -951,18 +972,21 @@ Omitted Generics (x2)">                tags["lightweight"][raw_tag.pop("refname"
 <span class="line-empty" title="No Anys on this line!">    """Create test git repository."""</span>
 <span class="line-empty" title="No Anys on this line!"></span>
 <span class="line-empty" title="No Anys on this line!">    @classmethod</span>
-<span class="line-precise" title="No Anys on this line!">    def create(</span>
+<span class="line-imprecise" title="Any Types on this line: 
+Explicit (x1)">    def create(</span>
 <span class="line-empty" title="No Anys on this line!">        cls,</span>
 <span class="line-empty" title="No Anys on this line!">        label: Literal["default", "empty"],</span>
 <span class="line-empty" title="No Anys on this line!">        repo_path: Path | str,  # assumed to exist</span>
 <span class="line-precise" title="No Anys on this line!">        tar_file_name: Optional[str] = None,</span>
+<span class="line-empty" title="No Anys on this line!">        **kwargs: dict[str, Any],</span>
 <span class="line-empty" title="No Anys on this line!">    ) -&gt; None:</span>
 <span class="line-empty" title="No Anys on this line!">        """Git repository creation displatch."""</span>
 <span class="line-precise" title="No Anys on this line!">        match label:</span>
 <span class="line-precise" title="No Anys on this line!">            case "default":</span>
 <span class="line-precise" title="No Anys on this line!">                cls.repository_default(repo_path)</span>
 <span class="line-precise" title="No Anys on this line!">            case "empty":</span>
-<span class="line-precise" title="No Anys on this line!">                cls.repository_empty(repo_path)</span>
+<span class="line-imprecise" title="Any Types on this line: 
+Explicit (x1)">                cls.repository_empty(repo_path, **kwargs)</span>
 <span class="line-empty" title="No Anys on this line!">            case _:</span>
 <span class="line-unanalyzed" title="No Anys on this line!">                raise ValueError(f"Unknown repository label: {label}")</span>
 <span class="line-empty" title="No Anys on this line!"></span>
@@ -982,10 +1006,16 @@ Omitted Generics (x2)">                tags["lightweight"][raw_tag.pop("refname"
 <span class="line-precise" title="No Anys on this line!">            tar.extractall(path=extract_path, filter="fully_trusted")</span>
 <span class="line-empty" title="No Anys on this line!"></span>
 <span class="line-empty" title="No Anys on this line!">    @staticmethod</span>
-<span class="line-precise" title="No Anys on this line!">    def repository_empty(path: Path | str) -&gt; None:</span>
-<span class="line-empty" title="No Anys on this line!">        """Empty repository."""</span>
+<span class="line-precise" title="No Anys on this line!">    def repository_empty(</span>
+<span class="line-empty" title="No Anys on this line!">        path: Path | str,</span>
+<span class="line-precise" title="No Anys on this line!">        files: Optional[dict[str, str]] = None,</span>
+<span class="line-empty" title="No Anys on this line!">    ) -&gt; None:</span>
+<span class="line-empty" title="No Anys on this line!">        """Empty repository (possibly with files added to the index)."""</span>
 <span class="line-precise" title="No Anys on this line!">        git = GitCommandMutate(path)</span>
 <span class="line-precise" title="No Anys on this line!">        git.init()</span>
+<span class="line-empty" title="No Anys on this line!"></span>
+<span class="line-precise" title="No Anys on this line!">        if files is not None:</span>
+<span class="line-precise" title="No Anys on this line!">            git.add(files)</span>
 <span class="line-empty" title="No Anys on this line!"></span>
 <span class="line-empty" title="No Anys on this line!">    @staticmethod</span>
 <span class="line-precise" title="No Anys on this line!">    def repository_default(path: Path | str) -&gt; None:</span>
@@ -1048,7 +1078,8 @@ Omitted Generics (x2)">                tags["lightweight"][raw_tag.pop("refname"
 <span class="line-empty" title="No Anys on this line!"></span>
 <span class="line-precise" title="No Anys on this line!">    path = Path("test/resources/default_repo")</span>
 <span class="line-precise" title="No Anys on this line!">    path.mkdir()</span>
-<span class="line-precise" title="No Anys on this line!">    TestGitRepository.create("default", path)</span>
+<span class="line-precise" title="Any Types on this line: 
+Explicit (x1)">    TestGitRepository.create("default", path)</span>
 <span class="line-empty" title="No Anys on this line!"></span>
 <span class="line-precise" title="No Anys on this line!">    repo = GitRepository(path, parse_trees=True)</span>
 <span class="line-any" title="Any Types on this line: 

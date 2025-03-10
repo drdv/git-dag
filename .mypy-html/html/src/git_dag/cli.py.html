@@ -266,11 +266,6 @@
 <span id="L256" class="lineno"><a class="lineno" href="#L256">256</a></span>
 <span id="L257" class="lineno"><a class="lineno" href="#L257">257</a></span>
 <span id="L258" class="lineno"><a class="lineno" href="#L258">258</a></span>
-<span id="L259" class="lineno"><a class="lineno" href="#L259">259</a></span>
-<span id="L260" class="lineno"><a class="lineno" href="#L260">260</a></span>
-<span id="L261" class="lineno"><a class="lineno" href="#L261">261</a></span>
-<span id="L262" class="lineno"><a class="lineno" href="#L262">262</a></span>
-<span id="L263" class="lineno"><a class="lineno" href="#L263">263</a></span>
 </pre></td>
 <td class="table-code"><pre><span class="line-empty" title="No Anys on this line!">#!/usr/bin/env python</span>
 <span class="line-empty" title="No Anys on this line!"># PYTHON_ARGCOMPLETE_OK</span>
@@ -282,7 +277,6 @@
 <span class="line-precise" title="No Anys on this line!">import argcomplete</span>
 <span class="line-empty" title="No Anys on this line!"></span>
 <span class="line-precise" title="No Anys on this line!">from .constants import DagBackends</span>
-<span class="line-precise" title="No Anys on this line!">from .exceptions import EmptyGitRepository</span>
 <span class="line-precise" title="No Anys on this line!">from .git_repository import GitRepository</span>
 <span class="line-empty" title="No Anys on this line!"></span>
 <span class="line-empty" title="No Anys on this line!"></span>
@@ -530,55 +524,51 @@ Explicit (x2)">    max_numb_commits = None if args.max_numb_commits &lt; 1 else 
 <span class="line-any" title="Any Types on this line: 
 Explicit (x14)
 Omitted Generics (x2)">    logging.getLogger().setLevel(getattr(logging, args.log_level))</span>
-<span class="line-precise" title="No Anys on this line!">    LOG = logging.getLogger(__name__)</span>
 <span class="line-empty" title="No Anys on this line!"></span>
-<span class="line-empty" title="No Anys on this line!">    try:</span>
 <span class="line-any" title="Any Types on this line: 
-Explicit (x5)">        GitRepository(args.path, parse_trees=args.show_trees).show(</span>
+Explicit (x5)">    GitRepository(args.path, parse_trees=args.show_trees).show(</span>
 <span class="line-precise" title="Any Types on this line: 
-Explicit (x1)">            dag_backend=DagBackends[args.dag_backend.upper()],</span>
+Explicit (x1)">        dag_backend=DagBackends[args.dag_backend.upper()],</span>
 <span class="line-precise" title="Any Types on this line: 
-Explicit (x1)">            xdg_open=args.xdg_open,</span>
+Explicit (x1)">        xdg_open=args.xdg_open,</span>
 <span class="line-precise" title="Any Types on this line: 
-Explicit (x1)">            format=args.format,</span>
+Explicit (x1)">        format=args.format,</span>
 <span class="line-precise" title="Any Types on this line: 
-Explicit (x1)">            show_unreachable_commits=args.show_unreachable_commits,</span>
+Explicit (x1)">        show_unreachable_commits=args.show_unreachable_commits,</span>
 <span class="line-precise" title="Any Types on this line: 
-Explicit (x1)">            show_tags=args.show_tags,</span>
+Explicit (x1)">        show_tags=args.show_tags,</span>
 <span class="line-precise" title="Any Types on this line: 
-Explicit (x1)">            show_deleted_tags=args.show_deleted_tags,</span>
+Explicit (x1)">        show_deleted_tags=args.show_deleted_tags,</span>
 <span class="line-precise" title="Any Types on this line: 
-Explicit (x1)">            show_local_branches=args.show_local_branches,</span>
+Explicit (x1)">        show_local_branches=args.show_local_branches,</span>
 <span class="line-precise" title="Any Types on this line: 
-Explicit (x1)">            show_remote_branches=args.show_remote_branches,</span>
+Explicit (x1)">        show_remote_branches=args.show_remote_branches,</span>
 <span class="line-precise" title="Any Types on this line: 
-Explicit (x1)">            show_trees=args.show_trees,</span>
+Explicit (x1)">        show_trees=args.show_trees,</span>
 <span class="line-precise" title="Any Types on this line: 
-Explicit (x1)">            show_blobs=args.show_blobs,</span>
+Explicit (x1)">        show_blobs=args.show_blobs,</span>
 <span class="line-precise" title="Any Types on this line: 
-Explicit (x1)">            show_stash=args.show_stash,</span>
+Explicit (x1)">        show_stash=args.show_stash,</span>
 <span class="line-precise" title="Any Types on this line: 
-Explicit (x1)">            show_head=args.show_head,</span>
+Explicit (x1)">        show_head=args.show_head,</span>
 <span class="line-precise" title="Any Types on this line: 
-Explicit (x1)">            range=args.range,</span>
+Explicit (x1)">        range=args.range,</span>
 <span class="line-precise" title="Any Types on this line: 
-Explicit (x1)">            commit_message_as_label=args.commit_message_as_label,</span>
+Explicit (x1)">        commit_message_as_label=args.commit_message_as_label,</span>
 <span class="line-precise" title="Any Types on this line: 
-Explicit (x1)">            starting_objects=args.init_refs,</span>
+Explicit (x1)">        starting_objects=args.init_refs,</span>
 <span class="line-precise" title="Any Types on this line: 
-Explicit (x1)">            filename=args.file,</span>
-<span class="line-empty" title="No Anys on this line!">            dag_attr={</span>
+Explicit (x1)">        filename=args.file,</span>
+<span class="line-empty" title="No Anys on this line!">        dag_attr={</span>
 <span class="line-precise" title="Any Types on this line: 
-Explicit (x1)">                "rankdir": args.rankdir,</span>
+Explicit (x1)">            "rankdir": args.rankdir,</span>
 <span class="line-precise" title="Any Types on this line: 
-Explicit (x1)">                "dpi": args.dpi,</span>
+Explicit (x1)">            "dpi": args.dpi,</span>
 <span class="line-precise" title="Any Types on this line: 
-Explicit (x1)">                "bgcolor": args.bgcolor,</span>
-<span class="line-empty" title="No Anys on this line!">            },</span>
-<span class="line-precise" title="No Anys on this line!">            max_numb_commits=max_numb_commits,</span>
-<span class="line-empty" title="No Anys on this line!">        )</span>
-<span class="line-precise" title="No Anys on this line!">    except EmptyGitRepository as e:</span>
-<span class="line-precise" title="No Anys on this line!">        LOG.error(e)</span>
+Explicit (x1)">            "bgcolor": args.bgcolor,</span>
+<span class="line-empty" title="No Anys on this line!">        },</span>
+<span class="line-precise" title="No Anys on this line!">        max_numb_commits=max_numb_commits,</span>
+<span class="line-empty" title="No Anys on this line!">    )</span>
 <span class="line-empty" title="No Anys on this line!"></span>
 <span class="line-empty" title="No Anys on this line!"></span>
 <span class="line-precise" title="No Anys on this line!">if __name__ == "__main__":</span>
