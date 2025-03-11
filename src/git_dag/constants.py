@@ -48,6 +48,7 @@ DAG_NODE_COLORS: Final[dict[str, str]] = {
     "local-branches": "forestgreen",
     "remote-branches": "firebrick",
     "stash": "skyblue",
+    "notes": "white",
 }
 
 DAG_ATTR: Final[dict[str, str]] = {

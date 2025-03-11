@@ -206,6 +206,10 @@ class GitCommandMutate(GitCommandBase):
             message_str = f'-m "{message}"' if message is not None else ""
             self._run(f"tag {name} {ref_str} {message_str}", env=self.env)
 
+    def note(self, msg: str, ref: Optional[str] = None) -> None:
+        """Add a git note to a given ref (e.g., hash, branch name)."""
+        self._run(f'notes add -m "{msg}" {ref if ref is not None else ""}')
+
     def config(self, option: str) -> None:
         """Set a gonfig option."""
         self._run(f"config {option}")
@@ -399,6 +403,15 @@ class GitCommand(GitCommandBase):
 
         return tags
 
+    def get_notes_dag_root(self) -> Optional[dict[str, str]]:
+        """Return the root node of the DAG for git notes."""
+        notes_ref = self._run("notes get-ref").strip().split("\n")[0]
+        try:
+            notes_dag_root = self._run(f"rev-list {notes_ref}").strip().split("\n")[0]
+        except subprocess.CalledProcessError:
+            return None  # there are no git notes
+        return {"ref": notes_ref, "root": notes_dag_root}
+
 
 class TestGitRepository:
     """Create test git repository."""
@@ -406,7 +419,7 @@ class TestGitRepository:
     @classmethod
     def create(
         cls,
-        label: Literal["default", "empty"],
+        label: Literal["default", "default-with-notes", "empty"],
         repo_path: Path | str,  # assumed to exist
         tar_file_name: Optional[str] = None,
         **kwargs: dict[str, Any],
@@ -415,6 +428,8 @@ class TestGitRepository:
         match label:
             case "default":
                 cls.repository_default(repo_path)
+            case "default-with-notes":
+                cls.repository_default_with_notes(repo_path)
             case "empty":
                 cls.repository_empty(repo_path, **kwargs)
             case _:
@@ -490,6 +505,15 @@ class TestGitRepository:
         git.stash({"file": "stash:second"}, title="second")
         git.stash({"file": "stash:third"}, title="third")
         git.config("gc.auto 0")
+
+    @classmethod
+    def repository_default_with_notes(cls, path: Path | str) -> None:
+        """Default repository with git notes."""
+        cls.repository_default(path)
+        git = GitCommandMutate(path)
+
+        git.note("Add a note")
+        git.note("Add a another note", "main")
 
 
 def create_test_repo_and_reference_dot_file() -> None:

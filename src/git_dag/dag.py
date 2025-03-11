@@ -28,7 +28,7 @@ from .git_objects import DictStrStr, GitBlob, GitCommit, GitTag, GitTree
 from .interfaces.graphviz import DagGraphviz
 from .utils import transform_ascii_control_chars
 
-if TYPE_CHECKING:
+if TYPE_CHECKING:  # pragma: no cover
     from .git_repository import GitRepository
 
 LOG = logging.getLogger(__name__)
@@ -55,10 +55,22 @@ class MixinProtocol(Protocol):
 
     def _is_object_to_include(self, sha: str) -> bool: ...
     def _is_tag_to_include(self, item: GitTag) -> bool: ...
+    def _add_notes_label_node(self, sha: str, ref: str) -> None: ...
 
 
 class CommitHandlerMixin:
     """Handle commits."""
+
+    def _add_notes_label_node(self: MixinProtocol, sha: str, ref: str) -> None:
+        """Add a node that labels the root of the git notes DAG."""
+        self.dag.node(
+            name="GIT-NOTES-LABEL",
+            label="git notes",
+            fillcolor=DAG_NODE_COLORS["notes"],
+            tooltip=ref,
+            shape="egg",
+        )
+        self.dag.edge("GIT-NOTES-LABEL", sha)
 
     def _add_commit(self: MixinProtocol, sha: str, item: GitCommit) -> None:
         def form_tooltip(item: GitCommit) -> str:
@@ -88,6 +100,13 @@ class CommitHandlerMixin:
                 fillcolor=DAG_NODE_COLORS[color_label],
                 tooltip=form_tooltip(item),
             )
+
+            if self.repository.notes_dag_root is not None:
+                if sha == self.repository.notes_dag_root["root"]:
+                    self._add_notes_label_node(
+                        sha,
+                        self.repository.notes_dag_root["ref"],
+                    )
 
             if self.show_trees:
                 self.dag.edge(sha, item.tree.sha)
@@ -321,7 +340,7 @@ class DagVisualizer(
                 h.write(self.dag.source())
         else:
             self.dag.render()
-            if xdg_open:
+            if xdg_open:  # pragma: no cover
                 subprocess.run(
                     f"xdg-open {self.filename}.{self.format}",
                     shell=True,
