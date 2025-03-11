@@ -1,4 +1,4 @@
-"""Tests."""
+"""Test utils.py."""
 
 # pylint: disable=missing-function-docstring
 
@@ -15,11 +15,11 @@ from git_dag import utils
     [
         (
             "Test without ASCII control characters €",
-            "Test without ASCII control characters €"
+            "Test without ASCII control characters €",
         ),
         (
             "Test:                    € 日本語",  # pylint: disable=invalid-character-sub
-            "Test: ^A ^B ^C ^D ^E ^F ^N ^O ^P ^Q ^R ^S ^T ^U ^V ^W ^X ^Y ^Z € 日本語"
+            "Test: ^A ^B ^C ^D ^E ^F ^N ^O ^P ^Q ^R ^S ^T ^U ^V ^W ^X ^Y ^Z € 日本語",
         ),
         ("Test: , \b, \t, \n, , \f, \r €", "Test: , \b, \t, \n, , \f, \r €"),
     ],

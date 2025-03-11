@@ -62,7 +62,7 @@ class GitCommandBase:
         ) as process:
             output, error = process.communicate()
             if error:
-                raise ValueError(error)
+                raise ValueError(error)  # pragma: no cover
             return output.decode(encoding, errors="replace").strip()
 
 
@@ -101,14 +101,14 @@ class GitCommandMutate(GitCommandBase):
             env["GIT_AUTHOR_NAME"] = match.group("name")
             env["GIT_AUTHOR_EMAIL"] = match.group("email")
         else:
-            raise ValueError("Author not matched.")
+            raise ValueError("Author not matched.")  # pragma: no cover
 
         match = re.search("(?P<name>.*) (?P<email><.*>)", self.committer)
         if match:
             env["GIT_COMMITTER_NAME"] = match.group("name")
             env["GIT_COMMITTER_EMAIL"] = match.group("email")
         else:
-            raise ValueError("Committer not matched.")
+            raise ValueError("Committer not matched.")  # pragma: no cover
 
         return env
 
@@ -292,10 +292,6 @@ class GitCommand(GitCommandBase):
         """Return local HEAD."""
         return self._run("rev-parse HEAD").strip()
 
-    def is_detached_head(self) -> bool:
-        """Check if the repository is in a detached HEAD state."""
-        return not self._run("branch --show-current").strip()
-
     def local_branch_is_tracking(self, local_branch_sha: str) -> Optional[str]:
         """Detect if a local branch is tracking a remote one."""
         try:
@@ -424,7 +420,7 @@ class TestGitRepository:
         cls,
         label: Literal["default", "default-with-notes", "empty"],
         repo_path: Path | str,  # assumed to exist
-        tar_file_name: Optional[str] = None,
+        tar_file_name: Optional[Path | str] = None,
         **kwargs: dict[str, Any],
     ) -> None:
         """Git repository creation displatch."""
@@ -519,7 +515,9 @@ class TestGitRepository:
         git.note("Add a another note", "main")
 
 
-def create_test_repo_and_reference_dot_file() -> None:
+def create_test_repo_and_reference_dot_file(
+    path: Path | str = "test/resources/default_repo",
+) -> None:
     """Create a git repository and its associated DOT file (to use as reference).
 
     Note
@@ -533,7 +531,7 @@ def create_test_repo_and_reference_dot_file() -> None:
 
     from git_dag.git_repository import GitRepository  # pylint: disable=cyclic-import
 
-    path = Path("test/resources/default_repo")
+    path = Path(path)
     path.mkdir()
     TestGitRepository.create("default", path)
 
@@ -560,5 +558,5 @@ def create_test_repo_and_reference_dot_file() -> None:
     shutil.rmtree(path)
 
 
-if __name__ == "__main__":
+if __name__ == "__main__":  # pragma: no cover
     create_test_repo_and_reference_dot_file()

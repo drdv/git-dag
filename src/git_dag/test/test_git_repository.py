@@ -1,4 +1,4 @@
-"""Tests."""
+"""Test git_repository.py."""
 
 # pylint: disable=missing-function-docstring,redefined-outer-name
 
@@ -16,48 +16,14 @@ TEST_DIR = Path(__file__).parent
 LOG = logging.getLogger(__name__)
 
 
-@pytest.fixture
-def git_repository_empty(tmp_path: Path) -> Path:
-    repo_path = tmp_path / "empty_repo"
-    repo_path.mkdir()
-
-    TestGitRepository.create("empty", repo_path)
-    return repo_path
-
-
-@pytest.fixture
-def git_repository_empty_with_index(tmp_path: Path) -> Path:
-    repo_path = tmp_path / "empty_repo_with_index"
-    repo_path.mkdir()
-
-    TestGitRepository.create("empty", repo_path, files={"tmp_file": "1"})
-    return repo_path
-
-
-@pytest.fixture
-def git_repository_default(tmp_path: Path) -> Path:
-    repo_path = tmp_path / "default_repo"
-    repo_path.mkdir()
-
-    TestGitRepository.create("default", repo_path)
-    return repo_path
-
-
-@pytest.fixture
-def git_repository_default_with_notes(tmp_path: Path) -> Path:
-    repo_path = tmp_path / "default_repo_with_notes"
-    repo_path.mkdir()
-
-    TestGitRepository.create("default-with-notes", repo_path)
-    return repo_path
-
-
 def test_repository_empty(
     git_repository_empty: Path,
     caplog: pytest.LogCaptureFixture,
 ) -> None:
     with caplog.at_level(logging.WARNING):
-        GitRepository(git_repository_empty)
+        repo = GitRepository(git_repository_empty)
+
+    assert not repo.is_detached_head
 
     assert "No objects" in caplog.text
     assert "No Head" in caplog.text
@@ -144,7 +110,7 @@ def test_repository_default_with_notes(git_repository_default_with_notes: Path) 
     for obj in repo.objects.values():
         assert obj.is_ready
 
-    numb_obj_due_to_notes = 2
+    numb_obj_due_to_notes = 2  # two notes were added
 
     commits = repo.commits.values()
     assert len([c for c in commits if c.is_reachable]) == 12 + numb_obj_due_to_notes
@@ -162,9 +128,12 @@ def test_repository_default_with_notes(git_repository_default_with_notes: Path) 
     with open(repo_path / "default_repo_with_notes.gv", "r", encoding="utf-8") as h:
         result_gv = h.read()
 
-    assert "git notes" in result_gv
-    assert "label=A" in result_gv
-    assert "label=F" in result_gv
+    assert (
+        '"GIT-NOTES-LABEL" [label="git notes" fillcolor=white shape=egg '
+        'tooltip="refs/notes/commits"]'
+    ) in result_gv
+    for name in list("ABCDEFGHINmO"):
+        assert f"label={name}" in result_gv
 
     with pytest.raises(ValueError):
         repo.show(dag_backend="missing", format="gv", filename=repo_path / "tmp.gv")  # type: ignore[arg-type]
