@@ -264,6 +264,13 @@
 <span id="L254" class="lineno"><a class="lineno" href="#L254">254</a></span>
 <span id="L255" class="lineno"><a class="lineno" href="#L255">255</a></span>
 <span id="L256" class="lineno"><a class="lineno" href="#L256">256</a></span>
+<span id="L257" class="lineno"><a class="lineno" href="#L257">257</a></span>
+<span id="L258" class="lineno"><a class="lineno" href="#L258">258</a></span>
+<span id="L259" class="lineno"><a class="lineno" href="#L259">259</a></span>
+<span id="L260" class="lineno"><a class="lineno" href="#L260">260</a></span>
+<span id="L261" class="lineno"><a class="lineno" href="#L261">261</a></span>
+<span id="L262" class="lineno"><a class="lineno" href="#L262">262</a></span>
+<span id="L263" class="lineno"><a class="lineno" href="#L263">263</a></span>
 </pre></td>
 <td class="table-code"><pre><span class="line-empty" title="No Anys on this line!">#!/usr/bin/env python</span>
 <span class="line-empty" title="No Anys on this line!"># PYTHON_ARGCOMPLETE_OK</span>
@@ -315,8 +322,8 @@
 <span class="line-precise" title="No Anys on this line!">    log_level: str</span>
 <span class="line-empty" title="No Anys on this line!"></span>
 <span class="line-empty" title="No Anys on this line!"></span>
-<span class="line-precise" title="No Anys on this line!">def get_cla(raw_args: Optional[list[str]] = None) -&gt; CustomArgparseNamespace:</span>
-<span class="line-empty" title="No Anys on this line!">    """Parse command-line arguments."""</span>
+<span class="line-precise" title="No Anys on this line!">def get_cla_parser() -&gt; argparse.ArgumentParser:</span>
+<span class="line-empty" title="No Anys on this line!">    """Define CLA parser."""</span>
 <span class="line-precise" title="Any Types on this line: 
 Explicit (x1)">    parser = argparse.ArgumentParser(description="Visualize the git DAG.")</span>
 <span class="line-empty" title="No Anys on this line!"></span>
@@ -504,6 +511,13 @@ Explicit (x3)">    parser.add_argument(</span>
 <span class="line-precise" title="No Anys on this line!">        choices=["NOTSET", "INFO", "WARNING", "ERROR", "CRITICAL"],</span>
 <span class="line-precise" title="No Anys on this line!">        help="Log level.",</span>
 <span class="line-empty" title="No Anys on this line!">    )</span>
+<span class="line-empty" title="No Anys on this line!"></span>
+<span class="line-precise" title="No Anys on this line!">    return parser</span>
+<span class="line-empty" title="No Anys on this line!"></span>
+<span class="line-empty" title="No Anys on this line!"></span>
+<span class="line-precise" title="No Anys on this line!">def get_cla(raw_args: Optional[list[str]] = None) -&gt; CustomArgparseNamespace:</span>
+<span class="line-empty" title="No Anys on this line!">    """Parse command-line arguments."""</span>
+<span class="line-precise" title="No Anys on this line!">    parser = get_cla_parser()</span>
 <span class="line-empty" title="No Anys on this line!"></span>
 <span class="line-precise" title="No Anys on this line!">    argcomplete.autocomplete(parser)</span>
 <span class="line-precise" title="Any Types on this line: 

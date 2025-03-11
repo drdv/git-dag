@@ -16,6 +16,7 @@
       :nosignatures:
    
       get_cla
+      get_cla_parser
       main
    
    
