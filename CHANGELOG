@@ -2,6 +2,7 @@
 
 * 0.1.1    UNRELEASED
 
++ Add label to the root node of the git notes DAG (#68)
 + Handle empty repository without raising an exception (#65)
 + Add sphinx docs (#1)
 + Rename module pydantic_models (#61)

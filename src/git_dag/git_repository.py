@@ -259,6 +259,7 @@ class GitInspector:
         self.stashes_info_parsed = RegexParser.parse_stash_info(
             self.git.get_stash_info()
         )
+        self.notes_dag_root = self.git.get_notes_dag_root()
 
     def _get_commits_sha(self) -> dict[str, set[str]]:
         """Return SHA of all reachable/unreachable commits.
@@ -460,6 +461,7 @@ class GitRepository:
         self.branches: list[GitBranch] = self._form_branches()
         self.stashes: list[GitStash] = self._form_stashes()
         self.head_branches = [b for b in self.branches if b.commit == self.head]
+        self.notes_dag_root: Optional[dict[str, str]] = self.inspector.notes_dag_root
 
     @time_it
     def _form_head(self) -> Optional[GitCommit]:

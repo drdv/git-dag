@@ -43,6 +43,15 @@ def git_repository_default(tmp_path: Path) -> Path:
     return repo_path
 
 
+@pytest.fixture
+def git_repository_default_with_notes(tmp_path: Path) -> Path:
+    repo_path = tmp_path / "default_repo_with_notes"
+    repo_path.mkdir()
+
+    TestGitRepository.create("default-with-notes", repo_path)
+    return repo_path
+
+
 def test_repository_empty(
     git_repository_empty: Path,
     caplog: pytest.LogCaptureFixture,
@@ -120,6 +129,45 @@ def test_repository_default(git_repository_default: Path) -> None:
 
     assert {b.name for b in repo.branches} == {"main", "topic"}
     assert not repo.is_detached_head
+
+
+def test_repository_default_with_notes(git_repository_default_with_notes: Path) -> None:
+    """
+    Maybe this test should be split. It tests three things:
+    1. that git notes label is added
+    2. setting max_numb_commits to None
+    3. setting commit_message_as_label to 1
+    """
+    repo_path = git_repository_default_with_notes
+    repo = GitRepository(repo_path, parse_trees=True)
+
+    for obj in repo.objects.values():
+        assert obj.is_ready
+
+    numb_obj_due_to_notes = 2
+
+    commits = repo.commits.values()
+    assert len([c for c in commits if c.is_reachable]) == 12 + numb_obj_due_to_notes
+    assert len([c for c in commits if not c.is_reachable]) == 3
+
+    assert len(repo.filter_objects(GitTree).values()) == 6 + numb_obj_due_to_notes
+    assert len(repo.filter_objects(GitBlob).values()) == 5 + numb_obj_due_to_notes
+
+    repo.show(
+        max_numb_commits=None,
+        commit_message_as_label=1,
+        format="gv",
+        filename=repo_path / "default_repo_with_notes.gv",
+    )
+    with open(repo_path / "default_repo_with_notes.gv", "r", encoding="utf-8") as h:
+        result_gv = h.read()
+
+    assert "git notes" in result_gv
+    assert "label=A" in result_gv
+    assert "label=F" in result_gv
+
+    with pytest.raises(ValueError):
+        repo.show(dag_backend="missing", format="gv", filename=repo_path / "tmp.gv")  # type: ignore[arg-type]
 
 
 def test_repository_default_dag(tmp_path: Path) -> None:
