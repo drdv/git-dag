@@ -48,8 +48,8 @@ class CustomArgparseNamespace(argparse.Namespace):
     log_level: str
 
 
-def get_cla(raw_args: Optional[list[str]] = None) -> CustomArgparseNamespace:
-    """Parse command-line arguments."""
+def get_cla_parser() -> argparse.ArgumentParser:
+    """Define CLA parser."""
     parser = argparse.ArgumentParser(description="Visualize the git DAG.")
 
     parser.add_argument(
@@ -214,6 +214,13 @@ def get_cla(raw_args: Optional[list[str]] = None) -> CustomArgparseNamespace:
         choices=["NOTSET", "INFO", "WARNING", "ERROR", "CRITICAL"],
         help="Log level.",
     )
+
+    return parser
+
+
+def get_cla(raw_args: Optional[list[str]] = None) -> CustomArgparseNamespace:
+    """Parse command-line arguments."""
+    parser = get_cla_parser()
 
     argcomplete.autocomplete(parser)
     return parser.parse_args(raw_args, namespace=CustomArgparseNamespace())
