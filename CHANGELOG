@@ -2,6 +2,10 @@
 
 * 0.1.2    UNRELEASED
 
+** Bugfixes
+
++ Fix Command-line interface section in docs
+
 * 0.1.1    2025-03-11
 
 + Add label to the root node of the git notes DAG (#68)
