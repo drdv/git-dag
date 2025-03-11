@@ -208,7 +208,10 @@ class GitCommandMutate(GitCommandBase):
 
     def note(self, msg: str, ref: Optional[str] = None) -> None:
         """Add a git note to a given ref (e.g., hash, branch name)."""
-        self._run(f'notes add -m "{msg}" {ref if ref is not None else ""}')
+        self._run(
+            f'notes add -m "{msg}" {ref if ref is not None else ""}',
+            env=self.env,
+        )
 
     def config(self, option: str) -> None:
         """Set a gonfig option."""
