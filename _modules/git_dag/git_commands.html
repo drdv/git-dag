@@ -206,7 +206,7 @@
 <li class="toctree-l1"><a class="reference internal" href="../../cli.html">Command-line interface</a></li>
 <li class="toctree-l1 has-children"><a class="reference internal" href="../../code_docs.html">Code</a><input class="toctree-checkbox" id="toctree-checkbox-1" name="toctree-checkbox-1" role="switch" type="checkbox"/><label for="toctree-checkbox-1"><div class="visually-hidden">Toggle navigation of Code</div><i class="icon"><svg><use href="#svg-arrow-right"></use></svg></i></label><ul>
 <li class="toctree-l2 has-children"><a class="reference internal" href="../../.autosummary/git_dag.cli.html">git_dag.cli</a><input class="toctree-checkbox" id="toctree-checkbox-2" name="toctree-checkbox-2" role="switch" type="checkbox"/><label for="toctree-checkbox-2"><div class="visually-hidden">Toggle navigation of git_dag.cli</div><i class="icon"><svg><use href="#svg-arrow-right"></use></svg></i></label><ul>
-<li class="toctree-l3"><a class="reference internal" href="../../.autosummary/git_dag.cli.get_cla_parser.html">git_dag.cli.get_cla_parser</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../../.autosummary/git_dag.cli.get_cla.html">git_dag.cli.get_cla</a></li>
 <li class="toctree-l3"><a class="reference internal" href="../../.autosummary/git_dag.cli.main.html">git_dag.cli.main</a></li>
 <li class="toctree-l3"><a class="reference internal" href="../../.autosummary/git_dag.cli.CustomArgparseNamespace.html">git_dag.cli.CustomArgparseNamespace</a></li>
 </ul>
@@ -366,7 +366,7 @@
         <span class="p">)</span> <span class="k">as</span> <span class="n">process</span><span class="p">:</span>
             <span class="n">output</span><span class="p">,</span> <span class="n">error</span> <span class="o">=</span> <span class="n">process</span><span class="o">.</span><span class="n">communicate</span><span class="p">()</span>
             <span class="k">if</span> <span class="n">error</span><span class="p">:</span>
-                <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span><span class="n">error</span><span class="p">)</span>
+                <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span><span class="n">error</span><span class="p">)</span>  <span class="c1"># pragma: no cover</span>
             <span class="k">return</span> <span class="n">output</span><span class="o">.</span><span class="n">decode</span><span class="p">(</span><span class="n">encoding</span><span class="p">,</span> <span class="n">errors</span><span class="o">=</span><span class="s2">&quot;replace&quot;</span><span class="p">)</span><span class="o">.</span><span class="n">strip</span><span class="p">()</span></div>
 </div>
 
@@ -412,14 +412,14 @@
             <span class="n">env</span><span class="p">[</span><span class="s2">&quot;GIT_AUTHOR_NAME&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="n">match</span><span class="o">.</span><span class="n">group</span><span class="p">(</span><span class="s2">&quot;name&quot;</span><span class="p">)</span>
             <span class="n">env</span><span class="p">[</span><span class="s2">&quot;GIT_AUTHOR_EMAIL&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="n">match</span><span class="o">.</span><span class="n">group</span><span class="p">(</span><span class="s2">&quot;email&quot;</span><span class="p">)</span>
         <span class="k">else</span><span class="p">:</span>
-            <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span><span class="s2">&quot;Author not matched.&quot;</span><span class="p">)</span>
+            <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span><span class="s2">&quot;Author not matched.&quot;</span><span class="p">)</span>  <span class="c1"># pragma: no cover</span>
 
         <span class="n">match</span> <span class="o">=</span> <span class="n">re</span><span class="o">.</span><span class="n">search</span><span class="p">(</span><span class="s2">&quot;(?P&lt;name&gt;.*) (?P&lt;email&gt;&lt;.*&gt;)&quot;</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">committer</span><span class="p">)</span>
         <span class="k">if</span> <span class="n">match</span><span class="p">:</span>
             <span class="n">env</span><span class="p">[</span><span class="s2">&quot;GIT_COMMITTER_NAME&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="n">match</span><span class="o">.</span><span class="n">group</span><span class="p">(</span><span class="s2">&quot;name&quot;</span><span class="p">)</span>
             <span class="n">env</span><span class="p">[</span><span class="s2">&quot;GIT_COMMITTER_EMAIL&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="n">match</span><span class="o">.</span><span class="n">group</span><span class="p">(</span><span class="s2">&quot;email&quot;</span><span class="p">)</span>
         <span class="k">else</span><span class="p">:</span>
-            <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span><span class="s2">&quot;Committer not matched.&quot;</span><span class="p">)</span>
+            <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span><span class="s2">&quot;Committer not matched.&quot;</span><span class="p">)</span>  <span class="c1"># pragma: no cover</span>
 
         <span class="k">return</span> <span class="n">env</span>
 
@@ -645,13 +645,6 @@
         <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">_run</span><span class="p">(</span><span class="s2">&quot;rev-parse HEAD&quot;</span><span class="p">)</span><span class="o">.</span><span class="n">strip</span><span class="p">()</span></div>
 
 
-<div class="viewcode-block" id="GitCommand.is_detached_head">
-<a class="viewcode-back" href="../../.autosummary/git_dag.git_commands.GitCommand.html#git_dag.git_commands.GitCommand.is_detached_head">[docs]</a>
-    <span class="k">def</span> <span class="nf">is_detached_head</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">bool</span><span class="p">:</span>
-<span class="w">        </span><span class="sd">&quot;&quot;&quot;Check if the repository is in a detached HEAD state.&quot;&quot;&quot;</span>
-        <span class="k">return</span> <span class="ow">not</span> <span class="bp">self</span><span class="o">.</span><span class="n">_run</span><span class="p">(</span><span class="s2">&quot;branch --show-current&quot;</span><span class="p">)</span><span class="o">.</span><span class="n">strip</span><span class="p">()</span></div>
-
-
 <div class="viewcode-block" id="GitCommand.local_branch_is_tracking">
 <a class="viewcode-back" href="../../.autosummary/git_dag.git_commands.GitCommand.html#git_dag.git_commands.GitCommand.local_branch_is_tracking">[docs]</a>
     <span class="k">def</span> <span class="nf">local_branch_is_tracking</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">local_branch_sha</span><span class="p">:</span> <span class="nb">str</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Optional</span><span class="p">[</span><span class="nb">str</span><span class="p">]:</span>
@@ -806,7 +799,7 @@
         <span class="bp">cls</span><span class="p">,</span>
         <span class="n">label</span><span class="p">:</span> <span class="n">Literal</span><span class="p">[</span><span class="s2">&quot;default&quot;</span><span class="p">,</span> <span class="s2">&quot;default-with-notes&quot;</span><span class="p">,</span> <span class="s2">&quot;empty&quot;</span><span class="p">],</span>
         <span class="n">repo_path</span><span class="p">:</span> <span class="n">Path</span> <span class="o">|</span> <span class="nb">str</span><span class="p">,</span>  <span class="c1"># assumed to exist</span>
-        <span class="n">tar_file_name</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="nb">str</span><span class="p">]</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span>
+        <span class="n">tar_file_name</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="n">Path</span> <span class="o">|</span> <span class="nb">str</span><span class="p">]</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span>
         <span class="o">**</span><span class="n">kwargs</span><span class="p">:</span> <span class="nb">dict</span><span class="p">[</span><span class="nb">str</span><span class="p">,</span> <span class="n">Any</span><span class="p">],</span>
     <span class="p">)</span> <span class="o">-&gt;</span> <span class="kc">None</span><span class="p">:</span>
 <span class="w">        </span><span class="sd">&quot;&quot;&quot;Git repository creation displatch.&quot;&quot;&quot;</span>
@@ -920,7 +913,9 @@
 
 <div class="viewcode-block" id="create_test_repo_and_reference_dot_file">
 <a class="viewcode-back" href="../../.autosummary/git_dag.git_commands.create_test_repo_and_reference_dot_file.html#git_dag.git_commands.create_test_repo_and_reference_dot_file">[docs]</a>
-<span class="k">def</span> <span class="nf">create_test_repo_and_reference_dot_file</span><span class="p">()</span> <span class="o">-&gt;</span> <span class="kc">None</span><span class="p">:</span>
+<span class="k">def</span> <span class="nf">create_test_repo_and_reference_dot_file</span><span class="p">(</span>
+    <span class="n">path</span><span class="p">:</span> <span class="n">Path</span> <span class="o">|</span> <span class="nb">str</span> <span class="o">=</span> <span class="s2">&quot;test/resources/default_repo&quot;</span><span class="p">,</span>
+<span class="p">)</span> <span class="o">-&gt;</span> <span class="kc">None</span><span class="p">:</span>
 <span class="w">    </span><span class="sd">&quot;&quot;&quot;Create a git repository and its associated DOT file (to use as reference).</span>
 
 <span class="sd">    Note</span>
@@ -934,7 +929,7 @@
 
     <span class="kn">from</span> <span class="nn">git_dag.git_repository</span> <span class="kn">import</span> <span class="n">GitRepository</span>  <span class="c1"># pylint: disable=cyclic-import</span>
 
-    <span class="n">path</span> <span class="o">=</span> <span class="n">Path</span><span class="p">(</span><span class="s2">&quot;test/resources/default_repo&quot;</span><span class="p">)</span>
+    <span class="n">path</span> <span class="o">=</span> <span class="n">Path</span><span class="p">(</span><span class="n">path</span><span class="p">)</span>
     <span class="n">path</span><span class="o">.</span><span class="n">mkdir</span><span class="p">()</span>
     <span class="n">TestGitRepository</span><span class="o">.</span><span class="n">create</span><span class="p">(</span><span class="s2">&quot;default&quot;</span><span class="p">,</span> <span class="n">path</span><span class="p">)</span>
 
@@ -962,7 +957,7 @@
 
 
 
-<span class="k">if</span> <span class="vm">__name__</span> <span class="o">==</span> <span class="s2">&quot;__main__&quot;</span><span class="p">:</span>
+<span class="k">if</span> <span class="vm">__name__</span> <span class="o">==</span> <span class="s2">&quot;__main__&quot;</span><span class="p">:</span>  <span class="c1"># pragma: no cover</span>
     <span class="n">create_test_repo_and_reference_dot_file</span><span class="p">()</span>
 </pre></div>
         </article>
@@ -996,7 +991,7 @@
       
     </aside>
   </div>
-</div><script src="../../_static/documentation_options.js?v=bb6e5bb3"></script>
+</div><script src="../../_static/documentation_options.js?v=bde0d689"></script>
     <script src="../../_static/doctools.js?v=9bcbadda"></script>
     <script src="../../_static/sphinx_highlight.js?v=dc90522c"></script>
     <script src="../../_static/scripts/furo.js?v=5fa4622c"></script>

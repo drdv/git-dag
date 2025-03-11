@@ -570,8 +570,6 @@
 <span id="L560" class="lineno"><a class="lineno" href="#L560">560</a></span>
 <span id="L561" class="lineno"><a class="lineno" href="#L561">561</a></span>
 <span id="L562" class="lineno"><a class="lineno" href="#L562">562</a></span>
-<span id="L563" class="lineno"><a class="lineno" href="#L563">563</a></span>
-<span id="L564" class="lineno"><a class="lineno" href="#L564">564</a></span>
 </pre></td>
 <td class="table-code"><pre><span class="line-empty" title="No Anys on this line!">"""Git commands related functionality.</span>
 <span class="line-empty" title="No Anys on this line!"></span>
@@ -639,7 +637,7 @@ Explicit (x13)">        with subprocess.Popen(</span>
 <span class="line-precise" title="No Anys on this line!">        ) as process:</span>
 <span class="line-precise" title="No Anys on this line!">            output, error = process.communicate()</span>
 <span class="line-precise" title="No Anys on this line!">            if error:</span>
-<span class="line-precise" title="No Anys on this line!">                raise ValueError(error)</span>
+<span class="line-precise" title="No Anys on this line!">                raise ValueError(error)  # pragma: no cover</span>
 <span class="line-precise" title="No Anys on this line!">            return output.decode(encoding, errors="replace").strip()</span>
 <span class="line-empty" title="No Anys on this line!"></span>
 <span class="line-empty" title="No Anys on this line!"></span>
@@ -678,14 +676,14 @@ Explicit (x13)">        with subprocess.Popen(</span>
 <span class="line-precise" title="No Anys on this line!">            env["GIT_AUTHOR_NAME"] = match.group("name")</span>
 <span class="line-precise" title="No Anys on this line!">            env["GIT_AUTHOR_EMAIL"] = match.group("email")</span>
 <span class="line-empty" title="No Anys on this line!">        else:</span>
-<span class="line-precise" title="No Anys on this line!">            raise ValueError("Author not matched.")</span>
+<span class="line-precise" title="No Anys on this line!">            raise ValueError("Author not matched.")  # pragma: no cover</span>
 <span class="line-empty" title="No Anys on this line!"></span>
 <span class="line-precise" title="No Anys on this line!">        match = re.search("(?P&lt;name&gt;.*) (?P&lt;email&gt;&lt;.*&gt;)", self.committer)</span>
 <span class="line-precise" title="No Anys on this line!">        if match:</span>
 <span class="line-precise" title="No Anys on this line!">            env["GIT_COMMITTER_NAME"] = match.group("name")</span>
 <span class="line-precise" title="No Anys on this line!">            env["GIT_COMMITTER_EMAIL"] = match.group("email")</span>
 <span class="line-empty" title="No Anys on this line!">        else:</span>
-<span class="line-precise" title="No Anys on this line!">            raise ValueError("Committer not matched.")</span>
+<span class="line-precise" title="No Anys on this line!">            raise ValueError("Committer not matched.")  # pragma: no cover</span>
 <span class="line-empty" title="No Anys on this line!"></span>
 <span class="line-precise" title="No Anys on this line!">        return env</span>
 <span class="line-empty" title="No Anys on this line!"></span>
@@ -874,10 +872,6 @@ Explicit (x1)">            with open(Path(self.path) / filename, "w", encoding="
 <span class="line-empty" title="No Anys on this line!">        """Return local HEAD."""</span>
 <span class="line-precise" title="No Anys on this line!">        return self._run("rev-parse HEAD").strip()</span>
 <span class="line-empty" title="No Anys on this line!"></span>
-<span class="line-precise" title="No Anys on this line!">    def is_detached_head(self) -&gt; bool:</span>
-<span class="line-empty" title="No Anys on this line!">        """Check if the repository is in a detached HEAD state."""</span>
-<span class="line-precise" title="No Anys on this line!">        return not self._run("branch --show-current").strip()</span>
-<span class="line-empty" title="No Anys on this line!"></span>
 <span class="line-precise" title="No Anys on this line!">    def local_branch_is_tracking(self, local_branch_sha: str) -&gt; Optional[str]:</span>
 <span class="line-empty" title="No Anys on this line!">        """Detect if a local branch is tracking a remote one."""</span>
 <span class="line-empty" title="No Anys on this line!">        try:</span>
@@ -1020,7 +1014,7 @@ Explicit (x1)">    def create(</span>
 <span class="line-empty" title="No Anys on this line!">        cls,</span>
 <span class="line-empty" title="No Anys on this line!">        label: Literal["default", "default-with-notes", "empty"],</span>
 <span class="line-empty" title="No Anys on this line!">        repo_path: Path | str,  # assumed to exist</span>
-<span class="line-precise" title="No Anys on this line!">        tar_file_name: Optional[str] = None,</span>
+<span class="line-precise" title="No Anys on this line!">        tar_file_name: Optional[Path | str] = None,</span>
 <span class="line-empty" title="No Anys on this line!">        **kwargs: dict[str, Any],</span>
 <span class="line-empty" title="No Anys on this line!">    ) -&gt; None:</span>
 <span class="line-empty" title="No Anys on this line!">        """Git repository creation displatch."""</span>
@@ -1116,7 +1110,9 @@ Explicit (x1)">                cls.repository_empty(repo_path, **kwargs)</span>
 <span class="line-precise" title="No Anys on this line!">        git.note("Add a another note", "main")</span>
 <span class="line-empty" title="No Anys on this line!"></span>
 <span class="line-empty" title="No Anys on this line!"></span>
-<span class="line-precise" title="No Anys on this line!">def create_test_repo_and_reference_dot_file() -&gt; None:</span>
+<span class="line-precise" title="No Anys on this line!">def create_test_repo_and_reference_dot_file(</span>
+<span class="line-precise" title="No Anys on this line!">    path: Path | str = "test/resources/default_repo",</span>
+<span class="line-empty" title="No Anys on this line!">) -&gt; None:</span>
 <span class="line-empty" title="No Anys on this line!">    """Create a git repository and its associated DOT file (to use as reference).</span>
 <span class="line-empty" title="No Anys on this line!"></span>
 <span class="line-empty" title="No Anys on this line!">    Note</span>
@@ -1130,7 +1126,7 @@ Explicit (x1)">                cls.repository_empty(repo_path, **kwargs)</span>
 <span class="line-empty" title="No Anys on this line!"></span>
 <span class="line-precise" title="No Anys on this line!">    from git_dag.git_repository import GitRepository  # pylint: disable=cyclic-import</span>
 <span class="line-empty" title="No Anys on this line!"></span>
-<span class="line-precise" title="No Anys on this line!">    path = Path("test/resources/default_repo")</span>
+<span class="line-precise" title="No Anys on this line!">    path = Path(path)</span>
 <span class="line-precise" title="No Anys on this line!">    path.mkdir()</span>
 <span class="line-precise" title="Any Types on this line: 
 Explicit (x1)">    TestGitRepository.create("default", path)</span>
@@ -1161,7 +1157,7 @@ Explicit (x1)">    with open(path / "../default_repo.repr", "w", encoding="utf-8
 <span class="line-precise" title="No Anys on this line!">    shutil.rmtree(path)</span>
 <span class="line-empty" title="No Anys on this line!"></span>
 <span class="line-empty" title="No Anys on this line!"></span>
-<span class="line-precise" title="No Anys on this line!">if __name__ == "__main__":</span>
+<span class="line-precise" title="No Anys on this line!">if __name__ == "__main__":  # pragma: no cover</span>
 <span class="line-precise" title="No Anys on this line!">    create_test_repo_and_reference_dot_file()</span>
 </pre></td>
 </tr></tbody>

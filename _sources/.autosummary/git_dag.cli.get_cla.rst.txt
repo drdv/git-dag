@@ -1,0 +1,6 @@
+git\_dag.cli.get\_cla
+=====================
+
+.. currentmodule:: git_dag.cli
+
+.. autofunction:: get_cla

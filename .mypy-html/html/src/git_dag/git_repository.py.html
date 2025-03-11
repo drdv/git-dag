@@ -700,6 +700,14 @@
 <span id="L690" class="lineno"><a class="lineno" href="#L690">690</a></span>
 <span id="L691" class="lineno"><a class="lineno" href="#L691">691</a></span>
 <span id="L692" class="lineno"><a class="lineno" href="#L692">692</a></span>
+<span id="L693" class="lineno"><a class="lineno" href="#L693">693</a></span>
+<span id="L694" class="lineno"><a class="lineno" href="#L694">694</a></span>
+<span id="L695" class="lineno"><a class="lineno" href="#L695">695</a></span>
+<span id="L696" class="lineno"><a class="lineno" href="#L696">696</a></span>
+<span id="L697" class="lineno"><a class="lineno" href="#L697">697</a></span>
+<span id="L698" class="lineno"><a class="lineno" href="#L698">698</a></span>
+<span id="L699" class="lineno"><a class="lineno" href="#L699">699</a></span>
+<span id="L700" class="lineno"><a class="lineno" href="#L700">700</a></span>
 </pre></td>
 <td class="table-code"><pre><span class="line-empty" title="No Anys on this line!">"""Git repository parsing functionality."""</span>
 <span class="line-empty" title="No Anys on this line!"></span>
@@ -796,7 +804,7 @@ Omitted Generics (x4)">    return wrap</span>
 <span class="line-precise" title="No Anys on this line!">        match = re.search(pattern, string)</span>
 <span class="line-precise" title="No Anys on this line!">        if match:</span>
 <span class="line-precise" title="No Anys on this line!">            return {"sha": match.group("sha"), "kind": match.group("kind")}</span>
-<span class="line-precise" title="No Anys on this line!">        raise RuntimeError(f'Object string "{string}" not matched.')</span>
+<span class="line-precise" title="No Anys on this line!">        raise RuntimeError(f'Object string "{string}" not matched.')  # pragma: no cover</span>
 <span class="line-empty" title="No Anys on this line!"></span>
 <span class="line-empty" title="No Anys on this line!">    @staticmethod</span>
 <span class="line-precise" title="No Anys on this line!">    def parse_tree_info(data: Optional[list[str]] = None) -&gt; GitTreeRawDataType:</span>
@@ -815,7 +823,9 @@ Omitted Generics (x4)">    return wrap</span>
 <span class="line-precise" title="No Anys on this line!">                if kind != "commit":  # skip references to commits</span>
 <span class="line-precise" title="No Anys on this line!">                    output.append({"sha": match.group("sha"), "kind": kind})</span>
 <span class="line-empty" title="No Anys on this line!">            else:</span>
-<span class="line-precise" title="No Anys on this line!">                raise RuntimeError(f'Tree string "{string}" not matched.')</span>
+<span class="line-precise" title="No Anys on this line!">                raise RuntimeError(</span>
+<span class="line-precise" title="No Anys on this line!">                    f'Tree string "{string}" not matched.'</span>
+<span class="line-empty" title="No Anys on this line!">                )  # pragma: no cover</span>
 <span class="line-empty" title="No Anys on this line!"></span>
 <span class="line-precise" title="No Anys on this line!">        return output</span>
 <span class="line-empty" title="No Anys on this line!"></span>
@@ -850,7 +860,9 @@ Explicit (x3)">            sha, kind = IG(d)</span>
 <span class="line-any" title="Any Types on this line: 
 Explicit (x2)">            if kind == "tree":</span>
 <span class="line-precise" title="No Anys on this line!">                if tree:</span>
-<span class="line-precise" title="No Anys on this line!">                    raise ValueError("Exactly one tree expected per commit.")</span>
+<span class="line-precise" title="No Anys on this line!">                    raise ValueError(</span>
+<span class="line-precise" title="No Anys on this line!">                        "Exactly one tree expected per commit."</span>
+<span class="line-empty" title="No Anys on this line!">                    )  # pragma: no cover</span>
 <span class="line-any" title="Any Types on this line: 
 Explicit (x1)">                tree = sha</span>
 <span class="line-any" title="Any Types on this line: 
@@ -858,7 +870,7 @@ Explicit (x2)">            elif kind == "parent":</span>
 <span class="line-any" title="Any Types on this line: 
 Explicit (x3)">                parents.append(sha)</span>
 <span class="line-empty" title="No Anys on this line!">            else:</span>
-<span class="line-precise" title="No Anys on this line!">                raise RuntimeError("It is not expected to be here!")</span>
+<span class="line-precise" title="No Anys on this line!">                raise RuntimeError("It is not expected to be here!")  # pragma: no cover</span>
 <span class="line-empty" title="No Anys on this line!"></span>
 <span class="line-precise" title="No Anys on this line!">        author, author_email, author_date = creator_timestamp_format(</span>
 <span class="line-precise" title="No Anys on this line!">            strip_creator_label(misc_info[0])</span>
@@ -917,7 +929,9 @@ Omitted Generics (x30)">        for pattern, string, label in zip(patterns, data
 <span class="line-precise" title="No Anys on this line!">            if match:</span>
 <span class="line-precise" title="No Anys on this line!">                output[label] = match.group(label)</span>
 <span class="line-empty" title="No Anys on this line!">            else:</span>
-<span class="line-precise" title="No Anys on this line!">                raise RuntimeError(f'Tag string "{string}" not matched.')</span>
+<span class="line-precise" title="No Anys on this line!">                raise RuntimeError(</span>
+<span class="line-precise" title="No Anys on this line!">                    f'Tag string "{string}" not matched.'</span>
+<span class="line-empty" title="No Anys on this line!">                )  # pragma: no cover</span>
 <span class="line-empty" title="No Anys on this line!"></span>
 <span class="line-precise" title="No Anys on this line!">        tagger, tagger_email, tag_date = creator_timestamp_format(output["tagger"])</span>
 <span class="line-precise" title="No Anys on this line!">        output["taggername"] = tagger</span>
@@ -944,7 +958,9 @@ Omitted Generics (x2)">        output["anchor"] = output.pop("sha")</span>
 <span class="line-precise" title="No Anys on this line!">            if match:</span>
 <span class="line-precise" title="No Anys on this line!">                out.append({key: match.group(key) for key in keys})</span>
 <span class="line-empty" title="No Anys on this line!">            else:</span>
-<span class="line-precise" title="No Anys on this line!">                raise RuntimeError('Stash string "{string}" not matched.')</span>
+<span class="line-precise" title="No Anys on this line!">                raise RuntimeError(</span>
+<span class="line-precise" title="No Anys on this line!">                    'Stash string "{string}" not matched.'</span>
+<span class="line-empty" title="No Anys on this line!">                )  # pragma: no cover</span>
 <span class="line-empty" title="No Anys on this line!"></span>
 <span class="line-precise" title="No Anys on this line!">        return out</span>
 <span class="line-empty" title="No Anys on this line!"></span>
@@ -1034,7 +1050,7 @@ Omitted Generics (x3)">        all_commits = set(</span>
 <span class="line-empty" title="No Anys on this line!">                "git rev-list --all --reflog"</span>
 <span class="line-empty" title="No Anys on this line!">            )</span>
 <span class="line-precise" title="No Anys on this line!">        elif numb_commits_not_found &lt; 0:</span>
-<span class="line-precise" title="No Anys on this line!">            raise RuntimeError("We shouldn't be here.")</span>
+<span class="line-precise" title="No Anys on this line!">            raise RuntimeError("We shouldn't be here.")  # pragma: no cover</span>
 <span class="line-empty" title="No Anys on this line!"></span>
 <span class="line-precise" title="No Anys on this line!">        return commits_info</span>
 <span class="line-empty" title="No Anys on this line!"></span>
@@ -1099,7 +1115,7 @@ Explicit (x9)">        return dict(zip(all_sha, object_file_content))</span>
 <span class="line-precise" title="Any Types on this line: 
 Omitted Generics (x2)">                    raw_data=RegexParser.parse_tree_info(self.trees_info.get(sha)),</span>
 <span class="line-empty" title="No Anys on this line!">                )</span>
-<span class="line-empty" title="No Anys on this line!">            case _:</span>
+<span class="line-empty" title="No Anys on this line!">            case _:  # pragma: no cover</span>
 <span class="line-precise" title="No Anys on this line!">                raise RuntimeError("Leaking objects!")</span>
 <span class="line-empty" title="No Anys on this line!"></span>
 <span class="line-precise" title="Any Types on this line: 

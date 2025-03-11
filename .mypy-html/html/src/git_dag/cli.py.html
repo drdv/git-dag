@@ -264,8 +264,6 @@
 <span id="L254" class="lineno"><a class="lineno" href="#L254">254</a></span>
 <span id="L255" class="lineno"><a class="lineno" href="#L255">255</a></span>
 <span id="L256" class="lineno"><a class="lineno" href="#L256">256</a></span>
-<span id="L257" class="lineno"><a class="lineno" href="#L257">257</a></span>
-<span id="L258" class="lineno"><a class="lineno" href="#L258">258</a></span>
 </pre></td>
 <td class="table-code"><pre><span class="line-empty" title="No Anys on this line!">#!/usr/bin/env python</span>
 <span class="line-empty" title="No Anys on this line!"># PYTHON_ARGCOMPLETE_OK</span>
@@ -317,7 +315,7 @@
 <span class="line-precise" title="No Anys on this line!">    log_level: str</span>
 <span class="line-empty" title="No Anys on this line!"></span>
 <span class="line-empty" title="No Anys on this line!"></span>
-<span class="line-precise" title="No Anys on this line!">def get_cla_parser() -&gt; argparse.ArgumentParser:</span>
+<span class="line-precise" title="No Anys on this line!">def get_cla(raw_args: Optional[list[str]] = None) -&gt; CustomArgparseNamespace:</span>
 <span class="line-empty" title="No Anys on this line!">    """Parse command-line arguments."""</span>
 <span class="line-precise" title="Any Types on this line: 
 Explicit (x1)">    parser = argparse.ArgumentParser(description="Visualize the git DAG.")</span>
@@ -507,71 +505,49 @@ Explicit (x3)">    parser.add_argument(</span>
 <span class="line-precise" title="No Anys on this line!">        help="Log level.",</span>
 <span class="line-empty" title="No Anys on this line!">    )</span>
 <span class="line-empty" title="No Anys on this line!"></span>
-<span class="line-precise" title="No Anys on this line!">    return parser</span>
-<span class="line-empty" title="No Anys on this line!"></span>
-<span class="line-empty" title="No Anys on this line!"></span>
-<span class="line-precise" title="No Anys on this line!">def main() -&gt; None:</span>
-<span class="line-empty" title="No Anys on this line!">    """CLI entry poit."""</span>
-<span class="line-precise" title="No Anys on this line!">    parser = get_cla_parser()</span>
 <span class="line-precise" title="No Anys on this line!">    argcomplete.autocomplete(parser)</span>
 <span class="line-precise" title="Any Types on this line: 
-Explicit (x3)
-Omitted Generics (x4)">    args = parser.parse_args(namespace=CustomArgparseNamespace)</span>
+Omitted Generics (x4)
+Explicit (x1)">    return parser.parse_args(raw_args, namespace=CustomArgparseNamespace())</span>
 <span class="line-empty" title="No Anys on this line!"></span>
-<span class="line-precise" title="Any Types on this line: 
-Explicit (x2)">    max_numb_commits = None if args.max_numb_commits &lt; 1 else args.max_numb_commits</span>
+<span class="line-empty" title="No Anys on this line!"></span>
+<span class="line-precise" title="No Anys on this line!">def main(raw_args: Optional[list[str]] = None) -&gt; None:</span>
+<span class="line-empty" title="No Anys on this line!">    """CLI entry poit."""</span>
+<span class="line-precise" title="No Anys on this line!">    args = get_cla(raw_args)</span>
+<span class="line-precise" title="No Anys on this line!">    max_numb_commits = None if args.max_numb_commits &lt; 1 else args.max_numb_commits</span>
 <span class="line-empty" title="No Anys on this line!"></span>
 <span class="line-any" title="Any Types on this line: 
-Explicit (x14)
+Explicit (x13)
 Omitted Generics (x2)">    logging.getLogger().setLevel(getattr(logging, args.log_level))</span>
 <span class="line-empty" title="No Anys on this line!"></span>
 <span class="line-any" title="Any Types on this line: 
-Explicit (x5)">    GitRepository(args.path, parse_trees=args.show_trees).show(</span>
-<span class="line-precise" title="Any Types on this line: 
-Explicit (x1)">        dag_backend=DagBackends[args.dag_backend.upper()],</span>
-<span class="line-precise" title="Any Types on this line: 
-Explicit (x1)">        xdg_open=args.xdg_open,</span>
-<span class="line-precise" title="Any Types on this line: 
-Explicit (x1)">        format=args.format,</span>
-<span class="line-precise" title="Any Types on this line: 
-Explicit (x1)">        show_unreachable_commits=args.show_unreachable_commits,</span>
-<span class="line-precise" title="Any Types on this line: 
-Explicit (x1)">        show_tags=args.show_tags,</span>
-<span class="line-precise" title="Any Types on this line: 
-Explicit (x1)">        show_deleted_tags=args.show_deleted_tags,</span>
-<span class="line-precise" title="Any Types on this line: 
-Explicit (x1)">        show_local_branches=args.show_local_branches,</span>
-<span class="line-precise" title="Any Types on this line: 
-Explicit (x1)">        show_remote_branches=args.show_remote_branches,</span>
-<span class="line-precise" title="Any Types on this line: 
-Explicit (x1)">        show_trees=args.show_trees,</span>
-<span class="line-precise" title="Any Types on this line: 
-Explicit (x1)">        show_blobs=args.show_blobs,</span>
-<span class="line-precise" title="Any Types on this line: 
-Explicit (x1)">        show_stash=args.show_stash,</span>
-<span class="line-precise" title="Any Types on this line: 
-Explicit (x1)">        show_head=args.show_head,</span>
-<span class="line-precise" title="Any Types on this line: 
-Explicit (x1)">        range=args.range,</span>
-<span class="line-precise" title="Any Types on this line: 
-Explicit (x1)">        commit_message_as_label=args.commit_message_as_label,</span>
-<span class="line-precise" title="Any Types on this line: 
-Explicit (x1)">        starting_objects=args.init_refs,</span>
-<span class="line-precise" title="Any Types on this line: 
-Explicit (x1)">        filename=args.file,</span>
+Explicit (x3)">    GitRepository(args.path, parse_trees=args.show_trees).show(</span>
+<span class="line-precise" title="No Anys on this line!">        dag_backend=DagBackends[args.dag_backend.upper()],</span>
+<span class="line-precise" title="No Anys on this line!">        xdg_open=args.xdg_open,</span>
+<span class="line-precise" title="No Anys on this line!">        format=args.format,</span>
+<span class="line-precise" title="No Anys on this line!">        show_unreachable_commits=args.show_unreachable_commits,</span>
+<span class="line-precise" title="No Anys on this line!">        show_tags=args.show_tags,</span>
+<span class="line-precise" title="No Anys on this line!">        show_deleted_tags=args.show_deleted_tags,</span>
+<span class="line-precise" title="No Anys on this line!">        show_local_branches=args.show_local_branches,</span>
+<span class="line-precise" title="No Anys on this line!">        show_remote_branches=args.show_remote_branches,</span>
+<span class="line-precise" title="No Anys on this line!">        show_trees=args.show_trees,</span>
+<span class="line-precise" title="No Anys on this line!">        show_blobs=args.show_blobs,</span>
+<span class="line-precise" title="No Anys on this line!">        show_stash=args.show_stash,</span>
+<span class="line-precise" title="No Anys on this line!">        show_head=args.show_head,</span>
+<span class="line-precise" title="No Anys on this line!">        range=args.range,</span>
+<span class="line-precise" title="No Anys on this line!">        commit_message_as_label=args.commit_message_as_label,</span>
+<span class="line-precise" title="No Anys on this line!">        starting_objects=args.init_refs,</span>
+<span class="line-precise" title="No Anys on this line!">        filename=args.file,</span>
 <span class="line-empty" title="No Anys on this line!">        dag_attr={</span>
-<span class="line-precise" title="Any Types on this line: 
-Explicit (x1)">            "rankdir": args.rankdir,</span>
-<span class="line-precise" title="Any Types on this line: 
-Explicit (x1)">            "dpi": args.dpi,</span>
-<span class="line-precise" title="Any Types on this line: 
-Explicit (x1)">            "bgcolor": args.bgcolor,</span>
+<span class="line-precise" title="No Anys on this line!">            "rankdir": args.rankdir,</span>
+<span class="line-precise" title="No Anys on this line!">            "dpi": args.dpi,</span>
+<span class="line-precise" title="No Anys on this line!">            "bgcolor": args.bgcolor,</span>
 <span class="line-empty" title="No Anys on this line!">        },</span>
 <span class="line-precise" title="No Anys on this line!">        max_numb_commits=max_numb_commits,</span>
 <span class="line-empty" title="No Anys on this line!">    )</span>
 <span class="line-empty" title="No Anys on this line!"></span>
 <span class="line-empty" title="No Anys on this line!"></span>
-<span class="line-precise" title="No Anys on this line!">if __name__ == "__main__":</span>
+<span class="line-precise" title="No Anys on this line!">if __name__ == "__main__":  # pragma: no cover</span>
 <span class="line-precise" title="No Anys on this line!">    main()</span>
 </pre></td>
 </tr></tbody>

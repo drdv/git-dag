@@ -181,7 +181,7 @@
           <svg class="theme-icon-when-light"><use href="#svg-sun"></use></svg>
         </button>
       </div>
-      <label class="toc-overlay-icon toc-header-icon" for="__toc">
+      <label class="toc-overlay-icon toc-header-icon no-toc" for="__toc">
         <div class="visually-hidden">Toggle table of contents sidebar</div>
         <i class="icon"><svg><use href="#svg-toc"></use></svg></i>
       </label>
@@ -207,7 +207,7 @@
 <li class="toctree-l1 current current-page"><a class="current reference internal" href="#">Command-line interface</a></li>
 <li class="toctree-l1 has-children"><a class="reference internal" href="code_docs.html">Code</a><input class="toctree-checkbox" id="toctree-checkbox-1" name="toctree-checkbox-1" role="switch" type="checkbox"/><label for="toctree-checkbox-1"><div class="visually-hidden">Toggle navigation of Code</div><i class="icon"><svg><use href="#svg-arrow-right"></use></svg></i></label><ul>
 <li class="toctree-l2 has-children"><a class="reference internal" href=".autosummary/git_dag.cli.html">git_dag.cli</a><input class="toctree-checkbox" id="toctree-checkbox-2" name="toctree-checkbox-2" role="switch" type="checkbox"/><label for="toctree-checkbox-2"><div class="visually-hidden">Toggle navigation of git_dag.cli</div><i class="icon"><svg><use href="#svg-arrow-right"></use></svg></i></label><ul>
-<li class="toctree-l3"><a class="reference internal" href=".autosummary/git_dag.cli.get_cla_parser.html">git_dag.cli.get_cla_parser</a></li>
+<li class="toctree-l3"><a class="reference internal" href=".autosummary/git_dag.cli.get_cla.html">git_dag.cli.get_cla</a></li>
 <li class="toctree-l3"><a class="reference internal" href=".autosummary/git_dag.cli.main.html">git_dag.cli.main</a></li>
 <li class="toctree-l3"><a class="reference internal" href=".autosummary/git_dag.cli.CustomArgparseNamespace.html">git_dag.cli.CustomArgparseNamespace</a></li>
 </ul>
@@ -298,7 +298,7 @@
               <svg class="theme-icon-when-light"><use href="#svg-sun"></use></svg>
             </button>
           </div>
-          <label class="toc-overlay-icon toc-content-icon" for="__toc">
+          <label class="toc-overlay-icon toc-content-icon no-toc" for="__toc">
             <div class="visually-hidden">Toggle table of contents sidebar</div>
             <i class="icon"><svg><use href="#svg-toc"></use></svg></i>
           </label>
@@ -306,109 +306,6 @@
         <article role="main" id="furo-main-content">
           <section id="command-line-interface">
 <h1>Command-line interface<a class="headerlink" href="#command-line-interface" title="Link to this heading">¶</a></h1>
-<p><p>Visualize the git DAG.</p>
-</p>
-<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">usage</span><span class="p">:</span> <span class="n">git</span><span class="o">-</span><span class="n">dag</span> <span class="p">[</span><span class="o">-</span><span class="n">h</span><span class="p">]</span> <span class="p">[</span><span class="o">-</span><span class="n">p</span> <span class="n">PATH</span><span class="p">]</span> <span class="p">[</span><span class="o">-</span><span class="n">f</span> <span class="n">FILE</span><span class="p">]</span> <span class="p">[</span><span class="o">-</span><span class="n">b</span> <span class="p">{</span><span class="n">graphviz</span><span class="p">}]</span> <span class="p">[</span><span class="o">--</span><span class="nb">format</span> <span class="n">FORMAT</span><span class="p">]</span>
-               <span class="p">[</span><span class="o">--</span><span class="n">dpi</span> <span class="n">DPI</span><span class="p">]</span> <span class="p">[</span><span class="o">-</span><span class="n">i</span> <span class="n">INIT_REFS</span> <span class="p">[</span><span class="n">INIT_REFS</span> <span class="o">...</span><span class="p">]]</span>
-               <span class="p">[</span><span class="o">-</span><span class="n">R</span> <span class="n">RANGE</span> <span class="p">[</span><span class="n">RANGE</span> <span class="o">...</span><span class="p">]]</span> <span class="p">[</span><span class="o">-</span><span class="n">n</span> <span class="n">MAX_NUMB_COMMITS</span><span class="p">]</span>
-               <span class="p">[</span><span class="o">--</span><span class="n">rankdir</span> <span class="p">{</span><span class="n">LR</span><span class="p">,</span><span class="n">RL</span><span class="p">,</span><span class="n">TB</span><span class="p">,</span><span class="n">BT</span><span class="p">}]</span> <span class="p">[</span><span class="o">--</span><span class="n">bgcolor</span> <span class="n">BGCOLOR</span><span class="p">]</span> <span class="p">[</span><span class="o">-</span><span class="n">u</span><span class="p">]</span> <span class="p">[</span><span class="o">-</span><span class="n">t</span><span class="p">]</span> <span class="p">[</span><span class="o">-</span><span class="n">D</span><span class="p">]</span>
-               <span class="p">[</span><span class="o">-</span><span class="n">l</span><span class="p">]</span> <span class="p">[</span><span class="o">-</span><span class="n">r</span><span class="p">]</span> <span class="p">[</span><span class="o">-</span><span class="n">s</span><span class="p">]</span> <span class="p">[</span><span class="o">-</span><span class="n">H</span><span class="p">]</span> <span class="p">[</span><span class="o">-</span><span class="n">T</span><span class="p">]</span> <span class="p">[</span><span class="o">-</span><span class="n">B</span><span class="p">]</span> <span class="p">[</span><span class="o">-</span><span class="n">m</span> <span class="n">COMMIT_MESSAGE_AS_LABEL</span><span class="p">]</span> <span class="p">[</span><span class="o">-</span><span class="n">o</span><span class="p">]</span>
-               <span class="p">[</span><span class="o">--</span><span class="n">log</span><span class="o">-</span><span class="n">level</span> <span class="p">{</span><span class="n">NOTSET</span><span class="p">,</span><span class="n">INFO</span><span class="p">,</span><span class="n">WARNING</span><span class="p">,</span><span class="n">ERROR</span><span class="p">,</span><span class="n">CRITICAL</span><span class="p">}]</span>
-</pre></div>
-</div>
-<section id="git_dag.cli-get_cla_parser-named-arguments">
-<h2>Named Arguments<a class="headerlink" href="#git_dag.cli-get_cla_parser-named-arguments" title="Link to this heading">¶</a></h2>
-<dl class="option-list">
-<dt><kbd>-p, --path</kbd></dt>
-<dd><p>Path to a git repository.</p>
-<p>Default: <code class="docutils literal notranslate"><span class="pre">'.'</span></code></p>
-</dd>
-<dt><kbd>-f, --file</kbd></dt>
-<dd><p>Output graphviz file (e.g., <code class="docutils literal notranslate"><span class="pre">/path/to/file</span></code>).</p>
-<p>Default: <code class="docutils literal notranslate"><span class="pre">'git-dag.gv'</span></code></p>
-</dd>
-<dt><kbd>-b, --dag-backend</kbd></dt>
-<dd><p>Possible choices: graphviz</p>
-<p>Backend DAG library.</p>
-<p>Default: <code class="docutils literal notranslate"><span class="pre">'graphviz'</span></code></p>
-</dd>
-<dt><kbd>--format</kbd></dt>
-<dd><p>Graphviz output format (tooltips are available only with svg). If the format is set to ‘gv’, only the graphviz source file is generated.</p>
-<p>Default: <code class="docutils literal notranslate"><span class="pre">'svg'</span></code></p>
-</dd>
-<dt><kbd>--dpi</kbd></dt>
-<dd><p>DPI of output figure (used with <code class="docutils literal notranslate"><span class="pre">--format</span> <span class="pre">png</span></code>).</p>
-</dd>
-<dt><kbd>-i, --init-refs</kbd></dt>
-<dd><p>A list of branches, tags, git objects (commits, trees, blobs) that represents a limitation from where to display the DAG.</p>
-</dd>
-<dt><kbd>-R, --range</kbd></dt>
-<dd><p>A list to commits in a range to display.</p>
-</dd>
-<dt><kbd>-n, --max-numb-commits</kbd></dt>
-<dd><p>Max number of commits (set to 0 to remove limitation).</p>
-<p>Default: <code class="docutils literal notranslate"><span class="pre">1000</span></code></p>
-</dd>
-<dt><kbd>--rankdir</kbd></dt>
-<dd><p>Possible choices: LR, RL, TB, BT</p>
-<p>rankdir argument of graphviz.</p>
-<p>Default: <code class="docutils literal notranslate"><span class="pre">'TB'</span></code></p>
-</dd>
-<dt><kbd>--bgcolor</kbd></dt>
-<dd><p>bgcolor argument of graphviz (e.g., transparent).</p>
-<p>Default: <code class="docutils literal notranslate"><span class="pre">'gray42'</span></code></p>
-</dd>
-<dt><kbd>-u</kbd></dt>
-<dd><p>Show unreachable commits.</p>
-<p>Default: <code class="docutils literal notranslate"><span class="pre">False</span></code></p>
-</dd>
-<dt><kbd>-t</kbd></dt>
-<dd><p>Show tags.</p>
-<p>Default: <code class="docutils literal notranslate"><span class="pre">False</span></code></p>
-</dd>
-<dt><kbd>-D</kbd></dt>
-<dd><p>Show deleted annotated tags.</p>
-<p>Default: <code class="docutils literal notranslate"><span class="pre">False</span></code></p>
-</dd>
-<dt><kbd>-l</kbd></dt>
-<dd><p>Show local branches.</p>
-<p>Default: <code class="docutils literal notranslate"><span class="pre">False</span></code></p>
-</dd>
-<dt><kbd>-r</kbd></dt>
-<dd><p>Show remote branches.</p>
-<p>Default: <code class="docutils literal notranslate"><span class="pre">False</span></code></p>
-</dd>
-<dt><kbd>-s</kbd></dt>
-<dd><p>Show stash.</p>
-<p>Default: <code class="docutils literal notranslate"><span class="pre">False</span></code></p>
-</dd>
-<dt><kbd>-H</kbd></dt>
-<dd><p>Show head.</p>
-<p>Default: <code class="docutils literal notranslate"><span class="pre">False</span></code></p>
-</dd>
-<dt><kbd>-T</kbd></dt>
-<dd><p>Show trees (WARNING: should be used only with small repositories).</p>
-<p>Default: <code class="docutils literal notranslate"><span class="pre">False</span></code></p>
-</dd>
-<dt><kbd>-B</kbd></dt>
-<dd><p>Show blobs (discarded if <code class="docutils literal notranslate"><span class="pre">-T</span></code> is not set).</p>
-<p>Default: <code class="docutils literal notranslate"><span class="pre">False</span></code></p>
-</dd>
-<dt><kbd>-m, --message</kbd></dt>
-<dd><p>When greater than 0, this is the number of characters from the commit message to use as a commit label. The commit SHA is used otherwise.</p>
-<p>Default: <code class="docutils literal notranslate"><span class="pre">0</span></code></p>
-</dd>
-<dt><kbd>-o, --xdg-open</kbd></dt>
-<dd><p>Open output file with xdg-open.</p>
-<p>Default: <code class="docutils literal notranslate"><span class="pre">False</span></code></p>
-</dd>
-<dt><kbd>--log-level</kbd></dt>
-<dd><p>Possible choices: NOTSET, INFO, WARNING, ERROR, CRITICAL</p>
-<p>Log level.</p>
-<p>Default: <code class="docutils literal notranslate"><span class="pre">'WARNING'</span></code></p>
-</dd>
-</dl>
-</section>
 </section>
 
         </article>
@@ -454,32 +351,13 @@
         
       </footer>
     </div>
-    <aside class="toc-drawer">
+    <aside class="toc-drawer no-toc">
       
-      
-      <div class="toc-sticky toc-scroll">
-        <div class="toc-title-container">
-          <span class="toc-title">
-            On this page
-          </span>
-        </div>
-        <div class="toc-tree-container">
-          <div class="toc-tree">
-            <ul>
-<li><a class="reference internal" href="#">Command-line interface</a><ul>
-<li><a class="reference internal" href="#git_dag.cli-get_cla_parser-named-arguments">Named Arguments</a></li>
-</ul>
-</li>
-</ul>
-
-          </div>
-        </div>
-      </div>
       
       
     </aside>
   </div>
-</div><script src="_static/documentation_options.js?v=bb6e5bb3"></script>
+</div><script src="_static/documentation_options.js?v=bde0d689"></script>
     <script src="_static/doctools.js?v=9bcbadda"></script>
     <script src="_static/sphinx_highlight.js?v=dc90522c"></script>
     <script src="_static/scripts/furo.js?v=5fa4622c"></script>

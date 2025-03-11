@@ -23,7 +23,6 @@ git\_dag.git\_commands.GitCommand
       ~GitCommand.get_objects_sha_kind
       ~GitCommand.get_stash_info
       ~GitCommand.get_tags_info_parsed
-      ~GitCommand.is_detached_head
       ~GitCommand.local_branch_is_tracking
       ~GitCommand.ls_tree
       ~GitCommand.read_object_file

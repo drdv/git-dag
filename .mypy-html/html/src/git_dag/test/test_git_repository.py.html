@@ -207,39 +207,8 @@
 <span id="L197" class="lineno"><a class="lineno" href="#L197">197</a></span>
 <span id="L198" class="lineno"><a class="lineno" href="#L198">198</a></span>
 <span id="L199" class="lineno"><a class="lineno" href="#L199">199</a></span>
-<span id="L200" class="lineno"><a class="lineno" href="#L200">200</a></span>
-<span id="L201" class="lineno"><a class="lineno" href="#L201">201</a></span>
-<span id="L202" class="lineno"><a class="lineno" href="#L202">202</a></span>
-<span id="L203" class="lineno"><a class="lineno" href="#L203">203</a></span>
-<span id="L204" class="lineno"><a class="lineno" href="#L204">204</a></span>
-<span id="L205" class="lineno"><a class="lineno" href="#L205">205</a></span>
-<span id="L206" class="lineno"><a class="lineno" href="#L206">206</a></span>
-<span id="L207" class="lineno"><a class="lineno" href="#L207">207</a></span>
-<span id="L208" class="lineno"><a class="lineno" href="#L208">208</a></span>
-<span id="L209" class="lineno"><a class="lineno" href="#L209">209</a></span>
-<span id="L210" class="lineno"><a class="lineno" href="#L210">210</a></span>
-<span id="L211" class="lineno"><a class="lineno" href="#L211">211</a></span>
-<span id="L212" class="lineno"><a class="lineno" href="#L212">212</a></span>
-<span id="L213" class="lineno"><a class="lineno" href="#L213">213</a></span>
-<span id="L214" class="lineno"><a class="lineno" href="#L214">214</a></span>
-<span id="L215" class="lineno"><a class="lineno" href="#L215">215</a></span>
-<span id="L216" class="lineno"><a class="lineno" href="#L216">216</a></span>
-<span id="L217" class="lineno"><a class="lineno" href="#L217">217</a></span>
-<span id="L218" class="lineno"><a class="lineno" href="#L218">218</a></span>
-<span id="L219" class="lineno"><a class="lineno" href="#L219">219</a></span>
-<span id="L220" class="lineno"><a class="lineno" href="#L220">220</a></span>
-<span id="L221" class="lineno"><a class="lineno" href="#L221">221</a></span>
-<span id="L222" class="lineno"><a class="lineno" href="#L222">222</a></span>
-<span id="L223" class="lineno"><a class="lineno" href="#L223">223</a></span>
-<span id="L224" class="lineno"><a class="lineno" href="#L224">224</a></span>
-<span id="L225" class="lineno"><a class="lineno" href="#L225">225</a></span>
-<span id="L226" class="lineno"><a class="lineno" href="#L226">226</a></span>
-<span id="L227" class="lineno"><a class="lineno" href="#L227">227</a></span>
-<span id="L228" class="lineno"><a class="lineno" href="#L228">228</a></span>
-<span id="L229" class="lineno"><a class="lineno" href="#L229">229</a></span>
-<span id="L230" class="lineno"><a class="lineno" href="#L230">230</a></span>
 </pre></td>
-<td class="table-code"><pre><span class="line-empty" title="No Anys on this line!">"""Tests."""</span>
+<td class="table-code"><pre><span class="line-empty" title="No Anys on this line!">"""Test git_repository.py."""</span>
 <span class="line-empty" title="No Anys on this line!"></span>
 <span class="line-empty" title="No Anys on this line!"># pylint: disable=missing-function-docstring,redefined-outer-name</span>
 <span class="line-empty" title="No Anys on this line!"></span>
@@ -257,60 +226,14 @@
 <span class="line-precise" title="No Anys on this line!">LOG = logging.getLogger(__name__)</span>
 <span class="line-empty" title="No Anys on this line!"></span>
 <span class="line-empty" title="No Anys on this line!"></span>
-<span class="line-precise" title="Any Types on this line: 
-Explicit (x6)
-Omitted Generics (x2)">@pytest.fixture</span>
-<span class="line-precise" title="No Anys on this line!">def git_repository_empty(tmp_path: Path) -&gt; Path:</span>
-<span class="line-precise" title="No Anys on this line!">    repo_path = tmp_path / "empty_repo"</span>
-<span class="line-precise" title="No Anys on this line!">    repo_path.mkdir()</span>
-<span class="line-empty" title="No Anys on this line!"></span>
-<span class="line-precise" title="Any Types on this line: 
-Explicit (x1)">    TestGitRepository.create("empty", repo_path)</span>
-<span class="line-precise" title="No Anys on this line!">    return repo_path</span>
-<span class="line-empty" title="No Anys on this line!"></span>
-<span class="line-empty" title="No Anys on this line!"></span>
-<span class="line-precise" title="Any Types on this line: 
-Explicit (x6)
-Omitted Generics (x2)">@pytest.fixture</span>
-<span class="line-precise" title="No Anys on this line!">def git_repository_empty_with_index(tmp_path: Path) -&gt; Path:</span>
-<span class="line-precise" title="No Anys on this line!">    repo_path = tmp_path / "empty_repo_with_index"</span>
-<span class="line-precise" title="No Anys on this line!">    repo_path.mkdir()</span>
-<span class="line-empty" title="No Anys on this line!"></span>
-<span class="line-imprecise" title="Any Types on this line: 
-Explicit (x1)">    TestGitRepository.create("empty", repo_path, files={"tmp_file": "1"})</span>
-<span class="line-precise" title="No Anys on this line!">    return repo_path</span>
-<span class="line-empty" title="No Anys on this line!"></span>
-<span class="line-empty" title="No Anys on this line!"></span>
-<span class="line-precise" title="Any Types on this line: 
-Explicit (x6)
-Omitted Generics (x2)">@pytest.fixture</span>
-<span class="line-precise" title="No Anys on this line!">def git_repository_default(tmp_path: Path) -&gt; Path:</span>
-<span class="line-precise" title="No Anys on this line!">    repo_path = tmp_path / "default_repo"</span>
-<span class="line-precise" title="No Anys on this line!">    repo_path.mkdir()</span>
-<span class="line-empty" title="No Anys on this line!"></span>
-<span class="line-precise" title="Any Types on this line: 
-Explicit (x1)">    TestGitRepository.create("default", repo_path)</span>
-<span class="line-precise" title="No Anys on this line!">    return repo_path</span>
-<span class="line-empty" title="No Anys on this line!"></span>
-<span class="line-empty" title="No Anys on this line!"></span>
-<span class="line-precise" title="Any Types on this line: 
-Explicit (x6)
-Omitted Generics (x2)">@pytest.fixture</span>
-<span class="line-precise" title="No Anys on this line!">def git_repository_default_with_notes(tmp_path: Path) -&gt; Path:</span>
-<span class="line-precise" title="No Anys on this line!">    repo_path = tmp_path / "default_repo_with_notes"</span>
-<span class="line-precise" title="No Anys on this line!">    repo_path.mkdir()</span>
-<span class="line-empty" title="No Anys on this line!"></span>
-<span class="line-precise" title="Any Types on this line: 
-Explicit (x1)">    TestGitRepository.create("default-with-notes", repo_path)</span>
-<span class="line-precise" title="No Anys on this line!">    return repo_path</span>
-<span class="line-empty" title="No Anys on this line!"></span>
-<span class="line-empty" title="No Anys on this line!"></span>
 <span class="line-precise" title="No Anys on this line!">def test_repository_empty(</span>
 <span class="line-empty" title="No Anys on this line!">    git_repository_empty: Path,</span>
 <span class="line-empty" title="No Anys on this line!">    caplog: pytest.LogCaptureFixture,</span>
 <span class="line-empty" title="No Anys on this line!">) -&gt; None:</span>
 <span class="line-precise" title="No Anys on this line!">    with caplog.at_level(logging.WARNING):</span>
-<span class="line-precise" title="No Anys on this line!">        GitRepository(git_repository_empty)</span>
+<span class="line-precise" title="No Anys on this line!">        repo = GitRepository(git_repository_empty)</span>
+<span class="line-empty" title="No Anys on this line!"></span>
+<span class="line-precise" title="No Anys on this line!">    assert not repo.is_detached_head</span>
 <span class="line-empty" title="No Anys on this line!"></span>
 <span class="line-precise" title="No Anys on this line!">    assert "No objects" in caplog.text</span>
 <span class="line-precise" title="No Anys on this line!">    assert "No Head" in caplog.text</span>
@@ -397,7 +320,7 @@ Explicit (x1)">    TestGitRepository.create("default-with-notes", repo_path)</sp
 <span class="line-precise" title="No Anys on this line!">    for obj in repo.objects.values():</span>
 <span class="line-precise" title="No Anys on this line!">        assert obj.is_ready</span>
 <span class="line-empty" title="No Anys on this line!"></span>
-<span class="line-precise" title="No Anys on this line!">    numb_obj_due_to_notes = 2</span>
+<span class="line-precise" title="No Anys on this line!">    numb_obj_due_to_notes = 2  # two notes were added</span>
 <span class="line-empty" title="No Anys on this line!"></span>
 <span class="line-precise" title="No Anys on this line!">    commits = repo.commits.values()</span>
 <span class="line-precise" title="No Anys on this line!">    assert len([c for c in commits if c.is_reachable]) == 12 + numb_obj_due_to_notes</span>
@@ -418,9 +341,13 @@ Unimported (x7)
 Explicit (x1)">    with open(repo_path / "default_repo_with_notes.gv", "r", encoding="utf-8") as h:</span>
 <span class="line-precise" title="No Anys on this line!">        result_gv = h.read()</span>
 <span class="line-empty" title="No Anys on this line!"></span>
-<span class="line-precise" title="No Anys on this line!">    assert "git notes" in result_gv</span>
-<span class="line-precise" title="No Anys on this line!">    assert "label=A" in result_gv</span>
-<span class="line-precise" title="No Anys on this line!">    assert "label=F" in result_gv</span>
+<span class="line-precise" title="No Anys on this line!">    assert (</span>
+<span class="line-precise" title="No Anys on this line!">        '"GIT-NOTES-LABEL" [label="git notes" fillcolor=white shape=egg '</span>
+<span class="line-empty" title="No Anys on this line!">        'tooltip="refs/notes/commits"]'</span>
+<span class="line-precise" title="No Anys on this line!">    ) in result_gv</span>
+<span class="line-precise" title="Any Types on this line: 
+Omitted Generics (x3)">    for name in list("ABCDEFGHINmO"):</span>
+<span class="line-precise" title="No Anys on this line!">        assert f"label={name}" in result_gv</span>
 <span class="line-empty" title="No Anys on this line!"></span>
 <span class="line-precise" title="Any Types on this line: 
 Omitted Generics (x6)

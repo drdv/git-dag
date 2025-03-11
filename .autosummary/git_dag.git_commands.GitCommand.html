@@ -207,7 +207,7 @@
 <li class="toctree-l1"><a class="reference internal" href="../cli.html">Command-line interface</a></li>
 <li class="toctree-l1 current has-children"><a class="reference internal" href="../code_docs.html">Code</a><input checked="" class="toctree-checkbox" id="toctree-checkbox-1" name="toctree-checkbox-1" role="switch" type="checkbox"/><label for="toctree-checkbox-1"><div class="visually-hidden">Toggle navigation of Code</div><i class="icon"><svg><use href="#svg-arrow-right"></use></svg></i></label><ul class="current">
 <li class="toctree-l2 has-children"><a class="reference internal" href="git_dag.cli.html">git_dag.cli</a><input class="toctree-checkbox" id="toctree-checkbox-2" name="toctree-checkbox-2" role="switch" type="checkbox"/><label for="toctree-checkbox-2"><div class="visually-hidden">Toggle navigation of git_dag.cli</div><i class="icon"><svg><use href="#svg-arrow-right"></use></svg></i></label><ul>
-<li class="toctree-l3"><a class="reference internal" href="git_dag.cli.get_cla_parser.html">git_dag.cli.get_cla_parser</a></li>
+<li class="toctree-l3"><a class="reference internal" href="git_dag.cli.get_cla.html">git_dag.cli.get_cla</a></li>
 <li class="toctree-l3"><a class="reference internal" href="git_dag.cli.main.html">git_dag.cli.main</a></li>
 <li class="toctree-l3"><a class="reference internal" href="git_dag.cli.CustomArgparseNamespace.html">git_dag.cli.CustomArgparseNamespace</a></li>
 </ul>
@@ -336,22 +336,19 @@
 <tr class="row-odd"><td><p><a class="reference internal" href="#git_dag.git_commands.GitCommand.get_tags_info_parsed" title="git_dag.git_commands.GitCommand.get_tags_info_parsed"><code class="xref py py-obj docutils literal notranslate"><span class="pre">get_tags_info_parsed</span></code></a></p></td>
 <td><p>Return parsed info for all annotated and lightweight tags.</p></td>
 </tr>
-<tr class="row-even"><td><p><a class="reference internal" href="#git_dag.git_commands.GitCommand.is_detached_head" title="git_dag.git_commands.GitCommand.is_detached_head"><code class="xref py py-obj docutils literal notranslate"><span class="pre">is_detached_head</span></code></a></p></td>
-<td><p>Check if the repository is in a detached HEAD state.</p></td>
-</tr>
-<tr class="row-odd"><td><p><a class="reference internal" href="#git_dag.git_commands.GitCommand.local_branch_is_tracking" title="git_dag.git_commands.GitCommand.local_branch_is_tracking"><code class="xref py py-obj docutils literal notranslate"><span class="pre">local_branch_is_tracking</span></code></a></p></td>
+<tr class="row-even"><td><p><a class="reference internal" href="#git_dag.git_commands.GitCommand.local_branch_is_tracking" title="git_dag.git_commands.GitCommand.local_branch_is_tracking"><code class="xref py py-obj docutils literal notranslate"><span class="pre">local_branch_is_tracking</span></code></a></p></td>
 <td><p>Detect if a local branch is tracking a remote one.</p></td>
 </tr>
-<tr class="row-even"><td><p><a class="reference internal" href="#git_dag.git_commands.GitCommand.ls_tree" title="git_dag.git_commands.GitCommand.ls_tree"><code class="xref py py-obj docutils literal notranslate"><span class="pre">ls_tree</span></code></a></p></td>
+<tr class="row-odd"><td><p><a class="reference internal" href="#git_dag.git_commands.GitCommand.ls_tree" title="git_dag.git_commands.GitCommand.ls_tree"><code class="xref py py-obj docutils literal notranslate"><span class="pre">ls_tree</span></code></a></p></td>
 <td><p>Return children of a tree object.</p></td>
 </tr>
-<tr class="row-odd"><td><p><a class="reference internal" href="#git_dag.git_commands.GitCommand.read_object_file" title="git_dag.git_commands.GitCommand.read_object_file"><code class="xref py py-obj docutils literal notranslate"><span class="pre">read_object_file</span></code></a></p></td>
+<tr class="row-even"><td><p><a class="reference internal" href="#git_dag.git_commands.GitCommand.read_object_file" title="git_dag.git_commands.GitCommand.read_object_file"><code class="xref py py-obj docutils literal notranslate"><span class="pre">read_object_file</span></code></a></p></td>
 <td><p>Read the file associated with an object.</p></td>
 </tr>
-<tr class="row-even"><td><p><a class="reference internal" href="#git_dag.git_commands.GitCommand.rev_list" title="git_dag.git_commands.GitCommand.rev_list"><code class="xref py py-obj docutils literal notranslate"><span class="pre">rev_list</span></code></a></p></td>
+<tr class="row-odd"><td><p><a class="reference internal" href="#git_dag.git_commands.GitCommand.rev_list" title="git_dag.git_commands.GitCommand.rev_list"><code class="xref py py-obj docutils literal notranslate"><span class="pre">rev_list</span></code></a></p></td>
 <td><p>Return output of <code class="docutils literal notranslate"><span class="pre">git-rev-list</span></code>.</p></td>
 </tr>
-<tr class="row-odd"><td><p><a class="reference internal" href="#git_dag.git_commands.GitCommand.run_general" title="git_dag.git_commands.GitCommand.run_general"><code class="xref py py-obj docutils literal notranslate"><span class="pre">run_general</span></code></a></p></td>
+<tr class="row-even"><td><p><a class="reference internal" href="#git_dag.git_commands.GitCommand.run_general" title="git_dag.git_commands.GitCommand.run_general"><code class="xref py py-obj docutils literal notranslate"><span class="pre">run_general</span></code></a></p></td>
 <td><p>Run a general command.</p></td>
 </tr>
 </tbody>
@@ -432,12 +429,6 @@ flip-side, we have to decode escapes of escapes while preserving unicode
 characters. Note that if the message contains <code class="docutils literal notranslate"><span class="pre">\n</span></code>-s (i.e., one backlash),
 they would appear as <code class="docutils literal notranslate"><span class="pre">\\\\n</span></code> (four backlashes).</p>
 </section>
-</dd></dl>
-
-<dl class="py method">
-<dt class="sig sig-object py" id="git_dag.git_commands.GitCommand.is_detached_head">
-<span class="sig-name descname"><span class="pre">is_detached_head</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">bool</span></span></span><a class="reference internal" href="../_modules/git_dag/git_commands.html#GitCommand.is_detached_head"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#git_dag.git_commands.GitCommand.is_detached_head" title="Link to this definition">¶</a></dt>
-<dd><p>Check if the repository is in a detached HEAD state.</p>
 </dd></dl>
 
 <dl class="py method">
@@ -553,7 +544,6 @@ any reference.</p>
 <li><a class="reference internal" href="#git_dag.git_commands.GitCommand.get_objects_sha_kind"><code class="docutils literal notranslate"><span class="pre">GitCommand.get_objects_sha_kind()</span></code></a></li>
 <li><a class="reference internal" href="#git_dag.git_commands.GitCommand.get_stash_info"><code class="docutils literal notranslate"><span class="pre">GitCommand.get_stash_info()</span></code></a></li>
 <li><a class="reference internal" href="#git_dag.git_commands.GitCommand.get_tags_info_parsed"><code class="docutils literal notranslate"><span class="pre">GitCommand.get_tags_info_parsed()</span></code></a></li>
-<li><a class="reference internal" href="#git_dag.git_commands.GitCommand.is_detached_head"><code class="docutils literal notranslate"><span class="pre">GitCommand.is_detached_head()</span></code></a></li>
 <li><a class="reference internal" href="#git_dag.git_commands.GitCommand.local_branch_is_tracking"><code class="docutils literal notranslate"><span class="pre">GitCommand.local_branch_is_tracking()</span></code></a></li>
 <li><a class="reference internal" href="#git_dag.git_commands.GitCommand.ls_tree"><code class="docutils literal notranslate"><span class="pre">GitCommand.ls_tree()</span></code></a></li>
 <li><a class="reference internal" href="#git_dag.git_commands.GitCommand.read_object_file"><code class="docutils literal notranslate"><span class="pre">GitCommand.read_object_file()</span></code></a></li>
@@ -572,7 +562,7 @@ any reference.</p>
       
     </aside>
   </div>
-</div><script src="../_static/documentation_options.js?v=bb6e5bb3"></script>
+</div><script src="../_static/documentation_options.js?v=bde0d689"></script>
     <script src="../_static/doctools.js?v=9bcbadda"></script>
     <script src="../_static/sphinx_highlight.js?v=dc90522c"></script>
     <script src="../_static/scripts/furo.js?v=5fa4622c"></script>
