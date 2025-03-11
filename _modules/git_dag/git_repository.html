@@ -582,6 +582,7 @@
         <span class="bp">self</span><span class="o">.</span><span class="n">stashes_info_parsed</span> <span class="o">=</span> <span class="n">RegexParser</span><span class="o">.</span><span class="n">parse_stash_info</span><span class="p">(</span>
             <span class="bp">self</span><span class="o">.</span><span class="n">git</span><span class="o">.</span><span class="n">get_stash_info</span><span class="p">()</span>
         <span class="p">)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">notes_dag_root</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">git</span><span class="o">.</span><span class="n">get_notes_dag_root</span><span class="p">()</span>
 
     <span class="k">def</span> <span class="nf">_get_commits_sha</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">dict</span><span class="p">[</span><span class="nb">str</span><span class="p">,</span> <span class="nb">set</span><span class="p">[</span><span class="nb">str</span><span class="p">]]:</span>
 <span class="w">        </span><span class="sd">&quot;&quot;&quot;Return SHA of all reachable/unreachable commits.</span>
@@ -790,7 +791,8 @@
         <span class="bp">self</span><span class="o">.</span><span class="n">tags_lw</span><span class="p">:</span> <span class="nb">dict</span><span class="p">[</span><span class="nb">str</span><span class="p">,</span> <span class="n">GitTagLightweight</span><span class="p">]</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">_form_lightweight_tags</span><span class="p">()</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">branches</span><span class="p">:</span> <span class="nb">list</span><span class="p">[</span><span class="n">GitBranch</span><span class="p">]</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">_form_branches</span><span class="p">()</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">stashes</span><span class="p">:</span> <span class="nb">list</span><span class="p">[</span><span class="n">GitStash</span><span class="p">]</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">_form_stashes</span><span class="p">()</span>
-        <span class="bp">self</span><span class="o">.</span><span class="n">head_branches</span> <span class="o">=</span> <span class="p">[</span><span class="n">b</span> <span class="k">for</span> <span class="n">b</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">branches</span> <span class="k">if</span> <span class="n">b</span><span class="o">.</span><span class="n">commit</span> <span class="o">==</span> <span class="bp">self</span><span class="o">.</span><span class="n">head</span><span class="p">]</span></div>
+        <span class="bp">self</span><span class="o">.</span><span class="n">head_branches</span> <span class="o">=</span> <span class="p">[</span><span class="n">b</span> <span class="k">for</span> <span class="n">b</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">branches</span> <span class="k">if</span> <span class="n">b</span><span class="o">.</span><span class="n">commit</span> <span class="o">==</span> <span class="bp">self</span><span class="o">.</span><span class="n">head</span><span class="p">]</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">notes_dag_root</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="nb">dict</span><span class="p">[</span><span class="nb">str</span><span class="p">,</span> <span class="nb">str</span><span class="p">]]</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">inspector</span><span class="o">.</span><span class="n">notes_dag_root</span></div>
 
 
     <span class="nd">@time_it</span>
@@ -1062,7 +1064,7 @@
       
     </aside>
   </div>
-</div><script src="../../_static/documentation_options.js?v=a8d885de"></script>
+</div><script src="../../_static/documentation_options.js?v=907400eb"></script>
     <script src="../../_static/doctools.js?v=9bcbadda"></script>
     <script src="../../_static/sphinx_highlight.js?v=dc90522c"></script>
     <script src="../../_static/scripts/furo.js?v=5fa4622c"></script>

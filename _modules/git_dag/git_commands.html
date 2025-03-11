@@ -535,6 +535,16 @@
             <span class="bp">self</span><span class="o">.</span><span class="n">_run</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;tag </span><span class="si">{</span><span class="n">name</span><span class="si">}</span><span class="s2"> </span><span class="si">{</span><span class="n">ref_str</span><span class="si">}</span><span class="s2"> </span><span class="si">{</span><span class="n">message_str</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">,</span> <span class="n">env</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">env</span><span class="p">)</span></div>
 
 
+<div class="viewcode-block" id="GitCommandMutate.note">
+<a class="viewcode-back" href="../../.autosummary/git_dag.git_commands.GitCommandMutate.html#git_dag.git_commands.GitCommandMutate.note">[docs]</a>
+    <span class="k">def</span> <span class="nf">note</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">msg</span><span class="p">:</span> <span class="nb">str</span><span class="p">,</span> <span class="n">ref</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="nb">str</span><span class="p">]</span> <span class="o">=</span> <span class="kc">None</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="kc">None</span><span class="p">:</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;Add a git note to a given ref (e.g., hash, branch name).&quot;&quot;&quot;</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">_run</span><span class="p">(</span>
+            <span class="sa">f</span><span class="s1">&#39;notes add -m &quot;</span><span class="si">{</span><span class="n">msg</span><span class="si">}</span><span class="s1">&quot; </span><span class="si">{</span><span class="n">ref</span><span class="w"> </span><span class="k">if</span><span class="w"> </span><span class="n">ref</span><span class="w"> </span><span class="ow">is</span><span class="w"> </span><span class="ow">not</span><span class="w"> </span><span class="kc">None</span><span class="w"> </span><span class="k">else</span><span class="w"> </span><span class="s2">&quot;&quot;</span><span class="si">}</span><span class="s1">&#39;</span><span class="p">,</span>
+            <span class="n">env</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">env</span><span class="p">,</span>
+        <span class="p">)</span></div>
+
+
 <div class="viewcode-block" id="GitCommandMutate.config">
 <a class="viewcode-back" href="../../.autosummary/git_dag.git_commands.GitCommandMutate.html#git_dag.git_commands.GitCommandMutate.config">[docs]</a>
     <span class="k">def</span> <span class="nf">config</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">option</span><span class="p">:</span> <span class="nb">str</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="kc">None</span><span class="p">:</span>
@@ -768,6 +778,18 @@
                 <span class="n">tags</span><span class="p">[</span><span class="s2">&quot;lightweight&quot;</span><span class="p">][</span><span class="n">raw_tag</span><span class="o">.</span><span class="n">pop</span><span class="p">(</span><span class="s2">&quot;refname&quot;</span><span class="p">)]</span> <span class="o">=</span> <span class="n">raw_tag</span>  <span class="c1"># indexed by name</span>
 
         <span class="k">return</span> <span class="n">tags</span></div>
+
+
+<div class="viewcode-block" id="GitCommand.get_notes_dag_root">
+<a class="viewcode-back" href="../../.autosummary/git_dag.git_commands.GitCommand.html#git_dag.git_commands.GitCommand.get_notes_dag_root">[docs]</a>
+    <span class="k">def</span> <span class="nf">get_notes_dag_root</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Optional</span><span class="p">[</span><span class="nb">dict</span><span class="p">[</span><span class="nb">str</span><span class="p">,</span> <span class="nb">str</span><span class="p">]]:</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;Return the root node of the DAG for git notes.&quot;&quot;&quot;</span>
+        <span class="n">notes_ref</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">_run</span><span class="p">(</span><span class="s2">&quot;notes get-ref&quot;</span><span class="p">)</span><span class="o">.</span><span class="n">strip</span><span class="p">()</span><span class="o">.</span><span class="n">split</span><span class="p">(</span><span class="s2">&quot;</span><span class="se">\n</span><span class="s2">&quot;</span><span class="p">)[</span><span class="mi">0</span><span class="p">]</span>
+        <span class="k">try</span><span class="p">:</span>
+            <span class="n">notes_dag_root</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">_run</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;rev-list </span><span class="si">{</span><span class="n">notes_ref</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span><span class="o">.</span><span class="n">strip</span><span class="p">()</span><span class="o">.</span><span class="n">split</span><span class="p">(</span><span class="s2">&quot;</span><span class="se">\n</span><span class="s2">&quot;</span><span class="p">)[</span><span class="mi">0</span><span class="p">]</span>
+        <span class="k">except</span> <span class="n">subprocess</span><span class="o">.</span><span class="n">CalledProcessError</span><span class="p">:</span>
+            <span class="k">return</span> <span class="kc">None</span>  <span class="c1"># there are no git notes</span>
+        <span class="k">return</span> <span class="p">{</span><span class="s2">&quot;ref&quot;</span><span class="p">:</span> <span class="n">notes_ref</span><span class="p">,</span> <span class="s2">&quot;root&quot;</span><span class="p">:</span> <span class="n">notes_dag_root</span><span class="p">}</span></div>
 </div>
 
 
@@ -782,7 +804,7 @@
     <span class="nd">@classmethod</span>
     <span class="k">def</span> <span class="nf">create</span><span class="p">(</span>
         <span class="bp">cls</span><span class="p">,</span>
-        <span class="n">label</span><span class="p">:</span> <span class="n">Literal</span><span class="p">[</span><span class="s2">&quot;default&quot;</span><span class="p">,</span> <span class="s2">&quot;empty&quot;</span><span class="p">],</span>
+        <span class="n">label</span><span class="p">:</span> <span class="n">Literal</span><span class="p">[</span><span class="s2">&quot;default&quot;</span><span class="p">,</span> <span class="s2">&quot;default-with-notes&quot;</span><span class="p">,</span> <span class="s2">&quot;empty&quot;</span><span class="p">],</span>
         <span class="n">repo_path</span><span class="p">:</span> <span class="n">Path</span> <span class="o">|</span> <span class="nb">str</span><span class="p">,</span>  <span class="c1"># assumed to exist</span>
         <span class="n">tar_file_name</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="nb">str</span><span class="p">]</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span>
         <span class="o">**</span><span class="n">kwargs</span><span class="p">:</span> <span class="nb">dict</span><span class="p">[</span><span class="nb">str</span><span class="p">,</span> <span class="n">Any</span><span class="p">],</span>
@@ -791,6 +813,8 @@
         <span class="k">match</span> <span class="n">label</span><span class="p">:</span>
             <span class="k">case</span> <span class="s2">&quot;default&quot;</span><span class="p">:</span>
                 <span class="bp">cls</span><span class="o">.</span><span class="n">repository_default</span><span class="p">(</span><span class="n">repo_path</span><span class="p">)</span>
+            <span class="k">case</span> <span class="s2">&quot;default-with-notes&quot;</span><span class="p">:</span>
+                <span class="bp">cls</span><span class="o">.</span><span class="n">repository_default_with_notes</span><span class="p">(</span><span class="n">repo_path</span><span class="p">)</span>
             <span class="k">case</span> <span class="s2">&quot;empty&quot;</span><span class="p">:</span>
                 <span class="bp">cls</span><span class="o">.</span><span class="n">repository_empty</span><span class="p">(</span><span class="n">repo_path</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">)</span>
             <span class="k">case</span><span class="w"> </span><span class="k">_</span><span class="p">:</span>
@@ -878,6 +902,18 @@
         <span class="n">git</span><span class="o">.</span><span class="n">stash</span><span class="p">({</span><span class="s2">&quot;file&quot;</span><span class="p">:</span> <span class="s2">&quot;stash:second&quot;</span><span class="p">},</span> <span class="n">title</span><span class="o">=</span><span class="s2">&quot;second&quot;</span><span class="p">)</span>
         <span class="n">git</span><span class="o">.</span><span class="n">stash</span><span class="p">({</span><span class="s2">&quot;file&quot;</span><span class="p">:</span> <span class="s2">&quot;stash:third&quot;</span><span class="p">},</span> <span class="n">title</span><span class="o">=</span><span class="s2">&quot;third&quot;</span><span class="p">)</span>
         <span class="n">git</span><span class="o">.</span><span class="n">config</span><span class="p">(</span><span class="s2">&quot;gc.auto 0&quot;</span><span class="p">)</span></div>
+
+
+<div class="viewcode-block" id="TestGitRepository.repository_default_with_notes">
+<a class="viewcode-back" href="../../.autosummary/git_dag.git_commands.TestGitRepository.html#git_dag.git_commands.TestGitRepository.repository_default_with_notes">[docs]</a>
+    <span class="nd">@classmethod</span>
+    <span class="k">def</span> <span class="nf">repository_default_with_notes</span><span class="p">(</span><span class="bp">cls</span><span class="p">,</span> <span class="n">path</span><span class="p">:</span> <span class="n">Path</span> <span class="o">|</span> <span class="nb">str</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="kc">None</span><span class="p">:</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;Default repository with git notes.&quot;&quot;&quot;</span>
+        <span class="bp">cls</span><span class="o">.</span><span class="n">repository_default</span><span class="p">(</span><span class="n">path</span><span class="p">)</span>
+        <span class="n">git</span> <span class="o">=</span> <span class="n">GitCommandMutate</span><span class="p">(</span><span class="n">path</span><span class="p">)</span>
+
+        <span class="n">git</span><span class="o">.</span><span class="n">note</span><span class="p">(</span><span class="s2">&quot;Add a note&quot;</span><span class="p">)</span>
+        <span class="n">git</span><span class="o">.</span><span class="n">note</span><span class="p">(</span><span class="s2">&quot;Add a another note&quot;</span><span class="p">,</span> <span class="s2">&quot;main&quot;</span><span class="p">)</span></div>
 </div>
 
 
@@ -960,7 +996,7 @@
       
     </aside>
   </div>
-</div><script src="../../_static/documentation_options.js?v=a8d885de"></script>
+</div><script src="../../_static/documentation_options.js?v=907400eb"></script>
     <script src="../../_static/doctools.js?v=9bcbadda"></script>
     <script src="../../_static/sphinx_highlight.js?v=dc90522c"></script>
     <script src="../../_static/scripts/furo.js?v=5fa4622c"></script>

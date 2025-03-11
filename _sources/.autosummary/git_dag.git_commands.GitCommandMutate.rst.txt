@@ -23,6 +23,7 @@ git\_dag.git\_commands.GitCommandMutate
       ~GitCommandMutate.config
       ~GitCommandMutate.init
       ~GitCommandMutate.mg
+      ~GitCommandMutate.note
       ~GitCommandMutate.run_general
       ~GitCommandMutate.stash
       ~GitCommandMutate.tag

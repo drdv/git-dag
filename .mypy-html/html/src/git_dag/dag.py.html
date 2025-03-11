@@ -383,6 +383,25 @@
 <span id="L373" class="lineno"><a class="lineno" href="#L373">373</a></span>
 <span id="L374" class="lineno"><a class="lineno" href="#L374">374</a></span>
 <span id="L375" class="lineno"><a class="lineno" href="#L375">375</a></span>
+<span id="L376" class="lineno"><a class="lineno" href="#L376">376</a></span>
+<span id="L377" class="lineno"><a class="lineno" href="#L377">377</a></span>
+<span id="L378" class="lineno"><a class="lineno" href="#L378">378</a></span>
+<span id="L379" class="lineno"><a class="lineno" href="#L379">379</a></span>
+<span id="L380" class="lineno"><a class="lineno" href="#L380">380</a></span>
+<span id="L381" class="lineno"><a class="lineno" href="#L381">381</a></span>
+<span id="L382" class="lineno"><a class="lineno" href="#L382">382</a></span>
+<span id="L383" class="lineno"><a class="lineno" href="#L383">383</a></span>
+<span id="L384" class="lineno"><a class="lineno" href="#L384">384</a></span>
+<span id="L385" class="lineno"><a class="lineno" href="#L385">385</a></span>
+<span id="L386" class="lineno"><a class="lineno" href="#L386">386</a></span>
+<span id="L387" class="lineno"><a class="lineno" href="#L387">387</a></span>
+<span id="L388" class="lineno"><a class="lineno" href="#L388">388</a></span>
+<span id="L389" class="lineno"><a class="lineno" href="#L389">389</a></span>
+<span id="L390" class="lineno"><a class="lineno" href="#L390">390</a></span>
+<span id="L391" class="lineno"><a class="lineno" href="#L391">391</a></span>
+<span id="L392" class="lineno"><a class="lineno" href="#L392">392</a></span>
+<span id="L393" class="lineno"><a class="lineno" href="#L393">393</a></span>
+<span id="L394" class="lineno"><a class="lineno" href="#L394">394</a></span>
 </pre></td>
 <td class="table-code"><pre><span class="line-empty" title="No Anys on this line!">"""DAG visualization.</span>
 <span class="line-empty" title="No Anys on this line!"></span>
@@ -414,7 +433,7 @@
 <span class="line-precise" title="No Anys on this line!">from .interfaces.graphviz import DagGraphviz</span>
 <span class="line-precise" title="No Anys on this line!">from .utils import transform_ascii_control_chars</span>
 <span class="line-empty" title="No Anys on this line!"></span>
-<span class="line-precise" title="No Anys on this line!">if TYPE_CHECKING:</span>
+<span class="line-precise" title="No Anys on this line!">if TYPE_CHECKING:  # pragma: no cover</span>
 <span class="line-precise" title="No Anys on this line!">    from .git_repository import GitRepository</span>
 <span class="line-empty" title="No Anys on this line!"></span>
 <span class="line-precise" title="No Anys on this line!">LOG = logging.getLogger(__name__)</span>
@@ -442,10 +461,24 @@ Explicit (x1)">    dag: Any</span>
 <span class="line-empty" title="No Anys on this line!"></span>
 <span class="line-precise" title="No Anys on this line!">    def _is_object_to_include(self, sha: str) -&gt; bool: ...</span>
 <span class="line-precise" title="No Anys on this line!">    def _is_tag_to_include(self, item: GitTag) -&gt; bool: ...</span>
+<span class="line-precise" title="No Anys on this line!">    def _add_notes_label_node(self, sha: str, ref: str) -&gt; None: ...</span>
 <span class="line-empty" title="No Anys on this line!"></span>
 <span class="line-empty" title="No Anys on this line!"></span>
 <span class="line-precise" title="No Anys on this line!">class CommitHandlerMixin:</span>
 <span class="line-empty" title="No Anys on this line!">    """Handle commits."""</span>
+<span class="line-empty" title="No Anys on this line!"></span>
+<span class="line-precise" title="No Anys on this line!">    def _add_notes_label_node(self: MixinProtocol, sha: str, ref: str) -&gt; None:</span>
+<span class="line-empty" title="No Anys on this line!">        """Add a node that labels the root of the git notes DAG."""</span>
+<span class="line-any" title="Any Types on this line: 
+Explicit (x3)">        self.dag.node(</span>
+<span class="line-precise" title="No Anys on this line!">            name="GIT-NOTES-LABEL",</span>
+<span class="line-precise" title="No Anys on this line!">            label="git notes",</span>
+<span class="line-precise" title="No Anys on this line!">            fillcolor=DAG_NODE_COLORS["notes"],</span>
+<span class="line-precise" title="No Anys on this line!">            tooltip=ref,</span>
+<span class="line-precise" title="No Anys on this line!">            shape="egg",</span>
+<span class="line-empty" title="No Anys on this line!">        )</span>
+<span class="line-any" title="Any Types on this line: 
+Explicit (x3)">        self.dag.edge("GIT-NOTES-LABEL", sha)</span>
 <span class="line-empty" title="No Anys on this line!"></span>
 <span class="line-precise" title="No Anys on this line!">    def _add_commit(self: MixinProtocol, sha: str, item: GitCommit) -&gt; None:</span>
 <span class="line-precise" title="No Anys on this line!">        def form_tooltip(item: GitCommit) -&gt; str:</span>
@@ -476,6 +509,13 @@ Explicit (x3)">            self.dag.node(</span>
 <span class="line-precise" title="No Anys on this line!">                fillcolor=DAG_NODE_COLORS[color_label],</span>
 <span class="line-precise" title="No Anys on this line!">                tooltip=form_tooltip(item),</span>
 <span class="line-empty" title="No Anys on this line!">            )</span>
+<span class="line-empty" title="No Anys on this line!"></span>
+<span class="line-precise" title="No Anys on this line!">            if self.repository.notes_dag_root is not None:</span>
+<span class="line-precise" title="No Anys on this line!">                if sha == self.repository.notes_dag_root["root"]:</span>
+<span class="line-precise" title="No Anys on this line!">                    self._add_notes_label_node(</span>
+<span class="line-precise" title="No Anys on this line!">                        sha,</span>
+<span class="line-precise" title="No Anys on this line!">                        self.repository.notes_dag_root["ref"],</span>
+<span class="line-empty" title="No Anys on this line!">                    )</span>
 <span class="line-empty" title="No Anys on this line!"></span>
 <span class="line-precise" title="No Anys on this line!">            if self.show_trees:</span>
 <span class="line-any" title="Any Types on this line: 
@@ -734,7 +774,7 @@ Explicit (x1)">            with open(self.filename, "w", encoding="utf-8") as h:
 <span class="line-precise" title="No Anys on this line!">                h.write(self.dag.source())</span>
 <span class="line-empty" title="No Anys on this line!">        else:</span>
 <span class="line-precise" title="No Anys on this line!">            self.dag.render()</span>
-<span class="line-precise" title="No Anys on this line!">            if xdg_open:</span>
+<span class="line-precise" title="No Anys on this line!">            if xdg_open:  # pragma: no cover</span>
 <span class="line-precise" title="Any Types on this line: 
 Explicit (x13)">                subprocess.run(</span>
 <span class="line-precise" title="No Anys on this line!">                    f"xdg-open {self.filename}.{self.format}",</span>

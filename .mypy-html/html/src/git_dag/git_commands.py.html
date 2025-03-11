@@ -545,6 +545,33 @@
 <span id="L535" class="lineno"><a class="lineno" href="#L535">535</a></span>
 <span id="L536" class="lineno"><a class="lineno" href="#L536">536</a></span>
 <span id="L537" class="lineno"><a class="lineno" href="#L537">537</a></span>
+<span id="L538" class="lineno"><a class="lineno" href="#L538">538</a></span>
+<span id="L539" class="lineno"><a class="lineno" href="#L539">539</a></span>
+<span id="L540" class="lineno"><a class="lineno" href="#L540">540</a></span>
+<span id="L541" class="lineno"><a class="lineno" href="#L541">541</a></span>
+<span id="L542" class="lineno"><a class="lineno" href="#L542">542</a></span>
+<span id="L543" class="lineno"><a class="lineno" href="#L543">543</a></span>
+<span id="L544" class="lineno"><a class="lineno" href="#L544">544</a></span>
+<span id="L545" class="lineno"><a class="lineno" href="#L545">545</a></span>
+<span id="L546" class="lineno"><a class="lineno" href="#L546">546</a></span>
+<span id="L547" class="lineno"><a class="lineno" href="#L547">547</a></span>
+<span id="L548" class="lineno"><a class="lineno" href="#L548">548</a></span>
+<span id="L549" class="lineno"><a class="lineno" href="#L549">549</a></span>
+<span id="L550" class="lineno"><a class="lineno" href="#L550">550</a></span>
+<span id="L551" class="lineno"><a class="lineno" href="#L551">551</a></span>
+<span id="L552" class="lineno"><a class="lineno" href="#L552">552</a></span>
+<span id="L553" class="lineno"><a class="lineno" href="#L553">553</a></span>
+<span id="L554" class="lineno"><a class="lineno" href="#L554">554</a></span>
+<span id="L555" class="lineno"><a class="lineno" href="#L555">555</a></span>
+<span id="L556" class="lineno"><a class="lineno" href="#L556">556</a></span>
+<span id="L557" class="lineno"><a class="lineno" href="#L557">557</a></span>
+<span id="L558" class="lineno"><a class="lineno" href="#L558">558</a></span>
+<span id="L559" class="lineno"><a class="lineno" href="#L559">559</a></span>
+<span id="L560" class="lineno"><a class="lineno" href="#L560">560</a></span>
+<span id="L561" class="lineno"><a class="lineno" href="#L561">561</a></span>
+<span id="L562" class="lineno"><a class="lineno" href="#L562">562</a></span>
+<span id="L563" class="lineno"><a class="lineno" href="#L563">563</a></span>
+<span id="L564" class="lineno"><a class="lineno" href="#L564">564</a></span>
 </pre></td>
 <td class="table-code"><pre><span class="line-empty" title="No Anys on this line!">"""Git commands related functionality.</span>
 <span class="line-empty" title="No Anys on this line!"></span>
@@ -761,6 +788,13 @@ Explicit (x1)">            with open(Path(self.path) / filename, "w", encoding="
 <span class="line-precise" title="No Anys on this line!">            message_str = f'-m "{message}"' if message is not None else ""</span>
 <span class="line-precise" title="No Anys on this line!">            self._run(f"tag {name} {ref_str} {message_str}", env=self.env)</span>
 <span class="line-empty" title="No Anys on this line!"></span>
+<span class="line-precise" title="No Anys on this line!">    def note(self, msg: str, ref: Optional[str] = None) -&gt; None:</span>
+<span class="line-empty" title="No Anys on this line!">        """Add a git note to a given ref (e.g., hash, branch name)."""</span>
+<span class="line-precise" title="No Anys on this line!">        self._run(</span>
+<span class="line-precise" title="No Anys on this line!">            f'notes add -m "{msg}" {ref if ref is not None else ""}',</span>
+<span class="line-precise" title="No Anys on this line!">            env=self.env,</span>
+<span class="line-empty" title="No Anys on this line!">        )</span>
+<span class="line-empty" title="No Anys on this line!"></span>
 <span class="line-precise" title="No Anys on this line!">    def config(self, option: str) -&gt; None:</span>
 <span class="line-empty" title="No Anys on this line!">        """Set a gonfig option."""</span>
 <span class="line-precise" title="No Anys on this line!">        self._run(f"config {option}")</span>
@@ -967,6 +1001,15 @@ Omitted Generics (x2)">                tags["lightweight"][raw_tag.pop("refname"
 <span class="line-empty" title="No Anys on this line!"></span>
 <span class="line-precise" title="No Anys on this line!">        return tags</span>
 <span class="line-empty" title="No Anys on this line!"></span>
+<span class="line-precise" title="No Anys on this line!">    def get_notes_dag_root(self) -&gt; Optional[dict[str, str]]:</span>
+<span class="line-empty" title="No Anys on this line!">        """Return the root node of the DAG for git notes."""</span>
+<span class="line-precise" title="No Anys on this line!">        notes_ref = self._run("notes get-ref").strip().split("\n")[0]</span>
+<span class="line-empty" title="No Anys on this line!">        try:</span>
+<span class="line-precise" title="No Anys on this line!">            notes_dag_root = self._run(f"rev-list {notes_ref}").strip().split("\n")[0]</span>
+<span class="line-precise" title="No Anys on this line!">        except subprocess.CalledProcessError:</span>
+<span class="line-precise" title="No Anys on this line!">            return None  # there are no git notes</span>
+<span class="line-precise" title="No Anys on this line!">        return {"ref": notes_ref, "root": notes_dag_root}</span>
+<span class="line-empty" title="No Anys on this line!"></span>
 <span class="line-empty" title="No Anys on this line!"></span>
 <span class="line-precise" title="No Anys on this line!">class TestGitRepository:</span>
 <span class="line-empty" title="No Anys on this line!">    """Create test git repository."""</span>
@@ -975,7 +1018,7 @@ Omitted Generics (x2)">                tags["lightweight"][raw_tag.pop("refname"
 <span class="line-imprecise" title="Any Types on this line: 
 Explicit (x1)">    def create(</span>
 <span class="line-empty" title="No Anys on this line!">        cls,</span>
-<span class="line-empty" title="No Anys on this line!">        label: Literal["default", "empty"],</span>
+<span class="line-empty" title="No Anys on this line!">        label: Literal["default", "default-with-notes", "empty"],</span>
 <span class="line-empty" title="No Anys on this line!">        repo_path: Path | str,  # assumed to exist</span>
 <span class="line-precise" title="No Anys on this line!">        tar_file_name: Optional[str] = None,</span>
 <span class="line-empty" title="No Anys on this line!">        **kwargs: dict[str, Any],</span>
@@ -984,6 +1027,8 @@ Explicit (x1)">    def create(</span>
 <span class="line-precise" title="No Anys on this line!">        match label:</span>
 <span class="line-precise" title="No Anys on this line!">            case "default":</span>
 <span class="line-precise" title="No Anys on this line!">                cls.repository_default(repo_path)</span>
+<span class="line-precise" title="No Anys on this line!">            case "default-with-notes":</span>
+<span class="line-precise" title="No Anys on this line!">                cls.repository_default_with_notes(repo_path)</span>
 <span class="line-precise" title="No Anys on this line!">            case "empty":</span>
 <span class="line-imprecise" title="Any Types on this line: 
 Explicit (x1)">                cls.repository_empty(repo_path, **kwargs)</span>
@@ -1060,6 +1105,15 @@ Explicit (x1)">                cls.repository_empty(repo_path, **kwargs)</span>
 <span class="line-precise" title="No Anys on this line!">        git.stash({"file": "stash:second"}, title="second")</span>
 <span class="line-precise" title="No Anys on this line!">        git.stash({"file": "stash:third"}, title="third")</span>
 <span class="line-precise" title="No Anys on this line!">        git.config("gc.auto 0")</span>
+<span class="line-empty" title="No Anys on this line!"></span>
+<span class="line-empty" title="No Anys on this line!">    @classmethod</span>
+<span class="line-precise" title="No Anys on this line!">    def repository_default_with_notes(cls, path: Path | str) -&gt; None:</span>
+<span class="line-empty" title="No Anys on this line!">        """Default repository with git notes."""</span>
+<span class="line-precise" title="No Anys on this line!">        cls.repository_default(path)</span>
+<span class="line-precise" title="No Anys on this line!">        git = GitCommandMutate(path)</span>
+<span class="line-empty" title="No Anys on this line!"></span>
+<span class="line-precise" title="No Anys on this line!">        git.note("Add a note")</span>
+<span class="line-precise" title="No Anys on this line!">        git.note("Add a another note", "main")</span>
 <span class="line-empty" title="No Anys on this line!"></span>
 <span class="line-empty" title="No Anys on this line!"></span>
 <span class="line-precise" title="No Anys on this line!">def create_test_repo_and_reference_dot_file() -&gt; None:</span>

@@ -698,6 +698,8 @@
 <span id="L688" class="lineno"><a class="lineno" href="#L688">688</a></span>
 <span id="L689" class="lineno"><a class="lineno" href="#L689">689</a></span>
 <span id="L690" class="lineno"><a class="lineno" href="#L690">690</a></span>
+<span id="L691" class="lineno"><a class="lineno" href="#L691">691</a></span>
+<span id="L692" class="lineno"><a class="lineno" href="#L692">692</a></span>
 </pre></td>
 <td class="table-code"><pre><span class="line-empty" title="No Anys on this line!">"""Git repository parsing functionality."""</span>
 <span class="line-empty" title="No Anys on this line!"></span>
@@ -978,6 +980,7 @@ Omitted Generics (x6)">    @time_it</span>
 <span class="line-precise" title="No Anys on this line!">        self.stashes_info_parsed = RegexParser.parse_stash_info(</span>
 <span class="line-precise" title="No Anys on this line!">            self.git.get_stash_info()</span>
 <span class="line-empty" title="No Anys on this line!">        )</span>
+<span class="line-precise" title="No Anys on this line!">        self.notes_dag_root = self.git.get_notes_dag_root()</span>
 <span class="line-empty" title="No Anys on this line!"></span>
 <span class="line-precise" title="No Anys on this line!">    def _get_commits_sha(self) -&gt; dict[str, set[str]]:</span>
 <span class="line-empty" title="No Anys on this line!">        """Return SHA of all reachable/unreachable commits.</span>
@@ -1190,6 +1193,7 @@ Omitted Generics (x6)">    @time_it</span>
 <span class="line-precise" title="No Anys on this line!">        self.branches: list[GitBranch] = self._form_branches()</span>
 <span class="line-precise" title="No Anys on this line!">        self.stashes: list[GitStash] = self._form_stashes()</span>
 <span class="line-precise" title="No Anys on this line!">        self.head_branches = [b for b in self.branches if b.commit == self.head]</span>
+<span class="line-precise" title="No Anys on this line!">        self.notes_dag_root: Optional[dict[str, str]] = self.inspector.notes_dag_root</span>
 <span class="line-empty" title="No Anys on this line!"></span>
 <span class="line-precise" title="Any Types on this line: 
 Omitted Generics (x6)">    @time_it</span>

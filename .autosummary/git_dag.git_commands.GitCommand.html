@@ -324,31 +324,34 @@
 <tr class="row-odd"><td><p><a class="reference internal" href="#git_dag.git_commands.GitCommand.get_local_head" title="git_dag.git_commands.GitCommand.get_local_head"><code class="xref py py-obj docutils literal notranslate"><span class="pre">get_local_head</span></code></a></p></td>
 <td><p>Return local HEAD.</p></td>
 </tr>
-<tr class="row-even"><td><p><a class="reference internal" href="#git_dag.git_commands.GitCommand.get_objects_sha_kind" title="git_dag.git_commands.GitCommand.get_objects_sha_kind"><code class="xref py py-obj docutils literal notranslate"><span class="pre">get_objects_sha_kind</span></code></a></p></td>
+<tr class="row-even"><td><p><a class="reference internal" href="#git_dag.git_commands.GitCommand.get_notes_dag_root" title="git_dag.git_commands.GitCommand.get_notes_dag_root"><code class="xref py py-obj docutils literal notranslate"><span class="pre">get_notes_dag_root</span></code></a></p></td>
+<td><p>Return the root node of the DAG for git notes.</p></td>
+</tr>
+<tr class="row-odd"><td><p><a class="reference internal" href="#git_dag.git_commands.GitCommand.get_objects_sha_kind" title="git_dag.git_commands.GitCommand.get_objects_sha_kind"><code class="xref py py-obj docutils literal notranslate"><span class="pre">get_objects_sha_kind</span></code></a></p></td>
 <td><p>Return the SHA and type of all git objects (in one string).</p></td>
 </tr>
-<tr class="row-odd"><td><p><a class="reference internal" href="#git_dag.git_commands.GitCommand.get_stash_info" title="git_dag.git_commands.GitCommand.get_stash_info"><code class="xref py py-obj docutils literal notranslate"><span class="pre">get_stash_info</span></code></a></p></td>
+<tr class="row-even"><td><p><a class="reference internal" href="#git_dag.git_commands.GitCommand.get_stash_info" title="git_dag.git_commands.GitCommand.get_stash_info"><code class="xref py py-obj docutils literal notranslate"><span class="pre">get_stash_info</span></code></a></p></td>
 <td><p>Return stash IDs and their associated SHAs.</p></td>
 </tr>
-<tr class="row-even"><td><p><a class="reference internal" href="#git_dag.git_commands.GitCommand.get_tags_info_parsed" title="git_dag.git_commands.GitCommand.get_tags_info_parsed"><code class="xref py py-obj docutils literal notranslate"><span class="pre">get_tags_info_parsed</span></code></a></p></td>
+<tr class="row-odd"><td><p><a class="reference internal" href="#git_dag.git_commands.GitCommand.get_tags_info_parsed" title="git_dag.git_commands.GitCommand.get_tags_info_parsed"><code class="xref py py-obj docutils literal notranslate"><span class="pre">get_tags_info_parsed</span></code></a></p></td>
 <td><p>Return parsed info for all annotated and lightweight tags.</p></td>
 </tr>
-<tr class="row-odd"><td><p><a class="reference internal" href="#git_dag.git_commands.GitCommand.is_detached_head" title="git_dag.git_commands.GitCommand.is_detached_head"><code class="xref py py-obj docutils literal notranslate"><span class="pre">is_detached_head</span></code></a></p></td>
+<tr class="row-even"><td><p><a class="reference internal" href="#git_dag.git_commands.GitCommand.is_detached_head" title="git_dag.git_commands.GitCommand.is_detached_head"><code class="xref py py-obj docutils literal notranslate"><span class="pre">is_detached_head</span></code></a></p></td>
 <td><p>Check if the repository is in a detached HEAD state.</p></td>
 </tr>
-<tr class="row-even"><td><p><a class="reference internal" href="#git_dag.git_commands.GitCommand.local_branch_is_tracking" title="git_dag.git_commands.GitCommand.local_branch_is_tracking"><code class="xref py py-obj docutils literal notranslate"><span class="pre">local_branch_is_tracking</span></code></a></p></td>
+<tr class="row-odd"><td><p><a class="reference internal" href="#git_dag.git_commands.GitCommand.local_branch_is_tracking" title="git_dag.git_commands.GitCommand.local_branch_is_tracking"><code class="xref py py-obj docutils literal notranslate"><span class="pre">local_branch_is_tracking</span></code></a></p></td>
 <td><p>Detect if a local branch is tracking a remote one.</p></td>
 </tr>
-<tr class="row-odd"><td><p><a class="reference internal" href="#git_dag.git_commands.GitCommand.ls_tree" title="git_dag.git_commands.GitCommand.ls_tree"><code class="xref py py-obj docutils literal notranslate"><span class="pre">ls_tree</span></code></a></p></td>
+<tr class="row-even"><td><p><a class="reference internal" href="#git_dag.git_commands.GitCommand.ls_tree" title="git_dag.git_commands.GitCommand.ls_tree"><code class="xref py py-obj docutils literal notranslate"><span class="pre">ls_tree</span></code></a></p></td>
 <td><p>Return children of a tree object.</p></td>
 </tr>
-<tr class="row-even"><td><p><a class="reference internal" href="#git_dag.git_commands.GitCommand.read_object_file" title="git_dag.git_commands.GitCommand.read_object_file"><code class="xref py py-obj docutils literal notranslate"><span class="pre">read_object_file</span></code></a></p></td>
+<tr class="row-odd"><td><p><a class="reference internal" href="#git_dag.git_commands.GitCommand.read_object_file" title="git_dag.git_commands.GitCommand.read_object_file"><code class="xref py py-obj docutils literal notranslate"><span class="pre">read_object_file</span></code></a></p></td>
 <td><p>Read the file associated with an object.</p></td>
 </tr>
-<tr class="row-odd"><td><p><a class="reference internal" href="#git_dag.git_commands.GitCommand.rev_list" title="git_dag.git_commands.GitCommand.rev_list"><code class="xref py py-obj docutils literal notranslate"><span class="pre">rev_list</span></code></a></p></td>
+<tr class="row-even"><td><p><a class="reference internal" href="#git_dag.git_commands.GitCommand.rev_list" title="git_dag.git_commands.GitCommand.rev_list"><code class="xref py py-obj docutils literal notranslate"><span class="pre">rev_list</span></code></a></p></td>
 <td><p>Return output of <code class="docutils literal notranslate"><span class="pre">git-rev-list</span></code>.</p></td>
 </tr>
-<tr class="row-even"><td><p><a class="reference internal" href="#git_dag.git_commands.GitCommand.run_general" title="git_dag.git_commands.GitCommand.run_general"><code class="xref py py-obj docutils literal notranslate"><span class="pre">run_general</span></code></a></p></td>
+<tr class="row-odd"><td><p><a class="reference internal" href="#git_dag.git_commands.GitCommand.run_general" title="git_dag.git_commands.GitCommand.run_general"><code class="xref py py-obj docutils literal notranslate"><span class="pre">run_general</span></code></a></p></td>
 <td><p>Run a general command.</p></td>
 </tr>
 </tbody>
@@ -381,6 +384,12 @@ investigate).</p>
 <dt class="sig sig-object py" id="git_dag.git_commands.GitCommand.get_local_head">
 <span class="sig-name descname"><span class="pre">get_local_head</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">str</span></span></span><a class="reference internal" href="../_modules/git_dag/git_commands.html#GitCommand.get_local_head"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#git_dag.git_commands.GitCommand.get_local_head" title="Link to this definition">¶</a></dt>
 <dd><p>Return local HEAD.</p>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="git_dag.git_commands.GitCommand.get_notes_dag_root">
+<span class="sig-name descname"><span class="pre">get_notes_dag_root</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">dict</span><span class="p"><span class="pre">[</span></span><span class="pre">str</span><span class="p"><span class="pre">,</span></span><span class="w"> </span><span class="pre">str</span><span class="p"><span class="pre">]</span></span><span class="w"> </span><span class="p"><span class="pre">|</span></span><span class="w"> </span><span class="pre">None</span></span></span><a class="reference internal" href="../_modules/git_dag/git_commands.html#GitCommand.get_notes_dag_root"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#git_dag.git_commands.GitCommand.get_notes_dag_root" title="Link to this definition">¶</a></dt>
+<dd><p>Return the root node of the DAG for git notes.</p>
 </dd></dl>
 
 <dl class="py method">
@@ -540,6 +549,7 @@ any reference.</p>
 <li><a class="reference internal" href="#git_dag.git_commands.GitCommand.get_blobs_and_trees_names"><code class="docutils literal notranslate"><span class="pre">GitCommand.get_blobs_and_trees_names()</span></code></a></li>
 <li><a class="reference internal" href="#git_dag.git_commands.GitCommand.get_branches"><code class="docutils literal notranslate"><span class="pre">GitCommand.get_branches()</span></code></a></li>
 <li><a class="reference internal" href="#git_dag.git_commands.GitCommand.get_local_head"><code class="docutils literal notranslate"><span class="pre">GitCommand.get_local_head()</span></code></a></li>
+<li><a class="reference internal" href="#git_dag.git_commands.GitCommand.get_notes_dag_root"><code class="docutils literal notranslate"><span class="pre">GitCommand.get_notes_dag_root()</span></code></a></li>
 <li><a class="reference internal" href="#git_dag.git_commands.GitCommand.get_objects_sha_kind"><code class="docutils literal notranslate"><span class="pre">GitCommand.get_objects_sha_kind()</span></code></a></li>
 <li><a class="reference internal" href="#git_dag.git_commands.GitCommand.get_stash_info"><code class="docutils literal notranslate"><span class="pre">GitCommand.get_stash_info()</span></code></a></li>
 <li><a class="reference internal" href="#git_dag.git_commands.GitCommand.get_tags_info_parsed"><code class="docutils literal notranslate"><span class="pre">GitCommand.get_tags_info_parsed()</span></code></a></li>
@@ -562,7 +572,7 @@ any reference.</p>
       
     </aside>
   </div>
-</div><script src="../_static/documentation_options.js?v=a8d885de"></script>
+</div><script src="../_static/documentation_options.js?v=907400eb"></script>
     <script src="../_static/doctools.js?v=9bcbadda"></script>
     <script src="../_static/sphinx_highlight.js?v=dc90522c"></script>
     <script src="../_static/scripts/furo.js?v=5fa4622c"></script>

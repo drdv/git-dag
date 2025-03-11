@@ -18,6 +18,7 @@ git\_dag.git\_commands.TestGitRepository
    
       ~TestGitRepository.create
       ~TestGitRepository.repository_default
+      ~TestGitRepository.repository_default_with_notes
       ~TestGitRepository.repository_empty
       ~TestGitRepository.tar
       ~TestGitRepository.untar

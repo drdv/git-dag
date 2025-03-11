@@ -340,13 +340,16 @@ repository for the tests.</p>
 <tr class="row-odd"><td><p><a class="reference internal" href="#git_dag.git_commands.GitCommandMutate.mg" title="git_dag.git_commands.GitCommandMutate.mg"><code class="xref py py-obj docutils literal notranslate"><span class="pre">mg</span></code></a></p></td>
 <td><p>Merge.</p></td>
 </tr>
-<tr class="row-even"><td><p><a class="reference internal" href="#git_dag.git_commands.GitCommandMutate.run_general" title="git_dag.git_commands.GitCommandMutate.run_general"><code class="xref py py-obj docutils literal notranslate"><span class="pre">run_general</span></code></a></p></td>
+<tr class="row-even"><td><p><a class="reference internal" href="#git_dag.git_commands.GitCommandMutate.note" title="git_dag.git_commands.GitCommandMutate.note"><code class="xref py py-obj docutils literal notranslate"><span class="pre">note</span></code></a></p></td>
+<td><p>Add a git note to a given ref (e.g., hash, branch name).</p></td>
+</tr>
+<tr class="row-odd"><td><p><a class="reference internal" href="#git_dag.git_commands.GitCommandMutate.run_general" title="git_dag.git_commands.GitCommandMutate.run_general"><code class="xref py py-obj docutils literal notranslate"><span class="pre">run_general</span></code></a></p></td>
 <td><p>Run a general command.</p></td>
 </tr>
-<tr class="row-odd"><td><p><a class="reference internal" href="#git_dag.git_commands.GitCommandMutate.stash" title="git_dag.git_commands.GitCommandMutate.stash"><code class="xref py py-obj docutils literal notranslate"><span class="pre">stash</span></code></a></p></td>
+<tr class="row-even"><td><p><a class="reference internal" href="#git_dag.git_commands.GitCommandMutate.stash" title="git_dag.git_commands.GitCommandMutate.stash"><code class="xref py py-obj docutils literal notranslate"><span class="pre">stash</span></code></a></p></td>
 <td><p>Stash.</p></td>
 </tr>
-<tr class="row-even"><td><p><a class="reference internal" href="#git_dag.git_commands.GitCommandMutate.tag" title="git_dag.git_commands.GitCommandMutate.tag"><code class="xref py py-obj docutils literal notranslate"><span class="pre">tag</span></code></a></p></td>
+<tr class="row-odd"><td><p><a class="reference internal" href="#git_dag.git_commands.GitCommandMutate.tag" title="git_dag.git_commands.GitCommandMutate.tag"><code class="xref py py-obj docutils literal notranslate"><span class="pre">tag</span></code></a></p></td>
 <td><p>Create/delete annotated or lightweight tag.</p></td>
 </tr>
 </tbody>
@@ -406,6 +409,12 @@ cannot be specified).</p>
 <dt class="sig sig-object py" id="git_dag.git_commands.GitCommandMutate.mg">
 <span class="sig-name descname"><span class="pre">mg</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">branch</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">str</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">message</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">str</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">'m'</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">strategy</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">str</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">'theirs'</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">None</span></span></span><a class="reference internal" href="../_modules/git_dag/git_commands.html#GitCommandMutate.mg"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#git_dag.git_commands.GitCommandMutate.mg" title="Link to this definition">¶</a></dt>
 <dd><p>Merge.</p>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="git_dag.git_commands.GitCommandMutate.note">
+<span class="sig-name descname"><span class="pre">note</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">msg</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">str</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">ref</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">str</span><span class="w"> </span><span class="p"><span class="pre">|</span></span><span class="w"> </span><span class="pre">None</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">None</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">None</span></span></span><a class="reference internal" href="../_modules/git_dag/git_commands.html#GitCommandMutate.note"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#git_dag.git_commands.GitCommandMutate.note" title="Link to this definition">¶</a></dt>
+<dd><p>Add a git note to a given ref (e.g., hash, branch name).</p>
 </dd></dl>
 
 <dl class="py method">
@@ -502,6 +511,7 @@ order for <code class="docutils literal notranslate"><span class="pre">git</span
 <li><a class="reference internal" href="#git_dag.git_commands.GitCommandMutate.config"><code class="docutils literal notranslate"><span class="pre">GitCommandMutate.config()</span></code></a></li>
 <li><a class="reference internal" href="#git_dag.git_commands.GitCommandMutate.init"><code class="docutils literal notranslate"><span class="pre">GitCommandMutate.init()</span></code></a></li>
 <li><a class="reference internal" href="#git_dag.git_commands.GitCommandMutate.mg"><code class="docutils literal notranslate"><span class="pre">GitCommandMutate.mg()</span></code></a></li>
+<li><a class="reference internal" href="#git_dag.git_commands.GitCommandMutate.note"><code class="docutils literal notranslate"><span class="pre">GitCommandMutate.note()</span></code></a></li>
 <li><a class="reference internal" href="#git_dag.git_commands.GitCommandMutate.run_general"><code class="docutils literal notranslate"><span class="pre">GitCommandMutate.run_general()</span></code></a></li>
 <li><a class="reference internal" href="#git_dag.git_commands.GitCommandMutate.stash"><code class="docutils literal notranslate"><span class="pre">GitCommandMutate.stash()</span></code></a></li>
 <li><a class="reference internal" href="#git_dag.git_commands.GitCommandMutate.tag"><code class="docutils literal notranslate"><span class="pre">GitCommandMutate.tag()</span></code></a></li>
@@ -518,7 +528,7 @@ order for <code class="docutils literal notranslate"><span class="pre">git</span
       
     </aside>
   </div>
-</div><script src="../_static/documentation_options.js?v=a8d885de"></script>
+</div><script src="../_static/documentation_options.js?v=907400eb"></script>
     <script src="../_static/doctools.js?v=9bcbadda"></script>
     <script src="../_static/sphinx_highlight.js?v=dc90522c"></script>
     <script src="../_static/scripts/furo.js?v=5fa4622c"></script>
