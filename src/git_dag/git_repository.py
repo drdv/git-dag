@@ -85,7 +85,7 @@ class RegexParser:
         match = re.search(pattern, string)
         if match:
             return {"sha": match.group("sha"), "kind": match.group("kind")}
-        raise RuntimeError(f'Object string "{string}" not matched.')
+        raise RuntimeError(f'Object string "{string}" not matched.')  # pragma: no cover
 
     @staticmethod
     def parse_tree_info(data: Optional[list[str]] = None) -> GitTreeRawDataType:
@@ -104,7 +104,9 @@ class RegexParser:
                 if kind != "commit":  # skip references to commits
                     output.append({"sha": match.group("sha"), "kind": kind})
             else:
-                raise RuntimeError(f'Tree string "{string}" not matched.')
+                raise RuntimeError(
+                    f'Tree string "{string}" not matched.'
+                )  # pragma: no cover
 
         return output
 
@@ -137,12 +139,14 @@ class RegexParser:
             sha, kind = IG(d)
             if kind == "tree":
                 if tree:
-                    raise ValueError("Exactly one tree expected per commit.")
+                    raise ValueError(
+                        "Exactly one tree expected per commit."
+                    )  # pragma: no cover
                 tree = sha
             elif kind == "parent":
                 parents.append(sha)
             else:
-                raise RuntimeError("It is not expected to be here!")
+                raise RuntimeError("It is not expected to be here!")  # pragma: no cover
 
         author, author_email, author_date = creator_timestamp_format(
             strip_creator_label(misc_info[0])
@@ -198,7 +202,9 @@ class RegexParser:
             if match:
                 output[label] = match.group(label)
             else:
-                raise RuntimeError(f'Tag string "{string}" not matched.')
+                raise RuntimeError(
+                    f'Tag string "{string}" not matched.'
+                )  # pragma: no cover
 
         tagger, tagger_email, tag_date = creator_timestamp_format(output["tagger"])
         output["taggername"] = tagger
@@ -224,7 +230,9 @@ class RegexParser:
             if match:
                 out.append({key: match.group(key) for key in keys})
             else:
-                raise RuntimeError('Stash string "{string}" not matched.')
+                raise RuntimeError(
+                    'Stash string "{string}" not matched.'
+                )  # pragma: no cover
 
         return out
 
@@ -311,7 +319,7 @@ class GitInspector:
                 "git rev-list --all --reflog"
             )
         elif numb_commits_not_found < 0:
-            raise RuntimeError("We shouldn't be here.")
+            raise RuntimeError("We shouldn't be here.")  # pragma: no cover
 
         return commits_info
 
@@ -372,7 +380,7 @@ class GitInspector:
                     sha=sha,
                     raw_data=RegexParser.parse_tree_info(self.trees_info.get(sha)),
                 )
-            case _:
+            case _:  # pragma: no cover
                 raise RuntimeError("Leaking objects!")
 
     @time_it

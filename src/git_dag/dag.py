@@ -53,9 +53,9 @@ class MixinProtocol(Protocol):
     repository: GitRepository
     dag: Any
 
-    def _is_object_to_include(self, sha: str) -> bool: ...
-    def _is_tag_to_include(self, item: GitTag) -> bool: ...
-    def _add_notes_label_node(self, sha: str, ref: str) -> None: ...
+    def _is_object_to_include(self, sha: str) -> bool: ...  # pragma: no cover
+    def _is_tag_to_include(self, item: GitTag) -> bool: ...  # pragma: no cover
+    def _add_notes_label_node(self, sha: str, ref: str) -> None: ...  # pragma: no cover
 
 
 class CommitHandlerMixin:

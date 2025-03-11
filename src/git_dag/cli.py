@@ -48,7 +48,7 @@ class CustomArgparseNamespace(argparse.Namespace):
     log_level: str
 
 
-def get_cla_parser() -> argparse.ArgumentParser:
+def get_cla(raw_args: Optional[list[str]] = None) -> CustomArgparseNamespace:
     """Parse command-line arguments."""
     parser = argparse.ArgumentParser(description="Visualize the git DAG.")
 
@@ -215,15 +215,13 @@ def get_cla_parser() -> argparse.ArgumentParser:
         help="Log level.",
     )
 
-    return parser
-
-
-def main() -> None:
-    """CLI entry poit."""
-    parser = get_cla_parser()
     argcomplete.autocomplete(parser)
-    args = parser.parse_args(namespace=CustomArgparseNamespace)
+    return parser.parse_args(raw_args, namespace=CustomArgparseNamespace())
 
+
+def main(raw_args: Optional[list[str]] = None) -> None:
+    """CLI entry poit."""
+    args = get_cla(raw_args)
     max_numb_commits = None if args.max_numb_commits < 1 else args.max_numb_commits
 
     logging.getLogger().setLevel(getattr(logging, args.log_level))
@@ -254,5 +252,5 @@ def main() -> None:
     )
 
 
-if __name__ == "__main__":
+if __name__ == "__main__":  # pragma: no cover
     main()

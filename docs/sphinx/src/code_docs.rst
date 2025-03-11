@@ -16,7 +16,6 @@ Code
    interfaces.dag_base
    interfaces.graphviz
    utils
-   exceptions
 
 .. toctree::
    :maxdepth: 2

@@ -1,11 +1,17 @@
 # -*- mode: org -*-
 
-* 0.1.1    UNRELEASED
+* 0.1.2    UNRELEASED
+
+* 0.1.1    2025-03-11
 
 + Add label to the root node of the git notes DAG (#68)
 + Handle empty repository without raising an exception (#65)
 + Add sphinx docs (#1)
 + Rename module pydantic_models (#61)
+
+** Bugfixes
+
++ Bugfix: CustomArgparseNamespace misused in CLI (#70)
 
 * 0.1.0    2025-03-07
 

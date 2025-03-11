@@ -1,4 +1,4 @@
-"""Tests."""
+"""Integration tests with real repos."""
 
 # pylint: disable=missing-function-docstring,redefined-outer-name
 
