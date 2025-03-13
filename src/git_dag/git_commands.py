@@ -357,7 +357,7 @@ class GitCommand(GitCommandBase):
         """
         return self._run(f"ls-tree {sha}").strip().split("\n")
 
-    def get_blobs_and_trees_names(self) -> DictStrStr:
+    def get_blobs_and_trees_names(self, trees_info: dict[str, list[str]]) -> DictStrStr:
         """Return actual names of blobs and trees.
 
         Note
@@ -366,10 +366,11 @@ class GitCommand(GitCommandBase):
 
         Note
         -----
-        It is normal for a tree object to sometimes have no name. This happens when a
-        repository has no directories (note that a commit always has an associated tree
-        object). Sometimes blobs don't have names (I am not sure why -- FIXME: to
-        investigate).
+        A tree object might have no name -- this happens when a repository has no
+        directories (note that a commit always has an associated tree object) or when a
+        tree object is created manually (without a commit). Sometimes a blob has no
+        name, e.g., when it are created manually (``git hash-object -w``) or it is not
+        referenced by a tree object.
 
         """
         cmd_out = (
@@ -389,6 +390,15 @@ class GitCommand(GitCommandBase):
             components = blob_or_tree.split()
             if len(components) == 2:
                 sha_name[components[0]] = components[1]
+
+        # may add names of standalone trees/objects
+        for tree_info in trees_info.values():
+            for tree_or_blob in tree_info:
+                sha, name = tree_or_blob.split(" ")[-1].split("\t")
+                if sha not in sha_name:
+                    sha_name[sha] = name
+                else:
+                    assert sha_name[sha] == name  # FIXME: just testing (to remove)
 
         return sha_name
 

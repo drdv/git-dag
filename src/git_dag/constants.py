@@ -51,6 +51,9 @@ DAG_NODE_COLORS: Final[dict[str, str]] = {
     "notes": "white",
 }
 
+#: Color of border of the cluster for standalone trees and blobs
+STANDALONE_CLUSTER_BORDER_COLOR: str = "lightgrey"
+
 DAG_ATTR: Final[dict[str, str]] = {
     "rankdir": "TB",
     "dpi": "None",

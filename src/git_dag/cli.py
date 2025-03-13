@@ -183,10 +183,24 @@ def get_cla_parser() -> argparse.ArgumentParser:
     )
 
     parser.add_argument(
+        "--trees-standalone",
+        dest="show_trees_standalone",
+        action="store_true",
+        help="Show standalone trees.",
+    )
+
+    parser.add_argument(
         "-B",
         dest="show_blobs",
         action="store_true",
         help="Show blobs (discarded if ``-T`` is not set).",
+    )
+
+    parser.add_argument(
+        "--blobs-standalone",
+        dest="show_blobs_standalone",
+        action="store_true",
+        help="Show standalone blobs.",
     )
 
     parser.add_argument(
@@ -243,7 +257,9 @@ def main(raw_args: Optional[list[str]] = None) -> None:
         show_local_branches=args.show_local_branches,
         show_remote_branches=args.show_remote_branches,
         show_trees=args.show_trees,
+        show_trees_standalone=args.show_trees_standalone,
         show_blobs=args.show_blobs,
+        show_blobs_standalone=args.show_blobs_standalone,
         show_stash=args.show_stash,
         show_head=args.show_head,
         range=args.range,

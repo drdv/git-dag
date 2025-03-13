@@ -38,7 +38,9 @@ class MixinProtocol(Protocol):
     show_local_branches: bool
     show_remote_branches: bool
     show_trees: bool
+    show_trees_standalone: bool
     show_blobs: bool
+    show_blobs_standalone: bool
     show_tags: bool
     show_deleted_tags: bool
     show_stash: bool
@@ -116,7 +118,12 @@ class CommitHandlerMixin:
 class TreeBlobHandlerMixin:
     """Handle trees and blobs."""
 
-    def _add_tree(self: MixinProtocol, sha: str, item: GitTree) -> None:
+    def _add_tree(
+        self: MixinProtocol,
+        sha: str,
+        item: GitTree,
+        standalone: bool = False,
+    ) -> None:
         self.included_nodes_id.add(sha)
         if sha == GIT_EMPTY_TREE_OBJECT_SHA:
             color_label = "the-empty-tree"
@@ -132,13 +139,14 @@ class TreeBlobHandlerMixin:
             fillcolor=DAG_NODE_COLORS[color_label],
             shape="folder",
             tooltip=tooltip,
+            standalone_kind="tree" if standalone else None,
         )
 
         if self.show_blobs:
             for child in item.children:
                 self.dag.edge(sha, child.sha)
 
-    def _add_blob(self: MixinProtocol, sha: str) -> None:
+    def _add_blob(self: MixinProtocol, sha: str, standalone: bool = False) -> None:
         self.included_nodes_id.add(sha)
         self.dag.node(
             name=sha,
@@ -147,6 +155,7 @@ class TreeBlobHandlerMixin:
             fillcolor=DAG_NODE_COLORS["blob"],
             shape="note",
             tooltip=self.tooltip_names.get(sha, sha),
+            standalone_kind="blob" if standalone else None,
         )
 
 
@@ -309,7 +318,9 @@ class DagVisualizer(
     show_local_branches: bool = False
     show_remote_branches: bool = False
     show_trees: bool = False
+    show_trees_standalone: bool = False
     show_blobs: bool = False
+    show_blobs_standalone: bool = False
     show_tags: bool = False
     show_deleted_tags: bool = False
     show_stash: bool = False
@@ -330,10 +341,13 @@ class DagVisualizer(
             ),
         }
 
-        if self.dag_backend is DagBackends.GRAPHVIZ:
-            self.dag = DagGraphviz()
-        else:
-            raise ValueError(f"Unrecognised backend: {self.dag_backend}")
+        match self.dag_backend:
+            case DagBackends.GRAPHVIZ:
+                self.dag = DagGraphviz(
+                    self.show_blobs_standalone or self.show_trees_standalone
+                )
+            case _:
+                raise ValueError(f"Unrecognised backend: {self.dag_backend}")
 
         self._build_dag()
 
@@ -376,16 +390,21 @@ class DagVisualizer(
     def _build_dag(self) -> None:
         # tags are not handled in this loop
         for sha, item in self.repository.objects.items():
-            if self.show_trees:
-                if self._is_object_to_include(sha):
-                    if isinstance(item, GitTree):
+            to_include = self._is_object_to_include(sha)
+            not_reachable = sha not in self.repository.all_reachable_objects_sha
+            match item:
+                case GitTree():
+                    if not_reachable and self.show_trees_standalone:
+                        self._add_tree(sha, item, standalone=True)
+                    elif to_include and self.show_trees:
                         self._add_tree(sha, item)
-
-                    if self.show_blobs and isinstance(item, GitBlob):
+                case GitBlob():
+                    if not_reachable and self.show_blobs_standalone:
+                        self._add_blob(sha, standalone=True)
+                    elif to_include and self.show_blobs:
                         self._add_blob(sha)
-
-            if isinstance(item, GitCommit):
-                self._add_commit(sha, item)
+                case GitCommit():
+                    self._add_commit(sha, item)
 
         if self.show_local_branches:
             self._add_local_branches()
