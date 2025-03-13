@@ -263,8 +263,8 @@ class GitInspector:
         self.commits_sha = self._get_commits_sha()
         self.commits_info = self._get_commits_info()
         self.tags_info_parsed = self.git.get_tags_info_parsed()
-        self.blobs_and_trees_names = self.git.get_blobs_and_trees_names()
         self.trees_info = self._get_trees_info() if self.parse_trees else {}
+        self.blobs_and_trees_names = self.git.get_blobs_and_trees_names(self.trees_info)
         self.stashes_info_parsed = RegexParser.parse_stash_info(
             self.git.get_stash_info()
         )
@@ -324,6 +324,7 @@ class GitInspector:
 
         return commits_info
 
+    @time_it
     def _get_trees_info(self) -> dict[str, list[str]]:
         """Get content of object files for all trees.
 
@@ -463,6 +464,7 @@ class GitRepository:
     def post_process_inspector_data(self) -> None:
         """Post-process inspector data (see :func:`GitInspector.get_raw_objects`)."""
         self.objects: dict[str, GitObject] = self._form_objects()
+        self.all_reachable_objects_sha: set[str] = self.get_all_reachable_objects()
         self.commits = self.filter_objects(GitCommit)
         self.tags: dict[str, GitTag] = self._form_annotated_tags()
         self.tags_lw: dict[str, GitTagLightweight] = self._form_lightweight_tags()
@@ -608,6 +610,13 @@ class GitRepository:
         ]
 
     @time_it
+    def get_all_reachable_objects(self):
+        """Return all reachable objects (from all refs and reflog)."""
+        cmd = "--all --reflog --objects --no-object-names"
+        out = self.inspector.git.rev_list(cmd).strip().split("\n")
+        return set() if len(out) == 1 and "" in out else set(out)
+
+    @time_it
     def get_objects_reachable_from(
         self,
         init_refs: Optional[list[str]],
@@ -618,7 +627,9 @@ class GitRepository:
         cmd = f"{cla} --objects --no-object-names"
         if max_numb_commits is not None:
             cmd += f" -n {max_numb_commits}"
-        return set(self.inspector.git.rev_list(cmd).strip().split("\n"))
+
+        out = self.inspector.git.rev_list(cmd).strip().split("\n")
+        return set() if len(out) == 1 and "" in out else set(out)
 
     def filter_objects[T: GitObject](self, object_type: Type[T]) -> dict[str, T]:
         """Filter objects."""

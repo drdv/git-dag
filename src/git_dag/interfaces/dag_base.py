@@ -1,16 +1,19 @@
 """Based class to interface DAG backends."""
 
 from abc import ABC, abstractmethod
-from typing import Any, Optional
+from typing import Any, Literal, Optional
 
 
 class DagBase(ABC):
     """DAG base class."""
 
-    def __init__(self) -> None:
+    def __init__(self, standalone_cluster: bool = False) -> None:
         self._dag: Any = None
         self.nodes: list[dict[str, Optional[str]]] = []
         self.edges: set[tuple[str, str]] = set()
+        self.standalone_trees: list[dict[str, Optional[str]]] = []
+        self.standalone_blobs: list[dict[str, Optional[str]]] = []
+        self.standalone_cluster = standalone_cluster
 
     @abstractmethod
     def edge(self, node1_name: str, node2_name: str) -> None:
@@ -26,6 +29,7 @@ class DagBase(ABC):
         shape: Optional[str] = None,
         tooltip: Optional[str] = None,
         URL: Optional[str] = None,
+        standalone_kind: Optional[Literal["tree", "blob"]] = None,
     ) -> None:
         """Add a node."""
 
