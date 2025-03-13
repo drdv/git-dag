@@ -25,6 +25,7 @@ class DagBase(ABC):
         fillcolor: str,
         shape: Optional[str] = None,
         tooltip: Optional[str] = None,
+        URL: Optional[str] = None,
     ) -> None:
         """Add a node."""
 
