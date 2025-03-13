@@ -610,11 +610,11 @@ class GitRepository:
     @time_it
     def get_objects_reachable_from(
         self,
-        starting_objects: Optional[list[str]],
+        init_refs: Optional[list[str]],
         max_numb_commits: Optional[int] = None,
     ) -> set[str]:
-        """Return SHA of all objects that are reachable from ``starting_objects``."""
-        cla = " ".join(starting_objects) if starting_objects else "--all --reflog"
+        """Return SHA of all objects that are reachable from ``init_refs``."""
+        cla = " ".join(init_refs) if init_refs else "--all --reflog"
         cmd = f"{cla} --objects --no-object-names"
         if max_numb_commits is not None:
             cmd += f" -n {max_numb_commits}"
@@ -633,7 +633,7 @@ class GitRepository:
         self,
         dag_backend: DagBackends = DagBackends.GRAPHVIZ,
         xdg_open: bool = False,
-        starting_objects: Optional[list[str]] = None,
+        init_refs: Optional[list[str]] = None,
         max_numb_commits: Optional[int] = 1000,
         **kwargs: Any,
     ) -> Any:
@@ -645,19 +645,19 @@ class GitRepository:
             DAG backend to use.
         xdg_open
             Whether to open the dag using ``xdg-open``.
-        starting_objects
-            A list of SHA of object (commits, tags, trees, blobs) that represents a
-            limitation from where to display the DAG (there are no limitations when the
-            list is empty).
+        init_refs
+            A list of branches, tags, git objects (commits, trees, blobs) that
+            represents a limitation from where to display the DAG (there are no
+            limitations when the list is empty).
         max_numb_commits
             Max number of commit objects to display.
 
         """
-        if not starting_objects and max_numb_commits is None:
+        if not init_refs and max_numb_commits is None:
             objects_sha_to_include = None
         else:
             objects_sha_to_include = self.get_objects_reachable_from(
-                starting_objects,
+                init_refs,
                 max_numb_commits,
             )
 

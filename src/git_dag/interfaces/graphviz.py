@@ -21,17 +21,21 @@ class DagGraphviz(DagBase):
         fillcolor: Optional[str] = None,
         shape: Optional[str] = None,
         tooltip: Optional[str] = None,
+        URL: Optional[str] = None,
     ) -> None:
-        self.nodes.append(
-            {
-                "name": name,
-                "label": label,
-                "color": color,
-                "fillcolor": fillcolor,
-                "shape": shape,
-                "tooltip": tooltip,
-            }
-        )
+        attr = {
+            "name": name,
+            "label": label,
+            "color": color,
+            "fillcolor": fillcolor,
+            "shape": shape,
+            "tooltip": tooltip,
+            "URL": URL,
+        }
+        if URL is not None:
+            attr["target"] = "_blank"
+
+        self.nodes.append(attr)
 
     def build(  # pylint: disable=too-many-positional-arguments
         self,

@@ -25,7 +25,7 @@ class CustomArgparseNamespace(argparse.Namespace):
     path: str
     file: str
     format: str
-    init_refs: list[str]
+    init_refs: Optional[list[str]]
     max_numb_commits: int
     dag_backend: str
 
@@ -248,7 +248,7 @@ def main(raw_args: Optional[list[str]] = None) -> None:
         show_head=args.show_head,
         range=args.range,
         commit_message_as_label=args.commit_message_as_label,
-        starting_objects=args.init_refs,
+        init_refs=args.init_refs,
         filename=args.file,
         dag_attr={
             "rankdir": args.rankdir,

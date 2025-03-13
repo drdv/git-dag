@@ -9,6 +9,7 @@ MYPY_FLAGS :=
 DOCS_DIR := docs/sphinx
 HTML_DIR := $(DOCS_DIR)/build/html
 
+TEST_RESOURCES := src/git_dag/test/resources
 INTEGR_TEST_DIR := integration_tests
 REPO_DIR := repos
 OUT_DIR := out
@@ -117,7 +118,29 @@ process-integr-test-repos:
 
 ## Generate sphinx docs with tests lint mypy
 .PHONY: docs
-docs: docs-run lint mypy test
+docs: test lint mypy docs-svg docs-run
+
+## Generate SVG files for the docs
+.PHONY: docs-svg
+docs-svg: IMAGES_DIR := $(HTML_DIR)/_static/images/ # images in the generated HTML
+docs-svg: TMP_DIR := $(shell mktemp -d /tmp/git-dag-svg-XXXXXX)
+docs-svg: DIR_DEFAULT := $(TMP_DIR)/default_repo
+docs-svg: DIR_PYDANTIC := $(TMP_DIR)/pydantic
+docs-svg:
+	mkdir -p $(IMAGES_DIR)
+
+	mkdir $(DIR_DEFAULT)
+	tar xf $(TEST_RESOURCES)/default_repo.tar.gz -C $(DIR_DEFAULT)
+	git dag -p $(DIR_DEFAULT) -lrtsuHTBD \
+		--bgcolor transparent -f $(DIR_DEFAULT)/default_repo.gv
+	cp $(DIR_DEFAULT)/default_repo.gv.svg $(IMAGES_DIR)
+
+	mkdir $(DIR_PYDANTIC)
+	git dag -p $(INTEGR_TEST_DIR)/$(REPO_DIR)/pydantic -lrtsH \
+		--bgcolor transparent -f $(DIR_PYDANTIC)/pydantic.gv
+	cp $(DIR_PYDANTIC)/pydantic.gv.svg $(IMAGES_DIR)
+
+	rm -rf $(TMP_DIR)
 
 ## Generate sphinx docs
 .PHONY: docs-run
@@ -166,10 +189,10 @@ publish: package
 test-create-reference:
 	cd src/git_dag && $(PYTHON) git_commands.py
 
-## Open sphinx documentation
-.PHONY: open
-open:
-	xdg-open ${HTML_DIR}/index.html
+## Serve sphinx documentation
+.PHONY: docs-serve
+docs-serve:
+	$(PYTHON) -m http.server -d ${HTML_DIR}
 
 ##! Delete generated docs
 rm-docs:

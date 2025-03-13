@@ -28,5 +28,8 @@ todo_include_todos = True
 exclude_patterns = []
 templates_path = [".templates"]
 html_static_path = [".static"]
+# https://github.com/bumbu/svg-pan-zoom
+html_js_files = ["js/svg-pan-zoom.min.js", "js/custom.js"]
+html_css_files = ["css/custom.css"]
 
 html_title = "git-dag"
