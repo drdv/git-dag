@@ -23,6 +23,7 @@ from .git_objects import (
     GitBranch,
     GitCommit,
     GitCommitRawDataType,
+    GitHead,
     GitObject,
     GitObjectKind,
     GitStash,
@@ -35,7 +36,7 @@ from .git_objects import (
 from .utils import creator_timestamp_format
 
 IG = itemgetter("sha", "kind")
-logging.basicConfig(level=logging.INFO)
+logging.basicConfig(level=logging.WARNING)
 LOG = logging.getLogger(__name__)
 
 # https://stackoverflow.com/q/9765453
@@ -463,36 +464,19 @@ class GitRepository:
         """Post-process inspector data (see :func:`GitInspector.get_raw_objects`)."""
         self.objects: dict[str, GitObject] = self._form_objects()
         self.commits = self.filter_objects(GitCommit)
-        self.head: Optional[GitCommit] = self._form_head()
         self.tags: dict[str, GitTag] = self._form_annotated_tags()
         self.tags_lw: dict[str, GitTagLightweight] = self._form_lightweight_tags()
+        self.remotes: list[str] = self.inspector.git.get_remotes()
         self.branches: list[GitBranch] = self._form_branches()
+        self.head: GitHead = self._form_local_head()
+        self.remote_heads: dict[str, str] = self._form_remote_heads()
         self.stashes: list[GitStash] = self._form_stashes()
-        self.head_branches = [b for b in self.branches if b.commit == self.head]
         self.notes_dag_root: Optional[dict[str, str]] = self.inspector.notes_dag_root
-
-    @time_it
-    def _form_head(self) -> Optional[GitCommit]:
-        """Post-process HEAD.
-
-        Note
-        -----
-        Set HEAD to point to a commit. In reality, HEAD would point to a commit SHA only
-        in detached HEAD, otherwise it points to a branch reference. I don't make this
-        distinction here.
-
-        """
-        try:
-            head = self.inspector.git.get_local_head()
-        except subprocess.CalledProcessError:
-            LOG.warning("No Head")
-            return None
-        return self.commits[head]
 
     @time_it
     def _form_branches(self) -> list[GitBranch]:
         """Post-process branches."""
-        branches_raw = self.inspector.git.get_branches()
+        branches_raw = self.inspector.git.get_branches(self.remotes)
         branches: list[GitBranch] = []
 
         for branch_name, sha in branches_raw["local"].items():
@@ -514,6 +498,30 @@ class GitRepository:
             )
 
         return branches
+
+    @time_it
+    def _form_local_head(self) -> GitHead:
+        """Post-process HEAD."""
+        try:
+            head_commit_sha = self.inspector.git.get_local_head_commit_sha()
+        except subprocess.CalledProcessError:
+            LOG.warning("No Head")
+            return GitHead()
+
+        head_branch_name = self.inspector.git.get_local_head_branch()
+        if head_branch_name is None:
+            return GitHead(commit=self.commits[head_commit_sha])
+
+        head_branch = [b for b in self.branches if b.name == head_branch_name]
+        if len(head_branch) != 1:
+            raise RuntimeError("Head branch not found!")
+
+        return GitHead(commit=self.commits[head_commit_sha], branch=head_branch[0])
+
+    @time_it
+    def _form_remote_heads(self) -> dict[str, str]:
+        """Form remote HEADs."""
+        return self.inspector.git.get_remote_heads_sym_ref(self.remotes)
 
     @time_it
     def _form_annotated_tags(self) -> dict[str, GitTag]:
@@ -620,13 +628,6 @@ class GitRepository:
             if isinstance(obj, object_type)
         }
 
-    @property
-    def is_detached_head(self) -> bool:
-        """Check if the repository is in a detached HEAD state."""
-        if self.head is None:
-            return False  # HEAD cannot be detached if it doesn't exist!
-        return not self.head_branches
-
     @time_it
     def show(
         self,
@@ -685,13 +686,7 @@ class GitRepository:
         for branch in local_branches:
             out += f"\n    {branch.name}"
 
-        out += f"\n  HEAD: {None if self.head is None else self.head.sha[:8]}"
-        if self.is_detached_head:
-            out += " (DETACHED)"
-        else:
-            for branch in self.head_branches:
-                out += f"\n    {branch.name}"
-
+        out += f"\n  HEAD: {self.head}"
         if self.stashes:
             out += f"\n  stashes: {len(self.stashes)}"
             for stash in self.stashes:

@@ -2,15 +2,12 @@
 
 # pylint: disable=missing-function-docstring,redefined-outer-name
 
-import logging
 from pathlib import Path
 from typing import Any
 
 import pytest
 
 from git_dag.cli import get_cla, main
-
-LOG = logging.getLogger(__name__)
 
 ALL_ARGS = {
     "-p": ("path", "."),
@@ -36,6 +33,7 @@ ALL_ARGS = {
     "-o": ("xdg_open", False),
     "--log-level": ("log_level", "WARNING"),
 }
+
 
 def test_cli_main(git_repository_default: Path) -> None:
     repo_path = git_repository_default
@@ -80,31 +78,36 @@ def test_cli_main(git_repository_default: Path) -> None:
     assert (repo_path / "out.gv.svg").exists()
 
 
-@pytest.mark.parametrize("arg,value", [
-    ("--init-refs", "main topic"),
-    ("-R", "main topic"),
-    ("-p", "/some/path"),
-    ("-f", "/some/path/git-dag.gv"),
-    ("--format", "png"),
-    ("--dpi", "150"),
-    ("-n", 10),
-    ("--rankdir", "LR"),
-    ("--bgcolor", "red"),
-    ("-u", True),
-    ("-t", True),
-    ("-D", True),
-    ("-s", True),
-    ("-H", True),
-    ("-T", True),
-    ("-B", True),
-    ("-m", 1),
-    ("-o", True),
-    ("-l", True),
-    ("-r", True),
-    ("--log-level", "INFO"),
-])
+@pytest.mark.parametrize(
+    "arg,value",
+    [
+        ("--init-refs", "main topic"),
+        ("-R", "main topic"),
+        ("-p", "/some/path"),
+        ("-f", "/some/path/git-dag.gv"),
+        ("--format", "png"),
+        ("--dpi", "150"),
+        ("-n", 10),
+        ("--rankdir", "LR"),
+        ("--bgcolor", "red"),
+        ("-u", True),
+        ("-t", True),
+        ("-D", True),
+        ("-s", True),
+        ("-H", True),
+        ("-T", True),
+        ("-B", True),
+        ("-m", 1),
+        ("-o", True),
+        ("-l", True),
+        ("-r", True),
+        ("--log-level", "INFO"),
+    ],
+)
 def test_cli_args(arg: str, value: Any) -> None:
-    parsed_args = get_cla([arg] if isinstance(value, bool) and value else [arg, str(value)])
+    parsed_args = get_cla(
+        [arg] if isinstance(value, bool) and value else [arg, str(value)]
+    )
 
     field = ALL_ARGS[arg][0]
     result = getattr(parsed_args, field)

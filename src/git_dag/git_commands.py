@@ -19,7 +19,7 @@ from git_dag.constants import CMD_TAGS_INFO, TAG_FORMAT_FIELDS
 from git_dag.git_objects import DictStrStr
 from git_dag.utils import escape_decode
 
-logging.basicConfig(level=logging.INFO)
+logging.basicConfig(level=logging.WARNING)
 LOG = logging.getLogger(__name__)
 
 
@@ -268,8 +268,28 @@ class GitCommand(GitCommandBase):
         """
         return self._run(f"cat-file -p {sha}").strip().split("\n")
 
-    def get_branches(self) -> dict[str, DictStrStr]:
-        """Get local/remote branches."""
+    def get_remotes(self) -> list[str]:
+        """Return list of remotes."""
+        cmd_output = self._run("remote").strip().split("\n")
+        if len(cmd_output) == 1 and "" in cmd_output:
+            return []
+        return cmd_output
+
+    def get_remote_heads_sym_ref(self, remotes: list[str]) -> dict[str, str]:
+        """Return symbolic references of remote heads."""
+        symb_refs = {}
+        for remote in remotes:
+            cmd = f"symbolic-ref refs/remotes/{remote}/HEAD"
+            try:
+                cmd_output = self._run(cmd).strip().split("\n")
+                # drop refs/remotes
+                symb_refs[f"{remote}/HEAD"] = "/".join(cmd_output[0].split("/")[2:])
+            except subprocess.CalledProcessError:
+                LOG.warning(f"HEAD not defined for {remote}.")
+        return symb_refs
+
+    def get_branches(self, remotes: list[str]) -> dict[str, DictStrStr]:
+        """Get local/remote branches (while excluding remote HEADs)."""
         refs: dict[str, DictStrStr] = {"local": {}, "remote": {}}
 
         try:
@@ -284,13 +304,20 @@ class GitCommand(GitCommandBase):
                 refs["local"]["/".join(name.split("/")[2:])] = sha
 
             if "refs/remotes" in ref:
-                refs["remote"]["/".join(name.split("/")[2:])] = sha
+                # skip remote HEADs (handled in  GitCommand.get_remote_heads_sym_ref)
+                if name not in [f"refs/remotes/{remote}/HEAD" for remote in remotes]:
+                    refs["remote"]["/".join(name.split("/")[2:])] = sha
 
         return refs
 
-    def get_local_head(self) -> str:
-        """Return local HEAD."""
+    def get_local_head_commit_sha(self) -> str:
+        """Return SHA of the commit pointed to by local HEAD."""
         return self._run("rev-parse HEAD").strip()
+
+    def get_local_head_branch(self) -> Optional[str]:
+        """Return name of branch pointed to by HEAD."""
+        branch_name = self._run("branch --show-current").strip()
+        return branch_name if branch_name else None
 
     def local_branch_is_tracking(self, local_branch_sha: str) -> Optional[str]:
         """Detect if a local branch is tracking a remote one."""
