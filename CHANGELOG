@@ -6,7 +6,8 @@
 
 ** Bugfixes
 
-+ Fix Command-line interface section in docs
++ Fix how HEAD is visualized (#76)
++ Fix Command-line interface section in docs (#72)
 
 * 0.1.1    2025-03-11
 

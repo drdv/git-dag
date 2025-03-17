@@ -23,7 +23,7 @@ def test_repository_empty(
     with caplog.at_level(logging.WARNING):
         repo = GitRepository(git_repository_empty)
 
-    assert not repo.is_detached_head
+    assert not repo.head.is_defined
 
     assert "No objects" in caplog.text
     assert "No Head" in caplog.text
@@ -61,8 +61,8 @@ def test_repository_clone_depth_1(git_repository_default: Path) -> None:
     assert len(repo.filter_objects(GitTree).values()) == 1
     assert len(repo.filter_objects(GitBlob).values()) == 1
 
-    assert {b.name for b in repo.branches} == {"origin/HEAD", "origin/topic", "topic"}
-    assert not repo.is_detached_head
+    assert {b.name for b in repo.branches} == {"origin/topic", "topic"}
+    assert not repo.head.is_detached
 
 
 def test_repository_default(git_repository_default: Path) -> None:
@@ -94,7 +94,7 @@ def test_repository_default(git_repository_default: Path) -> None:
     assert not stashes[2].commit.is_reachable
 
     assert {b.name for b in repo.branches} == {"main", "topic"}
-    assert not repo.is_detached_head
+    assert not repo.head.is_detached
 
 
 def test_repository_default_with_notes(git_repository_default_with_notes: Path) -> None:
@@ -148,8 +148,6 @@ def test_repository_default_dag(tmp_path: Path) -> None:
         repo_path,
     )
     repo = GitRepository(repo_path, parse_trees=True)
-
-    # FIXME: to test setting the show_* flags to False one at a time
     repo.show(
         show_unreachable_commits=True,
         show_local_branches=True,

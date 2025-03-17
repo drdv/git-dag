@@ -9,9 +9,8 @@
   branches (local)     : 2
     main
     topic
-  HEAD: f0e83f3a
-    topic
+  HEAD: commit=GitCommit(sha='9ca8bf4bb7acbfbf1540bf21010e5cad0bdda865', is_reachable=True, is_ready=True) branch=GitBranch(name='topic', commit=GitCommit(sha='9ca8bf4bb7acbfbf1540bf21010e5cad0bdda865', is_reachable=True, is_ready=True), is_local=True, tracking=None)
   stashes: 3
      stash@{0}: On topic: third
      stash@{1}: On topic: second
-     stash@{2}: WIP on topic: f0e83f3 H
+     stash@{2}: WIP on topic: 9ca8bf4 H

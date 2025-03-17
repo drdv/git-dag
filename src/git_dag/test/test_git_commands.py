@@ -2,7 +2,6 @@
 
 # pylint: disable=missing-function-docstring,redefined-outer-name
 
-import logging
 from pathlib import Path
 
 import pytest
@@ -12,8 +11,6 @@ from git_dag.git_commands import (
     TestGitRepository,
     create_test_repo_and_reference_dot_file,
 )
-
-LOG = logging.getLogger(__name__)
 
 
 def test_cm(git_repository_empty: Path) -> None:

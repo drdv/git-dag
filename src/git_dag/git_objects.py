@@ -8,6 +8,8 @@ from typing import ClassVar, Optional, cast
 
 from pydantic import BaseModel, ConfigDict, Field, computed_field
 
+from .constants import SHA_LIMIT
+
 DictStrStr = dict[str, str]
 GitCommitRawDataType = dict[str, str | list[str]]
 """
@@ -249,3 +251,34 @@ class GitStash(BaseModel):
     index: int
     title: str
     commit: GitCommit
+
+
+class GitHead(BaseModel):
+    """A head (local or remote)."""
+
+    model_config = ConfigDict(extra="forbid")
+
+    commit: Optional[GitCommit] = None
+    branch: Optional[GitBranch] = None
+
+    @property
+    def is_defined(self) -> bool:
+        """Is the HEAD defined."""
+        return self.commit is not None
+
+    @property
+    def is_detached(self) -> bool:
+        """Is the HEAD detached."""
+        return self.branch is None
+
+    def __repr__(self) -> str:
+        if not self.is_defined:
+            return "None"
+
+        if self.is_detached:
+            return "DETACHED"
+
+        # type narrowing to make mypy happy
+        assert (self.commit is not None) and (self.branch is not None)
+
+        return f"{self.commit.sha[:SHA_LIMIT]} ({self.branch.name})"

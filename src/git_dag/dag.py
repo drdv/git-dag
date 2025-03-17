@@ -10,7 +10,6 @@ child of its blobs (and trees). A commit is the parent of a tag (that points to 
 
 from __future__ import annotations
 
-import logging
 import subprocess
 from dataclasses import dataclass
 from typing import TYPE_CHECKING, Any, Optional, Protocol
@@ -30,8 +29,6 @@ from .utils import transform_ascii_control_chars
 
 if TYPE_CHECKING:  # pragma: no cover
     from .git_repository import GitRepository
-
-LOG = logging.getLogger(__name__)
 
 
 class MixinProtocol(Protocol):
@@ -256,16 +253,37 @@ class BranchHandlerMixin:
 class HeadHandlerMixin:
     """Handle HEAD."""
 
-    def _add_head(self: MixinProtocol) -> None:
+    def _add_local_head(self: MixinProtocol) -> None:
         head = self.repository.head
-        if head is not None and self._is_object_to_include(head.sha):
+        if head.is_defined:
+            assert head.commit is not None  # to make mypy happy
+            if self._is_object_to_include(head.commit.sha):
+                if head.is_detached:
+                    self.dag.edge("HEAD", head.commit.sha)
+                    tooltip = head.commit.sha
+                else:
+                    assert head.branch is not None  # to make mypy happy
+                    self.dag.edge("HEAD", f"local-branch-{head.branch.name}")
+                    tooltip = head.branch.name
+
+                self.dag.node(
+                    name="HEAD",
+                    label="HEAD",
+                    color=None if head.is_detached else DAG_NODE_COLORS["head"],
+                    fillcolor=DAG_NODE_COLORS["head"],
+                    tooltip=tooltip,
+                )
+
+    def _add_remote_heads(self: MixinProtocol) -> None:
+        for head, ref in self.repository.remote_heads.items():
             self.dag.node(
-                name="HEAD",
-                label="HEAD *" if self.repository.is_detached_head else "HEAD",
+                name=head,
+                label=head,
                 color=DAG_NODE_COLORS["head"],
                 fillcolor=DAG_NODE_COLORS["head"],
+                tooltip=ref,
             )
-            self.dag.edge("HEAD", head.sha)
+            self.dag.edge(head, f"remote-branch-{ref}")
 
 
 @dataclass
@@ -383,7 +401,8 @@ class DagVisualizer(
             self._add_stashes()
 
         if self.show_head:
-            self._add_head()
+            self._add_local_head()
+            self._add_remote_heads()
 
         self.dag.build(
             format=self.format,

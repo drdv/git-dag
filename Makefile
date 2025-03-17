@@ -3,7 +3,7 @@ VENV := .venv
 VENV_ACTIVATE := source ${VENV}/bin/activate
 PYLINT := pylint
 LINT_REPORT := .pylint_report
-PYTEST_FLAGS := -v -s
+PYTEST_FLAGS :=
 MYPY_FLAGS :=
 
 DOCS_DIR := docs/sphinx
