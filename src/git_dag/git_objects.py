@@ -8,9 +8,8 @@ from typing import ClassVar, Optional, cast
 
 from pydantic import BaseModel, ConfigDict, Field, computed_field
 
-from .constants import SHA_LIMIT
+from .constants import SHA_LIMIT, DictStrStr
 
-DictStrStr = dict[str, str]
 GitCommitRawDataType = dict[str, str | list[str]]
 """
 Type of the data associated with a git commit object.

@@ -76,8 +76,9 @@ pre-commit:
 	@pre-commit run -a
 
 .PHONY: mypy-run
+mypy-run: DOCS_EXAMPLES_DIR := $(DOCS_DIR)/src/examples_generate
 mypy-run:
-	mypy $(MYPY_FLAGS)
+	mypy $(MYPY_FLAGS) src/git_dag $(DOCS_EXAMPLES_DIR)/example_git_internals.py
 
 .PHONY: test-run
 test-run:
@@ -116,9 +117,24 @@ process-integr-test-repos:
 		-lrtH -n 1000 -f $(INTEGR_TEST_DIR)/${OUT_DIR}/$$repo.gv ; \
 	done
 
+##@
+##@----- Docs -----
+##@
+
+#python example_git_internals.py ; cp /tmp/git-dag-examples/out/* ../.static/example_git_internals/
+
 ## Generate sphinx docs with tests lint mypy
 .PHONY: docs
 docs: test lint mypy docs-svg docs-run
+
+##! Generate docs examples
+.PHONY: docs-examples-generate
+docs-examples-generate: DOCS_EXAMPLES_DIR := $(DOCS_DIR)/src/.static
+docs-examples-generate: TMP_EXAMPLES_DIR := /tmp/git-dag-examples
+docs-examples-generate:
+	mkdir -p $(DOCS_EXAMPLES_DIR)/examples/git_internals
+	cd $(DOCS_DIR)/src/examples_generate && $(PYTHON) example_git_internals.py
+	cp $(TMP_EXAMPLES_DIR)/git_internals/out/{*.rst,*.svg} $(DOCS_EXAMPLES_DIR)/examples/git_internals
 
 ## Generate SVG files for the docs
 .PHONY: docs-svg

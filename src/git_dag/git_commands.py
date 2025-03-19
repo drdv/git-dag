@@ -15,8 +15,7 @@ import tarfile
 from pathlib import Path
 from typing import Any, Literal, Optional
 
-from git_dag.constants import CMD_TAGS_INFO, TAG_FORMAT_FIELDS
-from git_dag.git_objects import DictStrStr
+from git_dag.constants import CMD_TAGS_INFO, TAG_FORMAT_FIELDS, DictStrStr
 from git_dag.utils import escape_decode
 
 logging.basicConfig(level=logging.WARNING)
@@ -34,7 +33,7 @@ class GitCommandBase:
     def _run(
         self,
         command: str,
-        env: Optional[dict[str, str]] = None,
+        env: Optional[DictStrStr] = None,
         encoding: str = "utf-8",
     ) -> str:
         """Run a git command."""
@@ -49,8 +48,9 @@ class GitCommandBase:
     @staticmethod
     def run_general(
         command: str,
-        env: Optional[dict[str, str]] = None,
+        env: Optional[DictStrStr] = None,
         encoding: str = "utf-8",
+        expected_stderr: Optional[str] = None,
     ) -> str:
         """Run a general command."""
         with subprocess.Popen(
@@ -61,8 +61,11 @@ class GitCommandBase:
             env=env,
         ) as process:
             output, error = process.communicate()
+            # some git commands output messages to stderr even when there is no error
             if error:
-                raise ValueError(error)  # pragma: no cover
+                if expected_stderr is not None:
+                    if not expected_stderr in error.decode("utf-8"):
+                        raise ValueError(error)  # pragma: no cover
             return output.decode(encoding, errors="replace").strip()
 
 
@@ -93,7 +96,7 @@ class GitCommandMutate(GitCommandBase):
         """Initialise a git repository."""
         self._run("init -b main")
 
-    def _get_env(self) -> dict[str, str]:
+    def _get_env(self) -> DictStrStr:
         """Return environment with author and committer to pass to commands."""
         env = {}
         match = re.search("(?P<name>.*) (?P<email><.*>)", self.author)
@@ -112,7 +115,7 @@ class GitCommandMutate(GitCommandBase):
 
         return env
 
-    def add(self, files: dict[str, str]) -> None:
+    def add(self, files: DictStrStr) -> None:
         """Add files to the index.
 
         ``files`` specifies files to be added to the index (its format is ``{'filename':
@@ -125,9 +128,7 @@ class GitCommandMutate(GitCommandBase):
                 h.write(contents)
             self._run(f"add {filename}")
 
-    def cm(
-        self, messages: str | list[str], files: Optional[dict[str, str]] = None
-    ) -> None:
+    def cm(self, messages: str | list[str], files: Optional[DictStrStr] = None) -> None:
         """Add commit(s).
 
         If ``files`` is not specified an empty commit is created.
@@ -165,7 +166,7 @@ class GitCommandMutate(GitCommandBase):
         """Merge."""
         self._run(f'merge -X {strategy} {branch} -m "{message}"', env=self.env)
 
-    def stash(self, files: dict[str, str], title: Optional[str] = None) -> None:
+    def stash(self, files: DictStrStr, title: Optional[str] = None) -> None:
         """Stash.
 
         ``files`` specifies files to be modified before we stash (its format is
@@ -275,7 +276,20 @@ class GitCommand(GitCommandBase):
             return []
         return cmd_output
 
-    def get_remote_heads_sym_ref(self, remotes: list[str]) -> dict[str, str]:
+    def get_fsck_unreachable_commits(self) -> list[str]:
+        """Return unreachable commits not in the reflog."""
+        cmd_output = (
+            self.run_general(
+                f"{self.command_prefix} fsck --unreachable --no-reflog 2>/dev/null | "
+                "grep commit | cut -d' ' -f3"
+            )
+            .strip()
+            .split("\n")
+        )
+
+        return [] if len(cmd_output) == 1 and "" in cmd_output else cmd_output
+
+    def get_remote_heads_sym_ref(self, remotes: list[str]) -> DictStrStr:
         """Return symbolic references of remote heads."""
         symb_refs = {}
         for remote in remotes:
@@ -394,11 +408,9 @@ class GitCommand(GitCommandBase):
         # may add names of standalone trees/objects
         for tree_info in trees_info.values():
             for tree_or_blob in tree_info:
-                sha, name = tree_or_blob.split(" ")[-1].split("\t")
-                if sha not in sha_name:
+                if tree_or_blob:  # protect against the empty tree object
+                    sha, name = tree_or_blob.split(" ")[-1].split("\t")
                     sha_name[sha] = name
-                else:
-                    assert sha_name[sha] == name  # FIXME: just testing (to remove)
 
         return sha_name
 
@@ -439,7 +451,7 @@ class GitCommand(GitCommandBase):
 
         return tags
 
-    def get_notes_dag_root(self) -> Optional[dict[str, str]]:
+    def get_notes_dag_root(self) -> Optional[DictStrStr]:
         """Return the root node of the DAG for git notes."""
         notes_ref = self._run("notes get-ref").strip().split("\n")[0]
         try:
@@ -489,7 +501,7 @@ class TestGitRepository:
     @staticmethod
     def repository_empty(
         path: Path | str,
-        files: Optional[dict[str, str]] = None,
+        files: Optional[DictStrStr] = None,
     ) -> None:
         """Empty repository (possibly with files added to the index)."""
         git = GitCommandMutate(path)

@@ -8,13 +8,14 @@ document.addEventListener('DOMContentLoaded', function() {
 
             // Initialize pan/zoom for each SVG element
             svgPanZoom(svgElement, {
-                contain: true,
-                fit: false,
-                center: false,
+                contain: false,
+                fit: true,
+                center: true,
                 minZoom: 0.1,
                 maxZoom: 30,
                 zoomScaleSensitivity: 0.3,
-                controlIconsEnabled: true
+                controlIconsEnabled: true,
+		dblClickZoomEnabled: false
             });
         });
     });

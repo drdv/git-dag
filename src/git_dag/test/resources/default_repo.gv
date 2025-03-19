@@ -1,5 +1,5 @@
 digraph {
-	graph [bgcolor=gray42 dpi=None rankdir=TB]
+	graph [bgcolor=transparent dpi=None rankdir=TB]
 	node [height=0.02 margin="0.01,0.01" shape=box style=filled width=0.02]
 	edge [arrowsize=0.5 color=gray10]
 	be35220f8e41f81ca0225635dc997563df372fe2 [label=0.1 color=rosybrown4 fillcolor=rosybrown4 tooltip="Nom Prenom <nom.prenom@mail.com>\nWed Mar 19 07:07:49 2025 +0100\n\nSummary\n\nBody:\n * First line\n * Second line\n * Third line"]
