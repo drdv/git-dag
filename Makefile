@@ -125,7 +125,16 @@ process-integr-test-repos:
 
 ## Generate sphinx docs with tests lint mypy
 .PHONY: docs
-docs: test lint mypy docs-svg docs-run
+docs: test lint mypy docs-run
+
+##! Generate docs examples
+.PHONY: docs-examples-generate
+docs-examples-generate: DOCS_EXAMPLES_DIR := $(DOCS_DIR)/src/.static
+docs-examples-generate: TMP_EXAMPLES_DIR := /tmp/git-dag-examples
+docs-examples-generate:
+	mkdir -p $(DOCS_EXAMPLES_DIR)/examples/git_internals
+	cd $(DOCS_DIR)/src/examples_generate && $(PYTHON) example_git_internals.py
+	cp $(TMP_EXAMPLES_DIR)/git_internals/out/{*.rst,*.svg} $(DOCS_EXAMPLES_DIR)/examples/git_internals
 
 ##! Generate docs examples
 .PHONY: docs-examples-generate
@@ -148,12 +157,12 @@ docs-svg:
 	mkdir $(DIR_DEFAULT)
 	tar xf $(TEST_RESOURCES)/default_repo.tar.gz -C $(DIR_DEFAULT)
 	git dag -p $(DIR_DEFAULT) -lrtsuHTBD \
-		--bgcolor transparent -f $(DIR_DEFAULT)/default_repo.gv
+		-f $(DIR_DEFAULT)/default_repo.gv
 	cp $(DIR_DEFAULT)/default_repo.gv.svg $(IMAGES_DIR)
 
 	mkdir $(DIR_PYDANTIC)
 	git dag -p $(INTEGR_TEST_DIR)/$(REPO_DIR)/pydantic -lrtsH \
-		--bgcolor transparent -f $(DIR_PYDANTIC)/pydantic.gv
+		-f $(DIR_PYDANTIC)/pydantic.gv
 	cp $(DIR_PYDANTIC)/pydantic.gv.svg $(IMAGES_DIR)
 
 	rm -rf $(TMP_DIR)
