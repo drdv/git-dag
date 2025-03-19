@@ -402,6 +402,25 @@
 <span id="L392" class="lineno"><a class="lineno" href="#L392">392</a></span>
 <span id="L393" class="lineno"><a class="lineno" href="#L393">393</a></span>
 <span id="L394" class="lineno"><a class="lineno" href="#L394">394</a></span>
+<span id="L395" class="lineno"><a class="lineno" href="#L395">395</a></span>
+<span id="L396" class="lineno"><a class="lineno" href="#L396">396</a></span>
+<span id="L397" class="lineno"><a class="lineno" href="#L397">397</a></span>
+<span id="L398" class="lineno"><a class="lineno" href="#L398">398</a></span>
+<span id="L399" class="lineno"><a class="lineno" href="#L399">399</a></span>
+<span id="L400" class="lineno"><a class="lineno" href="#L400">400</a></span>
+<span id="L401" class="lineno"><a class="lineno" href="#L401">401</a></span>
+<span id="L402" class="lineno"><a class="lineno" href="#L402">402</a></span>
+<span id="L403" class="lineno"><a class="lineno" href="#L403">403</a></span>
+<span id="L404" class="lineno"><a class="lineno" href="#L404">404</a></span>
+<span id="L405" class="lineno"><a class="lineno" href="#L405">405</a></span>
+<span id="L406" class="lineno"><a class="lineno" href="#L406">406</a></span>
+<span id="L407" class="lineno"><a class="lineno" href="#L407">407</a></span>
+<span id="L408" class="lineno"><a class="lineno" href="#L408">408</a></span>
+<span id="L409" class="lineno"><a class="lineno" href="#L409">409</a></span>
+<span id="L410" class="lineno"><a class="lineno" href="#L410">410</a></span>
+<span id="L411" class="lineno"><a class="lineno" href="#L411">411</a></span>
+<span id="L412" class="lineno"><a class="lineno" href="#L412">412</a></span>
+<span id="L413" class="lineno"><a class="lineno" href="#L413">413</a></span>
 </pre></td>
 <td class="table-code"><pre><span class="line-empty" title="No Anys on this line!">"""DAG visualization.</span>
 <span class="line-empty" title="No Anys on this line!"></span>
@@ -415,7 +434,6 @@
 <span class="line-empty" title="No Anys on this line!"></span>
 <span class="line-precise" title="No Anys on this line!">from __future__ import annotations</span>
 <span class="line-empty" title="No Anys on this line!"></span>
-<span class="line-precise" title="No Anys on this line!">import logging</span>
 <span class="line-precise" title="No Anys on this line!">import subprocess</span>
 <span class="line-precise" title="No Anys on this line!">from dataclasses import dataclass</span>
 <span class="line-precise" title="No Anys on this line!">from typing import TYPE_CHECKING, Any, Optional, Protocol</span>
@@ -435,8 +453,6 @@
 <span class="line-empty" title="No Anys on this line!"></span>
 <span class="line-precise" title="No Anys on this line!">if TYPE_CHECKING:  # pragma: no cover</span>
 <span class="line-precise" title="No Anys on this line!">    from .git_repository import GitRepository</span>
-<span class="line-empty" title="No Anys on this line!"></span>
-<span class="line-precise" title="No Anys on this line!">LOG = logging.getLogger(__name__)</span>
 <span class="line-empty" title="No Anys on this line!"></span>
 <span class="line-empty" title="No Anys on this line!"></span>
 <span class="line-precise" title="No Anys on this line!">class MixinProtocol(Protocol):</span>
@@ -682,18 +698,42 @@ Explicit (x3)">                self.dag.edge(node_id, branch.commit.sha)</span>
 <span class="line-precise" title="No Anys on this line!">class HeadHandlerMixin:</span>
 <span class="line-empty" title="No Anys on this line!">    """Handle HEAD."""</span>
 <span class="line-empty" title="No Anys on this line!"></span>
-<span class="line-precise" title="No Anys on this line!">    def _add_head(self: MixinProtocol) -&gt; None:</span>
+<span class="line-precise" title="No Anys on this line!">    def _add_local_head(self: MixinProtocol) -&gt; None:</span>
 <span class="line-precise" title="No Anys on this line!">        head = self.repository.head</span>
-<span class="line-precise" title="No Anys on this line!">        if head is not None and self._is_object_to_include(head.sha):</span>
+<span class="line-precise" title="No Anys on this line!">        if head.is_defined:</span>
+<span class="line-precise" title="No Anys on this line!">            assert head.commit is not None  # to make mypy happy</span>
+<span class="line-precise" title="No Anys on this line!">            if self._is_object_to_include(head.commit.sha):</span>
+<span class="line-precise" title="No Anys on this line!">                if head.is_detached:</span>
+<span class="line-any" title="Any Types on this line: 
+Explicit (x3)">                    self.dag.edge("HEAD", head.commit.sha)</span>
+<span class="line-precise" title="No Anys on this line!">                    tooltip = head.commit.sha</span>
+<span class="line-empty" title="No Anys on this line!">                else:</span>
+<span class="line-precise" title="No Anys on this line!">                    assert head.branch is not None  # to make mypy happy</span>
+<span class="line-any" title="Any Types on this line: 
+Explicit (x3)">                    self.dag.edge("HEAD", f"local-branch-{head.branch.name}")</span>
+<span class="line-precise" title="No Anys on this line!">                    tooltip = head.branch.name</span>
+<span class="line-empty" title="No Anys on this line!"></span>
+<span class="line-any" title="Any Types on this line: 
+Explicit (x3)">                self.dag.node(</span>
+<span class="line-precise" title="No Anys on this line!">                    name="HEAD",</span>
+<span class="line-precise" title="No Anys on this line!">                    label="HEAD",</span>
+<span class="line-precise" title="No Anys on this line!">                    color=None if head.is_detached else DAG_NODE_COLORS["head"],</span>
+<span class="line-precise" title="No Anys on this line!">                    fillcolor=DAG_NODE_COLORS["head"],</span>
+<span class="line-precise" title="No Anys on this line!">                    tooltip=tooltip,</span>
+<span class="line-empty" title="No Anys on this line!">                )</span>
+<span class="line-empty" title="No Anys on this line!"></span>
+<span class="line-precise" title="No Anys on this line!">    def _add_remote_heads(self: MixinProtocol) -&gt; None:</span>
+<span class="line-precise" title="No Anys on this line!">        for head, ref in self.repository.remote_heads.items():</span>
 <span class="line-any" title="Any Types on this line: 
 Explicit (x3)">            self.dag.node(</span>
-<span class="line-precise" title="No Anys on this line!">                name="HEAD",</span>
-<span class="line-precise" title="No Anys on this line!">                label="HEAD *" if self.repository.is_detached_head else "HEAD",</span>
+<span class="line-precise" title="No Anys on this line!">                name=head,</span>
+<span class="line-precise" title="No Anys on this line!">                label=head,</span>
 <span class="line-precise" title="No Anys on this line!">                color=DAG_NODE_COLORS["head"],</span>
 <span class="line-precise" title="No Anys on this line!">                fillcolor=DAG_NODE_COLORS["head"],</span>
+<span class="line-precise" title="No Anys on this line!">                tooltip=ref,</span>
 <span class="line-empty" title="No Anys on this line!">            )</span>
 <span class="line-any" title="Any Types on this line: 
-Explicit (x3)">            self.dag.edge("HEAD", head.sha)</span>
+Explicit (x3)">            self.dag.edge(head, f"remote-branch-{ref}")</span>
 <span class="line-empty" title="No Anys on this line!"></span>
 <span class="line-empty" title="No Anys on this line!"></span>
 <span class="line-precise" title="Any Types on this line: 
@@ -819,7 +859,8 @@ Explicit (x2)">        return self.dag.get()</span>
 <span class="line-precise" title="No Anys on this line!">            self._add_stashes()</span>
 <span class="line-empty" title="No Anys on this line!"></span>
 <span class="line-precise" title="No Anys on this line!">        if self.show_head:</span>
-<span class="line-precise" title="No Anys on this line!">            self._add_head()</span>
+<span class="line-precise" title="No Anys on this line!">            self._add_local_head()</span>
+<span class="line-precise" title="No Anys on this line!">            self._add_remote_heads()</span>
 <span class="line-empty" title="No Anys on this line!"></span>
 <span class="line-precise" title="No Anys on this line!">        self.dag.build(</span>
 <span class="line-precise" title="No Anys on this line!">            format=self.format,</span>

@@ -337,16 +337,6 @@ files).</p>
 </tbody>
 </table>
 </div>
-<p class="rubric">Attributes</p>
-<div class="table-wrapper autosummary longtable docutils container">
-<table class="autosummary longtable docutils align-default">
-<tbody>
-<tr class="row-odd"><td><p><a class="reference internal" href="#git_dag.git_repository.GitRepository.is_detached_head" title="git_dag.git_repository.GitRepository.is_detached_head"><code class="xref py py-obj docutils literal notranslate"><span class="pre">is_detached_head</span></code></a></p></td>
-<td><p>Check if the repository is in a detached HEAD state.</p></td>
-</tr>
-</tbody>
-</table>
-</div>
 <dl class="py method">
 <dt class="sig sig-object py" id="git_dag.git_repository.GitRepository.filter_objects">
 <span class="sig-name descname"><span class="pre">filter_objects</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">object_type</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">Type</span><span class="p"><span class="pre">[</span></span><span class="pre">T</span><span class="p"><span class="pre">]</span></span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">dict</span><span class="p"><span class="pre">[</span></span><span class="pre">str</span><span class="p"><span class="pre">,</span></span><span class="w"> </span><span class="pre">T</span><span class="p"><span class="pre">]</span></span></span></span><a class="reference internal" href="../_modules/git_dag/git_repository.html#GitRepository.filter_objects"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#git_dag.git_repository.GitRepository.filter_objects" title="Link to this definition">¶</a></dt>
@@ -357,12 +347,6 @@ files).</p>
 <dt class="sig sig-object py" id="git_dag.git_repository.GitRepository.get_objects_reachable_from">
 <span class="sig-name descname"><span class="pre">get_objects_reachable_from</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">starting_objects</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">list</span><span class="p"><span class="pre">[</span></span><span class="pre">str</span><span class="p"><span class="pre">]</span></span><span class="w"> </span><span class="p"><span class="pre">|</span></span><span class="w"> </span><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">max_numb_commits</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">int</span><span class="w"> </span><span class="p"><span class="pre">|</span></span><span class="w"> </span><span class="pre">None</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">None</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">set</span><span class="p"><span class="pre">[</span></span><span class="pre">str</span><span class="p"><span class="pre">]</span></span></span></span><a class="reference internal" href="../_modules/git_dag/git_repository.html#GitRepository.get_objects_reachable_from"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#git_dag.git_repository.GitRepository.get_objects_reachable_from" title="Link to this definition">¶</a></dt>
 <dd><p>Return SHA of all objects that are reachable from <code class="docutils literal notranslate"><span class="pre">starting_objects</span></code>.</p>
-</dd></dl>
-
-<dl class="py property">
-<dt class="sig sig-object py" id="git_dag.git_repository.GitRepository.is_detached_head">
-<em class="property"><span class="k"><span class="pre">property</span></span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">is_detached_head</span></span><em class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="pre">bool</span></em><a class="headerlink" href="#git_dag.git_repository.GitRepository.is_detached_head" title="Link to this definition">¶</a></dt>
-<dd><p>Check if the repository is in a detached HEAD state.</p>
 </dd></dl>
 
 <dl class="py method">
@@ -456,7 +440,6 @@ list is empty).</p>
 <li><a class="reference internal" href="#git_dag.git_repository.GitRepository"><code class="docutils literal notranslate"><span class="pre">GitRepository</span></code></a><ul>
 <li><a class="reference internal" href="#git_dag.git_repository.GitRepository.filter_objects"><code class="docutils literal notranslate"><span class="pre">GitRepository.filter_objects()</span></code></a></li>
 <li><a class="reference internal" href="#git_dag.git_repository.GitRepository.get_objects_reachable_from"><code class="docutils literal notranslate"><span class="pre">GitRepository.get_objects_reachable_from()</span></code></a></li>
-<li><a class="reference internal" href="#git_dag.git_repository.GitRepository.is_detached_head"><code class="docutils literal notranslate"><span class="pre">GitRepository.is_detached_head</span></code></a></li>
 <li><a class="reference internal" href="#git_dag.git_repository.GitRepository.post_process_inspector_data"><code class="docutils literal notranslate"><span class="pre">GitRepository.post_process_inspector_data()</span></code></a></li>
 <li><a class="reference internal" href="#git_dag.git_repository.GitRepository.show"><code class="docutils literal notranslate"><span class="pre">GitRepository.show()</span></code></a></li>
 </ul>
@@ -472,7 +455,7 @@ list is empty).</p>
       
     </aside>
   </div>
-</div><script src="../_static/documentation_options.js?v=707f4c3c"></script>
+</div><script src="../_static/documentation_options.js?v=05cc5d2a"></script>
     <script src="../_static/doctools.js?v=9bcbadda"></script>
     <script src="../_static/sphinx_highlight.js?v=dc90522c"></script>
     <script src="../_static/scripts/furo.js?v=5fa4622c"></script>

@@ -570,6 +570,33 @@
 <span id="L560" class="lineno"><a class="lineno" href="#L560">560</a></span>
 <span id="L561" class="lineno"><a class="lineno" href="#L561">561</a></span>
 <span id="L562" class="lineno"><a class="lineno" href="#L562">562</a></span>
+<span id="L563" class="lineno"><a class="lineno" href="#L563">563</a></span>
+<span id="L564" class="lineno"><a class="lineno" href="#L564">564</a></span>
+<span id="L565" class="lineno"><a class="lineno" href="#L565">565</a></span>
+<span id="L566" class="lineno"><a class="lineno" href="#L566">566</a></span>
+<span id="L567" class="lineno"><a class="lineno" href="#L567">567</a></span>
+<span id="L568" class="lineno"><a class="lineno" href="#L568">568</a></span>
+<span id="L569" class="lineno"><a class="lineno" href="#L569">569</a></span>
+<span id="L570" class="lineno"><a class="lineno" href="#L570">570</a></span>
+<span id="L571" class="lineno"><a class="lineno" href="#L571">571</a></span>
+<span id="L572" class="lineno"><a class="lineno" href="#L572">572</a></span>
+<span id="L573" class="lineno"><a class="lineno" href="#L573">573</a></span>
+<span id="L574" class="lineno"><a class="lineno" href="#L574">574</a></span>
+<span id="L575" class="lineno"><a class="lineno" href="#L575">575</a></span>
+<span id="L576" class="lineno"><a class="lineno" href="#L576">576</a></span>
+<span id="L577" class="lineno"><a class="lineno" href="#L577">577</a></span>
+<span id="L578" class="lineno"><a class="lineno" href="#L578">578</a></span>
+<span id="L579" class="lineno"><a class="lineno" href="#L579">579</a></span>
+<span id="L580" class="lineno"><a class="lineno" href="#L580">580</a></span>
+<span id="L581" class="lineno"><a class="lineno" href="#L581">581</a></span>
+<span id="L582" class="lineno"><a class="lineno" href="#L582">582</a></span>
+<span id="L583" class="lineno"><a class="lineno" href="#L583">583</a></span>
+<span id="L584" class="lineno"><a class="lineno" href="#L584">584</a></span>
+<span id="L585" class="lineno"><a class="lineno" href="#L585">585</a></span>
+<span id="L586" class="lineno"><a class="lineno" href="#L586">586</a></span>
+<span id="L587" class="lineno"><a class="lineno" href="#L587">587</a></span>
+<span id="L588" class="lineno"><a class="lineno" href="#L588">588</a></span>
+<span id="L589" class="lineno"><a class="lineno" href="#L589">589</a></span>
 </pre></td>
 <td class="table-code"><pre><span class="line-empty" title="No Anys on this line!">"""Git commands related functionality.</span>
 <span class="line-empty" title="No Anys on this line!"></span>
@@ -592,7 +619,7 @@
 <span class="line-precise" title="No Anys on this line!">from git_dag.git_objects import DictStrStr</span>
 <span class="line-precise" title="No Anys on this line!">from git_dag.utils import escape_decode</span>
 <span class="line-empty" title="No Anys on this line!"></span>
-<span class="line-precise" title="No Anys on this line!">logging.basicConfig(level=logging.INFO)</span>
+<span class="line-precise" title="No Anys on this line!">logging.basicConfig(level=logging.WARNING)</span>
 <span class="line-precise" title="No Anys on this line!">LOG = logging.getLogger(__name__)</span>
 <span class="line-empty" title="No Anys on this line!"></span>
 <span class="line-empty" title="No Anys on this line!"></span>
@@ -848,8 +875,28 @@ Explicit (x1)">            with open(Path(self.path) / filename, "w", encoding="
 <span class="line-empty" title="No Anys on this line!">        """</span>
 <span class="line-precise" title="No Anys on this line!">        return self._run(f"cat-file -p {sha}").strip().split("\n")</span>
 <span class="line-empty" title="No Anys on this line!"></span>
-<span class="line-precise" title="No Anys on this line!">    def get_branches(self) -&gt; dict[str, DictStrStr]:</span>
-<span class="line-empty" title="No Anys on this line!">        """Get local/remote branches."""</span>
+<span class="line-precise" title="No Anys on this line!">    def get_remotes(self) -&gt; list[str]:</span>
+<span class="line-empty" title="No Anys on this line!">        """Return list of remotes."""</span>
+<span class="line-precise" title="No Anys on this line!">        cmd_output = self._run("remote").strip().split("\n")</span>
+<span class="line-precise" title="No Anys on this line!">        if len(cmd_output) == 1 and "" in cmd_output:</span>
+<span class="line-empty" title="No Anys on this line!">            return []</span>
+<span class="line-precise" title="No Anys on this line!">        return cmd_output</span>
+<span class="line-empty" title="No Anys on this line!"></span>
+<span class="line-precise" title="No Anys on this line!">    def get_remote_heads_sym_ref(self, remotes: list[str]) -&gt; dict[str, str]:</span>
+<span class="line-empty" title="No Anys on this line!">        """Return symbolic references of remote heads."""</span>
+<span class="line-precise" title="No Anys on this line!">        symb_refs = {}</span>
+<span class="line-precise" title="No Anys on this line!">        for remote in remotes:</span>
+<span class="line-precise" title="No Anys on this line!">            cmd = f"symbolic-ref refs/remotes/{remote}/HEAD"</span>
+<span class="line-empty" title="No Anys on this line!">            try:</span>
+<span class="line-precise" title="No Anys on this line!">                cmd_output = self._run(cmd).strip().split("\n")</span>
+<span class="line-empty" title="No Anys on this line!">                # drop refs/remotes</span>
+<span class="line-precise" title="No Anys on this line!">                symb_refs[f"{remote}/HEAD"] = "/".join(cmd_output[0].split("/")[2:])</span>
+<span class="line-precise" title="No Anys on this line!">            except subprocess.CalledProcessError:</span>
+<span class="line-precise" title="No Anys on this line!">                LOG.warning(f"HEAD not defined for {remote}.")</span>
+<span class="line-precise" title="No Anys on this line!">        return symb_refs</span>
+<span class="line-empty" title="No Anys on this line!"></span>
+<span class="line-precise" title="No Anys on this line!">    def get_branches(self, remotes: list[str]) -&gt; dict[str, DictStrStr]:</span>
+<span class="line-empty" title="No Anys on this line!">        """Get local/remote branches (while excluding remote HEADs)."""</span>
 <span class="line-precise" title="No Anys on this line!">        refs: dict[str, DictStrStr] = {"local": {}, "remote": {}}</span>
 <span class="line-empty" title="No Anys on this line!"></span>
 <span class="line-empty" title="No Anys on this line!">        try:</span>
@@ -864,13 +911,20 @@ Explicit (x1)">            with open(Path(self.path) / filename, "w", encoding="
 <span class="line-precise" title="No Anys on this line!">                refs["local"]["/".join(name.split("/")[2:])] = sha</span>
 <span class="line-empty" title="No Anys on this line!"></span>
 <span class="line-precise" title="No Anys on this line!">            if "refs/remotes" in ref:</span>
-<span class="line-precise" title="No Anys on this line!">                refs["remote"]["/".join(name.split("/")[2:])] = sha</span>
+<span class="line-empty" title="No Anys on this line!">                # skip remote HEADs (handled in  GitCommand.get_remote_heads_sym_ref)</span>
+<span class="line-precise" title="No Anys on this line!">                if name not in [f"refs/remotes/{remote}/HEAD" for remote in remotes]:</span>
+<span class="line-precise" title="No Anys on this line!">                    refs["remote"]["/".join(name.split("/")[2:])] = sha</span>
 <span class="line-empty" title="No Anys on this line!"></span>
 <span class="line-precise" title="No Anys on this line!">        return refs</span>
 <span class="line-empty" title="No Anys on this line!"></span>
-<span class="line-precise" title="No Anys on this line!">    def get_local_head(self) -&gt; str:</span>
-<span class="line-empty" title="No Anys on this line!">        """Return local HEAD."""</span>
+<span class="line-precise" title="No Anys on this line!">    def get_local_head_commit_sha(self) -&gt; str:</span>
+<span class="line-empty" title="No Anys on this line!">        """Return SHA of the commit pointed to by local HEAD."""</span>
 <span class="line-precise" title="No Anys on this line!">        return self._run("rev-parse HEAD").strip()</span>
+<span class="line-empty" title="No Anys on this line!"></span>
+<span class="line-precise" title="No Anys on this line!">    def get_local_head_branch(self) -&gt; Optional[str]:</span>
+<span class="line-empty" title="No Anys on this line!">        """Return name of branch pointed to by HEAD."""</span>
+<span class="line-precise" title="No Anys on this line!">        branch_name = self._run("branch --show-current").strip()</span>
+<span class="line-precise" title="No Anys on this line!">        return branch_name if branch_name else None</span>
 <span class="line-empty" title="No Anys on this line!"></span>
 <span class="line-precise" title="No Anys on this line!">    def local_branch_is_tracking(self, local_branch_sha: str) -&gt; Optional[str]:</span>
 <span class="line-empty" title="No Anys on this line!">        """Detect if a local branch is tracking a remote one."""</span>

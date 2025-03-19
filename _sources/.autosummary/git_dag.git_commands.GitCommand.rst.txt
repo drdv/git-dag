@@ -18,9 +18,12 @@ git\_dag.git\_commands.GitCommand
    
       ~GitCommand.get_blobs_and_trees_names
       ~GitCommand.get_branches
-      ~GitCommand.get_local_head
+      ~GitCommand.get_local_head_branch
+      ~GitCommand.get_local_head_commit_sha
       ~GitCommand.get_notes_dag_root
       ~GitCommand.get_objects_sha_kind
+      ~GitCommand.get_remote_heads_sym_ref
+      ~GitCommand.get_remotes
       ~GitCommand.get_stash_info
       ~GitCommand.get_tags_info_parsed
       ~GitCommand.local_branch_is_tracking

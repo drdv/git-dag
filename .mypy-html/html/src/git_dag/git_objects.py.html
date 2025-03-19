@@ -259,6 +259,39 @@
 <span id="L249" class="lineno"><a class="lineno" href="#L249">249</a></span>
 <span id="L250" class="lineno"><a class="lineno" href="#L250">250</a></span>
 <span id="L251" class="lineno"><a class="lineno" href="#L251">251</a></span>
+<span id="L252" class="lineno"><a class="lineno" href="#L252">252</a></span>
+<span id="L253" class="lineno"><a class="lineno" href="#L253">253</a></span>
+<span id="L254" class="lineno"><a class="lineno" href="#L254">254</a></span>
+<span id="L255" class="lineno"><a class="lineno" href="#L255">255</a></span>
+<span id="L256" class="lineno"><a class="lineno" href="#L256">256</a></span>
+<span id="L257" class="lineno"><a class="lineno" href="#L257">257</a></span>
+<span id="L258" class="lineno"><a class="lineno" href="#L258">258</a></span>
+<span id="L259" class="lineno"><a class="lineno" href="#L259">259</a></span>
+<span id="L260" class="lineno"><a class="lineno" href="#L260">260</a></span>
+<span id="L261" class="lineno"><a class="lineno" href="#L261">261</a></span>
+<span id="L262" class="lineno"><a class="lineno" href="#L262">262</a></span>
+<span id="L263" class="lineno"><a class="lineno" href="#L263">263</a></span>
+<span id="L264" class="lineno"><a class="lineno" href="#L264">264</a></span>
+<span id="L265" class="lineno"><a class="lineno" href="#L265">265</a></span>
+<span id="L266" class="lineno"><a class="lineno" href="#L266">266</a></span>
+<span id="L267" class="lineno"><a class="lineno" href="#L267">267</a></span>
+<span id="L268" class="lineno"><a class="lineno" href="#L268">268</a></span>
+<span id="L269" class="lineno"><a class="lineno" href="#L269">269</a></span>
+<span id="L270" class="lineno"><a class="lineno" href="#L270">270</a></span>
+<span id="L271" class="lineno"><a class="lineno" href="#L271">271</a></span>
+<span id="L272" class="lineno"><a class="lineno" href="#L272">272</a></span>
+<span id="L273" class="lineno"><a class="lineno" href="#L273">273</a></span>
+<span id="L274" class="lineno"><a class="lineno" href="#L274">274</a></span>
+<span id="L275" class="lineno"><a class="lineno" href="#L275">275</a></span>
+<span id="L276" class="lineno"><a class="lineno" href="#L276">276</a></span>
+<span id="L277" class="lineno"><a class="lineno" href="#L277">277</a></span>
+<span id="L278" class="lineno"><a class="lineno" href="#L278">278</a></span>
+<span id="L279" class="lineno"><a class="lineno" href="#L279">279</a></span>
+<span id="L280" class="lineno"><a class="lineno" href="#L280">280</a></span>
+<span id="L281" class="lineno"><a class="lineno" href="#L281">281</a></span>
+<span id="L282" class="lineno"><a class="lineno" href="#L282">282</a></span>
+<span id="L283" class="lineno"><a class="lineno" href="#L283">283</a></span>
+<span id="L284" class="lineno"><a class="lineno" href="#L284">284</a></span>
 </pre></td>
 <td class="table-code"><pre><span class="line-empty" title="No Anys on this line!">"""Pydantic models of git objects."""</span>
 <span class="line-empty" title="No Anys on this line!"></span>
@@ -269,6 +302,8 @@
 <span class="line-precise" title="No Anys on this line!">from typing import ClassVar, Optional, cast</span>
 <span class="line-empty" title="No Anys on this line!"></span>
 <span class="line-precise" title="No Anys on this line!">from pydantic import BaseModel, ConfigDict, Field, computed_field</span>
+<span class="line-empty" title="No Anys on this line!"></span>
+<span class="line-precise" title="No Anys on this line!">from .constants import SHA_LIMIT</span>
 <span class="line-empty" title="No Anys on this line!"></span>
 <span class="line-precise" title="No Anys on this line!">DictStrStr = dict[str, str]</span>
 <span class="line-precise" title="No Anys on this line!">GitCommitRawDataType = dict[str, str | list[str]]</span>
@@ -517,6 +552,37 @@ Omitted Generics (x5)">    raw_data: GitTreeRawDataType = Field(repr=False)</spa
 <span class="line-precise" title="No Anys on this line!">    index: int</span>
 <span class="line-precise" title="No Anys on this line!">    title: str</span>
 <span class="line-precise" title="No Anys on this line!">    commit: GitCommit</span>
+<span class="line-empty" title="No Anys on this line!"></span>
+<span class="line-empty" title="No Anys on this line!"></span>
+<span class="line-precise" title="No Anys on this line!">class GitHead(BaseModel):</span>
+<span class="line-empty" title="No Anys on this line!">    """A head (local or remote)."""</span>
+<span class="line-empty" title="No Anys on this line!"></span>
+<span class="line-precise" title="No Anys on this line!">    model_config = ConfigDict(extra="forbid")</span>
+<span class="line-empty" title="No Anys on this line!"></span>
+<span class="line-precise" title="No Anys on this line!">    commit: Optional[GitCommit] = None</span>
+<span class="line-precise" title="No Anys on this line!">    branch: Optional[GitBranch] = None</span>
+<span class="line-empty" title="No Anys on this line!"></span>
+<span class="line-empty" title="No Anys on this line!">    @property</span>
+<span class="line-precise" title="No Anys on this line!">    def is_defined(self) -&gt; bool:</span>
+<span class="line-empty" title="No Anys on this line!">        """Is the HEAD defined."""</span>
+<span class="line-precise" title="No Anys on this line!">        return self.commit is not None</span>
+<span class="line-empty" title="No Anys on this line!"></span>
+<span class="line-empty" title="No Anys on this line!">    @property</span>
+<span class="line-precise" title="No Anys on this line!">    def is_detached(self) -&gt; bool:</span>
+<span class="line-empty" title="No Anys on this line!">        """Is the HEAD detached."""</span>
+<span class="line-precise" title="No Anys on this line!">        return self.branch is None</span>
+<span class="line-empty" title="No Anys on this line!"></span>
+<span class="line-precise" title="No Anys on this line!">    def __repr__(self) -&gt; str:</span>
+<span class="line-precise" title="No Anys on this line!">        if not self.is_defined:</span>
+<span class="line-precise" title="No Anys on this line!">            return "None"</span>
+<span class="line-empty" title="No Anys on this line!"></span>
+<span class="line-precise" title="No Anys on this line!">        if self.is_detached:</span>
+<span class="line-precise" title="No Anys on this line!">            return "DETACHED"</span>
+<span class="line-empty" title="No Anys on this line!"></span>
+<span class="line-empty" title="No Anys on this line!">        # type narrowing to make mypy happy</span>
+<span class="line-precise" title="No Anys on this line!">        assert (self.commit is not None) and (self.branch is not None)</span>
+<span class="line-empty" title="No Anys on this line!"></span>
+<span class="line-precise" title="No Anys on this line!">        return f"{self.commit.sha[:SHA_LIMIT]} ({self.branch.name})"</span>
 </pre></td>
 </tr></tbody>
 </table>

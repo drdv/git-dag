@@ -127,20 +127,20 @@
 <span id="L117" class="lineno"><a class="lineno" href="#L117">117</a></span>
 <span id="L118" class="lineno"><a class="lineno" href="#L118">118</a></span>
 <span id="L119" class="lineno"><a class="lineno" href="#L119">119</a></span>
+<span id="L120" class="lineno"><a class="lineno" href="#L120">120</a></span>
+<span id="L121" class="lineno"><a class="lineno" href="#L121">121</a></span>
+<span id="L122" class="lineno"><a class="lineno" href="#L122">122</a></span>
 </pre></td>
 <td class="table-code"><pre><span class="line-empty" title="No Anys on this line!">"""Test ``cli.py``."""</span>
 <span class="line-empty" title="No Anys on this line!"></span>
 <span class="line-empty" title="No Anys on this line!"># pylint: disable=missing-function-docstring,redefined-outer-name</span>
 <span class="line-empty" title="No Anys on this line!"></span>
-<span class="line-precise" title="No Anys on this line!">import logging</span>
 <span class="line-precise" title="No Anys on this line!">from pathlib import Path</span>
 <span class="line-precise" title="No Anys on this line!">from typing import Any</span>
 <span class="line-empty" title="No Anys on this line!"></span>
 <span class="line-precise" title="No Anys on this line!">import pytest</span>
 <span class="line-empty" title="No Anys on this line!"></span>
 <span class="line-precise" title="No Anys on this line!">from git_dag.cli import get_cla, main</span>
-<span class="line-empty" title="No Anys on this line!"></span>
-<span class="line-precise" title="No Anys on this line!">LOG = logging.getLogger(__name__)</span>
 <span class="line-empty" title="No Anys on this line!"></span>
 <span class="line-precise" title="No Anys on this line!">ALL_ARGS = {</span>
 <span class="line-precise" title="No Anys on this line!">    "-p": ("path", "."),</span>
@@ -166,6 +166,7 @@
 <span class="line-precise" title="No Anys on this line!">    "-o": ("xdg_open", False),</span>
 <span class="line-precise" title="No Anys on this line!">    "--log-level": ("log_level", "WARNING"),</span>
 <span class="line-empty" title="No Anys on this line!">}</span>
+<span class="line-empty" title="No Anys on this line!"></span>
 <span class="line-empty" title="No Anys on this line!"></span>
 <span class="line-precise" title="No Anys on this line!">def test_cli_main(git_repository_default: Path) -&gt; None:</span>
 <span class="line-precise" title="No Anys on this line!">    repo_path = git_repository_default</span>
@@ -210,33 +211,38 @@
 <span class="line-precise" title="No Anys on this line!">    assert (repo_path / "out.gv.svg").exists()</span>
 <span class="line-empty" title="No Anys on this line!"></span>
 <span class="line-empty" title="No Anys on this line!"></span>
-<span class="line-precise" title="No Anys on this line!">@pytest.mark.parametrize("arg,value", [</span>
-<span class="line-precise" title="No Anys on this line!">    ("--init-refs", "main topic"),</span>
-<span class="line-precise" title="No Anys on this line!">    ("-R", "main topic"),</span>
-<span class="line-precise" title="No Anys on this line!">    ("-p", "/some/path"),</span>
-<span class="line-precise" title="No Anys on this line!">    ("-f", "/some/path/git-dag.gv"),</span>
-<span class="line-precise" title="No Anys on this line!">    ("--format", "png"),</span>
-<span class="line-precise" title="No Anys on this line!">    ("--dpi", "150"),</span>
-<span class="line-precise" title="No Anys on this line!">    ("-n", 10),</span>
-<span class="line-precise" title="No Anys on this line!">    ("--rankdir", "LR"),</span>
-<span class="line-precise" title="No Anys on this line!">    ("--bgcolor", "red"),</span>
-<span class="line-precise" title="No Anys on this line!">    ("-u", True),</span>
-<span class="line-precise" title="No Anys on this line!">    ("-t", True),</span>
-<span class="line-precise" title="No Anys on this line!">    ("-D", True),</span>
-<span class="line-precise" title="No Anys on this line!">    ("-s", True),</span>
-<span class="line-precise" title="No Anys on this line!">    ("-H", True),</span>
-<span class="line-precise" title="No Anys on this line!">    ("-T", True),</span>
-<span class="line-precise" title="No Anys on this line!">    ("-B", True),</span>
-<span class="line-precise" title="No Anys on this line!">    ("-m", 1),</span>
-<span class="line-precise" title="No Anys on this line!">    ("-o", True),</span>
-<span class="line-precise" title="No Anys on this line!">    ("-l", True),</span>
-<span class="line-precise" title="No Anys on this line!">    ("-r", True),</span>
-<span class="line-precise" title="No Anys on this line!">    ("--log-level", "INFO"),</span>
-<span class="line-empty" title="No Anys on this line!">])</span>
+<span class="line-precise" title="No Anys on this line!">@pytest.mark.parametrize(</span>
+<span class="line-precise" title="No Anys on this line!">    "arg,value",</span>
+<span class="line-empty" title="No Anys on this line!">    [</span>
+<span class="line-precise" title="No Anys on this line!">        ("--init-refs", "main topic"),</span>
+<span class="line-precise" title="No Anys on this line!">        ("-R", "main topic"),</span>
+<span class="line-precise" title="No Anys on this line!">        ("-p", "/some/path"),</span>
+<span class="line-precise" title="No Anys on this line!">        ("-f", "/some/path/git-dag.gv"),</span>
+<span class="line-precise" title="No Anys on this line!">        ("--format", "png"),</span>
+<span class="line-precise" title="No Anys on this line!">        ("--dpi", "150"),</span>
+<span class="line-precise" title="No Anys on this line!">        ("-n", 10),</span>
+<span class="line-precise" title="No Anys on this line!">        ("--rankdir", "LR"),</span>
+<span class="line-precise" title="No Anys on this line!">        ("--bgcolor", "red"),</span>
+<span class="line-precise" title="No Anys on this line!">        ("-u", True),</span>
+<span class="line-precise" title="No Anys on this line!">        ("-t", True),</span>
+<span class="line-precise" title="No Anys on this line!">        ("-D", True),</span>
+<span class="line-precise" title="No Anys on this line!">        ("-s", True),</span>
+<span class="line-precise" title="No Anys on this line!">        ("-H", True),</span>
+<span class="line-precise" title="No Anys on this line!">        ("-T", True),</span>
+<span class="line-precise" title="No Anys on this line!">        ("-B", True),</span>
+<span class="line-precise" title="No Anys on this line!">        ("-m", 1),</span>
+<span class="line-precise" title="No Anys on this line!">        ("-o", True),</span>
+<span class="line-precise" title="No Anys on this line!">        ("-l", True),</span>
+<span class="line-precise" title="No Anys on this line!">        ("-r", True),</span>
+<span class="line-precise" title="No Anys on this line!">        ("--log-level", "INFO"),</span>
+<span class="line-empty" title="No Anys on this line!">    ],</span>
+<span class="line-empty" title="No Anys on this line!">)</span>
 <span class="line-any" title="Any Types on this line: 
 Explicit (x1)">def test_cli_args(arg: str, value: Any) -&gt; None:</span>
+<span class="line-precise" title="No Anys on this line!">    parsed_args = get_cla(</span>
 <span class="line-any" title="Any Types on this line: 
-Explicit (x2)">    parsed_args = get_cla([arg] if isinstance(value, bool) and value else [arg, str(value)])</span>
+Explicit (x2)">        [arg] if isinstance(value, bool) and value else [arg, str(value)]</span>
+<span class="line-empty" title="No Anys on this line!">    )</span>
 <span class="line-empty" title="No Anys on this line!"></span>
 <span class="line-precise" title="No Anys on this line!">    field = ALL_ARGS[arg][0]</span>
 <span class="line-any" title="Any Types on this line: 

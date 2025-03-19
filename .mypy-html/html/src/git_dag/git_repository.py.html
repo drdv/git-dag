@@ -703,11 +703,6 @@
 <span id="L693" class="lineno"><a class="lineno" href="#L693">693</a></span>
 <span id="L694" class="lineno"><a class="lineno" href="#L694">694</a></span>
 <span id="L695" class="lineno"><a class="lineno" href="#L695">695</a></span>
-<span id="L696" class="lineno"><a class="lineno" href="#L696">696</a></span>
-<span id="L697" class="lineno"><a class="lineno" href="#L697">697</a></span>
-<span id="L698" class="lineno"><a class="lineno" href="#L698">698</a></span>
-<span id="L699" class="lineno"><a class="lineno" href="#L699">699</a></span>
-<span id="L700" class="lineno"><a class="lineno" href="#L700">700</a></span>
 </pre></td>
 <td class="table-code"><pre><span class="line-empty" title="No Anys on this line!">"""Git repository parsing functionality."""</span>
 <span class="line-empty" title="No Anys on this line!"></span>
@@ -734,6 +729,7 @@
 <span class="line-empty" title="No Anys on this line!">    GitBranch,</span>
 <span class="line-empty" title="No Anys on this line!">    GitCommit,</span>
 <span class="line-empty" title="No Anys on this line!">    GitCommitRawDataType,</span>
+<span class="line-empty" title="No Anys on this line!">    GitHead,</span>
 <span class="line-empty" title="No Anys on this line!">    GitObject,</span>
 <span class="line-empty" title="No Anys on this line!">    GitObjectKind,</span>
 <span class="line-empty" title="No Anys on this line!">    GitStash,</span>
@@ -747,7 +743,7 @@
 <span class="line-empty" title="No Anys on this line!"></span>
 <span class="line-precise" title="Any Types on this line: 
 Omitted Generics (x8)">IG = itemgetter("sha", "kind")</span>
-<span class="line-precise" title="No Anys on this line!">logging.basicConfig(level=logging.INFO)</span>
+<span class="line-precise" title="No Anys on this line!">logging.basicConfig(level=logging.WARNING)</span>
 <span class="line-precise" title="No Anys on this line!">LOG = logging.getLogger(__name__)</span>
 <span class="line-empty" title="No Anys on this line!"></span>
 <span class="line-empty" title="No Anys on this line!"># https://stackoverflow.com/q/9765453</span>
@@ -1203,38 +1199,20 @@ Omitted Generics (x6)">    @time_it</span>
 <span class="line-empty" title="No Anys on this line!">        """Post-process inspector data (see :func:`GitInspector.get_raw_objects`)."""</span>
 <span class="line-precise" title="No Anys on this line!">        self.objects: dict[str, GitObject] = self._form_objects()</span>
 <span class="line-precise" title="No Anys on this line!">        self.commits = self.filter_objects(GitCommit)</span>
-<span class="line-precise" title="No Anys on this line!">        self.head: Optional[GitCommit] = self._form_head()</span>
 <span class="line-precise" title="No Anys on this line!">        self.tags: dict[str, GitTag] = self._form_annotated_tags()</span>
 <span class="line-precise" title="No Anys on this line!">        self.tags_lw: dict[str, GitTagLightweight] = self._form_lightweight_tags()</span>
+<span class="line-precise" title="No Anys on this line!">        self.remotes: list[str] = self.inspector.git.get_remotes()</span>
 <span class="line-precise" title="No Anys on this line!">        self.branches: list[GitBranch] = self._form_branches()</span>
+<span class="line-precise" title="No Anys on this line!">        self.head: GitHead = self._form_local_head()</span>
+<span class="line-precise" title="No Anys on this line!">        self.remote_heads: dict[str, str] = self._form_remote_heads()</span>
 <span class="line-precise" title="No Anys on this line!">        self.stashes: list[GitStash] = self._form_stashes()</span>
-<span class="line-precise" title="No Anys on this line!">        self.head_branches = [b for b in self.branches if b.commit == self.head]</span>
 <span class="line-precise" title="No Anys on this line!">        self.notes_dag_root: Optional[dict[str, str]] = self.inspector.notes_dag_root</span>
-<span class="line-empty" title="No Anys on this line!"></span>
-<span class="line-precise" title="Any Types on this line: 
-Omitted Generics (x6)">    @time_it</span>
-<span class="line-precise" title="No Anys on this line!">    def _form_head(self) -&gt; Optional[GitCommit]:</span>
-<span class="line-empty" title="No Anys on this line!">        """Post-process HEAD.</span>
-<span class="line-empty" title="No Anys on this line!"></span>
-<span class="line-empty" title="No Anys on this line!">        Note</span>
-<span class="line-empty" title="No Anys on this line!">        -----</span>
-<span class="line-empty" title="No Anys on this line!">        Set HEAD to point to a commit. In reality, HEAD would point to a commit SHA only</span>
-<span class="line-empty" title="No Anys on this line!">        in detached HEAD, otherwise it points to a branch reference. I don't make this</span>
-<span class="line-empty" title="No Anys on this line!">        distinction here.</span>
-<span class="line-empty" title="No Anys on this line!"></span>
-<span class="line-empty" title="No Anys on this line!">        """</span>
-<span class="line-empty" title="No Anys on this line!">        try:</span>
-<span class="line-precise" title="No Anys on this line!">            head = self.inspector.git.get_local_head()</span>
-<span class="line-precise" title="No Anys on this line!">        except subprocess.CalledProcessError:</span>
-<span class="line-precise" title="No Anys on this line!">            LOG.warning("No Head")</span>
-<span class="line-precise" title="No Anys on this line!">            return None</span>
-<span class="line-precise" title="No Anys on this line!">        return self.commits[head]</span>
 <span class="line-empty" title="No Anys on this line!"></span>
 <span class="line-precise" title="Any Types on this line: 
 Omitted Generics (x6)">    @time_it</span>
 <span class="line-precise" title="No Anys on this line!">    def _form_branches(self) -&gt; list[GitBranch]:</span>
 <span class="line-empty" title="No Anys on this line!">        """Post-process branches."""</span>
-<span class="line-precise" title="No Anys on this line!">        branches_raw = self.inspector.git.get_branches()</span>
+<span class="line-precise" title="No Anys on this line!">        branches_raw = self.inspector.git.get_branches(self.remotes)</span>
 <span class="line-precise" title="No Anys on this line!">        branches: list[GitBranch] = []</span>
 <span class="line-empty" title="No Anys on this line!"></span>
 <span class="line-precise" title="No Anys on this line!">        for branch_name, sha in branches_raw["local"].items():</span>
@@ -1256,6 +1234,32 @@ Omitted Generics (x6)">    @time_it</span>
 <span class="line-empty" title="No Anys on this line!">            )</span>
 <span class="line-empty" title="No Anys on this line!"></span>
 <span class="line-precise" title="No Anys on this line!">        return branches</span>
+<span class="line-empty" title="No Anys on this line!"></span>
+<span class="line-precise" title="Any Types on this line: 
+Omitted Generics (x6)">    @time_it</span>
+<span class="line-precise" title="No Anys on this line!">    def _form_local_head(self) -&gt; GitHead:</span>
+<span class="line-empty" title="No Anys on this line!">        """Post-process HEAD."""</span>
+<span class="line-empty" title="No Anys on this line!">        try:</span>
+<span class="line-precise" title="No Anys on this line!">            head_commit_sha = self.inspector.git.get_local_head_commit_sha()</span>
+<span class="line-precise" title="No Anys on this line!">        except subprocess.CalledProcessError:</span>
+<span class="line-precise" title="No Anys on this line!">            LOG.warning("No Head")</span>
+<span class="line-precise" title="No Anys on this line!">            return GitHead()</span>
+<span class="line-empty" title="No Anys on this line!"></span>
+<span class="line-precise" title="No Anys on this line!">        head_branch_name = self.inspector.git.get_local_head_branch()</span>
+<span class="line-precise" title="No Anys on this line!">        if head_branch_name is None:</span>
+<span class="line-precise" title="No Anys on this line!">            return GitHead(commit=self.commits[head_commit_sha])</span>
+<span class="line-empty" title="No Anys on this line!"></span>
+<span class="line-precise" title="No Anys on this line!">        head_branch = [b for b in self.branches if b.name == head_branch_name]</span>
+<span class="line-precise" title="No Anys on this line!">        if len(head_branch) != 1:</span>
+<span class="line-precise" title="No Anys on this line!">            raise RuntimeError("Head branch not found!")</span>
+<span class="line-empty" title="No Anys on this line!"></span>
+<span class="line-precise" title="No Anys on this line!">        return GitHead(commit=self.commits[head_commit_sha], branch=head_branch[0])</span>
+<span class="line-empty" title="No Anys on this line!"></span>
+<span class="line-precise" title="Any Types on this line: 
+Omitted Generics (x6)">    @time_it</span>
+<span class="line-precise" title="No Anys on this line!">    def _form_remote_heads(self) -&gt; dict[str, str]:</span>
+<span class="line-empty" title="No Anys on this line!">        """Form remote HEADs."""</span>
+<span class="line-precise" title="No Anys on this line!">        return self.inspector.git.get_remote_heads_sym_ref(self.remotes)</span>
 <span class="line-empty" title="No Anys on this line!"></span>
 <span class="line-precise" title="Any Types on this line: 
 Omitted Generics (x6)">    @time_it</span>
@@ -1371,13 +1375,6 @@ Omitted Generics (x1)">            sha: obj</span>
 Omitted Generics (x1)">            if isinstance(obj, object_type)</span>
 <span class="line-empty" title="No Anys on this line!">        }</span>
 <span class="line-empty" title="No Anys on this line!"></span>
-<span class="line-empty" title="No Anys on this line!">    @property</span>
-<span class="line-precise" title="No Anys on this line!">    def is_detached_head(self) -&gt; bool:</span>
-<span class="line-empty" title="No Anys on this line!">        """Check if the repository is in a detached HEAD state."""</span>
-<span class="line-precise" title="No Anys on this line!">        if self.head is None:</span>
-<span class="line-precise" title="No Anys on this line!">            return False  # HEAD cannot be detached if it doesn't exist!</span>
-<span class="line-precise" title="No Anys on this line!">        return not self.head_branches</span>
-<span class="line-empty" title="No Anys on this line!"></span>
 <span class="line-precise" title="Any Types on this line: 
 Omitted Generics (x6)">    @time_it</span>
 <span class="line-any" title="Any Types on this line: 
@@ -1440,13 +1437,7 @@ Explicit (x1)">            **kwargs,</span>
 <span class="line-precise" title="No Anys on this line!">        for branch in local_branches:</span>
 <span class="line-precise" title="No Anys on this line!">            out += f"\n    {branch.name}"</span>
 <span class="line-empty" title="No Anys on this line!"></span>
-<span class="line-precise" title="No Anys on this line!">        out += f"\n  HEAD: {None if self.head is None else self.head.sha[:8]}"</span>
-<span class="line-precise" title="No Anys on this line!">        if self.is_detached_head:</span>
-<span class="line-precise" title="No Anys on this line!">            out += " (DETACHED)"</span>
-<span class="line-empty" title="No Anys on this line!">        else:</span>
-<span class="line-precise" title="No Anys on this line!">            for branch in self.head_branches:</span>
-<span class="line-precise" title="No Anys on this line!">                out += f"\n    {branch.name}"</span>
-<span class="line-empty" title="No Anys on this line!"></span>
+<span class="line-precise" title="No Anys on this line!">        out += f"\n  HEAD: {self.head}"</span>
 <span class="line-precise" title="No Anys on this line!">        if self.stashes:</span>
 <span class="line-precise" title="No Anys on this line!">            out += f"\n  stashes: {len(self.stashes)}"</span>
 <span class="line-precise" title="No Anys on this line!">            for stash in self.stashes:</span>

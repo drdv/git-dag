@@ -320,7 +320,7 @@
 <span class="kn">from</span> <span class="nn">git_dag.git_objects</span> <span class="kn">import</span> <span class="n">DictStrStr</span>
 <span class="kn">from</span> <span class="nn">git_dag.utils</span> <span class="kn">import</span> <span class="n">escape_decode</span>
 
-<span class="n">logging</span><span class="o">.</span><span class="n">basicConfig</span><span class="p">(</span><span class="n">level</span><span class="o">=</span><span class="n">logging</span><span class="o">.</span><span class="n">INFO</span><span class="p">)</span>
+<span class="n">logging</span><span class="o">.</span><span class="n">basicConfig</span><span class="p">(</span><span class="n">level</span><span class="o">=</span><span class="n">logging</span><span class="o">.</span><span class="n">WARNING</span><span class="p">)</span>
 <span class="n">LOG</span> <span class="o">=</span> <span class="n">logging</span><span class="o">.</span><span class="n">getLogger</span><span class="p">(</span><span class="vm">__name__</span><span class="p">)</span>
 
 
@@ -616,10 +616,36 @@
         <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">_run</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;cat-file -p </span><span class="si">{</span><span class="n">sha</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span><span class="o">.</span><span class="n">strip</span><span class="p">()</span><span class="o">.</span><span class="n">split</span><span class="p">(</span><span class="s2">&quot;</span><span class="se">\n</span><span class="s2">&quot;</span><span class="p">)</span></div>
 
 
+<div class="viewcode-block" id="GitCommand.get_remotes">
+<a class="viewcode-back" href="../../.autosummary/git_dag.git_commands.GitCommand.html#git_dag.git_commands.GitCommand.get_remotes">[docs]</a>
+    <span class="k">def</span> <span class="nf">get_remotes</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">list</span><span class="p">[</span><span class="nb">str</span><span class="p">]:</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;Return list of remotes.&quot;&quot;&quot;</span>
+        <span class="n">cmd_output</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">_run</span><span class="p">(</span><span class="s2">&quot;remote&quot;</span><span class="p">)</span><span class="o">.</span><span class="n">strip</span><span class="p">()</span><span class="o">.</span><span class="n">split</span><span class="p">(</span><span class="s2">&quot;</span><span class="se">\n</span><span class="s2">&quot;</span><span class="p">)</span>
+        <span class="k">if</span> <span class="nb">len</span><span class="p">(</span><span class="n">cmd_output</span><span class="p">)</span> <span class="o">==</span> <span class="mi">1</span> <span class="ow">and</span> <span class="s2">&quot;&quot;</span> <span class="ow">in</span> <span class="n">cmd_output</span><span class="p">:</span>
+            <span class="k">return</span> <span class="p">[]</span>
+        <span class="k">return</span> <span class="n">cmd_output</span></div>
+
+
+<div class="viewcode-block" id="GitCommand.get_remote_heads_sym_ref">
+<a class="viewcode-back" href="../../.autosummary/git_dag.git_commands.GitCommand.html#git_dag.git_commands.GitCommand.get_remote_heads_sym_ref">[docs]</a>
+    <span class="k">def</span> <span class="nf">get_remote_heads_sym_ref</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">remotes</span><span class="p">:</span> <span class="nb">list</span><span class="p">[</span><span class="nb">str</span><span class="p">])</span> <span class="o">-&gt;</span> <span class="nb">dict</span><span class="p">[</span><span class="nb">str</span><span class="p">,</span> <span class="nb">str</span><span class="p">]:</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;Return symbolic references of remote heads.&quot;&quot;&quot;</span>
+        <span class="n">symb_refs</span> <span class="o">=</span> <span class="p">{}</span>
+        <span class="k">for</span> <span class="n">remote</span> <span class="ow">in</span> <span class="n">remotes</span><span class="p">:</span>
+            <span class="n">cmd</span> <span class="o">=</span> <span class="sa">f</span><span class="s2">&quot;symbolic-ref refs/remotes/</span><span class="si">{</span><span class="n">remote</span><span class="si">}</span><span class="s2">/HEAD&quot;</span>
+            <span class="k">try</span><span class="p">:</span>
+                <span class="n">cmd_output</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">_run</span><span class="p">(</span><span class="n">cmd</span><span class="p">)</span><span class="o">.</span><span class="n">strip</span><span class="p">()</span><span class="o">.</span><span class="n">split</span><span class="p">(</span><span class="s2">&quot;</span><span class="se">\n</span><span class="s2">&quot;</span><span class="p">)</span>
+                <span class="c1"># drop refs/remotes</span>
+                <span class="n">symb_refs</span><span class="p">[</span><span class="sa">f</span><span class="s2">&quot;</span><span class="si">{</span><span class="n">remote</span><span class="si">}</span><span class="s2">/HEAD&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="s2">&quot;/&quot;</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="n">cmd_output</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span><span class="o">.</span><span class="n">split</span><span class="p">(</span><span class="s2">&quot;/&quot;</span><span class="p">)[</span><span class="mi">2</span><span class="p">:])</span>
+            <span class="k">except</span> <span class="n">subprocess</span><span class="o">.</span><span class="n">CalledProcessError</span><span class="p">:</span>
+                <span class="n">LOG</span><span class="o">.</span><span class="n">warning</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;HEAD not defined for </span><span class="si">{</span><span class="n">remote</span><span class="si">}</span><span class="s2">.&quot;</span><span class="p">)</span>
+        <span class="k">return</span> <span class="n">symb_refs</span></div>
+
+
 <div class="viewcode-block" id="GitCommand.get_branches">
 <a class="viewcode-back" href="../../.autosummary/git_dag.git_commands.GitCommand.html#git_dag.git_commands.GitCommand.get_branches">[docs]</a>
-    <span class="k">def</span> <span class="nf">get_branches</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">dict</span><span class="p">[</span><span class="nb">str</span><span class="p">,</span> <span class="n">DictStrStr</span><span class="p">]:</span>
-<span class="w">        </span><span class="sd">&quot;&quot;&quot;Get local/remote branches.&quot;&quot;&quot;</span>
+    <span class="k">def</span> <span class="nf">get_branches</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">remotes</span><span class="p">:</span> <span class="nb">list</span><span class="p">[</span><span class="nb">str</span><span class="p">])</span> <span class="o">-&gt;</span> <span class="nb">dict</span><span class="p">[</span><span class="nb">str</span><span class="p">,</span> <span class="n">DictStrStr</span><span class="p">]:</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;Get local/remote branches (while excluding remote HEADs).&quot;&quot;&quot;</span>
         <span class="n">refs</span><span class="p">:</span> <span class="nb">dict</span><span class="p">[</span><span class="nb">str</span><span class="p">,</span> <span class="n">DictStrStr</span><span class="p">]</span> <span class="o">=</span> <span class="p">{</span><span class="s2">&quot;local&quot;</span><span class="p">:</span> <span class="p">{},</span> <span class="s2">&quot;remote&quot;</span><span class="p">:</span> <span class="p">{}}</span>
 
         <span class="k">try</span><span class="p">:</span>
@@ -634,16 +660,26 @@
                 <span class="n">refs</span><span class="p">[</span><span class="s2">&quot;local&quot;</span><span class="p">][</span><span class="s2">&quot;/&quot;</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="n">name</span><span class="o">.</span><span class="n">split</span><span class="p">(</span><span class="s2">&quot;/&quot;</span><span class="p">)[</span><span class="mi">2</span><span class="p">:])]</span> <span class="o">=</span> <span class="n">sha</span>
 
             <span class="k">if</span> <span class="s2">&quot;refs/remotes&quot;</span> <span class="ow">in</span> <span class="n">ref</span><span class="p">:</span>
-                <span class="n">refs</span><span class="p">[</span><span class="s2">&quot;remote&quot;</span><span class="p">][</span><span class="s2">&quot;/&quot;</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="n">name</span><span class="o">.</span><span class="n">split</span><span class="p">(</span><span class="s2">&quot;/&quot;</span><span class="p">)[</span><span class="mi">2</span><span class="p">:])]</span> <span class="o">=</span> <span class="n">sha</span>
+                <span class="c1"># skip remote HEADs (handled in  GitCommand.get_remote_heads_sym_ref)</span>
+                <span class="k">if</span> <span class="n">name</span> <span class="ow">not</span> <span class="ow">in</span> <span class="p">[</span><span class="sa">f</span><span class="s2">&quot;refs/remotes/</span><span class="si">{</span><span class="n">remote</span><span class="si">}</span><span class="s2">/HEAD&quot;</span> <span class="k">for</span> <span class="n">remote</span> <span class="ow">in</span> <span class="n">remotes</span><span class="p">]:</span>
+                    <span class="n">refs</span><span class="p">[</span><span class="s2">&quot;remote&quot;</span><span class="p">][</span><span class="s2">&quot;/&quot;</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="n">name</span><span class="o">.</span><span class="n">split</span><span class="p">(</span><span class="s2">&quot;/&quot;</span><span class="p">)[</span><span class="mi">2</span><span class="p">:])]</span> <span class="o">=</span> <span class="n">sha</span>
 
         <span class="k">return</span> <span class="n">refs</span></div>
 
 
-<div class="viewcode-block" id="GitCommand.get_local_head">
-<a class="viewcode-back" href="../../.autosummary/git_dag.git_commands.GitCommand.html#git_dag.git_commands.GitCommand.get_local_head">[docs]</a>
-    <span class="k">def</span> <span class="nf">get_local_head</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">str</span><span class="p">:</span>
-<span class="w">        </span><span class="sd">&quot;&quot;&quot;Return local HEAD.&quot;&quot;&quot;</span>
+<div class="viewcode-block" id="GitCommand.get_local_head_commit_sha">
+<a class="viewcode-back" href="../../.autosummary/git_dag.git_commands.GitCommand.html#git_dag.git_commands.GitCommand.get_local_head_commit_sha">[docs]</a>
+    <span class="k">def</span> <span class="nf">get_local_head_commit_sha</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">str</span><span class="p">:</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;Return SHA of the commit pointed to by local HEAD.&quot;&quot;&quot;</span>
         <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">_run</span><span class="p">(</span><span class="s2">&quot;rev-parse HEAD&quot;</span><span class="p">)</span><span class="o">.</span><span class="n">strip</span><span class="p">()</span></div>
+
+
+<div class="viewcode-block" id="GitCommand.get_local_head_branch">
+<a class="viewcode-back" href="../../.autosummary/git_dag.git_commands.GitCommand.html#git_dag.git_commands.GitCommand.get_local_head_branch">[docs]</a>
+    <span class="k">def</span> <span class="nf">get_local_head_branch</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Optional</span><span class="p">[</span><span class="nb">str</span><span class="p">]:</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;Return name of branch pointed to by HEAD.&quot;&quot;&quot;</span>
+        <span class="n">branch_name</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">_run</span><span class="p">(</span><span class="s2">&quot;branch --show-current&quot;</span><span class="p">)</span><span class="o">.</span><span class="n">strip</span><span class="p">()</span>
+        <span class="k">return</span> <span class="n">branch_name</span> <span class="k">if</span> <span class="n">branch_name</span> <span class="k">else</span> <span class="kc">None</span></div>
 
 
 <div class="viewcode-block" id="GitCommand.local_branch_is_tracking">
@@ -992,7 +1028,7 @@
       
     </aside>
   </div>
-</div><script src="../../_static/documentation_options.js?v=707f4c3c"></script>
+</div><script src="../../_static/documentation_options.js?v=05cc5d2a"></script>
     <script src="../../_static/doctools.js?v=9bcbadda"></script>
     <script src="../../_static/sphinx_highlight.js?v=dc90522c"></script>
     <script src="../../_static/scripts/furo.js?v=5fa4622c"></script>

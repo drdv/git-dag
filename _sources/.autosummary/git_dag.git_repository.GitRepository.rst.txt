@@ -25,10 +25,4 @@ git\_dag.git\_repository.GitRepository
 
    
    
-   .. rubric:: Attributes
-
-   .. autosummary::
-   
-      ~GitRepository.is_detached_head
-   
    

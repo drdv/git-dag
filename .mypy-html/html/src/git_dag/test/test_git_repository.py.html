@@ -205,8 +205,6 @@
 <span id="L195" class="lineno"><a class="lineno" href="#L195">195</a></span>
 <span id="L196" class="lineno"><a class="lineno" href="#L196">196</a></span>
 <span id="L197" class="lineno"><a class="lineno" href="#L197">197</a></span>
-<span id="L198" class="lineno"><a class="lineno" href="#L198">198</a></span>
-<span id="L199" class="lineno"><a class="lineno" href="#L199">199</a></span>
 </pre></td>
 <td class="table-code"><pre><span class="line-empty" title="No Anys on this line!">"""Test git_repository.py."""</span>
 <span class="line-empty" title="No Anys on this line!"></span>
@@ -233,7 +231,7 @@
 <span class="line-precise" title="No Anys on this line!">    with caplog.at_level(logging.WARNING):</span>
 <span class="line-precise" title="No Anys on this line!">        repo = GitRepository(git_repository_empty)</span>
 <span class="line-empty" title="No Anys on this line!"></span>
-<span class="line-precise" title="No Anys on this line!">    assert not repo.is_detached_head</span>
+<span class="line-precise" title="No Anys on this line!">    assert not repo.head.is_defined</span>
 <span class="line-empty" title="No Anys on this line!"></span>
 <span class="line-precise" title="No Anys on this line!">    assert "No objects" in caplog.text</span>
 <span class="line-precise" title="No Anys on this line!">    assert "No Head" in caplog.text</span>
@@ -271,8 +269,8 @@
 <span class="line-precise" title="No Anys on this line!">    assert len(repo.filter_objects(GitTree).values()) == 1</span>
 <span class="line-precise" title="No Anys on this line!">    assert len(repo.filter_objects(GitBlob).values()) == 1</span>
 <span class="line-empty" title="No Anys on this line!"></span>
-<span class="line-precise" title="No Anys on this line!">    assert {b.name for b in repo.branches} == {"origin/HEAD", "origin/topic", "topic"}</span>
-<span class="line-precise" title="No Anys on this line!">    assert not repo.is_detached_head</span>
+<span class="line-precise" title="No Anys on this line!">    assert {b.name for b in repo.branches} == {"origin/topic", "topic"}</span>
+<span class="line-precise" title="No Anys on this line!">    assert not repo.head.is_detached</span>
 <span class="line-empty" title="No Anys on this line!"></span>
 <span class="line-empty" title="No Anys on this line!"></span>
 <span class="line-precise" title="No Anys on this line!">def test_repository_default(git_repository_default: Path) -&gt; None:</span>
@@ -304,7 +302,7 @@
 <span class="line-precise" title="No Anys on this line!">    assert not stashes[2].commit.is_reachable</span>
 <span class="line-empty" title="No Anys on this line!"></span>
 <span class="line-precise" title="No Anys on this line!">    assert {b.name for b in repo.branches} == {"main", "topic"}</span>
-<span class="line-precise" title="No Anys on this line!">    assert not repo.is_detached_head</span>
+<span class="line-precise" title="No Anys on this line!">    assert not repo.head.is_detached</span>
 <span class="line-empty" title="No Anys on this line!"></span>
 <span class="line-empty" title="No Anys on this line!"></span>
 <span class="line-precise" title="No Anys on this line!">def test_repository_default_with_notes(git_repository_default_with_notes: Path) -&gt; None:</span>
@@ -365,8 +363,6 @@ Explicit (x3)">        repo.show(dag_backend="missing", format="gv", filename=re
 <span class="line-precise" title="No Anys on this line!">        repo_path,</span>
 <span class="line-empty" title="No Anys on this line!">    )</span>
 <span class="line-precise" title="No Anys on this line!">    repo = GitRepository(repo_path, parse_trees=True)</span>
-<span class="line-empty" title="No Anys on this line!"></span>
-<span class="line-empty" title="No Anys on this line!">    # FIXME: to test setting the show_* flags to False one at a time</span>
 <span class="line-any" title="Any Types on this line: 
 Explicit (x3)">    repo.show(</span>
 <span class="line-precise" title="No Anys on this line!">        show_unreachable_commits=True,</span>
