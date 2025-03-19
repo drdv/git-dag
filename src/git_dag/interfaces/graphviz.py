@@ -4,7 +4,7 @@ from typing import Any, Literal, Optional
 
 from graphviz import Digraph  # type: ignore[import-untyped]
 
-from ..constants import STANDALONE_CLUSTER_BORDER_COLOR
+from ..constants import STANDALONE_CLUSTER_PARAMS
 from .dag_base import DagBase
 
 
@@ -63,8 +63,10 @@ class DagGraphviz(DagBase):
                     name="cluster_standalone",
                     edge_attr={"style": "invis"},
                 ) as c:
-                    c.attr(label="Standalone", color=STANDALONE_CLUSTER_BORDER_COLOR)
-                    c.node("node", style="invis")  # to display an empty cluster
+                    c.attr(
+                        label=STANDALONE_CLUSTER_PARAMS["label"],
+                        color=STANDALONE_CLUSTER_PARAMS["color"],
+                    )
 
                     sorted_standalone_trees = sorted(
                         self.standalone_trees, key=lambda x: (x["label"], x["tooltip"])
@@ -83,6 +85,9 @@ class DagGraphviz(DagBase):
                     for node in sorted_standalone_blobs:
                         c.node(**node)
                     c.edges(zip(blob_names, blob_names[1:]))
+
+                    if not tree_names and not blob_names:
+                        c.node("node", style="invis")  # to display an empty cluster
 
         self._dag = Digraph(
             format=format,

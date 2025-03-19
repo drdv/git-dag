@@ -19,7 +19,7 @@ ALL_ARGS = {
     "-R": ("range", None),
     "-n": ("max_numb_commits", 1000),
     "--rankdir": ("rankdir", "TB"),
-    "--bgcolor": ("bgcolor", "gray42"),
+    "--bgcolor": ("bgcolor", "transparent"),
     "-u": ("show_unreachable_commits", False),
     "-t": ("show_tags", False),
     "-D": ("show_deleted_tags", False),

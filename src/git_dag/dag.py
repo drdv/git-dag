@@ -22,8 +22,9 @@ from .constants import (
     GIT_EMPTY_TREE_OBJECT_SHA,
     SHA_LIMIT,
     DagBackends,
+    DictStrStr,
 )
-from .git_objects import DictStrStr, GitBlob, GitCommit, GitTag, GitTree
+from .git_objects import GitBlob, GitCommit, GitTag, GitTree
 from .interfaces.graphviz import DagGraphviz
 from .utils import transform_ascii_control_chars
 
@@ -406,11 +407,16 @@ class DagVisualizer(
                 case GitCommit():
                     self._add_commit(sha, item)
 
+        # no point in displaying HEAD if branches are not displayed
         if self.show_local_branches:
             self._add_local_branches()
+            if self.show_head:
+                self._add_local_head()
 
         if self.show_remote_branches:
             self._add_remote_branches()
+            if self.show_head:
+                self._add_remote_heads()
 
         if self.show_tags:
             self._add_annotated_tags()
@@ -418,10 +424,6 @@ class DagVisualizer(
 
         if self.show_stash:
             self._add_stashes()
-
-        if self.show_head:
-            self._add_local_head()
-            self._add_remote_heads()
 
         self.dag.build(
             format=self.format,

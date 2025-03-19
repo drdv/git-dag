@@ -3,6 +3,8 @@
 from enum import Enum
 from typing import Final
 
+DictStrStr = dict[str, str]
+
 #: See https://stackoverflow.com/a/21868228
 TAG_FORMAT_FIELDS: Final[list[str]] = [
     "refname",  # short name of lightweight tag (LWT)
@@ -35,7 +37,7 @@ class DagBackends(Enum):
 GIT_EMPTY_TREE_OBJECT_SHA: Final[str] = "4b825dc642cb6eb9a060e54bf8d69288fbee4904"
 
 #: Node colors (https://graphviz.org/doc/info/colors.html).
-DAG_NODE_COLORS: Final[dict[str, str]] = {
+DAG_NODE_COLORS: Final[DictStrStr] = {
     "commit": "gold3",
     "commit-unreachable": "darkorange",
     "tree": "deepskyblue4",
@@ -51,16 +53,20 @@ DAG_NODE_COLORS: Final[dict[str, str]] = {
     "notes": "white",
 }
 
-#: Color of border of the cluster for standalone trees and blobs
-STANDALONE_CLUSTER_BORDER_COLOR: str = "lightgrey"
-
-DAG_ATTR: Final[dict[str, str]] = {
-    "rankdir": "TB",
-    "dpi": "None",
-    "bgcolor": "gray42",
+#: Parameters of the cluster for standalone trees and blobs
+STANDALONE_CLUSTER_PARAMS: DictStrStr = {
+    "color": "lightgrey",
+    "label": "Standalone\nTrees & Blobs",
 }
 
-DAG_NODE_ATTR: Final[dict[str, str]] = {
+
+DAG_ATTR: Final[DictStrStr] = {
+    "rankdir": "TB",
+    "dpi": "None",
+    "bgcolor": "transparent",
+}
+
+DAG_NODE_ATTR: Final[DictStrStr] = {
     "shape": "box",
     "style": "filled",
     "margin": "0.01,0.01",
@@ -68,7 +74,7 @@ DAG_NODE_ATTR: Final[dict[str, str]] = {
     "height": "0.02",
 }
 
-DAG_EDGE_ATTR: Final[dict[str, str]] = {
+DAG_EDGE_ATTR: Final[DictStrStr] = {
     "arrowsize": "0.5",
     "color": "gray10",
 }

@@ -50,6 +50,14 @@ class CustomArgparseNamespace(argparse.Namespace):
 
 def get_cla_parser() -> argparse.ArgumentParser:
     """Define CLA parser."""
+
+    def max_numb_commits_type(value_str: str) -> Optional[int]:
+        """Handle the type returned by the -n flag."""
+        value = int(value_str)
+        if value < 1:
+            return None
+        return value
+
     parser = argparse.ArgumentParser(description="Visualize the git DAG.")
 
     parser.add_argument(
@@ -63,7 +71,7 @@ def get_cla_parser() -> argparse.ArgumentParser:
         "-f",
         "--file",
         default="git-dag.gv",
-        help="Output graphviz file (e.g., ``/path/to/file``).",
+        help="Output graphviz file (e.g., `/path/to/file`).",
     )
 
     parser.add_argument(
@@ -79,13 +87,13 @@ def get_cla_parser() -> argparse.ArgumentParser:
         default="svg",
         help=(
             "Graphviz output format (tooltips are available only with svg). "
-            "If the format is set to 'gv', only the graphviz source file is generated."
+            "If the format is set to `gv`, only the graphviz source file is generated."
         ),
     )
 
     parser.add_argument(
         "--dpi",
-        help="DPI of output figure (used with ``--format png``).",
+        help="DPI of output figure (used with `--format png`).",
     )
 
     parser.add_argument(
@@ -108,9 +116,16 @@ def get_cla_parser() -> argparse.ArgumentParser:
     parser.add_argument(
         "-n",
         "--max-numb-commits",
-        type=int,
+        type=max_numb_commits_type,
         default=1000,  # default protection
-        help="Max number of commits (set to 0 to remove limitation).",
+        help=(
+            "Max number of commits to display. If set to 0 and the -i flag is not "
+            "specified, no limitations are considered whatsoever. If set to n > 0, "
+            "only n commits reachable from the initial references are displayed (in "
+            "the absence of user-defined initial references, the output of "
+            "`git rev-list --all --objects --no-object-names` is used (note that it "
+            "might not include some unreachable commits."
+        ),
     )
 
     parser.add_argument(
@@ -122,8 +137,8 @@ def get_cla_parser() -> argparse.ArgumentParser:
 
     parser.add_argument(
         "--bgcolor",
-        default="gray42",
-        help="bgcolor argument of graphviz (e.g., transparent).",
+        default="transparent",
+        help="bgcolor argument of graphviz (e.g., gray42).",
     )
 
     parser.add_argument(
@@ -172,7 +187,7 @@ def get_cla_parser() -> argparse.ArgumentParser:
         "-H",
         dest="show_head",
         action="store_true",
-        help="Show head.",
+        help="Show head (has effect only when -l or -r are set as well).",
     )
 
     parser.add_argument(
@@ -186,21 +201,27 @@ def get_cla_parser() -> argparse.ArgumentParser:
         "--trees-standalone",
         dest="show_trees_standalone",
         action="store_true",
-        help="Show standalone trees.",
+        help=(
+            "Show trees that don't have parent commits reachable from "
+            "a branch a tag or the reflog."
+        ),
     )
 
     parser.add_argument(
         "-B",
         dest="show_blobs",
         action="store_true",
-        help="Show blobs (discarded if ``-T`` is not set).",
+        help="Show blobs (discarded if -T is not set).",
     )
 
     parser.add_argument(
         "--blobs-standalone",
         dest="show_blobs_standalone",
         action="store_true",
-        help="Show standalone blobs.",
+        help=(
+            "Show blobs that don't have parent commits reachable from "
+            "a branch a tag or the reflog."
+        ),
     )
 
     parser.add_argument(
@@ -243,8 +264,6 @@ def get_cla(raw_args: Optional[list[str]] = None) -> CustomArgparseNamespace:
 def main(raw_args: Optional[list[str]] = None) -> None:
     """CLI entry poit."""
     args = get_cla(raw_args)
-    max_numb_commits = None if args.max_numb_commits < 1 else args.max_numb_commits
-
     logging.getLogger().setLevel(getattr(logging, args.log_level))
 
     GitRepository(args.path, parse_trees=args.show_trees).show(
@@ -271,7 +290,7 @@ def main(raw_args: Optional[list[str]] = None) -> None:
             "dpi": args.dpi,
             "bgcolor": args.bgcolor,
         },
-        max_numb_commits=max_numb_commits,
+        max_numb_commits=args.max_numb_commits,
     )
 
 

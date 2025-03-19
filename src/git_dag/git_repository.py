@@ -14,11 +14,10 @@ from typing import Annotated, Any, Callable, Optional, Type, cast
 
 from pydantic import BeforeValidator, TypeAdapter
 
-from .constants import GIT_EMPTY_TREE_OBJECT_SHA, DagBackends
+from .constants import GIT_EMPTY_TREE_OBJECT_SHA, DagBackends, DictStrStr
 from .dag import DagVisualizer
 from .git_commands import GitCommand
 from .git_objects import (
-    DictStrStr,
     GitBlob,
     GitBranch,
     GitCommit,
@@ -264,7 +263,9 @@ class GitInspector:
         self.commits_info = self._get_commits_info()
         self.tags_info_parsed = self.git.get_tags_info_parsed()
         self.trees_info = self._get_trees_info() if self.parse_trees else {}
-        self.blobs_and_trees_names = self.git.get_blobs_and_trees_names(self.trees_info)
+        self.blobs_and_trees_names: DictStrStr = self.git.get_blobs_and_trees_names(
+            self.trees_info
+        )
         self.stashes_info_parsed = RegexParser.parse_stash_info(
             self.git.get_stash_info()
         )
@@ -471,9 +472,9 @@ class GitRepository:
         self.remotes: list[str] = self.inspector.git.get_remotes()
         self.branches: list[GitBranch] = self._form_branches()
         self.head: GitHead = self._form_local_head()
-        self.remote_heads: dict[str, str] = self._form_remote_heads()
+        self.remote_heads: DictStrStr = self._form_remote_heads()
         self.stashes: list[GitStash] = self._form_stashes()
-        self.notes_dag_root: Optional[dict[str, str]] = self.inspector.notes_dag_root
+        self.notes_dag_root: Optional[DictStrStr] = self.inspector.notes_dag_root
 
     @time_it
     def _form_branches(self) -> list[GitBranch]:
@@ -521,7 +522,7 @@ class GitRepository:
         return GitHead(commit=self.commits[head_commit_sha], branch=head_branch[0])
 
     @time_it
-    def _form_remote_heads(self) -> dict[str, str]:
+    def _form_remote_heads(self) -> DictStrStr:
         """Form remote HEADs."""
         return self.inspector.git.get_remote_heads_sym_ref(self.remotes)
 
@@ -610,7 +611,7 @@ class GitRepository:
         ]
 
     @time_it
-    def get_all_reachable_objects(self):
+    def get_all_reachable_objects(self) -> set[str]:
         """Return all reachable objects (from all refs and reflog)."""
         cmd = "--all --reflog --objects --no-object-names"
         out = self.inspector.git.rev_list(cmd).strip().split("\n")
@@ -628,8 +629,8 @@ class GitRepository:
         if max_numb_commits is not None:
             cmd += f" -n {max_numb_commits}"
 
-        out = self.inspector.git.rev_list(cmd).strip().split("\n")
-        return set() if len(out) == 1 and "" in out else set(out)
+        cmd_output = self.inspector.git.rev_list(cmd).strip().split("\n")
+        return set() if len(cmd_output) == 1 and "" in cmd_output else set(cmd_output)
 
     def filter_objects[T: GitObject](self, object_type: Type[T]) -> dict[str, T]:
         """Filter objects."""

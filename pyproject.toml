@@ -101,11 +101,7 @@ git_dag = ["py.typed"]
 write_to = "src/git_dag/_version.py"
 
 [tool.mypy]
-mypy_path = "src"
-packages = ["git_dag"]
 plugins = ["pydantic.mypy"]
-
-#disable_error_code = ["no-redef", "method-assign"] # disable mypy warnings temporarily
 
 follow_imports = "silent"
 warn_redundant_casts = true

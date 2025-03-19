@@ -148,6 +148,7 @@ def test_repository_default_dag(tmp_path: Path) -> None:
         repo_path,
     )
     repo = GitRepository(repo_path, parse_trees=True)
+    print(repo_path)
     repo.show(
         show_unreachable_commits=True,
         show_local_branches=True,
