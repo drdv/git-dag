@@ -1,4 +1,6 @@
 Examples
 =========
 
-TODO
+.. toctree::
+
+   example_git_internals

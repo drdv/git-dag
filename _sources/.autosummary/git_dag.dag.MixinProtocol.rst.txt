@@ -29,7 +29,9 @@ git\_dag.dag.MixinProtocol
       ~MixinProtocol.show_local_branches
       ~MixinProtocol.show_remote_branches
       ~MixinProtocol.show_trees
+      ~MixinProtocol.show_trees_standalone
       ~MixinProtocol.show_blobs
+      ~MixinProtocol.show_blobs_standalone
       ~MixinProtocol.show_tags
       ~MixinProtocol.show_deleted_tags
       ~MixinProtocol.show_stash

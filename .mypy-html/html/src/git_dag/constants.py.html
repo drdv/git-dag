@@ -82,11 +82,22 @@
 <span id="L72" class="lineno"><a class="lineno" href="#L72">72</a></span>
 <span id="L73" class="lineno"><a class="lineno" href="#L73">73</a></span>
 <span id="L74" class="lineno"><a class="lineno" href="#L74">74</a></span>
+<span id="L75" class="lineno"><a class="lineno" href="#L75">75</a></span>
+<span id="L76" class="lineno"><a class="lineno" href="#L76">76</a></span>
+<span id="L77" class="lineno"><a class="lineno" href="#L77">77</a></span>
+<span id="L78" class="lineno"><a class="lineno" href="#L78">78</a></span>
+<span id="L79" class="lineno"><a class="lineno" href="#L79">79</a></span>
+<span id="L80" class="lineno"><a class="lineno" href="#L80">80</a></span>
+<span id="L81" class="lineno"><a class="lineno" href="#L81">81</a></span>
+<span id="L82" class="lineno"><a class="lineno" href="#L82">82</a></span>
+<span id="L83" class="lineno"><a class="lineno" href="#L83">83</a></span>
 </pre></td>
 <td class="table-code"><pre><span class="line-empty" title="No Anys on this line!">"""Constants."""</span>
 <span class="line-empty" title="No Anys on this line!"></span>
 <span class="line-precise" title="No Anys on this line!">from enum import Enum</span>
 <span class="line-precise" title="No Anys on this line!">from typing import Final</span>
+<span class="line-empty" title="No Anys on this line!"></span>
+<span class="line-precise" title="No Anys on this line!">DictStrStr = dict[str, str]</span>
 <span class="line-empty" title="No Anys on this line!"></span>
 <span class="line-empty" title="No Anys on this line!">#: See https://stackoverflow.com/a/21868228</span>
 <span class="line-precise" title="No Anys on this line!">TAG_FORMAT_FIELDS: Final[list[str]] = [</span>
@@ -120,7 +131,7 @@
 <span class="line-precise" title="No Anys on this line!">GIT_EMPTY_TREE_OBJECT_SHA: Final[str] = "4b825dc642cb6eb9a060e54bf8d69288fbee4904"</span>
 <span class="line-empty" title="No Anys on this line!"></span>
 <span class="line-empty" title="No Anys on this line!">#: Node colors (https://graphviz.org/doc/info/colors.html).</span>
-<span class="line-precise" title="No Anys on this line!">DAG_NODE_COLORS: Final[dict[str, str]] = {</span>
+<span class="line-precise" title="No Anys on this line!">DAG_NODE_COLORS: Final[DictStrStr] = {</span>
 <span class="line-precise" title="No Anys on this line!">    "commit": "gold3",</span>
 <span class="line-precise" title="No Anys on this line!">    "commit-unreachable": "darkorange",</span>
 <span class="line-precise" title="No Anys on this line!">    "tree": "deepskyblue4",</span>
@@ -136,13 +147,20 @@
 <span class="line-precise" title="No Anys on this line!">    "notes": "white",</span>
 <span class="line-empty" title="No Anys on this line!">}</span>
 <span class="line-empty" title="No Anys on this line!"></span>
-<span class="line-precise" title="No Anys on this line!">DAG_ATTR: Final[dict[str, str]] = {</span>
-<span class="line-precise" title="No Anys on this line!">    "rankdir": "TB",</span>
-<span class="line-precise" title="No Anys on this line!">    "dpi": "None",</span>
-<span class="line-precise" title="No Anys on this line!">    "bgcolor": "gray42",</span>
+<span class="line-empty" title="No Anys on this line!">#: Parameters of the cluster for standalone trees and blobs</span>
+<span class="line-precise" title="No Anys on this line!">STANDALONE_CLUSTER_PARAMS: DictStrStr = {</span>
+<span class="line-precise" title="No Anys on this line!">    "color": "lightgrey",</span>
+<span class="line-precise" title="No Anys on this line!">    "label": "Standalone\nTrees &amp; Blobs",</span>
 <span class="line-empty" title="No Anys on this line!">}</span>
 <span class="line-empty" title="No Anys on this line!"></span>
-<span class="line-precise" title="No Anys on this line!">DAG_NODE_ATTR: Final[dict[str, str]] = {</span>
+<span class="line-empty" title="No Anys on this line!"></span>
+<span class="line-precise" title="No Anys on this line!">DAG_ATTR: Final[DictStrStr] = {</span>
+<span class="line-precise" title="No Anys on this line!">    "rankdir": "TB",</span>
+<span class="line-precise" title="No Anys on this line!">    "dpi": "None",</span>
+<span class="line-precise" title="No Anys on this line!">    "bgcolor": "transparent",</span>
+<span class="line-empty" title="No Anys on this line!">}</span>
+<span class="line-empty" title="No Anys on this line!"></span>
+<span class="line-precise" title="No Anys on this line!">DAG_NODE_ATTR: Final[DictStrStr] = {</span>
 <span class="line-precise" title="No Anys on this line!">    "shape": "box",</span>
 <span class="line-precise" title="No Anys on this line!">    "style": "filled",</span>
 <span class="line-precise" title="No Anys on this line!">    "margin": "0.01,0.01",</span>
@@ -150,7 +168,7 @@
 <span class="line-precise" title="No Anys on this line!">    "height": "0.02",</span>
 <span class="line-empty" title="No Anys on this line!">}</span>
 <span class="line-empty" title="No Anys on this line!"></span>
-<span class="line-precise" title="No Anys on this line!">DAG_EDGE_ATTR: Final[dict[str, str]] = {</span>
+<span class="line-precise" title="No Anys on this line!">DAG_EDGE_ATTR: Final[DictStrStr] = {</span>
 <span class="line-precise" title="No Anys on this line!">    "arrowsize": "0.5",</span>
 <span class="line-precise" title="No Anys on this line!">    "color": "gray10",</span>
 <span class="line-empty" title="No Anys on this line!">}</span>

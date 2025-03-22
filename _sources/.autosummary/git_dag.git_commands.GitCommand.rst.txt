@@ -18,6 +18,7 @@ git\_dag.git\_commands.GitCommand
    
       ~GitCommand.get_blobs_and_trees_names
       ~GitCommand.get_branches
+      ~GitCommand.get_fsck_unreachable_commits
       ~GitCommand.get_local_head_branch
       ~GitCommand.get_local_head_commit_sha
       ~GitCommand.get_notes_dag_root

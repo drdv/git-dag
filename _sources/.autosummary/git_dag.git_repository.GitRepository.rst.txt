@@ -17,6 +17,7 @@ git\_dag.git\_repository.GitRepository
       :nosignatures:
    
       ~GitRepository.filter_objects
+      ~GitRepository.get_all_reachable_objects
       ~GitRepository.get_objects_reachable_from
       ~GitRepository.post_process_inspector_data
       ~GitRepository.show

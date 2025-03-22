@@ -703,6 +703,18 @@
 <span id="L693" class="lineno"><a class="lineno" href="#L693">693</a></span>
 <span id="L694" class="lineno"><a class="lineno" href="#L694">694</a></span>
 <span id="L695" class="lineno"><a class="lineno" href="#L695">695</a></span>
+<span id="L696" class="lineno"><a class="lineno" href="#L696">696</a></span>
+<span id="L697" class="lineno"><a class="lineno" href="#L697">697</a></span>
+<span id="L698" class="lineno"><a class="lineno" href="#L698">698</a></span>
+<span id="L699" class="lineno"><a class="lineno" href="#L699">699</a></span>
+<span id="L700" class="lineno"><a class="lineno" href="#L700">700</a></span>
+<span id="L701" class="lineno"><a class="lineno" href="#L701">701</a></span>
+<span id="L702" class="lineno"><a class="lineno" href="#L702">702</a></span>
+<span id="L703" class="lineno"><a class="lineno" href="#L703">703</a></span>
+<span id="L704" class="lineno"><a class="lineno" href="#L704">704</a></span>
+<span id="L705" class="lineno"><a class="lineno" href="#L705">705</a></span>
+<span id="L706" class="lineno"><a class="lineno" href="#L706">706</a></span>
+<span id="L707" class="lineno"><a class="lineno" href="#L707">707</a></span>
 </pre></td>
 <td class="table-code"><pre><span class="line-empty" title="No Anys on this line!">"""Git repository parsing functionality."""</span>
 <span class="line-empty" title="No Anys on this line!"></span>
@@ -720,11 +732,10 @@
 <span class="line-empty" title="No Anys on this line!"></span>
 <span class="line-precise" title="No Anys on this line!">from pydantic import BeforeValidator, TypeAdapter</span>
 <span class="line-empty" title="No Anys on this line!"></span>
-<span class="line-precise" title="No Anys on this line!">from .constants import GIT_EMPTY_TREE_OBJECT_SHA, DagBackends</span>
+<span class="line-precise" title="No Anys on this line!">from .constants import GIT_EMPTY_TREE_OBJECT_SHA, DagBackends, DictStrStr</span>
 <span class="line-precise" title="No Anys on this line!">from .dag import DagVisualizer</span>
 <span class="line-precise" title="No Anys on this line!">from .git_commands import GitCommand</span>
 <span class="line-precise" title="No Anys on this line!">from .git_objects import (</span>
-<span class="line-empty" title="No Anys on this line!">    DictStrStr,</span>
 <span class="line-empty" title="No Anys on this line!">    GitBlob,</span>
 <span class="line-empty" title="No Anys on this line!">    GitBranch,</span>
 <span class="line-empty" title="No Anys on this line!">    GitCommit,</span>
@@ -987,8 +998,10 @@ Omitted Generics (x6)">    @time_it</span>
 <span class="line-precise" title="No Anys on this line!">        self.commits_sha = self._get_commits_sha()</span>
 <span class="line-precise" title="No Anys on this line!">        self.commits_info = self._get_commits_info()</span>
 <span class="line-precise" title="No Anys on this line!">        self.tags_info_parsed = self.git.get_tags_info_parsed()</span>
-<span class="line-precise" title="No Anys on this line!">        self.blobs_and_trees_names = self.git.get_blobs_and_trees_names()</span>
 <span class="line-precise" title="No Anys on this line!">        self.trees_info = self._get_trees_info() if self.parse_trees else {}</span>
+<span class="line-precise" title="No Anys on this line!">        self.blobs_and_trees_names: DictStrStr = self.git.get_blobs_and_trees_names(</span>
+<span class="line-precise" title="No Anys on this line!">            self.trees_info</span>
+<span class="line-empty" title="No Anys on this line!">        )</span>
 <span class="line-precise" title="No Anys on this line!">        self.stashes_info_parsed = RegexParser.parse_stash_info(</span>
 <span class="line-precise" title="No Anys on this line!">            self.git.get_stash_info()</span>
 <span class="line-empty" title="No Anys on this line!">        )</span>
@@ -1050,6 +1063,8 @@ Omitted Generics (x3)">        all_commits = set(</span>
 <span class="line-empty" title="No Anys on this line!"></span>
 <span class="line-precise" title="No Anys on this line!">        return commits_info</span>
 <span class="line-empty" title="No Anys on this line!"></span>
+<span class="line-precise" title="Any Types on this line: 
+Omitted Generics (x6)">    @time_it</span>
 <span class="line-precise" title="No Anys on this line!">    def _get_trees_info(self) -&gt; dict[str, list[str]]:</span>
 <span class="line-empty" title="No Anys on this line!">        """Get content of object files for all trees.</span>
 <span class="line-empty" title="No Anys on this line!"></span>
@@ -1198,15 +1213,16 @@ Omitted Generics (x6)">    @time_it</span>
 <span class="line-precise" title="No Anys on this line!">    def post_process_inspector_data(self) -&gt; None:</span>
 <span class="line-empty" title="No Anys on this line!">        """Post-process inspector data (see :func:`GitInspector.get_raw_objects`)."""</span>
 <span class="line-precise" title="No Anys on this line!">        self.objects: dict[str, GitObject] = self._form_objects()</span>
+<span class="line-precise" title="No Anys on this line!">        self.all_reachable_objects_sha: set[str] = self.get_all_reachable_objects()</span>
 <span class="line-precise" title="No Anys on this line!">        self.commits = self.filter_objects(GitCommit)</span>
 <span class="line-precise" title="No Anys on this line!">        self.tags: dict[str, GitTag] = self._form_annotated_tags()</span>
 <span class="line-precise" title="No Anys on this line!">        self.tags_lw: dict[str, GitTagLightweight] = self._form_lightweight_tags()</span>
 <span class="line-precise" title="No Anys on this line!">        self.remotes: list[str] = self.inspector.git.get_remotes()</span>
 <span class="line-precise" title="No Anys on this line!">        self.branches: list[GitBranch] = self._form_branches()</span>
 <span class="line-precise" title="No Anys on this line!">        self.head: GitHead = self._form_local_head()</span>
-<span class="line-precise" title="No Anys on this line!">        self.remote_heads: dict[str, str] = self._form_remote_heads()</span>
+<span class="line-precise" title="No Anys on this line!">        self.remote_heads: DictStrStr = self._form_remote_heads()</span>
 <span class="line-precise" title="No Anys on this line!">        self.stashes: list[GitStash] = self._form_stashes()</span>
-<span class="line-precise" title="No Anys on this line!">        self.notes_dag_root: Optional[dict[str, str]] = self.inspector.notes_dag_root</span>
+<span class="line-precise" title="No Anys on this line!">        self.notes_dag_root: Optional[DictStrStr] = self.inspector.notes_dag_root</span>
 <span class="line-empty" title="No Anys on this line!"></span>
 <span class="line-precise" title="Any Types on this line: 
 Omitted Generics (x6)">    @time_it</span>
@@ -1257,7 +1273,7 @@ Omitted Generics (x6)">    @time_it</span>
 <span class="line-empty" title="No Anys on this line!"></span>
 <span class="line-precise" title="Any Types on this line: 
 Omitted Generics (x6)">    @time_it</span>
-<span class="line-precise" title="No Anys on this line!">    def _form_remote_heads(self) -&gt; dict[str, str]:</span>
+<span class="line-precise" title="No Anys on this line!">    def _form_remote_heads(self) -&gt; DictStrStr:</span>
 <span class="line-empty" title="No Anys on this line!">        """Form remote HEADs."""</span>
 <span class="line-precise" title="No Anys on this line!">        return self.inspector.git.get_remote_heads_sym_ref(self.remotes)</span>
 <span class="line-empty" title="No Anys on this line!"></span>
@@ -1351,18 +1367,29 @@ Omitted Generics (x6)">    @time_it</span>
 <span class="line-empty" title="No Anys on this line!"></span>
 <span class="line-precise" title="Any Types on this line: 
 Omitted Generics (x6)">    @time_it</span>
+<span class="line-precise" title="No Anys on this line!">    def get_all_reachable_objects(self) -&gt; set[str]:</span>
+<span class="line-empty" title="No Anys on this line!">        """Return all reachable objects (from all refs and reflog)."""</span>
+<span class="line-precise" title="No Anys on this line!">        cmd = "--all --reflog --objects --no-object-names"</span>
+<span class="line-precise" title="No Anys on this line!">        out = self.inspector.git.rev_list(cmd).strip().split("\n")</span>
+<span class="line-precise" title="Any Types on this line: 
+Omitted Generics (x6)">        return set() if len(out) == 1 and "" in out else set(out)</span>
+<span class="line-empty" title="No Anys on this line!"></span>
+<span class="line-precise" title="Any Types on this line: 
+Omitted Generics (x6)">    @time_it</span>
 <span class="line-precise" title="No Anys on this line!">    def get_objects_reachable_from(</span>
 <span class="line-empty" title="No Anys on this line!">        self,</span>
-<span class="line-empty" title="No Anys on this line!">        starting_objects: Optional[list[str]],</span>
+<span class="line-empty" title="No Anys on this line!">        init_refs: Optional[list[str]],</span>
 <span class="line-precise" title="No Anys on this line!">        max_numb_commits: Optional[int] = None,</span>
 <span class="line-empty" title="No Anys on this line!">    ) -&gt; set[str]:</span>
-<span class="line-empty" title="No Anys on this line!">        """Return SHA of all objects that are reachable from ``starting_objects``."""</span>
-<span class="line-precise" title="No Anys on this line!">        cla = " ".join(starting_objects) if starting_objects else "--all --reflog"</span>
+<span class="line-empty" title="No Anys on this line!">        """Return SHA of all objects that are reachable from ``init_refs``."""</span>
+<span class="line-precise" title="No Anys on this line!">        cla = " ".join(init_refs) if init_refs else "--all --reflog"</span>
 <span class="line-precise" title="No Anys on this line!">        cmd = f"{cla} --objects --no-object-names"</span>
 <span class="line-precise" title="No Anys on this line!">        if max_numb_commits is not None:</span>
 <span class="line-precise" title="No Anys on this line!">            cmd += f" -n {max_numb_commits}"</span>
+<span class="line-empty" title="No Anys on this line!"></span>
+<span class="line-precise" title="No Anys on this line!">        cmd_output = self.inspector.git.rev_list(cmd).strip().split("\n")</span>
 <span class="line-precise" title="Any Types on this line: 
-Omitted Generics (x3)">        return set(self.inspector.git.rev_list(cmd).strip().split("\n"))</span>
+Omitted Generics (x6)">        return set() if len(cmd_output) == 1 and "" in cmd_output else set(cmd_output)</span>
 <span class="line-empty" title="No Anys on this line!"></span>
 <span class="line-imprecise" title="Any Types on this line: 
 Omitted Generics (x2)">    def filter_objects[T: GitObject](self, object_type: Type[T]) -&gt; dict[str, T]:</span>
@@ -1382,7 +1409,7 @@ Explicit (x2)">    def show(</span>
 <span class="line-empty" title="No Anys on this line!">        self,</span>
 <span class="line-precise" title="No Anys on this line!">        dag_backend: DagBackends = DagBackends.GRAPHVIZ,</span>
 <span class="line-precise" title="No Anys on this line!">        xdg_open: bool = False,</span>
-<span class="line-precise" title="No Anys on this line!">        starting_objects: Optional[list[str]] = None,</span>
+<span class="line-precise" title="No Anys on this line!">        init_refs: Optional[list[str]] = None,</span>
 <span class="line-precise" title="No Anys on this line!">        max_numb_commits: Optional[int] = 1000,</span>
 <span class="line-empty" title="No Anys on this line!">        **kwargs: Any,</span>
 <span class="line-empty" title="No Anys on this line!">    ) -&gt; Any:</span>
@@ -1394,19 +1421,19 @@ Explicit (x2)">    def show(</span>
 <span class="line-empty" title="No Anys on this line!">            DAG backend to use.</span>
 <span class="line-empty" title="No Anys on this line!">        xdg_open</span>
 <span class="line-empty" title="No Anys on this line!">            Whether to open the dag using ``xdg-open``.</span>
-<span class="line-empty" title="No Anys on this line!">        starting_objects</span>
-<span class="line-empty" title="No Anys on this line!">            A list of SHA of object (commits, tags, trees, blobs) that represents a</span>
-<span class="line-empty" title="No Anys on this line!">            limitation from where to display the DAG (there are no limitations when the</span>
-<span class="line-empty" title="No Anys on this line!">            list is empty).</span>
+<span class="line-empty" title="No Anys on this line!">        init_refs</span>
+<span class="line-empty" title="No Anys on this line!">            A list of branches, tags, git objects (commits, trees, blobs) that</span>
+<span class="line-empty" title="No Anys on this line!">            represents a limitation from where to display the DAG (there are no</span>
+<span class="line-empty" title="No Anys on this line!">            limitations when the list is empty).</span>
 <span class="line-empty" title="No Anys on this line!">        max_numb_commits</span>
 <span class="line-empty" title="No Anys on this line!">            Max number of commit objects to display.</span>
 <span class="line-empty" title="No Anys on this line!"></span>
 <span class="line-empty" title="No Anys on this line!">        """</span>
-<span class="line-precise" title="No Anys on this line!">        if not starting_objects and max_numb_commits is None:</span>
+<span class="line-precise" title="No Anys on this line!">        if not init_refs and max_numb_commits is None:</span>
 <span class="line-precise" title="No Anys on this line!">            objects_sha_to_include = None</span>
 <span class="line-empty" title="No Anys on this line!">        else:</span>
 <span class="line-precise" title="No Anys on this line!">            objects_sha_to_include = self.get_objects_reachable_from(</span>
-<span class="line-precise" title="No Anys on this line!">                starting_objects,</span>
+<span class="line-precise" title="No Anys on this line!">                init_refs,</span>
 <span class="line-precise" title="No Anys on this line!">                max_numb_commits,</span>
 <span class="line-empty" title="No Anys on this line!">            )</span>
 <span class="line-empty" title="No Anys on this line!"></span>

@@ -291,7 +291,6 @@
 <span id="L281" class="lineno"><a class="lineno" href="#L281">281</a></span>
 <span id="L282" class="lineno"><a class="lineno" href="#L282">282</a></span>
 <span id="L283" class="lineno"><a class="lineno" href="#L283">283</a></span>
-<span id="L284" class="lineno"><a class="lineno" href="#L284">284</a></span>
 </pre></td>
 <td class="table-code"><pre><span class="line-empty" title="No Anys on this line!">"""Pydantic models of git objects."""</span>
 <span class="line-empty" title="No Anys on this line!"></span>
@@ -303,9 +302,8 @@
 <span class="line-empty" title="No Anys on this line!"></span>
 <span class="line-precise" title="No Anys on this line!">from pydantic import BaseModel, ConfigDict, Field, computed_field</span>
 <span class="line-empty" title="No Anys on this line!"></span>
-<span class="line-precise" title="No Anys on this line!">from .constants import SHA_LIMIT</span>
+<span class="line-precise" title="No Anys on this line!">from .constants import SHA_LIMIT, DictStrStr</span>
 <span class="line-empty" title="No Anys on this line!"></span>
-<span class="line-precise" title="No Anys on this line!">DictStrStr = dict[str, str]</span>
 <span class="line-precise" title="No Anys on this line!">GitCommitRawDataType = dict[str, str | list[str]]</span>
 <span class="line-empty" title="No Anys on this line!">"""</span>
 <span class="line-empty" title="No Anys on this line!">Type of the data associated with a git commit object.</span>

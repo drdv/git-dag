@@ -421,6 +421,27 @@
 <span id="L411" class="lineno"><a class="lineno" href="#L411">411</a></span>
 <span id="L412" class="lineno"><a class="lineno" href="#L412">412</a></span>
 <span id="L413" class="lineno"><a class="lineno" href="#L413">413</a></span>
+<span id="L414" class="lineno"><a class="lineno" href="#L414">414</a></span>
+<span id="L415" class="lineno"><a class="lineno" href="#L415">415</a></span>
+<span id="L416" class="lineno"><a class="lineno" href="#L416">416</a></span>
+<span id="L417" class="lineno"><a class="lineno" href="#L417">417</a></span>
+<span id="L418" class="lineno"><a class="lineno" href="#L418">418</a></span>
+<span id="L419" class="lineno"><a class="lineno" href="#L419">419</a></span>
+<span id="L420" class="lineno"><a class="lineno" href="#L420">420</a></span>
+<span id="L421" class="lineno"><a class="lineno" href="#L421">421</a></span>
+<span id="L422" class="lineno"><a class="lineno" href="#L422">422</a></span>
+<span id="L423" class="lineno"><a class="lineno" href="#L423">423</a></span>
+<span id="L424" class="lineno"><a class="lineno" href="#L424">424</a></span>
+<span id="L425" class="lineno"><a class="lineno" href="#L425">425</a></span>
+<span id="L426" class="lineno"><a class="lineno" href="#L426">426</a></span>
+<span id="L427" class="lineno"><a class="lineno" href="#L427">427</a></span>
+<span id="L428" class="lineno"><a class="lineno" href="#L428">428</a></span>
+<span id="L429" class="lineno"><a class="lineno" href="#L429">429</a></span>
+<span id="L430" class="lineno"><a class="lineno" href="#L430">430</a></span>
+<span id="L431" class="lineno"><a class="lineno" href="#L431">431</a></span>
+<span id="L432" class="lineno"><a class="lineno" href="#L432">432</a></span>
+<span id="L433" class="lineno"><a class="lineno" href="#L433">433</a></span>
+<span id="L434" class="lineno"><a class="lineno" href="#L434">434</a></span>
 </pre></td>
 <td class="table-code"><pre><span class="line-empty" title="No Anys on this line!">"""DAG visualization.</span>
 <span class="line-empty" title="No Anys on this line!"></span>
@@ -446,8 +467,9 @@
 <span class="line-empty" title="No Anys on this line!">    GIT_EMPTY_TREE_OBJECT_SHA,</span>
 <span class="line-empty" title="No Anys on this line!">    SHA_LIMIT,</span>
 <span class="line-empty" title="No Anys on this line!">    DagBackends,</span>
+<span class="line-empty" title="No Anys on this line!">    DictStrStr,</span>
 <span class="line-empty" title="No Anys on this line!">)</span>
-<span class="line-precise" title="No Anys on this line!">from .git_objects import DictStrStr, GitBlob, GitCommit, GitTag, GitTree</span>
+<span class="line-precise" title="No Anys on this line!">from .git_objects import GitBlob, GitCommit, GitTag, GitTree</span>
 <span class="line-precise" title="No Anys on this line!">from .interfaces.graphviz import DagGraphviz</span>
 <span class="line-precise" title="No Anys on this line!">from .utils import transform_ascii_control_chars</span>
 <span class="line-empty" title="No Anys on this line!"></span>
@@ -462,7 +484,9 @@
 <span class="line-precise" title="No Anys on this line!">    show_local_branches: bool</span>
 <span class="line-precise" title="No Anys on this line!">    show_remote_branches: bool</span>
 <span class="line-precise" title="No Anys on this line!">    show_trees: bool</span>
+<span class="line-precise" title="No Anys on this line!">    show_trees_standalone: bool</span>
 <span class="line-precise" title="No Anys on this line!">    show_blobs: bool</span>
+<span class="line-precise" title="No Anys on this line!">    show_blobs_standalone: bool</span>
 <span class="line-precise" title="No Anys on this line!">    show_tags: bool</span>
 <span class="line-precise" title="No Anys on this line!">    show_deleted_tags: bool</span>
 <span class="line-precise" title="No Anys on this line!">    show_stash: bool</span>
@@ -546,7 +570,12 @@ Explicit (x3)">                    self.dag.edge(sha, parent.sha)</span>
 <span class="line-precise" title="No Anys on this line!">class TreeBlobHandlerMixin:</span>
 <span class="line-empty" title="No Anys on this line!">    """Handle trees and blobs."""</span>
 <span class="line-empty" title="No Anys on this line!"></span>
-<span class="line-precise" title="No Anys on this line!">    def _add_tree(self: MixinProtocol, sha: str, item: GitTree) -&gt; None:</span>
+<span class="line-precise" title="No Anys on this line!">    def _add_tree(</span>
+<span class="line-empty" title="No Anys on this line!">        self: MixinProtocol,</span>
+<span class="line-empty" title="No Anys on this line!">        sha: str,</span>
+<span class="line-empty" title="No Anys on this line!">        item: GitTree,</span>
+<span class="line-precise" title="No Anys on this line!">        standalone: bool = False,</span>
+<span class="line-empty" title="No Anys on this line!">    ) -&gt; None:</span>
 <span class="line-precise" title="No Anys on this line!">        self.included_nodes_id.add(sha)</span>
 <span class="line-precise" title="No Anys on this line!">        if sha == GIT_EMPTY_TREE_OBJECT_SHA:</span>
 <span class="line-precise" title="No Anys on this line!">            color_label = "the-empty-tree"</span>
@@ -564,6 +593,7 @@ Explicit (x3)">        self.dag.node(</span>
 <span class="line-precise" title="No Anys on this line!">            fillcolor=DAG_NODE_COLORS[color_label],</span>
 <span class="line-precise" title="No Anys on this line!">            shape="folder",</span>
 <span class="line-precise" title="No Anys on this line!">            tooltip=tooltip,</span>
+<span class="line-precise" title="No Anys on this line!">            standalone_kind="tree" if standalone else None,</span>
 <span class="line-empty" title="No Anys on this line!">        )</span>
 <span class="line-empty" title="No Anys on this line!"></span>
 <span class="line-precise" title="No Anys on this line!">        if self.show_blobs:</span>
@@ -571,7 +601,7 @@ Explicit (x3)">        self.dag.node(</span>
 <span class="line-any" title="Any Types on this line: 
 Explicit (x3)">                self.dag.edge(sha, child.sha)</span>
 <span class="line-empty" title="No Anys on this line!"></span>
-<span class="line-precise" title="No Anys on this line!">    def _add_blob(self: MixinProtocol, sha: str) -&gt; None:</span>
+<span class="line-precise" title="No Anys on this line!">    def _add_blob(self: MixinProtocol, sha: str, standalone: bool = False) -&gt; None:</span>
 <span class="line-precise" title="No Anys on this line!">        self.included_nodes_id.add(sha)</span>
 <span class="line-any" title="Any Types on this line: 
 Explicit (x3)">        self.dag.node(</span>
@@ -582,6 +612,7 @@ Explicit (x3)">        self.dag.node(</span>
 <span class="line-precise" title="No Anys on this line!">            shape="note",</span>
 <span class="line-precise" title="Any Types on this line: 
 Omitted Generics (x2)">            tooltip=self.tooltip_names.get(sha, sha),</span>
+<span class="line-precise" title="No Anys on this line!">            standalone_kind="blob" if standalone else None,</span>
 <span class="line-empty" title="No Anys on this line!">        )</span>
 <span class="line-empty" title="No Anys on this line!"></span>
 <span class="line-empty" title="No Anys on this line!"></span>
@@ -760,7 +791,9 @@ Omitted Generics (x6)">@dataclass</span>
 <span class="line-precise" title="No Anys on this line!">    show_local_branches: bool = False</span>
 <span class="line-precise" title="No Anys on this line!">    show_remote_branches: bool = False</span>
 <span class="line-precise" title="No Anys on this line!">    show_trees: bool = False</span>
+<span class="line-precise" title="No Anys on this line!">    show_trees_standalone: bool = False</span>
 <span class="line-precise" title="No Anys on this line!">    show_blobs: bool = False</span>
+<span class="line-precise" title="No Anys on this line!">    show_blobs_standalone: bool = False</span>
 <span class="line-precise" title="No Anys on this line!">    show_tags: bool = False</span>
 <span class="line-precise" title="No Anys on this line!">    show_deleted_tags: bool = False</span>
 <span class="line-precise" title="No Anys on this line!">    show_stash: bool = False</span>
@@ -782,11 +815,14 @@ Omitted Generics (x3)">        self.included_nodes_id: set[str] = set()</span>
 <span class="line-empty" title="No Anys on this line!">            ),</span>
 <span class="line-empty" title="No Anys on this line!">        }</span>
 <span class="line-empty" title="No Anys on this line!"></span>
-<span class="line-precise" title="No Anys on this line!">        if self.dag_backend is DagBackends.GRAPHVIZ:</span>
-<span class="line-precise" title="No Anys on this line!">            self.dag = DagGraphviz()</span>
-<span class="line-empty" title="No Anys on this line!">        else:</span>
+<span class="line-precise" title="No Anys on this line!">        match self.dag_backend:</span>
+<span class="line-precise" title="No Anys on this line!">            case DagBackends.GRAPHVIZ:</span>
+<span class="line-precise" title="No Anys on this line!">                self.dag = DagGraphviz(</span>
+<span class="line-precise" title="No Anys on this line!">                    self.show_blobs_standalone or self.show_trees_standalone</span>
+<span class="line-empty" title="No Anys on this line!">                )</span>
+<span class="line-empty" title="No Anys on this line!">            case _:</span>
 <span class="line-any" title="Any Types on this line: 
-Unannotated (x6)">            raise ValueError(f"Unrecognised backend: {self.dag_backend}")</span>
+Unannotated (x6)">                raise ValueError(f"Unrecognised backend: {self.dag_backend}")</span>
 <span class="line-empty" title="No Anys on this line!"></span>
 <span class="line-precise" title="No Anys on this line!">        self._build_dag()</span>
 <span class="line-empty" title="No Anys on this line!"></span>
@@ -834,22 +870,32 @@ Explicit (x2)">        return self.dag.get()</span>
 <span class="line-precise" title="No Anys on this line!">    def _build_dag(self) -&gt; None:</span>
 <span class="line-empty" title="No Anys on this line!">        # tags are not handled in this loop</span>
 <span class="line-precise" title="No Anys on this line!">        for sha, item in self.repository.objects.items():</span>
-<span class="line-precise" title="No Anys on this line!">            if self.show_trees:</span>
-<span class="line-precise" title="No Anys on this line!">                if self._is_object_to_include(sha):</span>
-<span class="line-precise" title="No Anys on this line!">                    if isinstance(item, GitTree):</span>
+<span class="line-precise" title="No Anys on this line!">            to_include = self._is_object_to_include(sha)</span>
+<span class="line-precise" title="No Anys on this line!">            not_reachable = sha not in self.repository.all_reachable_objects_sha</span>
+<span class="line-precise" title="No Anys on this line!">            match item:</span>
+<span class="line-unanalyzed" title="No Anys on this line!">                case GitTree():</span>
+<span class="line-precise" title="No Anys on this line!">                    if not_reachable and self.show_trees_standalone:</span>
+<span class="line-precise" title="No Anys on this line!">                        self._add_tree(sha, item, standalone=True)</span>
+<span class="line-precise" title="No Anys on this line!">                    elif to_include and self.show_trees:</span>
 <span class="line-precise" title="No Anys on this line!">                        self._add_tree(sha, item)</span>
-<span class="line-empty" title="No Anys on this line!"></span>
-<span class="line-precise" title="No Anys on this line!">                    if self.show_blobs and isinstance(item, GitBlob):</span>
+<span class="line-unanalyzed" title="No Anys on this line!">                case GitBlob():</span>
+<span class="line-precise" title="No Anys on this line!">                    if not_reachable and self.show_blobs_standalone:</span>
+<span class="line-precise" title="No Anys on this line!">                        self._add_blob(sha, standalone=True)</span>
+<span class="line-precise" title="No Anys on this line!">                    elif to_include and self.show_blobs:</span>
 <span class="line-precise" title="No Anys on this line!">                        self._add_blob(sha)</span>
+<span class="line-unanalyzed" title="No Anys on this line!">                case GitCommit():</span>
+<span class="line-precise" title="No Anys on this line!">                    self._add_commit(sha, item)</span>
 <span class="line-empty" title="No Anys on this line!"></span>
-<span class="line-precise" title="No Anys on this line!">            if isinstance(item, GitCommit):</span>
-<span class="line-precise" title="No Anys on this line!">                self._add_commit(sha, item)</span>
-<span class="line-empty" title="No Anys on this line!"></span>
+<span class="line-empty" title="No Anys on this line!">        # no point in displaying HEAD if branches are not displayed</span>
 <span class="line-precise" title="No Anys on this line!">        if self.show_local_branches:</span>
 <span class="line-precise" title="No Anys on this line!">            self._add_local_branches()</span>
+<span class="line-precise" title="No Anys on this line!">            if self.show_head:</span>
+<span class="line-precise" title="No Anys on this line!">                self._add_local_head()</span>
 <span class="line-empty" title="No Anys on this line!"></span>
 <span class="line-precise" title="No Anys on this line!">        if self.show_remote_branches:</span>
 <span class="line-precise" title="No Anys on this line!">            self._add_remote_branches()</span>
+<span class="line-precise" title="No Anys on this line!">            if self.show_head:</span>
+<span class="line-precise" title="No Anys on this line!">                self._add_remote_heads()</span>
 <span class="line-empty" title="No Anys on this line!"></span>
 <span class="line-precise" title="No Anys on this line!">        if self.show_tags:</span>
 <span class="line-precise" title="No Anys on this line!">            self._add_annotated_tags()</span>
@@ -857,10 +903,6 @@ Explicit (x2)">        return self.dag.get()</span>
 <span class="line-empty" title="No Anys on this line!"></span>
 <span class="line-precise" title="No Anys on this line!">        if self.show_stash:</span>
 <span class="line-precise" title="No Anys on this line!">            self._add_stashes()</span>
-<span class="line-empty" title="No Anys on this line!"></span>
-<span class="line-precise" title="No Anys on this line!">        if self.show_head:</span>
-<span class="line-precise" title="No Anys on this line!">            self._add_local_head()</span>
-<span class="line-precise" title="No Anys on this line!">            self._add_remote_heads()</span>
 <span class="line-empty" title="No Anys on this line!"></span>
 <span class="line-precise" title="No Anys on this line!">        self.dag.build(</span>
 <span class="line-precise" title="No Anys on this line!">            format=self.format,</span>

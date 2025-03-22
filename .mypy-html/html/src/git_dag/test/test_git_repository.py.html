@@ -205,6 +205,9 @@
 <span id="L195" class="lineno"><a class="lineno" href="#L195">195</a></span>
 <span id="L196" class="lineno"><a class="lineno" href="#L196">196</a></span>
 <span id="L197" class="lineno"><a class="lineno" href="#L197">197</a></span>
+<span id="L198" class="lineno"><a class="lineno" href="#L198">198</a></span>
+<span id="L199" class="lineno"><a class="lineno" href="#L199">199</a></span>
+<span id="L200" class="lineno"><a class="lineno" href="#L200">200</a></span>
 </pre></td>
 <td class="table-code"><pre><span class="line-empty" title="No Anys on this line!">"""Test git_repository.py."""</span>
 <span class="line-empty" title="No Anys on this line!"></span>
@@ -363,13 +366,16 @@ Explicit (x3)">        repo.show(dag_backend="missing", format="gv", filename=re
 <span class="line-precise" title="No Anys on this line!">        repo_path,</span>
 <span class="line-empty" title="No Anys on this line!">    )</span>
 <span class="line-precise" title="No Anys on this line!">    repo = GitRepository(repo_path, parse_trees=True)</span>
+<span class="line-precise" title="No Anys on this line!">    print(repo_path)</span>
 <span class="line-any" title="Any Types on this line: 
 Explicit (x3)">    repo.show(</span>
 <span class="line-precise" title="No Anys on this line!">        show_unreachable_commits=True,</span>
 <span class="line-precise" title="No Anys on this line!">        show_local_branches=True,</span>
 <span class="line-precise" title="No Anys on this line!">        show_remote_branches=True,</span>
 <span class="line-precise" title="No Anys on this line!">        show_trees=True,</span>
+<span class="line-precise" title="No Anys on this line!">        show_trees_standalone=False,</span>
 <span class="line-precise" title="No Anys on this line!">        show_blobs=True,</span>
+<span class="line-precise" title="No Anys on this line!">        show_blobs_standalone=False,</span>
 <span class="line-precise" title="No Anys on this line!">        show_tags=True,</span>
 <span class="line-precise" title="No Anys on this line!">        show_deleted_tags=True,</span>
 <span class="line-precise" title="No Anys on this line!">        show_stash=True,</span>

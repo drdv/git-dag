@@ -597,6 +597,28 @@
 <span id="L587" class="lineno"><a class="lineno" href="#L587">587</a></span>
 <span id="L588" class="lineno"><a class="lineno" href="#L588">588</a></span>
 <span id="L589" class="lineno"><a class="lineno" href="#L589">589</a></span>
+<span id="L590" class="lineno"><a class="lineno" href="#L590">590</a></span>
+<span id="L591" class="lineno"><a class="lineno" href="#L591">591</a></span>
+<span id="L592" class="lineno"><a class="lineno" href="#L592">592</a></span>
+<span id="L593" class="lineno"><a class="lineno" href="#L593">593</a></span>
+<span id="L594" class="lineno"><a class="lineno" href="#L594">594</a></span>
+<span id="L595" class="lineno"><a class="lineno" href="#L595">595</a></span>
+<span id="L596" class="lineno"><a class="lineno" href="#L596">596</a></span>
+<span id="L597" class="lineno"><a class="lineno" href="#L597">597</a></span>
+<span id="L598" class="lineno"><a class="lineno" href="#L598">598</a></span>
+<span id="L599" class="lineno"><a class="lineno" href="#L599">599</a></span>
+<span id="L600" class="lineno"><a class="lineno" href="#L600">600</a></span>
+<span id="L601" class="lineno"><a class="lineno" href="#L601">601</a></span>
+<span id="L602" class="lineno"><a class="lineno" href="#L602">602</a></span>
+<span id="L603" class="lineno"><a class="lineno" href="#L603">603</a></span>
+<span id="L604" class="lineno"><a class="lineno" href="#L604">604</a></span>
+<span id="L605" class="lineno"><a class="lineno" href="#L605">605</a></span>
+<span id="L606" class="lineno"><a class="lineno" href="#L606">606</a></span>
+<span id="L607" class="lineno"><a class="lineno" href="#L607">607</a></span>
+<span id="L608" class="lineno"><a class="lineno" href="#L608">608</a></span>
+<span id="L609" class="lineno"><a class="lineno" href="#L609">609</a></span>
+<span id="L610" class="lineno"><a class="lineno" href="#L610">610</a></span>
+<span id="L611" class="lineno"><a class="lineno" href="#L611">611</a></span>
 </pre></td>
 <td class="table-code"><pre><span class="line-empty" title="No Anys on this line!">"""Git commands related functionality.</span>
 <span class="line-empty" title="No Anys on this line!"></span>
@@ -615,8 +637,7 @@
 <span class="line-precise" title="No Anys on this line!">from pathlib import Path</span>
 <span class="line-precise" title="No Anys on this line!">from typing import Any, Literal, Optional</span>
 <span class="line-empty" title="No Anys on this line!"></span>
-<span class="line-precise" title="No Anys on this line!">from git_dag.constants import CMD_TAGS_INFO, TAG_FORMAT_FIELDS</span>
-<span class="line-precise" title="No Anys on this line!">from git_dag.git_objects import DictStrStr</span>
+<span class="line-precise" title="No Anys on this line!">from git_dag.constants import CMD_TAGS_INFO, TAG_FORMAT_FIELDS, DictStrStr</span>
 <span class="line-precise" title="No Anys on this line!">from git_dag.utils import escape_decode</span>
 <span class="line-empty" title="No Anys on this line!"></span>
 <span class="line-precise" title="No Anys on this line!">logging.basicConfig(level=logging.WARNING)</span>
@@ -634,7 +655,7 @@
 <span class="line-precise" title="No Anys on this line!">    def _run(</span>
 <span class="line-empty" title="No Anys on this line!">        self,</span>
 <span class="line-empty" title="No Anys on this line!">        command: str,</span>
-<span class="line-precise" title="No Anys on this line!">        env: Optional[dict[str, str]] = None,</span>
+<span class="line-precise" title="No Anys on this line!">        env: Optional[DictStrStr] = None,</span>
 <span class="line-precise" title="No Anys on this line!">        encoding: str = "utf-8",</span>
 <span class="line-empty" title="No Anys on this line!">    ) -&gt; str:</span>
 <span class="line-empty" title="No Anys on this line!">        """Run a git command."""</span>
@@ -650,8 +671,9 @@ Explicit (x13)">        return subprocess.run(</span>
 <span class="line-empty" title="No Anys on this line!">    @staticmethod</span>
 <span class="line-precise" title="No Anys on this line!">    def run_general(</span>
 <span class="line-empty" title="No Anys on this line!">        command: str,</span>
-<span class="line-precise" title="No Anys on this line!">        env: Optional[dict[str, str]] = None,</span>
+<span class="line-precise" title="No Anys on this line!">        env: Optional[DictStrStr] = None,</span>
 <span class="line-precise" title="No Anys on this line!">        encoding: str = "utf-8",</span>
+<span class="line-precise" title="No Anys on this line!">        expected_stderr: Optional[str] = None,</span>
 <span class="line-empty" title="No Anys on this line!">    ) -&gt; str:</span>
 <span class="line-empty" title="No Anys on this line!">        """Run a general command."""</span>
 <span class="line-precise" title="Any Types on this line: 
@@ -663,8 +685,11 @@ Explicit (x13)">        with subprocess.Popen(</span>
 <span class="line-precise" title="No Anys on this line!">            env=env,</span>
 <span class="line-precise" title="No Anys on this line!">        ) as process:</span>
 <span class="line-precise" title="No Anys on this line!">            output, error = process.communicate()</span>
+<span class="line-empty" title="No Anys on this line!">            # some git commands output messages to stderr even when there is no error</span>
 <span class="line-precise" title="No Anys on this line!">            if error:</span>
-<span class="line-precise" title="No Anys on this line!">                raise ValueError(error)  # pragma: no cover</span>
+<span class="line-precise" title="No Anys on this line!">                if expected_stderr is not None:</span>
+<span class="line-precise" title="No Anys on this line!">                    if not expected_stderr in error.decode("utf-8"):</span>
+<span class="line-precise" title="No Anys on this line!">                        raise ValueError(error)  # pragma: no cover</span>
 <span class="line-precise" title="No Anys on this line!">            return output.decode(encoding, errors="replace").strip()</span>
 <span class="line-empty" title="No Anys on this line!"></span>
 <span class="line-empty" title="No Anys on this line!"></span>
@@ -695,7 +720,7 @@ Explicit (x13)">        with subprocess.Popen(</span>
 <span class="line-empty" title="No Anys on this line!">        """Initialise a git repository."""</span>
 <span class="line-precise" title="No Anys on this line!">        self._run("init -b main")</span>
 <span class="line-empty" title="No Anys on this line!"></span>
-<span class="line-precise" title="No Anys on this line!">    def _get_env(self) -&gt; dict[str, str]:</span>
+<span class="line-precise" title="No Anys on this line!">    def _get_env(self) -&gt; DictStrStr:</span>
 <span class="line-empty" title="No Anys on this line!">        """Return environment with author and committer to pass to commands."""</span>
 <span class="line-precise" title="No Anys on this line!">        env = {}</span>
 <span class="line-precise" title="No Anys on this line!">        match = re.search("(?P&lt;name&gt;.*) (?P&lt;email&gt;&lt;.*&gt;)", self.author)</span>
@@ -714,7 +739,7 @@ Explicit (x13)">        with subprocess.Popen(</span>
 <span class="line-empty" title="No Anys on this line!"></span>
 <span class="line-precise" title="No Anys on this line!">        return env</span>
 <span class="line-empty" title="No Anys on this line!"></span>
-<span class="line-precise" title="No Anys on this line!">    def add(self, files: dict[str, str]) -&gt; None:</span>
+<span class="line-precise" title="No Anys on this line!">    def add(self, files: DictStrStr) -&gt; None:</span>
 <span class="line-empty" title="No Anys on this line!">        """Add files to the index.</span>
 <span class="line-empty" title="No Anys on this line!"></span>
 <span class="line-empty" title="No Anys on this line!">        ``files`` specifies files to be added to the index (its format is ``{'filename':</span>
@@ -729,9 +754,7 @@ Explicit (x1)">            with open(Path(self.path) / filename, "w", encoding="
 <span class="line-precise" title="No Anys on this line!">                h.write(contents)</span>
 <span class="line-precise" title="No Anys on this line!">            self._run(f"add {filename}")</span>
 <span class="line-empty" title="No Anys on this line!"></span>
-<span class="line-precise" title="No Anys on this line!">    def cm(</span>
-<span class="line-precise" title="No Anys on this line!">        self, messages: str | list[str], files: Optional[dict[str, str]] = None</span>
-<span class="line-empty" title="No Anys on this line!">    ) -&gt; None:</span>
+<span class="line-precise" title="No Anys on this line!">    def cm(self, messages: str | list[str], files: Optional[DictStrStr] = None) -&gt; None:</span>
 <span class="line-empty" title="No Anys on this line!">        """Add commit(s).</span>
 <span class="line-empty" title="No Anys on this line!"></span>
 <span class="line-empty" title="No Anys on this line!">        If ``files`` is not specified an empty commit is created.</span>
@@ -770,7 +793,7 @@ Omitted Generics (x5)">        elif isinstance(messages, (list, tuple)):</span>
 <span class="line-empty" title="No Anys on this line!">        """Merge."""</span>
 <span class="line-precise" title="No Anys on this line!">        self._run(f'merge -X {strategy} {branch} -m "{message}"', env=self.env)</span>
 <span class="line-empty" title="No Anys on this line!"></span>
-<span class="line-precise" title="No Anys on this line!">    def stash(self, files: dict[str, str], title: Optional[str] = None) -&gt; None:</span>
+<span class="line-precise" title="No Anys on this line!">    def stash(self, files: DictStrStr, title: Optional[str] = None) -&gt; None:</span>
 <span class="line-empty" title="No Anys on this line!">        """Stash.</span>
 <span class="line-empty" title="No Anys on this line!"></span>
 <span class="line-empty" title="No Anys on this line!">        ``files`` specifies files to be modified before we stash (its format is</span>
@@ -882,7 +905,20 @@ Explicit (x1)">            with open(Path(self.path) / filename, "w", encoding="
 <span class="line-empty" title="No Anys on this line!">            return []</span>
 <span class="line-precise" title="No Anys on this line!">        return cmd_output</span>
 <span class="line-empty" title="No Anys on this line!"></span>
-<span class="line-precise" title="No Anys on this line!">    def get_remote_heads_sym_ref(self, remotes: list[str]) -&gt; dict[str, str]:</span>
+<span class="line-precise" title="No Anys on this line!">    def get_fsck_unreachable_commits(self) -&gt; list[str]:</span>
+<span class="line-empty" title="No Anys on this line!">        """Return unreachable commits not in the reflog."""</span>
+<span class="line-precise" title="No Anys on this line!">        cmd_output = (</span>
+<span class="line-precise" title="No Anys on this line!">            self.run_general(</span>
+<span class="line-precise" title="No Anys on this line!">                f"{self.command_prefix} fsck --unreachable --no-reflog 2&gt;/dev/null | "</span>
+<span class="line-empty" title="No Anys on this line!">                "grep commit | cut -d' ' -f3"</span>
+<span class="line-empty" title="No Anys on this line!">            )</span>
+<span class="line-empty" title="No Anys on this line!">            .strip()</span>
+<span class="line-precise" title="No Anys on this line!">            .split("\n")</span>
+<span class="line-empty" title="No Anys on this line!">        )</span>
+<span class="line-empty" title="No Anys on this line!"></span>
+<span class="line-precise" title="No Anys on this line!">        return [] if len(cmd_output) == 1 and "" in cmd_output else cmd_output</span>
+<span class="line-empty" title="No Anys on this line!"></span>
+<span class="line-precise" title="No Anys on this line!">    def get_remote_heads_sym_ref(self, remotes: list[str]) -&gt; DictStrStr:</span>
 <span class="line-empty" title="No Anys on this line!">        """Return symbolic references of remote heads."""</span>
 <span class="line-precise" title="No Anys on this line!">        symb_refs = {}</span>
 <span class="line-precise" title="No Anys on this line!">        for remote in remotes:</span>
@@ -964,7 +1000,7 @@ Explicit (x1)">            with open(Path(self.path) / filename, "w", encoding="
 <span class="line-empty" title="No Anys on this line!">        """</span>
 <span class="line-precise" title="No Anys on this line!">        return self._run(f"ls-tree {sha}").strip().split("\n")</span>
 <span class="line-empty" title="No Anys on this line!"></span>
-<span class="line-precise" title="No Anys on this line!">    def get_blobs_and_trees_names(self) -&gt; DictStrStr:</span>
+<span class="line-precise" title="No Anys on this line!">    def get_blobs_and_trees_names(self, trees_info: dict[str, list[str]]) -&gt; DictStrStr:</span>
 <span class="line-empty" title="No Anys on this line!">        """Return actual names of blobs and trees.</span>
 <span class="line-empty" title="No Anys on this line!"></span>
 <span class="line-empty" title="No Anys on this line!">        Note</span>
@@ -973,10 +1009,11 @@ Explicit (x1)">            with open(Path(self.path) / filename, "w", encoding="
 <span class="line-empty" title="No Anys on this line!"></span>
 <span class="line-empty" title="No Anys on this line!">        Note</span>
 <span class="line-empty" title="No Anys on this line!">        -----</span>
-<span class="line-empty" title="No Anys on this line!">        It is normal for a tree object to sometimes have no name. This happens when a</span>
-<span class="line-empty" title="No Anys on this line!">        repository has no directories (note that a commit always has an associated tree</span>
-<span class="line-empty" title="No Anys on this line!">        object). Sometimes blobs don't have names (I am not sure why -- FIXME: to</span>
-<span class="line-empty" title="No Anys on this line!">        investigate).</span>
+<span class="line-empty" title="No Anys on this line!">        A tree object might have no name -- this happens when a repository has no</span>
+<span class="line-empty" title="No Anys on this line!">        directories (note that a commit always has an associated tree object) or when a</span>
+<span class="line-empty" title="No Anys on this line!">        tree object is created manually (without a commit). Sometimes a blob has no</span>
+<span class="line-empty" title="No Anys on this line!">        name, e.g., when it are created manually (``git hash-object -w``) or it is not</span>
+<span class="line-empty" title="No Anys on this line!">        referenced by a tree object.</span>
 <span class="line-empty" title="No Anys on this line!"></span>
 <span class="line-empty" title="No Anys on this line!">        """</span>
 <span class="line-precise" title="No Anys on this line!">        cmd_out = (</span>
@@ -996,6 +1033,13 @@ Explicit (x1)">            with open(Path(self.path) / filename, "w", encoding="
 <span class="line-precise" title="No Anys on this line!">            components = blob_or_tree.split()</span>
 <span class="line-precise" title="No Anys on this line!">            if len(components) == 2:</span>
 <span class="line-precise" title="No Anys on this line!">                sha_name[components[0]] = components[1]</span>
+<span class="line-empty" title="No Anys on this line!"></span>
+<span class="line-empty" title="No Anys on this line!">        # may add names of standalone trees/objects</span>
+<span class="line-precise" title="No Anys on this line!">        for tree_info in trees_info.values():</span>
+<span class="line-precise" title="No Anys on this line!">            for tree_or_blob in tree_info:</span>
+<span class="line-precise" title="No Anys on this line!">                if tree_or_blob:  # protect against the empty tree object</span>
+<span class="line-precise" title="No Anys on this line!">                    sha, name = tree_or_blob.split(" ")[-1].split("\t")</span>
+<span class="line-precise" title="No Anys on this line!">                    sha_name[sha] = name</span>
 <span class="line-empty" title="No Anys on this line!"></span>
 <span class="line-precise" title="No Anys on this line!">        return sha_name</span>
 <span class="line-empty" title="No Anys on this line!"></span>
@@ -1049,7 +1093,7 @@ Omitted Generics (x2)">                tags["lightweight"][raw_tag.pop("refname"
 <span class="line-empty" title="No Anys on this line!"></span>
 <span class="line-precise" title="No Anys on this line!">        return tags</span>
 <span class="line-empty" title="No Anys on this line!"></span>
-<span class="line-precise" title="No Anys on this line!">    def get_notes_dag_root(self) -&gt; Optional[dict[str, str]]:</span>
+<span class="line-precise" title="No Anys on this line!">    def get_notes_dag_root(self) -&gt; Optional[DictStrStr]:</span>
 <span class="line-empty" title="No Anys on this line!">        """Return the root node of the DAG for git notes."""</span>
 <span class="line-precise" title="No Anys on this line!">        notes_ref = self._run("notes get-ref").strip().split("\n")[0]</span>
 <span class="line-empty" title="No Anys on this line!">        try:</span>
@@ -1101,7 +1145,7 @@ Explicit (x1)">                cls.repository_empty(repo_path, **kwargs)</span>
 <span class="line-empty" title="No Anys on this line!">    @staticmethod</span>
 <span class="line-precise" title="No Anys on this line!">    def repository_empty(</span>
 <span class="line-empty" title="No Anys on this line!">        path: Path | str,</span>
-<span class="line-precise" title="No Anys on this line!">        files: Optional[dict[str, str]] = None,</span>
+<span class="line-precise" title="No Anys on this line!">        files: Optional[DictStrStr] = None,</span>
 <span class="line-empty" title="No Anys on this line!">    ) -&gt; None:</span>
 <span class="line-empty" title="No Anys on this line!">        """Empty repository (possibly with files added to the index)."""</span>
 <span class="line-precise" title="No Anys on this line!">        git = GitCommandMutate(path)</span>

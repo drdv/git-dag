@@ -72,13 +72,64 @@
 <span id="L62" class="lineno"><a class="lineno" href="#L62">62</a></span>
 <span id="L63" class="lineno"><a class="lineno" href="#L63">63</a></span>
 <span id="L64" class="lineno"><a class="lineno" href="#L64">64</a></span>
+<span id="L65" class="lineno"><a class="lineno" href="#L65">65</a></span>
+<span id="L66" class="lineno"><a class="lineno" href="#L66">66</a></span>
+<span id="L67" class="lineno"><a class="lineno" href="#L67">67</a></span>
+<span id="L68" class="lineno"><a class="lineno" href="#L68">68</a></span>
+<span id="L69" class="lineno"><a class="lineno" href="#L69">69</a></span>
+<span id="L70" class="lineno"><a class="lineno" href="#L70">70</a></span>
+<span id="L71" class="lineno"><a class="lineno" href="#L71">71</a></span>
+<span id="L72" class="lineno"><a class="lineno" href="#L72">72</a></span>
+<span id="L73" class="lineno"><a class="lineno" href="#L73">73</a></span>
+<span id="L74" class="lineno"><a class="lineno" href="#L74">74</a></span>
+<span id="L75" class="lineno"><a class="lineno" href="#L75">75</a></span>
+<span id="L76" class="lineno"><a class="lineno" href="#L76">76</a></span>
+<span id="L77" class="lineno"><a class="lineno" href="#L77">77</a></span>
+<span id="L78" class="lineno"><a class="lineno" href="#L78">78</a></span>
+<span id="L79" class="lineno"><a class="lineno" href="#L79">79</a></span>
+<span id="L80" class="lineno"><a class="lineno" href="#L80">80</a></span>
+<span id="L81" class="lineno"><a class="lineno" href="#L81">81</a></span>
+<span id="L82" class="lineno"><a class="lineno" href="#L82">82</a></span>
+<span id="L83" class="lineno"><a class="lineno" href="#L83">83</a></span>
+<span id="L84" class="lineno"><a class="lineno" href="#L84">84</a></span>
+<span id="L85" class="lineno"><a class="lineno" href="#L85">85</a></span>
+<span id="L86" class="lineno"><a class="lineno" href="#L86">86</a></span>
+<span id="L87" class="lineno"><a class="lineno" href="#L87">87</a></span>
+<span id="L88" class="lineno"><a class="lineno" href="#L88">88</a></span>
+<span id="L89" class="lineno"><a class="lineno" href="#L89">89</a></span>
+<span id="L90" class="lineno"><a class="lineno" href="#L90">90</a></span>
+<span id="L91" class="lineno"><a class="lineno" href="#L91">91</a></span>
+<span id="L92" class="lineno"><a class="lineno" href="#L92">92</a></span>
+<span id="L93" class="lineno"><a class="lineno" href="#L93">93</a></span>
+<span id="L94" class="lineno"><a class="lineno" href="#L94">94</a></span>
+<span id="L95" class="lineno"><a class="lineno" href="#L95">95</a></span>
+<span id="L96" class="lineno"><a class="lineno" href="#L96">96</a></span>
+<span id="L97" class="lineno"><a class="lineno" href="#L97">97</a></span>
+<span id="L98" class="lineno"><a class="lineno" href="#L98">98</a></span>
+<span id="L99" class="lineno"><a class="lineno" href="#L99">99</a></span>
+<span id="L100" class="lineno"><a class="lineno" href="#L100">100</a></span>
+<span id="L101" class="lineno"><a class="lineno" href="#L101">101</a></span>
+<span id="L102" class="lineno"><a class="lineno" href="#L102">102</a></span>
+<span id="L103" class="lineno"><a class="lineno" href="#L103">103</a></span>
+<span id="L104" class="lineno"><a class="lineno" href="#L104">104</a></span>
+<span id="L105" class="lineno"><a class="lineno" href="#L105">105</a></span>
+<span id="L106" class="lineno"><a class="lineno" href="#L106">106</a></span>
+<span id="L107" class="lineno"><a class="lineno" href="#L107">107</a></span>
+<span id="L108" class="lineno"><a class="lineno" href="#L108">108</a></span>
+<span id="L109" class="lineno"><a class="lineno" href="#L109">109</a></span>
+<span id="L110" class="lineno"><a class="lineno" href="#L110">110</a></span>
+<span id="L111" class="lineno"><a class="lineno" href="#L111">111</a></span>
+<span id="L112" class="lineno"><a class="lineno" href="#L112">112</a></span>
+<span id="L113" class="lineno"><a class="lineno" href="#L113">113</a></span>
+<span id="L114" class="lineno"><a class="lineno" href="#L114">114</a></span>
 </pre></td>
 <td class="table-code"><pre><span class="line-empty" title="No Anys on this line!">"""Interface for graphviz (https://github.com/xflr6/graphviz)."""</span>
 <span class="line-empty" title="No Anys on this line!"></span>
-<span class="line-precise" title="No Anys on this line!">from typing import Any, Optional</span>
+<span class="line-precise" title="No Anys on this line!">from typing import Any, Literal, Optional</span>
 <span class="line-empty" title="No Anys on this line!"></span>
 <span class="line-any" title="No Anys on this line!">from graphviz import Digraph  # type: ignore[import-untyped]</span>
 <span class="line-empty" title="No Anys on this line!"></span>
+<span class="line-precise" title="No Anys on this line!">from ..constants import STANDALONE_CLUSTER_PARAMS</span>
 <span class="line-precise" title="No Anys on this line!">from .dag_base import DagBase</span>
 <span class="line-empty" title="No Anys on this line!"></span>
 <span class="line-empty" title="No Anys on this line!"></span>
@@ -96,17 +147,27 @@
 <span class="line-precise" title="No Anys on this line!">        fillcolor: Optional[str] = None,</span>
 <span class="line-precise" title="No Anys on this line!">        shape: Optional[str] = None,</span>
 <span class="line-precise" title="No Anys on this line!">        tooltip: Optional[str] = None,</span>
+<span class="line-precise" title="No Anys on this line!">        URL: Optional[str] = None,</span>
+<span class="line-precise" title="No Anys on this line!">        standalone_kind: Optional[Literal["tree", "blob"]] = None,</span>
 <span class="line-empty" title="No Anys on this line!">    ) -&gt; None:</span>
-<span class="line-precise" title="No Anys on this line!">        self.nodes.append(</span>
-<span class="line-empty" title="No Anys on this line!">            {</span>
-<span class="line-precise" title="No Anys on this line!">                "name": name,</span>
-<span class="line-precise" title="No Anys on this line!">                "label": label,</span>
-<span class="line-precise" title="No Anys on this line!">                "color": color,</span>
-<span class="line-precise" title="No Anys on this line!">                "fillcolor": fillcolor,</span>
-<span class="line-precise" title="No Anys on this line!">                "shape": shape,</span>
-<span class="line-precise" title="No Anys on this line!">                "tooltip": tooltip,</span>
-<span class="line-empty" title="No Anys on this line!">            }</span>
-<span class="line-empty" title="No Anys on this line!">        )</span>
+<span class="line-precise" title="No Anys on this line!">        attr = {</span>
+<span class="line-precise" title="No Anys on this line!">            "name": name,</span>
+<span class="line-precise" title="No Anys on this line!">            "label": label,</span>
+<span class="line-precise" title="No Anys on this line!">            "color": color,</span>
+<span class="line-precise" title="No Anys on this line!">            "fillcolor": fillcolor,</span>
+<span class="line-precise" title="No Anys on this line!">            "shape": shape,</span>
+<span class="line-precise" title="No Anys on this line!">            "tooltip": tooltip,</span>
+<span class="line-precise" title="No Anys on this line!">            "URL": URL,</span>
+<span class="line-empty" title="No Anys on this line!">        }</span>
+<span class="line-precise" title="No Anys on this line!">        if URL is not None:</span>
+<span class="line-precise" title="No Anys on this line!">            attr["target"] = "_blank"</span>
+<span class="line-empty" title="No Anys on this line!"></span>
+<span class="line-precise" title="No Anys on this line!">        if standalone_kind is None:</span>
+<span class="line-precise" title="No Anys on this line!">            self.nodes.append(attr)</span>
+<span class="line-precise" title="No Anys on this line!">        elif standalone_kind == "tree":</span>
+<span class="line-precise" title="No Anys on this line!">            self.standalone_trees.append(attr)</span>
+<span class="line-precise" title="No Anys on this line!">        elif standalone_kind == "blob":</span>
+<span class="line-precise" title="No Anys on this line!">            self.standalone_blobs.append(attr)</span>
 <span class="line-empty" title="No Anys on this line!"></span>
 <span class="line-precise" title="No Anys on this line!">    def build(  # pylint: disable=too-many-positional-arguments</span>
 <span class="line-empty" title="No Anys on this line!">        self,</span>
@@ -116,6 +177,55 @@
 <span class="line-empty" title="No Anys on this line!">        dag_attr: dict[str, str],</span>
 <span class="line-empty" title="No Anys on this line!">        filename: str,</span>
 <span class="line-empty" title="No Anys on this line!">    ) -&gt; None:</span>
+<span class="line-precise" title="No Anys on this line!">        def form_clulster_of_standalone_trees_and_blobs() -&gt; None:</span>
+<span class="line-empty" title="No Anys on this line!">            # standalone blobs and trees are placed in a cluster</span>
+<span class="line-empty" title="No Anys on this line!">            if (</span>
+<span class="line-precise" title="No Anys on this line!">                self.standalone_cluster</span>
+<span class="line-precise" title="No Anys on this line!">                or self.standalone_trees</span>
+<span class="line-precise" title="No Anys on this line!">                or self.standalone_blobs</span>
+<span class="line-empty" title="No Anys on this line!">            ):</span>
+<span class="line-any" title="Any Types on this line: 
+Explicit (x3)">                with self._dag.subgraph(</span>
+<span class="line-precise" title="No Anys on this line!">                    name="cluster_standalone",</span>
+<span class="line-precise" title="No Anys on this line!">                    edge_attr={"style": "invis"},</span>
+<span class="line-any" title="Any Types on this line: 
+Explicit (x1)">                ) as c:</span>
+<span class="line-any" title="Any Types on this line: 
+Explicit (x3)">                    c.attr(</span>
+<span class="line-precise" title="No Anys on this line!">                        label=STANDALONE_CLUSTER_PARAMS["label"],</span>
+<span class="line-precise" title="No Anys on this line!">                        color=STANDALONE_CLUSTER_PARAMS["color"],</span>
+<span class="line-empty" title="No Anys on this line!">                    )</span>
+<span class="line-empty" title="No Anys on this line!"></span>
+<span class="line-precise" title="Any Types on this line: 
+Omitted Generics (x5)">                    sorted_standalone_trees = sorted(</span>
+<span class="line-precise" title="No Anys on this line!">                        self.standalone_trees, key=lambda x: (x["label"], x["tooltip"])</span>
+<span class="line-empty" title="No Anys on this line!">                    )</span>
+<span class="line-precise" title="Any Types on this line: 
+Omitted Generics (x5)">                    sorted_standalone_blobs = sorted(</span>
+<span class="line-precise" title="No Anys on this line!">                        self.standalone_blobs, key=lambda x: (x["label"], x["tooltip"])</span>
+<span class="line-empty" title="No Anys on this line!">                    )</span>
+<span class="line-empty" title="No Anys on this line!"></span>
+<span class="line-precise" title="No Anys on this line!">                    tree_names = [t["name"] for t in sorted_standalone_trees]</span>
+<span class="line-precise" title="No Anys on this line!">                    blob_names = [b["name"] for b in sorted_standalone_blobs]</span>
+<span class="line-empty" title="No Anys on this line!"></span>
+<span class="line-precise" title="No Anys on this line!">                    for node in sorted_standalone_trees:</span>
+<span class="line-any" title="Any Types on this line: 
+Explicit (x3)">                        c.node(**node)</span>
+<span class="line-any" title="Any Types on this line: 
+Explicit (x12)
+Omitted Generics (x30)">                    c.edges(zip(tree_names, tree_names[1:]))</span>
+<span class="line-empty" title="No Anys on this line!"></span>
+<span class="line-precise" title="No Anys on this line!">                    for node in sorted_standalone_blobs:</span>
+<span class="line-any" title="Any Types on this line: 
+Explicit (x3)">                        c.node(**node)</span>
+<span class="line-any" title="Any Types on this line: 
+Explicit (x12)
+Omitted Generics (x30)">                    c.edges(zip(blob_names, blob_names[1:]))</span>
+<span class="line-empty" title="No Anys on this line!"></span>
+<span class="line-precise" title="No Anys on this line!">                    if not tree_names and not blob_names:</span>
+<span class="line-any" title="Any Types on this line: 
+Explicit (x3)">                        c.node("node", style="invis")  # to display an empty cluster</span>
+<span class="line-empty" title="No Anys on this line!"></span>
 <span class="line-any" title="Any Types on this line: 
 Unimported (x2)
 Explicit (x1)">        self._dag = Digraph(</span>
@@ -134,6 +244,8 @@ Explicit (x3)">            self._dag.node(**node)</span>
 <span class="line-any" title="Any Types on this line: 
 Explicit (x3)
 Omitted Generics (x5)">        self._dag.edges(sorted(self.edges))</span>
+<span class="line-empty" title="No Anys on this line!"></span>
+<span class="line-precise" title="No Anys on this line!">        form_clulster_of_standalone_trees_and_blobs()</span>
 <span class="line-empty" title="No Anys on this line!"></span>
 <span class="line-precise" title="No Anys on this line!">    def render(self) -&gt; None:</span>
 <span class="line-any" title="Any Types on this line: 
