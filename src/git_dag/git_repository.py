@@ -14,7 +14,7 @@ from typing import Annotated, Any, Callable, Optional, Type, cast
 
 from pydantic import BeforeValidator, TypeAdapter
 
-from .constants import GIT_EMPTY_TREE_OBJECT_SHA, SHA_PATTERN, DagBackends, DictStrStr
+from .constants import GIT_EMPTY_TREE_OBJECT_SHA, SHA_PATTERN, DictStrStr
 from .dag import DagVisualizer
 from .git_commands import GitCommand
 from .git_objects import (
@@ -32,6 +32,7 @@ from .git_objects import (
     GitTree,
     GitTreeRawDataType,
 )
+from .parameters import Params
 from .utils import creator_timestamp_format
 
 IG = itemgetter("sha", "kind")
@@ -391,15 +392,15 @@ class GitInspector:
         Note
         -----
         The objects are "raw", in the sense that they are not fully initialized. For
-        example, consider a :class:`~git_dag.pydantic_models.GitTree` object. Even
+        example, consider a :class:`~git_dag.git_objects.GitTree` object. Even
         though all necessary data is available in
-        :attr:`~git_dag.pydantic_models.GitTree.raw_data`, the ``GitTree._children``
+        :attr:`~git_dag.git_objects.GitTree.raw_data`, the ``GitTree._children``
         field is still not initialized (and the
-        :class:`~git_dag.pydantic_models.GitTree` instances are not fully functional).
+        :class:`~git_dag.git_objects.GitTree` instances are not fully functional).
         The remaining post-processing is performed in
         :func:`~git_dag.git_repository.GitRepository.post_process_inspector_data` (as
         all instances need to be formed first). The
-        :attr:`~git_dag.pydantic_models.GitObject.is_ready` property indicates whether
+        :attr:`~git_dag.git_objects.GitObject.is_ready` property indicates whether
         an instance has been fully initialized.
 
         """
@@ -650,44 +651,28 @@ class GitRepository:
         }
 
     @time_it
-    def show(
-        self,
-        dag_backend: DagBackends = DagBackends.GRAPHVIZ,
-        xdg_open: bool = False,
-        init_refs: Optional[list[str]] = None,
-        max_numb_commits: Optional[int] = 1000,
-        **kwargs: Any,
-    ) -> Any:
-        """Show dag.
+    def show(self, params: Params) -> Any:
+        """Show dag."""
 
-        Parameters
-        -----------
-        dag_backend
-            DAG backend to use.
-        xdg_open
-            Whether to open the dag using ``xdg-open``.
-        init_refs
-            A list of branches, tags, git objects (commits, trees, blobs) that
-            represents a limitation from where to display the DAG (there are no
-            limitations when the list is empty).
-        max_numb_commits
-            Max number of commit objects to display.
+        max_numb_commits = (
+            None
+            if params.public.max_numb_commits < 1
+            else params.public.max_numb_commits
+        )
 
-        """
-        if not init_refs and max_numb_commits is None:
+        if not params.public.init_refs and max_numb_commits is None:
             objects_sha_to_include = None
         else:
             objects_sha_to_include = self.get_objects_reachable_from(
-                init_refs,
+                params.public.init_refs,
                 max_numb_commits,
             )
 
         return DagVisualizer(
-            self,
-            dag_backend=dag_backend,
+            repository=self,
+            params=params,
             objects_sha_to_include=objects_sha_to_include,
-            **kwargs,
-        ).show(xdg_open)
+        ).show(params.public.xdg_open)
 
     def __repr__(self) -> str:
         local_branches = [b for b in self.branches if b.is_local]

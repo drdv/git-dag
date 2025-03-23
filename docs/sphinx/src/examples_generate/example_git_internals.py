@@ -8,9 +8,10 @@ from textwrap import dedent
 from typing import Any, Optional
 
 from git_dag import GitRepository
-from git_dag.cli import get_cla
+from git_dag.cli import get_user_defined_cla
 from git_dag.constants import DictStrStr
 from git_dag.git_commands import GitCommandMutate
+from git_dag.parameters import Params, ParamsPublic
 
 EXAMPLE_NAME = "git_internals"
 
@@ -27,8 +28,7 @@ OUT_DIR.mkdir()
 
 GIT = GitCommandMutate(TMP_DIR)
 
-CLA_DEFAULT = vars(get_cla())
-SHOW_ARGS_ALL_TRUE = [
+SHOW_DEFAULT_ARGS = [
     "-T",
     "-B",
     "-l",
@@ -45,18 +45,14 @@ SHOW_ARGS_ALL_TRUE = [
 ]
 
 
-def cla2dict(user_defined_args: list[str]) -> dict[str, Any]:
-    return {
-        key: value
-        for key, value in vars(get_cla(user_defined_args)).items()
-        if CLA_DEFAULT[key] != value
-    }
-
-
 def visualize(name: str, show_args: list[str]) -> None:
-    GitRepository(TMP_DIR, parse_trees=True).show(
-        **cla2dict(show_args), filename=OUT_DIR / f"{name}.gv"
+    params = Params(
+        public=ParamsPublic(
+            **get_user_defined_cla(show_args),
+            file=OUT_DIR / f"{name}.gv",
+        )
     )
+    GitRepository(TMP_DIR, parse_trees=True).show(params)
 
     with open(OUT_DIR / f"{name}_html.rst", "w") as h:
         h.write(
@@ -98,7 +94,7 @@ def generate_output(
         STEP_NUMBER += 1
         return None
 
-    visualize(name, SHOW_ARGS_ALL_TRUE if show_args is None else show_args)
+    visualize(name, SHOW_DEFAULT_ARGS if show_args is None else show_args)
 
     if commands is not None:
         with open(OUT_DIR / f"{name}_cmd.rst", "w") as h:

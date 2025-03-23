@@ -16,6 +16,8 @@ OUT_DIR := out
 REF_DIR := references
 GITHUB_DRDV := https://github.com/drdv
 
+HTTP_SERVE_DIR := .
+
 define clone_repo
 	@cd ${INTEGR_TEST_DIR} && git clone $1 $2
 endef
@@ -210,8 +212,12 @@ test-create-reference:
 
 ## Serve sphinx documentation
 .PHONY: docs-serve
-docs-serve:
-	$(PYTHON) -m http.server -d ${HTML_DIR}
+docs-serve: HTTP_SERVE_DIR := $(HTML_DIR)
+docs-serve: http-serve
+
+## Serve files in HTTP_SERVE_DIR (the current directory is the default)
+http-serve:
+	$(PYTHON) -m http.server -d ${HTTP_SERVE_DIR}
 
 ##! Delete generated docs
 rm-docs:

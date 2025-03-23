@@ -1,6 +1,6 @@
 """Test git_repository.py."""
 
-# pylint: disable=missing-function-docstring,redefined-outer-name
+# pylint: disable=missing-function-docstring
 
 import logging
 from pathlib import Path
@@ -11,9 +11,9 @@ from git_dag.constants import GIT_EMPTY_TREE_OBJECT_SHA
 from git_dag.git_commands import GitCommandMutate, TestGitRepository
 from git_dag.git_objects import GitBlob, GitTree
 from git_dag.git_repository import GitRepository
+from git_dag.parameters import Params, ParamsDagGlobal, ParamsPublic
 
 TEST_DIR = Path(__file__).parent
-LOG = logging.getLogger(__name__)
 
 
 def test_repository_empty(
@@ -101,7 +101,7 @@ def test_repository_default_with_notes(git_repository_default_with_notes: Path) 
     """
     Maybe this test should be split. It tests three things:
     1. that git notes label is added
-    2. setting max_numb_commits to None
+    2. setting max_numb_commits to 0
     3. setting commit_message_as_label to 1
     """
     repo_path = git_repository_default_with_notes
@@ -119,13 +119,18 @@ def test_repository_default_with_notes(git_repository_default_with_notes: Path) 
     assert len(repo.filter_objects(GitTree).values()) == 6 + numb_obj_due_to_notes
     assert len(repo.filter_objects(GitBlob).values()) == 5 + numb_obj_due_to_notes
 
-    repo.show(
-        max_numb_commits=None,
-        commit_message_as_label=1,
-        format="gv",
-        filename=repo_path / "default_repo_with_notes.gv",
+    file = repo_path / "default_repo_with_notes.gv"
+    params = Params(
+        public=ParamsPublic(
+            max_numb_commits=0,
+            commit_message_as_label=1,
+            format="gv",
+            file=file,
+        )
     )
-    with open(repo_path / "default_repo_with_notes.gv", "r", encoding="utf-8") as h:
+
+    repo.show(params)
+    with open(file, "r", encoding="utf-8") as h:
         result_gv = h.read()
 
     assert (
@@ -135,8 +140,21 @@ def test_repository_default_with_notes(git_repository_default_with_notes: Path) 
     for name in list("ABCDEFGHINmO"):
         assert f"label={name}" in result_gv
 
-    with pytest.raises(ValueError):
-        repo.show(dag_backend="missing", format="gv", filename=repo_path / "tmp.gv")  # type: ignore[arg-type]
+
+def test_unknown_dag_backend(git_repository_default: Path) -> None:
+    repo_path = git_repository_default
+    repo = GitRepository(repo_path, parse_trees=False)
+
+    params = Params(
+        public=ParamsPublic(
+            dag_backend="unknown-backend",
+            format="gv",
+            file=repo_path / "tmp.gv",
+        )
+    )
+
+    with pytest.raises(KeyError):
+        repo.show(params)
 
 
 def test_repository_default_dag(tmp_path: Path) -> None:
@@ -149,19 +167,24 @@ def test_repository_default_dag(tmp_path: Path) -> None:
     )
     repo = GitRepository(repo_path, parse_trees=True)
     repo.show(
-        show_unreachable_commits=True,
-        show_local_branches=True,
-        show_remote_branches=True,
-        show_trees=True,
-        show_trees_standalone=False,
-        show_blobs=True,
-        show_blobs_standalone=False,
-        show_tags=True,
-        show_deleted_tags=True,
-        show_stash=True,
-        show_head=True,
-        format="gv",
-        filename=repo_path / "default_repo.gv",
+        Params(
+            public=ParamsPublic(
+                show_unreachable_commits=True,
+                show_local_branches=True,
+                show_remote_branches=True,
+                show_trees=True,
+                show_trees_standalone=False,
+                show_blobs=True,
+                show_blobs_standalone=False,
+                show_tags=True,
+                show_deleted_tags=True,
+                show_stash=True,
+                show_head=True,
+                format="gv",
+                file=repo_path / "default_repo.gv",
+            ),
+            dag_global=ParamsDagGlobal(bgcolor="transparent"),
+        )
     )
 
     with open(TEST_DIR / "resources/default_repo.gv", "r", encoding="utf-8") as h:
@@ -186,7 +209,13 @@ def test_repository_default_dag_svg(tmp_path: Path) -> None:
         repo_path,
     )
     repo = GitRepository(repo_path, parse_trees=True)
-    repo.show(filename=repo_path / "default_repo.gv")
+    repo.show(
+        Params(
+            public=ParamsPublic(
+                file=repo_path / "default_repo.gv",
+            )
+        )
+    )
     assert (repo_path / "default_repo.gv.svg").is_file()
 
 

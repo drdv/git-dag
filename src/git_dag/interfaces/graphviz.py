@@ -1,10 +1,11 @@
 """Interface for graphviz (https://github.com/xflr6/graphviz)."""
 
+from pathlib import Path
 from typing import Any, Literal, Optional
 
 from graphviz import Digraph  # type: ignore[import-untyped]
 
-from ..constants import STANDALONE_CLUSTER_PARAMS
+from ..constants import DictStrStr
 from .dag_base import DagBase
 
 
@@ -47,10 +48,11 @@ class DagGraphviz(DagBase):
     def build(  # pylint: disable=too-many-positional-arguments
         self,
         format: str,  # pylint: disable=redefined-builtin
-        node_attr: dict[str, str],
-        edge_attr: dict[str, str],
-        dag_attr: dict[str, str],
-        filename: str,
+        node_attr: DictStrStr,
+        edge_attr: DictStrStr,
+        dag_attr: DictStrStr,
+        filename: str | Path,
+        cluster_params: DictStrStr,
     ) -> None:
         def form_clulster_of_standalone_trees_and_blobs() -> None:
             # standalone blobs and trees are placed in a cluster
@@ -64,8 +66,8 @@ class DagGraphviz(DagBase):
                     edge_attr={"style": "invis"},
                 ) as c:
                     c.attr(
-                        label=STANDALONE_CLUSTER_PARAMS["label"],
-                        color=STANDALONE_CLUSTER_PARAMS["color"],
+                        label=cluster_params["label"],
+                        color=cluster_params["color"],
                     )
 
                     sorted_standalone_trees = sorted(

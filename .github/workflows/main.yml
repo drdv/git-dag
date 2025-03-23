@@ -23,6 +23,7 @@ jobs:
         run: |
           sudo apt-get install graphviz
           pip install -e .[dev]
+          yes | mypy --install-types src/git_dag || true
           make docs MYPY_FLAGS=--no-install-types
           touch docs/sphinx/build/html/.nojekyll # https://stackoverflow.com/a/64544659
 

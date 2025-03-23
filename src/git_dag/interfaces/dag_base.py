@@ -3,6 +3,8 @@
 from abc import ABC, abstractmethod
 from typing import Any, Literal, Optional
 
+from ..constants import DictStrStr
+
 
 class DagBase(ABC):
     """DAG base class."""
@@ -37,10 +39,11 @@ class DagBase(ABC):
     def build(  # pylint: disable=too-many-positional-arguments
         self,
         format: str,  # pylint: disable=redefined-builtin
-        node_attr: dict[str, str],
-        edge_attr: dict[str, str],
-        dag_attr: dict[str, str],
+        node_attr: DictStrStr,
+        edge_attr: DictStrStr,
+        dag_attr: DictStrStr,
         filename: str,
+        cluster_params: DictStrStr,
     ) -> None:
         """Build the graph."""
 

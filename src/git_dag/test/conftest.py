@@ -1,6 +1,6 @@
 """Pytest fixtures."""
 
-# pylint: disable=missing-function-docstring,redefined-outer-name
+# pylint: disable=missing-function-docstring
 
 from pathlib import Path
 
