@@ -16,7 +16,7 @@ import time
 from pathlib import Path
 from typing import Any, Literal, Optional
 
-from git_dag.constants import CMD_TAGS_INFO, TAG_FORMAT_FIELDS, DictStrStr
+from git_dag.constants import CMD_TAGS_INFO, SHA_PATTERN, TAG_FORMAT_FIELDS, DictStrStr
 from git_dag.utils import escape_decode
 
 logging.basicConfig(level=logging.WARNING)
@@ -318,6 +318,21 @@ class GitCommand(GitCommandBase):
             except subprocess.CalledProcessError:
                 LOG.warning(f"HEAD not defined for {remote}.")
         return symb_refs
+
+    def get_prs_heads(self) -> DictStrStr:
+        """Return heads of pull-requests."""
+        try:
+            cmd_output = self._run("ls-remote").strip().split("\n")
+        except subprocess.CalledProcessError:
+            LOG.warning("No remote")
+
+        out = {}
+        for line in cmd_output:
+            match = re.search(f"{SHA_PATTERN}\trefs/pull/(?P<pr_id>\d+)/head", line)
+            if match:
+                out[match.group("pr_id")] = match.group("sha")
+
+        return out
 
     def get_branches(self, remotes: list[str]) -> dict[str, DictStrStr]:
         """Get local/remote branches (while excluding remote HEADs)."""

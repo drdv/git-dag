@@ -48,6 +48,7 @@ class MixinProtocol(Protocol):
     show_deleted_tags: bool
     show_stash: bool
     show_head: bool
+    show_prs_heads: bool
     range: Optional[list[str]]
     commit_message_as_label: int
     included_nodes_id: set[str]
@@ -88,7 +89,7 @@ class CommitHandlerMixin:
         if self._is_object_to_include(sha) and unreachable_switch:
             self.included_nodes_id.add(sha)
             color_label = "commit" if item.is_reachable else "commit-unreachable"
-            in_range = self.range is None or sha not in self.range
+            not_in_range = self.range is None or sha not in self.range
 
             if self.commit_message_as_label > 0:
                 label = item.message[: self.commit_message_as_label]
@@ -98,7 +99,11 @@ class CommitHandlerMixin:
             self.dag.node(
                 name=sha,
                 label=label,
-                color=DAG_NODE_COLORS[color_label] if in_range else None,
+                color=(
+                    DAG_NODE_COLORS[color_label]
+                    if not_in_range
+                    else DAG_NODE_COLORS["commit-in-range"]
+                ),
                 fillcolor=DAG_NODE_COLORS[color_label],
                 tooltip=form_tooltip(item),
             )
@@ -297,6 +302,21 @@ class HeadHandlerMixin:
             )
             self.dag.edge(head, f"remote-branch-{ref}")
 
+    def _add_prs_heads(self: MixinProtocol) -> None:
+        """Add pull-request heads."""
+        if self.repository.prs_heads is not None:
+            for pr_id, sha in self.repository.prs_heads.items():
+                if sha in self.included_nodes_id:
+                    node_name = f"PR_{pr_id}_HEAD"
+                    self.dag.node(
+                        name=node_name,
+                        label=pr_id,
+                        color=DAG_NODE_COLORS["head"],
+                        fillcolor=DAG_NODE_COLORS["head"],
+                        shape="circle",
+                    )
+                    self.dag.edge(node_name, sha)
+
 
 @dataclass
 class DagVisualizer(
@@ -329,6 +349,7 @@ class DagVisualizer(
     show_deleted_tags: bool = False
     show_stash: bool = False
     show_head: bool = False
+    show_prs_heads: bool = False
     range: Optional[list[str]] = None
 
     commit_message_as_label: int = 0
@@ -450,6 +471,8 @@ class DagVisualizer(
             self._add_remote_branches()
             if self.show_head:
                 self._add_remote_heads()
+
+        self._add_prs_heads()
 
         if self.show_tags:
             self._add_annotated_tags()

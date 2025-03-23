@@ -5,6 +5,9 @@ from typing import Final
 
 DictStrStr = dict[str, str]
 
+#: Regex patterx for SHA-1 hash.
+SHA_PATTERN = "(?P<sha>[0-9a-f]{40})"
+
 #: See https://stackoverflow.com/a/21868228
 TAG_FORMAT_FIELDS: Final[list[str]] = [
     "refname",  # short name of lightweight tag (LWT)
@@ -40,6 +43,7 @@ GIT_EMPTY_TREE_OBJECT_SHA: Final[str] = "4b825dc642cb6eb9a060e54bf8d69288fbee490
 DAG_NODE_COLORS: Final[DictStrStr] = {
     "commit": "gold3",
     "commit-unreachable": "darkorange",
+    "commit-in-range": "red",
     "tree": "deepskyblue4",
     "the-empty-tree": "darkturquoise",
     "blob": "gray",
