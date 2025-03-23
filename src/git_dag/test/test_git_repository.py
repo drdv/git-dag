@@ -73,7 +73,7 @@ def test_repository_default(git_repository_default: Path) -> None:
 
     commits = repo.commits.values()
     assert len([c for c in commits if c.is_reachable]) == 12
-    assert len([c for c in commits if not c.is_reachable]) == 3
+    assert len([c for c in commits if not c.is_reachable]) == 5
 
     tags = repo.tags.values()
     assert len([c for c in tags if not c.is_deleted]) == 6
@@ -114,7 +114,7 @@ def test_repository_default_with_notes(git_repository_default_with_notes: Path) 
 
     commits = repo.commits.values()
     assert len([c for c in commits if c.is_reachable]) == 12 + numb_obj_due_to_notes
-    assert len([c for c in commits if not c.is_reachable]) == 3
+    assert len([c for c in commits if not c.is_reachable]) == 5
 
     assert len(repo.filter_objects(GitTree).values()) == 6 + numb_obj_due_to_notes
     assert len(repo.filter_objects(GitBlob).values()) == 5 + numb_obj_due_to_notes
@@ -148,7 +148,6 @@ def test_repository_default_dag(tmp_path: Path) -> None:
         repo_path,
     )
     repo = GitRepository(repo_path, parse_trees=True)
-    print(repo_path)
     repo.show(
         show_unreachable_commits=True,
         show_local_branches=True,

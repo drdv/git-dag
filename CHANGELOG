@@ -4,6 +4,10 @@
 
 + Add command-line flag to embed the SVG in HTML (#82, #81)
 
+** Bugfixes
+
++ Fix stash creation in unit tests (#84)
+
 * 0.1.2    2025-03-22
 
 + Add example: git internals (#64, #79)
