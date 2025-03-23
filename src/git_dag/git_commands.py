@@ -328,7 +328,7 @@ class GitCommand(GitCommandBase):
 
         out = {}
         for line in cmd_output:
-            match = re.search(f"{SHA_PATTERN}\trefs/pull/(?P<pr_id>\d+)/head", line)
+            match = re.search(f"{SHA_PATTERN}\trefs/pull/(?P<pr_id>\\d+)/head", line)
             if match:
                 out[match.group("pr_id")] = match.group("sha")
 

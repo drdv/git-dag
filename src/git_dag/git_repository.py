@@ -460,6 +460,9 @@ class GitRepository:
             the flag ``--prs-heads``).
 
         """
+        if not Path(repository_path).exists():
+            raise RuntimeError(f"Repository {repository_path} doesn't exist.")
+
         self.inspector = GitInspector(repository_path, parse_trees)
         self.ls_remote = ls_remote
         self.post_process_inspector_data()

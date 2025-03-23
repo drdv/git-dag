@@ -7,6 +7,7 @@
 
 ** Bugfixes
 
++ Verify repository path before processing (#87)
 + Fix stash creation in unit tests (#84)
 
 * 0.1.2    2025-03-22
