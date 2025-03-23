@@ -20,6 +20,7 @@ from .constants import (
     DAG_NODE_ATTR,
     DAG_NODE_COLORS,
     GIT_EMPTY_TREE_OBJECT_SHA,
+    HTML_EMBED_SVG,
     SHA_LIMIT,
     DagBackends,
     DictStrStr,
@@ -315,6 +316,7 @@ class DagVisualizer(
     format: str = "svg"
     filename: str = "git-dag.gv"
 
+    html_embed_svg: bool = False
     show_unreachable_commits: bool = False
     show_local_branches: bool = False
     show_remote_branches: bool = False
@@ -352,6 +354,31 @@ class DagVisualizer(
 
         self._build_dag()
 
+    @staticmethod
+    def _embed_svg_in_html(filename: str) -> None:
+        with open(
+            "docs/sphinx/src/.static/js/svg-pan-zoom.min.js",
+            "r",
+            encoding="utf-8",
+        ) as h:
+            svg_pan_zoom_js = h.read()
+
+        with open(
+            "docs/sphinx/src/.static/js/custom.js",
+            "r",
+            encoding="utf-8",
+        ) as h:
+            custom_js = h.read()
+
+        with open(filename + ".html", "w", encoding="utf-8") as h:
+            h.write(
+                HTML_EMBED_SVG.format(
+                    svg_pan_zoom_js=svg_pan_zoom_js,
+                    custom_js=custom_js,
+                    svg_filename=filename,
+                )
+            )
+
     def show(self, xdg_open: bool = False) -> Any:
         """Show the dag.
 
@@ -373,12 +400,17 @@ class DagVisualizer(
                 h.write(self.dag.source())
         else:
             self.dag.render()
+
+            filename_format = f"{self.filename}.{self.format}"
             if xdg_open:  # pragma: no cover
                 subprocess.run(
-                    f"xdg-open {self.filename}.{self.format}",
+                    f"xdg-open {filename_format}",
                     shell=True,
                     check=True,
                 )
+
+            if self.format == "svg" and self.html_embed_svg:
+                self._embed_svg_in_html(filename_format)
 
         return self.dag.get()
 

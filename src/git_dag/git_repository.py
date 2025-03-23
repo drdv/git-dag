@@ -316,7 +316,7 @@ class GitInspector:
 
         numb_commits_not_found = len(self.commits_sha["all"]) - len(commits_info)
         if numb_commits_not_found > 0:
-            LOG.warning(
+            LOG.info(
                 f"{numb_commits_not_found} commits not found in "
                 "git rev-list --all --reflog"
             )
@@ -356,7 +356,7 @@ class GitInspector:
                     commit_info = self.commits_info[sha]
                 else:
                     commit_info = self.git.read_object_file(sha)  # slower
-                    LOG.warning(f"[commit] manually executing git cat-file -p {sha}")
+                    LOG.info(f"[commit] manually executing git cat-file -p {sha}")
 
                 return GitCommit(
                     sha=sha,
