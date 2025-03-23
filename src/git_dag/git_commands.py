@@ -17,6 +17,7 @@ from pathlib import Path
 from typing import Any, Literal, Optional
 
 from git_dag.constants import CMD_TAGS_INFO, SHA_PATTERN, TAG_FORMAT_FIELDS, DictStrStr
+from git_dag.parameters import Params, ParamsPublic
 from git_dag.utils import escape_decode
 
 logging.basicConfig(level=logging.WARNING)
@@ -325,6 +326,7 @@ class GitCommand(GitCommandBase):
             cmd_output = self._run("ls-remote").strip().split("\n")
         except subprocess.CalledProcessError:
             LOG.warning("No remote")
+            return {}
 
         out = {}
         for line in cmd_output:
@@ -617,19 +619,22 @@ def create_test_repo_and_reference_dot_file(
     TestGitRepository.create("default", path)
 
     repo = GitRepository(path, parse_trees=True)
-    repo.show(
-        show_unreachable_commits=True,
-        show_local_branches=True,
-        show_remote_branches=True,
-        show_trees=True,
-        show_blobs=True,
-        show_tags=True,
-        show_deleted_tags=True,
-        show_stash=True,
-        show_head=True,
-        format="gv",
-        filename=path / "../default_repo.gv",
+    params = Params(
+        public=ParamsPublic(
+            show_unreachable_commits=True,
+            show_local_branches=True,
+            show_remote_branches=True,
+            show_trees=True,
+            show_blobs=True,
+            show_tags=True,
+            show_deleted_tags=True,
+            show_stash=True,
+            show_head=True,
+            format="gv",
+            file=path / "../default_repo.gv",
+        )
     )
+    repo.show(params)
 
     TestGitRepository.tar(path, path / "../default_repo.tar.gz")
 

@@ -3,12 +3,13 @@
 """Comman-line interface."""
 import argparse
 import logging
-from typing import Optional
+from typing import Any, Optional
 
 import argcomplete
 
-from .constants import DagBackends
-from .git_repository import GitRepository
+from git_dag.constants import CONFIG_FILE
+from git_dag.git_repository import GitRepository
+from git_dag.parameters import Params, ParamsPublic, context_ignore_config_file
 
 
 class CustomArgparseNamespace(argparse.Namespace):
@@ -28,13 +29,9 @@ class CustomArgparseNamespace(argparse.Namespace):
     init_refs: Optional[list[str]]
     max_numb_commits: int
     dag_backend: str
-
-    dpi: str
-    rankdir: str
-    bgcolor: str
+    log_level: str
 
     html_embed_svg: bool
-
     show_unreachable_commits: bool
     show_tags: bool
     show_deleted_tags: bool
@@ -42,61 +39,66 @@ class CustomArgparseNamespace(argparse.Namespace):
     show_remote_branches: bool
     show_stash: bool
     show_trees: bool
+    show_trees_standalone: bool
     show_blobs: bool
+    show_blobs_standalone: bool
     show_head: bool
     show_prs_heads: bool
     range: Optional[list[str]]
     commit_message_as_label: int
     xdg_open: bool
-    log_level: str
 
 
 def get_cla_parser() -> argparse.ArgumentParser:
-    """Define CLA parser."""
+    """Define CLA parser.
 
-    def max_numb_commits_type(value_str: str) -> Optional[int]:
-        """Handle the type returned by the -n flag."""
-        value = int(value_str)
-        if value < 1:
-            return None
-        return value
+    Note
+    -----
+    The default value of all flags (``action="store_true"``) is set to ``None`` because
+    it is used when default values for parameters are being set (see ``parameters.py``).
 
+    """
     parser = argparse.ArgumentParser(description="Visualize the git DAG.")
+
+    parser.add_argument(
+        "--config-create",
+        action="store_true",
+        default=None,
+        help=f"Create config {CONFIG_FILE} and exit.",
+    )
+
+    parser.add_argument(
+        "--config-ignore",
+        action="store_true",
+        default=None,
+        help=f"Ignore the {CONFIG_FILE} config.",
+    )
 
     parser.add_argument(
         "-p",
         "--path",
-        default=".",
         help="Path to a git repository.",
     )
 
     parser.add_argument(
         "-f",
         "--file",
-        default="git-dag.gv",
         help="Output graphviz file (e.g., `/path/to/file`).",
     )
 
     parser.add_argument(
         "-b",
         "--dag-backend",
-        default="graphviz",
         choices=["graphviz"],
         help="Backend DAG library.",
     )
 
     parser.add_argument(
         "--format",
-        default="svg",
         help=(
             "Graphviz output format (tooltips are available only with svg). "
             "If the format is set to `gv`, only the graphviz source file is generated."
         ),
-    )
-
-    parser.add_argument(
-        "--dpi",
-        help="DPI of output figure (used with `--format png`).",
     )
 
     parser.add_argument(
@@ -119,8 +121,7 @@ def get_cla_parser() -> argparse.ArgumentParser:
     parser.add_argument(
         "-n",
         "--max-numb-commits",
-        type=max_numb_commits_type,
-        default=1000,  # default protection
+        type=int,
         help=(
             "Max number of commits to display. If set to 0 and the -i flag is not "
             "specified, no limitations are considered whatsoever. If set to n > 0, "
@@ -132,22 +133,10 @@ def get_cla_parser() -> argparse.ArgumentParser:
     )
 
     parser.add_argument(
-        "--rankdir",
-        default="TB",
-        choices=["LR", "RL", "TB", "BT"],
-        help="rankdir argument of graphviz.",
-    )
-
-    parser.add_argument(
-        "--bgcolor",
-        default="transparent",
-        help="bgcolor argument of graphviz (e.g., gray42).",
-    )
-
-    parser.add_argument(
         "-u",
         dest="show_unreachable_commits",
         action="store_true",
+        default=None,
         help="Show unreachable commits.",
     )
 
@@ -155,6 +144,7 @@ def get_cla_parser() -> argparse.ArgumentParser:
         "-t",
         dest="show_tags",
         action="store_true",
+        default=None,
         help="Show tags.",
     )
 
@@ -162,6 +152,7 @@ def get_cla_parser() -> argparse.ArgumentParser:
         "-D",
         dest="show_deleted_tags",
         action="store_true",
+        default=None,
         help="Show deleted annotated tags.",
     )
 
@@ -169,6 +160,7 @@ def get_cla_parser() -> argparse.ArgumentParser:
         "-l",
         dest="show_local_branches",
         action="store_true",
+        default=None,
         help="Show local branches.",
     )
 
@@ -176,6 +168,7 @@ def get_cla_parser() -> argparse.ArgumentParser:
         "-r",
         dest="show_remote_branches",
         action="store_true",
+        default=None,
         help="Show remote branches.",
     )
 
@@ -183,6 +176,7 @@ def get_cla_parser() -> argparse.ArgumentParser:
         "-s",
         dest="show_stash",
         action="store_true",
+        default=None,
         help="Show stash.",
     )
 
@@ -190,13 +184,15 @@ def get_cla_parser() -> argparse.ArgumentParser:
         "-H",
         dest="show_head",
         action="store_true",
+        default=None,
         help="Show head (has effect only when -l or -r are set as well).",
     )
 
     parser.add_argument(
-        "--prs-heads",
+        "--pr",
         dest="show_prs_heads",
         action="store_true",
+        default=None,
         help=(
             "Show pull-requests heads "
             "(most of the time this requires passing -u as well)."
@@ -207,6 +203,7 @@ def get_cla_parser() -> argparse.ArgumentParser:
         "-T",
         dest="show_trees",
         action="store_true",
+        default=None,
         help="Show trees (WARNING: should be used only with small repositories).",
     )
 
@@ -214,6 +211,7 @@ def get_cla_parser() -> argparse.ArgumentParser:
         "--trees-standalone",
         dest="show_trees_standalone",
         action="store_true",
+        default=None,
         help=(
             "Show trees that don't have parent commits reachable from "
             "a branch a tag or the reflog."
@@ -224,6 +222,7 @@ def get_cla_parser() -> argparse.ArgumentParser:
         "-B",
         dest="show_blobs",
         action="store_true",
+        default=None,
         help="Show blobs (discarded if -T is not set).",
     )
 
@@ -231,6 +230,7 @@ def get_cla_parser() -> argparse.ArgumentParser:
         "--blobs-standalone",
         dest="show_blobs_standalone",
         action="store_true",
+        default=None,
         help=(
             "Show blobs that don't have parent commits reachable from "
             "a branch a tag or the reflog."
@@ -241,7 +241,6 @@ def get_cla_parser() -> argparse.ArgumentParser:
         "-m",
         "--message",
         type=int,
-        default=0,
         dest="commit_message_as_label",
         help=(
             "When greater than 0, this is the number of characters from the commit "
@@ -253,6 +252,7 @@ def get_cla_parser() -> argparse.ArgumentParser:
         "-o",
         "--xdg-open",
         action="store_true",
+        default=None,
         help="Open output file with xdg-open.",
     )
 
@@ -260,15 +260,15 @@ def get_cla_parser() -> argparse.ArgumentParser:
         "--html",
         dest="html_embed_svg",
         action="store_true",
+        default=None,
         help=(
-            "Generate a standalone HTML file that embeds the generated SVG. "
+            "Create a standalone HTML file that embeds the generated SVG. "
             "Hass effect only when --format is svg."
         ),
     )
 
     parser.add_argument(
         "--log-level",
-        default="WARNING",
         choices=["NOTSET", "INFO", "WARNING", "ERROR", "CRITICAL"],
         help="Log level.",
     )
@@ -276,51 +276,43 @@ def get_cla_parser() -> argparse.ArgumentParser:
     return parser
 
 
-def get_cla(raw_args: Optional[list[str]] = None) -> CustomArgparseNamespace:
+def get_user_defined_cla(
+    raw_args: Optional[list[str]] = None,
+) -> dict[str, Any]:
     """Parse command-line arguments."""
     parser = get_cla_parser()
 
     argcomplete.autocomplete(parser)
-    return parser.parse_args(raw_args, namespace=CustomArgparseNamespace())
+    args = parser.parse_args(raw_args, namespace=CustomArgparseNamespace())
+    return {key: value for key, value in vars(args).items() if value is not None}
 
 
 def main(raw_args: Optional[list[str]] = None) -> None:
     """CLI entry poit."""
-    args = get_cla(raw_args)
-    logging.getLogger().setLevel(getattr(logging, args.log_level))
+    user_defined_cla = get_user_defined_cla(raw_args)
 
+    # config_ignore and config_create are not stored as parameters
+    config_ignore = user_defined_cla.pop("config_ignore", False)
+    config_create = user_defined_cla.pop("config_create", False)
+
+    if config_ignore:
+        with context_ignore_config_file():
+            params = Params(public=ParamsPublic(**user_defined_cla))
+    else:
+        params = Params(public=ParamsPublic(**user_defined_cla))
+
+    if config_create:
+        params.create_config()
+        return None
+
+    logging.getLogger().setLevel(getattr(logging, params.public.log_level))
     GitRepository(
-        args.path,
-        parse_trees=args.show_trees,
-        ls_remote=args.show_prs_heads,
-    ).show(
-        dag_backend=DagBackends[args.dag_backend.upper()],
-        xdg_open=args.xdg_open,
-        format=args.format,
-        html_embed_svg=args.html_embed_svg,
-        show_unreachable_commits=args.show_unreachable_commits,
-        show_tags=args.show_tags,
-        show_deleted_tags=args.show_deleted_tags,
-        show_local_branches=args.show_local_branches,
-        show_remote_branches=args.show_remote_branches,
-        show_trees=args.show_trees,
-        show_trees_standalone=args.show_trees_standalone,
-        show_blobs=args.show_blobs,
-        show_blobs_standalone=args.show_blobs_standalone,
-        show_stash=args.show_stash,
-        show_head=args.show_head,
-        show_prs_heads=args.show_prs_heads,
-        range=args.range,
-        commit_message_as_label=args.commit_message_as_label,
-        init_refs=args.init_refs,
-        filename=args.file,
-        dag_attr={
-            "rankdir": args.rankdir,
-            "dpi": args.dpi,
-            "bgcolor": args.bgcolor,
-        },
-        max_numb_commits=args.max_numb_commits,
-    )
+        params.public.path,
+        parse_trees=params.public.show_trees,
+        ls_remote=params.public.show_prs_heads,
+    ).show(params)
+
+    return None
 
 
 if __name__ == "__main__":  # pragma: no cover

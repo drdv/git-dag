@@ -16,10 +16,6 @@ from pathlib import Path
 from typing import TYPE_CHECKING, Any, Optional, Protocol
 
 from .constants import (
-    DAG_ATTR,
-    DAG_EDGE_ATTR,
-    DAG_NODE_ATTR,
-    DAG_NODE_COLORS,
     GIT_EMPTY_TREE_OBJECT_SHA,
     HTML_EMBED_SVG,
     SHA_LIMIT,
@@ -28,6 +24,7 @@ from .constants import (
 )
 from .git_objects import GitBlob, GitCommit, GitTag, GitTree
 from .interfaces.graphviz import DagGraphviz
+from .parameters import Params
 from .utils import transform_ascii_control_chars
 
 if TYPE_CHECKING:  # pragma: no cover
@@ -37,24 +34,12 @@ if TYPE_CHECKING:  # pragma: no cover
 class MixinProtocol(Protocol):
     """Mixin protocol."""
 
-    show_unreachable_commits: bool
-    show_local_branches: bool
-    show_remote_branches: bool
-    show_trees: bool
-    show_trees_standalone: bool
-    show_blobs: bool
-    show_blobs_standalone: bool
-    show_tags: bool
-    show_deleted_tags: bool
-    show_stash: bool
-    show_head: bool
-    show_prs_heads: bool
-    range: Optional[list[str]]
-    commit_message_as_label: int
+    repository: GitRepository
+    params: Params
+    objects_sha_to_include: Optional[set[str]]
+    dag: Any
     included_nodes_id: set[str]
     tooltip_names: DictStrStr
-    repository: GitRepository
-    dag: Any
 
     def _is_object_to_include(self, sha: str) -> bool: ...  # pragma: no cover
     def _is_tag_to_include(self, item: GitTag) -> bool: ...  # pragma: no cover
@@ -69,7 +54,7 @@ class CommitHandlerMixin:
         self.dag.node(
             name="GIT-NOTES-LABEL",
             label="git notes",
-            fillcolor=DAG_NODE_COLORS["notes"],
+            fillcolor=self.params.dag_node_colors.notes,
             tooltip=ref,
             shape="egg",
         )
@@ -85,26 +70,32 @@ class CommitHandlerMixin:
                 f"{transform_ascii_control_chars(item.message)}"
             )[1:-1]
 
-        unreachable_switch = item.is_reachable or self.show_unreachable_commits
+        unreachable_switch = (
+            item.is_reachable or self.params.public.show_unreachable_commits
+        )
+
         if self._is_object_to_include(sha) and unreachable_switch:
             self.included_nodes_id.add(sha)
-            color_label = "commit" if item.is_reachable else "commit-unreachable"
-            not_in_range = self.range is None or sha not in self.range
+            color_label = "commit" if item.is_reachable else "commit_unreachable"
+            not_in_range = (
+                self.params.public.range is None or sha not in self.params.public.range
+            )
 
-            if self.commit_message_as_label > 0:
-                label = item.message[: self.commit_message_as_label]
+            if self.params.public.commit_message_as_label > 0:
+                label = item.message[: self.params.public.commit_message_as_label]
             else:
                 label = sha[:SHA_LIMIT]
 
+            color = getattr(self.params.dag_node_colors, color_label)
             self.dag.node(
                 name=sha,
                 label=label,
                 color=(
-                    DAG_NODE_COLORS[color_label]
+                    color
                     if not_in_range
-                    else DAG_NODE_COLORS["commit-in-range"]
+                    else self.params.dag_node_colors.commit_in_range
                 ),
-                fillcolor=DAG_NODE_COLORS[color_label],
+                fillcolor=color,
                 tooltip=form_tooltip(item),
             )
 
@@ -115,7 +106,7 @@ class CommitHandlerMixin:
                         self.repository.notes_dag_root["ref"],
                     )
 
-            if self.show_trees:
+            if self.params.public.show_trees:
                 self.dag.edge(sha, item.tree.sha)
 
             for parent in item.parents:
@@ -134,23 +125,24 @@ class TreeBlobHandlerMixin:
     ) -> None:
         self.included_nodes_id.add(sha)
         if sha == GIT_EMPTY_TREE_OBJECT_SHA:
-            color_label = "the-empty-tree"
+            color_label = "the_empty_tree"
             tooltip = f"THE EMPTY TREE\n{GIT_EMPTY_TREE_OBJECT_SHA}"
         else:
             color_label = "tree"
             tooltip = self.tooltip_names.get(sha, sha)
 
+        color = getattr(self.params.dag_node_colors, color_label)
         self.dag.node(
             name=sha,
             label=sha[:SHA_LIMIT],
-            color=DAG_NODE_COLORS[color_label],
-            fillcolor=DAG_NODE_COLORS[color_label],
+            color=color,
+            fillcolor=color,
             shape="folder",
             tooltip=tooltip,
             standalone_kind="tree" if standalone else None,
         )
 
-        if self.show_blobs:
+        if self.params.public.show_blobs:
             for child in item.children:
                 self.dag.edge(sha, child.sha)
 
@@ -159,8 +151,8 @@ class TreeBlobHandlerMixin:
         self.dag.node(
             name=sha,
             label=sha[:SHA_LIMIT],
-            color=DAG_NODE_COLORS["blob"],
-            fillcolor=DAG_NODE_COLORS["blob"],
+            color=self.params.dag_node_colors.blob,
+            fillcolor=self.params.dag_node_colors.blob,
             shape="note",
             tooltip=self.tooltip_names.get(sha, sha),
             standalone_kind="blob" if standalone else None,
@@ -191,14 +183,15 @@ class TagHandlerMixin:
             )[1:-1]
 
         for sha, item in self.repository.tags.items():
-            color_label = "tag-deleted" if item.is_deleted else "tag"
             if self._is_tag_to_include(item):
-                if self.show_deleted_tags or not item.is_deleted:
+                if self.params.public.show_deleted_tags or not item.is_deleted:
+                    color_label = "tag_deleted" if item.is_deleted else "tag"
+                    color = getattr(self.params.dag_node_colors, color_label)
                     self.dag.node(
                         name=sha,
                         label=item.name,
-                        color=DAG_NODE_COLORS[color_label],
-                        fillcolor=DAG_NODE_COLORS[color_label],
+                        color=color,
+                        fillcolor=color,
                         tooltip=form_tooltip(item),
                     )
                     self.dag.edge(sha, item.anchor.sha)
@@ -210,8 +203,8 @@ class TagHandlerMixin:
                 self.dag.node(
                     name=node_id,
                     label=name,
-                    color=DAG_NODE_COLORS["tag-lw"],
-                    fillcolor=DAG_NODE_COLORS["tag-lw"],
+                    color=self.params.dag_node_colors.tag_lw,
+                    fillcolor=self.params.dag_node_colors.tag_lw,
                     tooltip=item.anchor.sha,
                 )
                 if item.anchor.sha in self.included_nodes_id:
@@ -228,11 +221,14 @@ class StashHandlerMixin:
                 self.dag.node(
                     name=stash_id,
                     label=f"stash:{stash.index}",
-                    color=DAG_NODE_COLORS["stash"],
-                    fillcolor=DAG_NODE_COLORS["stash"],
+                    color=self.params.dag_node_colors.stash,
+                    fillcolor=self.params.dag_node_colors.stash,
                     tooltip=stash.title,
                 )
-                if self.show_unreachable_commits or stash.commit.is_reachable:
+                if (
+                    self.params.public.show_unreachable_commits
+                    or stash.commit.is_reachable
+                ):
                     self.dag.edge(stash_id, stash.commit.sha)
 
 
@@ -247,8 +243,8 @@ class BranchHandlerMixin:
                 self.dag.node(
                     name=node_id,
                     label=branch.name,
-                    color=DAG_NODE_COLORS["local-branches"],
-                    fillcolor=DAG_NODE_COLORS["local-branches"],
+                    color=self.params.dag_node_colors.local_branches,
+                    fillcolor=self.params.dag_node_colors.local_branches,
                     tooltip=f"-> {branch.tracking}",
                 )
                 self.dag.edge(node_id, branch.commit.sha)
@@ -261,8 +257,8 @@ class BranchHandlerMixin:
                 self.dag.node(
                     name=node_id,
                     label=branch.name,
-                    color=DAG_NODE_COLORS["remote-branches"],
-                    fillcolor=DAG_NODE_COLORS["remote-branches"],
+                    color=self.params.dag_node_colors.remote_branches,
+                    fillcolor=self.params.dag_node_colors.remote_branches,
                 )
                 self.dag.edge(node_id, branch.commit.sha)
 
@@ -283,11 +279,12 @@ class HeadHandlerMixin:
                     self.dag.edge("HEAD", f"local-branch-{head.branch.name}")
                     tooltip = head.branch.name
 
+                color = self.params.dag_node_colors.head
                 self.dag.node(
                     name="HEAD",
                     label="HEAD",
-                    color=None if head.is_detached else DAG_NODE_COLORS["head"],
-                    fillcolor=DAG_NODE_COLORS["head"],
+                    color=None if head.is_detached else color,
+                    fillcolor=color,
                     tooltip=tooltip,
                 )
 
@@ -296,8 +293,8 @@ class HeadHandlerMixin:
             self.dag.node(
                 name=head,
                 label=head,
-                color=DAG_NODE_COLORS["head"],
-                fillcolor=DAG_NODE_COLORS["head"],
+                color=self.params.dag_node_colors.head,
+                fillcolor=self.params.dag_node_colors.head,
                 tooltip=ref,
             )
             self.dag.edge(head, f"remote-branch-{ref}")
@@ -311,8 +308,8 @@ class HeadHandlerMixin:
                     self.dag.node(
                         name=node_name,
                         label=pr_id,
-                        color=DAG_NODE_COLORS["head"],
-                        fillcolor=DAG_NODE_COLORS["head"],
+                        color=self.params.dag_node_colors.head,
+                        fillcolor=self.params.dag_node_colors.head,
                         shape="circle",
                     )
                     self.dag.edge(node_name, sha)
@@ -330,49 +327,23 @@ class DagVisualizer(
     """Git DAG visualizer."""
 
     repository: GitRepository
-    dag_backend: DagBackends
+    params: Params
     objects_sha_to_include: Optional[set[str]] = None
-
-    dag_attr: Optional[DictStrStr] = None
-    format: str = "svg"
-    filename: str = "git-dag.gv"
-
-    html_embed_svg: bool = False
-    show_unreachable_commits: bool = False
-    show_local_branches: bool = False
-    show_remote_branches: bool = False
-    show_trees: bool = False
-    show_trees_standalone: bool = False
-    show_blobs: bool = False
-    show_blobs_standalone: bool = False
-    show_tags: bool = False
-    show_deleted_tags: bool = False
-    show_stash: bool = False
-    show_head: bool = False
-    show_prs_heads: bool = False
-    range: Optional[list[str]] = None
-
-    commit_message_as_label: int = 0
 
     def __post_init__(self) -> None:
         self.tooltip_names = self.repository.inspector.blobs_and_trees_names
         self.included_nodes_id: set[str] = set()
-        self.dag_attr_normalized = {
-            **DAG_ATTR,
-            **(
-                {}
-                if self.dag_attr is None
-                else {key: str(value) for key, value in self.dag_attr.items()}
-            ),
-        }
 
-        match self.dag_backend:
+        match DagBackends[self.params.public.dag_backend.upper()]:
             case DagBackends.GRAPHVIZ:
                 self.dag = DagGraphviz(
-                    self.show_blobs_standalone or self.show_trees_standalone
+                    self.params.public.show_blobs_standalone
+                    or self.params.public.show_trees_standalone
                 )
             case _:
-                raise ValueError(f"Unrecognised backend: {self.dag_backend}")
+                raise ValueError(
+                    f"Unrecognised backend: {self.params.public.dag_backend}"
+                )
 
         self._build_dag()
 
@@ -417,13 +388,13 @@ class DagVisualizer(
         specific references and number of nodes using the ``-i`` and ``-n`` flags.
 
         """
-        if self.format == "gv":
-            with open(self.filename, "w", encoding="utf-8") as h:
+        if self.params.public.format == "gv":
+            with open(self.params.public.file, "w", encoding="utf-8") as h:
                 h.write(self.dag.source())
         else:
             self.dag.render()
 
-            filename_format = f"{self.filename}.{self.format}"
+            filename_format = f"{self.params.public.file}.{self.params.public.format}"
             if xdg_open:  # pragma: no cover
                 subprocess.run(
                     f"xdg-open {filename_format}",
@@ -431,7 +402,7 @@ class DagVisualizer(
                     check=True,
                 )
 
-            if self.format == "svg" and self.html_embed_svg:
+            if self.params.public.format == "svg" and self.params.public.html_embed_svg:
                 self._embed_svg_in_html(filename_format)
 
         return self.dag.get()
@@ -449,42 +420,43 @@ class DagVisualizer(
             not_reachable = sha not in self.repository.all_reachable_objects_sha
             match item:
                 case GitTree():
-                    if not_reachable and self.show_trees_standalone:
+                    if not_reachable and self.params.public.show_trees_standalone:
                         self._add_tree(sha, item, standalone=True)
-                    elif to_include and self.show_trees:
+                    elif to_include and self.params.public.show_trees:
                         self._add_tree(sha, item)
                 case GitBlob():
-                    if not_reachable and self.show_blobs_standalone:
+                    if not_reachable and self.params.public.show_blobs_standalone:
                         self._add_blob(sha, standalone=True)
-                    elif to_include and self.show_blobs:
+                    elif to_include and self.params.public.show_blobs:
                         self._add_blob(sha)
                 case GitCommit():
                     self._add_commit(sha, item)
 
         # no point in displaying HEAD if branches are not displayed
-        if self.show_local_branches:
+        if self.params.public.show_local_branches:
             self._add_local_branches()
-            if self.show_head:
+            if self.params.public.show_head:
                 self._add_local_head()
 
-        if self.show_remote_branches:
+        if self.params.public.show_remote_branches:
             self._add_remote_branches()
-            if self.show_head:
+            if self.params.public.show_head:
                 self._add_remote_heads()
 
         self._add_prs_heads()
 
-        if self.show_tags:
+        if self.params.public.show_tags:
             self._add_annotated_tags()
             self._add_lightweight_tags()
 
-        if self.show_stash:
+        if self.params.public.show_stash:
             self._add_stashes()
 
         self.dag.build(
-            format=self.format,
-            node_attr=DAG_NODE_ATTR,
-            edge_attr=DAG_EDGE_ATTR,
-            dag_attr=self.dag_attr_normalized,
-            filename=self.filename,
+            format=self.params.public.format,
+            node_attr=self.params.dag_node.model_dump(),
+            edge_attr=self.params.dag_edge.model_dump(),
+            dag_attr=self.params.dag_global.model_dump(),
+            filename=self.params.public.file,
+            cluster_params=self.params.standalone_cluster.model_dump(),
         )

@@ -1,52 +1,26 @@
 """Test ``cli.py``."""
 
-# pylint: disable=missing-function-docstring,redefined-outer-name
+# pylint: disable=missing-function-docstring
 
 from pathlib import Path
 from typing import Any
+from unittest.mock import patch
 
 import pytest
 
-from git_dag.cli import get_cla, main
-
-ALL_ARGS = {
-    "-p": ("path", "."),
-    "-f": ("file", "git-dag.gv"),
-    "-b": ("dag_backend", "graphviz"),
-    "--format": ("format", "svg"),
-    "--dpi": ("dpi", None),
-    "--init-refs": ("init_refs", None),
-    "-R": ("range", None),
-    "-n": ("max_numb_commits", 1000),
-    "--rankdir": ("rankdir", "TB"),
-    "--bgcolor": ("bgcolor", "transparent"),
-    "-u": ("show_unreachable_commits", False),
-    "-t": ("show_tags", False),
-    "-D": ("show_deleted_tags", False),
-    "-l": ("show_local_branches", False),
-    "-r": ("show_remote_branches", False),
-    "-s": ("show_stash", False),
-    "-H": ("show_head", False),
-    "-T": ("show_trees", False),
-    "-B": ("show_blobs", False),
-    "-m": ("commit_message_as_label", 0),
-    "-o": ("xdg_open", False),
-    "--log-level": ("log_level", "WARNING"),
-}
+from git_dag.cli import get_user_defined_cla, main
+from git_dag.constants import CONFIG_FILE
+from git_dag.parameters import ParamsPublic
 
 
 def test_cli_main(git_repository_default: Path) -> None:
     repo_path = git_repository_default
 
+    out_filename = "out.gv"
     _p = ("-p", str(repo_path))
     _i = ("-i", "main")
     _m = ("-m", "1")
-    _b = ("-b", "graphviz")
-    _n = ("-n", "1000")
-    _f = ("-f", f'{repo_path / "out.gv"}')
-    _format = ("--format", "svg")
-    _rankdir = ("--rankdir", "LR")
-    _bgcolor = ("--bgcolor", "transparent")
+    _f = ("-f", f"{repo_path / out_filename}")
     _log_level = ("--log-level", "INFO")
 
     main(
@@ -60,63 +34,72 @@ def test_cli_main(git_repository_default: Path) -> None:
             "-D",
             "-H",
             "-u",
+            "--html",
+            "--config-ignore",
             *_f,
             *_p,
             *_i,
             *_m,
-            *_b,
-            *_n,
             *_f,
-            *_format,
-            *_rankdir,
-            *_bgcolor,
             *_log_level,
         ]
     )
 
-    assert (repo_path / "out.gv").exists()
-    assert (repo_path / "out.gv.svg").exists()
+    assert (repo_path / out_filename).exists()
+    assert (repo_path / f"{out_filename}.svg").exists()
+    assert (repo_path / f"{out_filename}.svg.html").exists()
+
+
+def test_cli_main_config_create(tmp_path: Path) -> None:
+    config_file = tmp_path / CONFIG_FILE.name
+
+    with patch("git_dag.parameters.CONFIG_FILE", config_file):
+        main(["--config-create"])
+
+    assert config_file.exists()
 
 
 @pytest.mark.parametrize(
-    "arg,value",
+    "arg,field,value",
     [
-        ("--init-refs", "main topic"),
-        ("-R", "main topic"),
-        ("-p", "/some/path"),
-        ("-f", "/some/path/git-dag.gv"),
-        ("--format", "png"),
-        ("--dpi", "150"),
-        ("-n", 10),
-        ("--rankdir", "LR"),
-        ("--bgcolor", "red"),
-        ("-u", True),
-        ("-t", True),
-        ("-D", True),
-        ("-s", True),
-        ("-H", True),
-        ("-T", True),
-        ("-B", True),
-        ("-m", 1),
-        ("-o", True),
-        ("-l", True),
-        ("-r", True),
-        ("--log-level", "INFO"),
+        ("--init-refs", "init_refs", ["main", "topic"]),
+        ("-R", "range", ["main", "topic"]),
+        ("-p", "path", "/some/path"),
+        ("-f", "file", "/some/path/git-dag.gv"),
+        ("--format", "format", "png"),
+        ("-n", "max_numb_commits", 10),
+        ("-m", "commit_message_as_label", 1),
+        ("--log-level", "log_level", "INFO"),
+        # flags have value None
+        ("-u", "show_unreachable_commits", None),
+        ("-t", "show_tags", None),
+        ("-D", "show_deleted_tags", None),
+        ("-s", "show_stash", None),
+        ("-H", "show_head", None),
+        ("--pr", "show_prs_heads", None),
+        ("-T", "show_trees", None),
+        ("--trees-standalone", "show_trees_standalone", None),
+        ("-B", "show_blobs", None),
+        ("--blobs-standalone", "show_blobs_standalone", None),
+        ("-o", "xdg_open", None),
+        ("-l", "show_local_branches", None),
+        ("-r", "show_remote_branches", None),
+        ("--html", "html_embed_svg", None),
     ],
 )
-def test_cli_args(arg: str, value: Any) -> None:
-    parsed_args = get_cla(
-        [arg] if isinstance(value, bool) and value else [arg, str(value)]
-    )
+def test_cli_args(arg: str, field: str, value: Any) -> None:
+    if value is None:
+        arg_and_value = [arg]  # arg is a flag
+    elif isinstance(value, list):
+        arg_and_value = [arg] + value  # if value is a list it is a list of string
+    else:
+        arg_and_value = [arg, str(value)]
 
-    field = ALL_ARGS[arg][0]
-    result = getattr(parsed_args, field)
+    # we need to pass [] to get_cla because of the way pytest sets sys.argv
+    default_params = ParamsPublic(**get_user_defined_cla([])).model_dump()
+    params_dict = ParamsPublic(**get_user_defined_cla(arg_and_value)).model_dump()
 
-    if arg in ["--init-refs", "-R"]:
-        value = [value]
-
-    assert result == value
-
-    for arg_default, (field, value_default) in ALL_ARGS.items():
-        if arg_default != arg:
-            assert getattr(parsed_args, field) == value_default
+    assert params_dict[field] == (True if value is None else value)
+    for default_field, default_value in default_params.items():
+        if default_field != field:
+            assert params_dict[default_field] == default_value

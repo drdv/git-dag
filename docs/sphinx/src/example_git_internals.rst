@@ -78,8 +78,9 @@ and compare it with the tooltips of ``3c4e9cd7`` and ``0155eb42``).
 Git commit
 ~~~~~~~~~~~
 
-A commit object contains information about who, when and why created a given tree. Each
-commit has exactly one associated tree (which of course may contain sub-trees).
+A commit object contains information about who, when and why created a given tree and
+what are the parent commit(s) from where it descended. Each commit has exactly one
+associated tree (which of course may contain sub-trees).
 
 .. include:: .static/examples/git_internals/07_step_add_commits_cmd.rst
 .. include:: .static/examples/git_internals/07_step_add_commits_args.rst
@@ -154,5 +155,6 @@ reasonable for educational purpose for small repositories only. Skipping them re
 .. include:: .static/examples/git_internals/final_dag_no_trees_and_blobs_args.rst
 .. include:: .static/examples/git_internals/final_dag_no_trees_and_blobs_html.rst
 
-.. [1] That is, trees and blobs are considered to be standalone if they don't have
-       parent commits that are reachable from a branch a tag or the reflog.
+.. [1] The notion of standalone trees and blobs is not standard. We use it to label
+       trees and blobs that don't have parent commits that are reachable from a branch a
+       tag or the reflog.

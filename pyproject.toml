@@ -10,6 +10,7 @@ requires-python = ">=3.12"
 dependencies = [
     "pydantic",
     "graphviz",
+    "PyYAML",
     "argcomplete",
 ]
 dynamic = ["version"]
@@ -69,6 +70,7 @@ profile = "black"
 [tool.pylint.MASTER]
 ignore = ["_version.py"]
 load-plugins = "pylint_report"
+generated-members = ".*public.*|.*dag_global.*|.*.dag_node.*|.*.dag_edge.*|.*dag_node_colors.*|.*standalone_cluster.*|.*links.*"
 
 [tool.pylint.REPORTS]
 output-format = "pylint_report.CustomJsonReporter"
