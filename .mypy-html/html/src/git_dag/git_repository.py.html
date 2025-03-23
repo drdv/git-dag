@@ -721,6 +721,9 @@
 <span id="L711" class="lineno"><a class="lineno" href="#L711">711</a></span>
 <span id="L712" class="lineno"><a class="lineno" href="#L712">712</a></span>
 <span id="L713" class="lineno"><a class="lineno" href="#L713">713</a></span>
+<span id="L714" class="lineno"><a class="lineno" href="#L714">714</a></span>
+<span id="L715" class="lineno"><a class="lineno" href="#L715">715</a></span>
+<span id="L716" class="lineno"><a class="lineno" href="#L716">716</a></span>
 </pre></td>
 <td class="table-code"><pre><span class="line-empty" title="No Anys on this line!">"""Git repository parsing functionality."""</span>
 <span class="line-empty" title="No Anys on this line!"></span>
@@ -1213,6 +1216,9 @@ Omitted Generics (x9)">            for obj in TypeAdapter(list[GitObjectAnnotate
 <span class="line-empty" title="No Anys on this line!">            the flag ``--prs-heads``).</span>
 <span class="line-empty" title="No Anys on this line!"></span>
 <span class="line-empty" title="No Anys on this line!">        """</span>
+<span class="line-precise" title="No Anys on this line!">        if not Path(repository_path).exists():</span>
+<span class="line-precise" title="No Anys on this line!">            raise RuntimeError(f"Repository {repository_path} doesn't exist.")</span>
+<span class="line-empty" title="No Anys on this line!"></span>
 <span class="line-precise" title="No Anys on this line!">        self.inspector = GitInspector(repository_path, parse_trees)</span>
 <span class="line-precise" title="No Anys on this line!">        self.ls_remote = ls_remote</span>
 <span class="line-precise" title="No Anys on this line!">        self.post_process_inspector_data()</span>

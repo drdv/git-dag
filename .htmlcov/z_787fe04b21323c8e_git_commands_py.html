@@ -67,7 +67,7 @@
             <a id="nextFileLink" class="nav" href="z_787fe04b21323c8e_git_objects_py.html">&#xbb; next</a>
             &nbsp; &nbsp; &nbsp;
             <a class="nav" href="https://coverage.readthedocs.io/en/7.7.1">coverage.py v7.7.1</a>,
-            created at 2025-03-23 16:21 +0100
+            created at 2025-03-23 16:50 +0100
         </p>
         <aside class="hidden">
             <button type="button" class="button_next_chunk" data-shortcut="j"></button>
@@ -412,7 +412,7 @@
     <p class="pln"><span class="n"><a id="t328" href="#t328">328</a></span><span class="t">&nbsp;</span><span class="r"></span></p>
     <p class="mis show_mis"><span class="n"><a id="t329" href="#t329">329</a></span><span class="t">        <span class="nam">out</span> <span class="op">=</span> <span class="op">{</span><span class="op">}</span>&nbsp;</span><span class="r"></span></p>
     <p class="mis show_mis"><span class="n"><a id="t330" href="#t330">330</a></span><span class="t">        <span class="key">for</span> <span class="nam">line</span> <span class="key">in</span> <span class="nam">cmd_output</span><span class="op">:</span>&nbsp;</span><span class="r"></span></p>
-    <p class="mis show_mis"><span class="n"><a id="t331" href="#t331">331</a></span><span class="t">            <span class="nam">match</span> <span class="op">=</span> <span class="nam">re</span><span class="op">.</span><span class="nam">search</span><span class="op">(</span><span class="fst">f"</span><span class="op">{</span><span class="nam">SHA_PATTERN</span><span class="op">}</span><span class="fst">\trefs/pull/(?P&lt;pr_id>\d+)/head</span><span class="fst">"</span><span class="op">,</span> <span class="nam">line</span><span class="op">)</span>&nbsp;</span><span class="r"></span></p>
+    <p class="mis show_mis"><span class="n"><a id="t331" href="#t331">331</a></span><span class="t">            <span class="nam">match</span> <span class="op">=</span> <span class="nam">re</span><span class="op">.</span><span class="nam">search</span><span class="op">(</span><span class="fst">f"</span><span class="op">{</span><span class="nam">SHA_PATTERN</span><span class="op">}</span><span class="fst">\trefs/pull/(?P&lt;pr_id>\\d+)/head</span><span class="fst">"</span><span class="op">,</span> <span class="nam">line</span><span class="op">)</span>&nbsp;</span><span class="r"></span></p>
     <p class="mis show_mis"><span class="n"><a id="t332" href="#t332">332</a></span><span class="t">            <span class="key">if</span> <span class="nam">match</span><span class="op">:</span>&nbsp;</span><span class="r"></span></p>
     <p class="mis show_mis"><span class="n"><a id="t333" href="#t333">333</a></span><span class="t">                <span class="nam">out</span><span class="op">[</span><span class="nam">match</span><span class="op">.</span><span class="nam">group</span><span class="op">(</span><span class="str">"pr_id"</span><span class="op">)</span><span class="op">]</span> <span class="op">=</span> <span class="nam">match</span><span class="op">.</span><span class="nam">group</span><span class="op">(</span><span class="str">"sha"</span><span class="op">)</span>&nbsp;</span><span class="r"></span></p>
     <p class="pln"><span class="n"><a id="t334" href="#t334">334</a></span><span class="t">&nbsp;</span><span class="r"></span></p>
@@ -734,7 +734,7 @@
             <a class="nav" href="z_787fe04b21323c8e_git_objects_py.html">&#xbb; next</a>
             &nbsp; &nbsp; &nbsp;
             <a class="nav" href="https://coverage.readthedocs.io/en/7.7.1">coverage.py v7.7.1</a>,
-            created at 2025-03-23 16:21 +0100
+            created at 2025-03-23 16:50 +0100
         </p>
     </div>
 </footer>

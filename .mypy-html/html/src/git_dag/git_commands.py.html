@@ -989,7 +989,7 @@ Explicit (x1)">            with open(Path(self.path) / filename, "w", encoding="
 <span class="line-empty" title="No Anys on this line!"></span>
 <span class="line-precise" title="No Anys on this line!">        out = {}</span>
 <span class="line-precise" title="No Anys on this line!">        for line in cmd_output:</span>
-<span class="line-precise" title="No Anys on this line!">            match = re.search(f"{SHA_PATTERN}\trefs/pull/(?P&lt;pr_id&gt;\d+)/head", line)</span>
+<span class="line-precise" title="No Anys on this line!">            match = re.search(f"{SHA_PATTERN}\trefs/pull/(?P&lt;pr_id&gt;\\d+)/head", line)</span>
 <span class="line-precise" title="No Anys on this line!">            if match:</span>
 <span class="line-precise" title="No Anys on this line!">                out[match.group("pr_id")] = match.group("sha")</span>
 <span class="line-empty" title="No Anys on this line!"></span>
