@@ -319,6 +319,7 @@
 <span class="kn">import</span> <span class="nn">shlex</span>
 <span class="kn">import</span> <span class="nn">subprocess</span>
 <span class="kn">import</span> <span class="nn">tarfile</span>
+<span class="kn">import</span> <span class="nn">time</span>
 <span class="kn">from</span> <span class="nn">pathlib</span> <span class="kn">import</span> <span class="n">Path</span>
 <span class="kn">from</span> <span class="nn">typing</span> <span class="kn">import</span> <span class="n">Any</span><span class="p">,</span> <span class="n">Literal</span><span class="p">,</span> <span class="n">Optional</span>
 
@@ -498,12 +499,25 @@
 
 <div class="viewcode-block" id="GitCommandMutate.stash">
 <a class="viewcode-back" href="../../.autosummary/git_dag.git_commands.GitCommandMutate.html#git_dag.git_commands.GitCommandMutate.stash">[docs]</a>
-    <span class="k">def</span> <span class="nf">stash</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">files</span><span class="p">:</span> <span class="n">DictStrStr</span><span class="p">,</span> <span class="n">title</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="nb">str</span><span class="p">]</span> <span class="o">=</span> <span class="kc">None</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="kc">None</span><span class="p">:</span>
+    <span class="k">def</span> <span class="nf">stash</span><span class="p">(</span>
+        <span class="bp">self</span><span class="p">,</span>
+        <span class="n">files</span><span class="p">:</span> <span class="n">DictStrStr</span><span class="p">,</span>
+        <span class="n">title</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="nb">str</span><span class="p">]</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span>
+        <span class="n">sleep</span><span class="p">:</span> <span class="nb">bool</span> <span class="o">=</span> <span class="kc">True</span><span class="p">,</span>
+    <span class="p">)</span> <span class="o">-&gt;</span> <span class="kc">None</span><span class="p">:</span>
 <span class="w">        </span><span class="sd">&quot;&quot;&quot;Stash.</span>
 
+<span class="sd">        Note</span>
+<span class="sd">        -----</span>
 <span class="sd">        ``files`` specifies files to be modified before we stash (its format is</span>
 <span class="sd">        ``{&#39;filename&#39;: &#39;file contents&#39;, ...}``. At least one file should be modified in</span>
 <span class="sd">        order for ``git stash`` to be meaningful.</span>
+
+<span class="sd">        Warning</span>
+<span class="sd">        --------</span>
+<span class="sd">        At the end of this method we sleep for 1 second otherwise stashes created very</span>
+<span class="sd">        fast one after another might share the &quot;index commit&quot; (or might not, depending</span>
+<span class="sd">        on delay). See https://github.com/drdv/git-dag/issues/84.</span>
 
 <span class="sd">        &quot;&quot;&quot;</span>
         <span class="k">for</span> <span class="n">filename</span><span class="p">,</span> <span class="n">contents</span> <span class="ow">in</span> <span class="n">files</span><span class="o">.</span><span class="n">items</span><span class="p">():</span>
@@ -513,7 +527,10 @@
         <span class="k">if</span> <span class="n">title</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>
             <span class="bp">self</span><span class="o">.</span><span class="n">_run</span><span class="p">(</span><span class="s2">&quot;stash&quot;</span><span class="p">,</span> <span class="n">env</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">env</span><span class="p">)</span>
         <span class="k">else</span><span class="p">:</span>
-            <span class="bp">self</span><span class="o">.</span><span class="n">_run</span><span class="p">(</span><span class="sa">f</span><span class="s1">&#39;stash push -m &quot;</span><span class="si">{</span><span class="n">title</span><span class="si">}</span><span class="s1">&quot;&#39;</span><span class="p">,</span> <span class="n">env</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">env</span><span class="p">)</span></div>
+            <span class="bp">self</span><span class="o">.</span><span class="n">_run</span><span class="p">(</span><span class="sa">f</span><span class="s1">&#39;stash push -m &quot;</span><span class="si">{</span><span class="n">title</span><span class="si">}</span><span class="s1">&quot;&#39;</span><span class="p">,</span> <span class="n">env</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">env</span><span class="p">)</span>
+
+        <span class="k">if</span> <span class="n">sleep</span><span class="p">:</span>
+            <span class="n">time</span><span class="o">.</span><span class="n">sleep</span><span class="p">(</span><span class="mi">1</span><span class="p">)</span>  <span class="c1"># see Warning in docstring</span></div>
 
 
 <div class="viewcode-block" id="GitCommandMutate.tag">
@@ -1059,7 +1076,7 @@
       
     </aside>
   </div>
-</div><script src="../../_static/documentation_options.js?v=ddbd9e16"></script>
+</div><script src="../../_static/documentation_options.js?v=14f5bd8b"></script>
     <script src="../../_static/doctools.js?v=9bcbadda"></script>
     <script src="../../_static/sphinx_highlight.js?v=dc90522c"></script>
     <script src="../../_static/scripts/furo.js?v=5fa4622c"></script>

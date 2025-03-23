@@ -619,6 +619,23 @@
 <span id="L609" class="lineno"><a class="lineno" href="#L609">609</a></span>
 <span id="L610" class="lineno"><a class="lineno" href="#L610">610</a></span>
 <span id="L611" class="lineno"><a class="lineno" href="#L611">611</a></span>
+<span id="L612" class="lineno"><a class="lineno" href="#L612">612</a></span>
+<span id="L613" class="lineno"><a class="lineno" href="#L613">613</a></span>
+<span id="L614" class="lineno"><a class="lineno" href="#L614">614</a></span>
+<span id="L615" class="lineno"><a class="lineno" href="#L615">615</a></span>
+<span id="L616" class="lineno"><a class="lineno" href="#L616">616</a></span>
+<span id="L617" class="lineno"><a class="lineno" href="#L617">617</a></span>
+<span id="L618" class="lineno"><a class="lineno" href="#L618">618</a></span>
+<span id="L619" class="lineno"><a class="lineno" href="#L619">619</a></span>
+<span id="L620" class="lineno"><a class="lineno" href="#L620">620</a></span>
+<span id="L621" class="lineno"><a class="lineno" href="#L621">621</a></span>
+<span id="L622" class="lineno"><a class="lineno" href="#L622">622</a></span>
+<span id="L623" class="lineno"><a class="lineno" href="#L623">623</a></span>
+<span id="L624" class="lineno"><a class="lineno" href="#L624">624</a></span>
+<span id="L625" class="lineno"><a class="lineno" href="#L625">625</a></span>
+<span id="L626" class="lineno"><a class="lineno" href="#L626">626</a></span>
+<span id="L627" class="lineno"><a class="lineno" href="#L627">627</a></span>
+<span id="L628" class="lineno"><a class="lineno" href="#L628">628</a></span>
 </pre></td>
 <td class="table-code"><pre><span class="line-empty" title="No Anys on this line!">"""Git commands related functionality.</span>
 <span class="line-empty" title="No Anys on this line!"></span>
@@ -634,6 +651,7 @@
 <span class="line-precise" title="No Anys on this line!">import shlex</span>
 <span class="line-precise" title="No Anys on this line!">import subprocess</span>
 <span class="line-precise" title="No Anys on this line!">import tarfile</span>
+<span class="line-precise" title="No Anys on this line!">import time</span>
 <span class="line-precise" title="No Anys on this line!">from pathlib import Path</span>
 <span class="line-precise" title="No Anys on this line!">from typing import Any, Literal, Optional</span>
 <span class="line-empty" title="No Anys on this line!"></span>
@@ -793,12 +811,25 @@ Omitted Generics (x5)">        elif isinstance(messages, (list, tuple)):</span>
 <span class="line-empty" title="No Anys on this line!">        """Merge."""</span>
 <span class="line-precise" title="No Anys on this line!">        self._run(f'merge -X {strategy} {branch} -m "{message}"', env=self.env)</span>
 <span class="line-empty" title="No Anys on this line!"></span>
-<span class="line-precise" title="No Anys on this line!">    def stash(self, files: DictStrStr, title: Optional[str] = None) -&gt; None:</span>
+<span class="line-precise" title="No Anys on this line!">    def stash(</span>
+<span class="line-empty" title="No Anys on this line!">        self,</span>
+<span class="line-empty" title="No Anys on this line!">        files: DictStrStr,</span>
+<span class="line-precise" title="No Anys on this line!">        title: Optional[str] = None,</span>
+<span class="line-precise" title="No Anys on this line!">        sleep: bool = True,</span>
+<span class="line-empty" title="No Anys on this line!">    ) -&gt; None:</span>
 <span class="line-empty" title="No Anys on this line!">        """Stash.</span>
 <span class="line-empty" title="No Anys on this line!"></span>
+<span class="line-empty" title="No Anys on this line!">        Note</span>
+<span class="line-empty" title="No Anys on this line!">        -----</span>
 <span class="line-empty" title="No Anys on this line!">        ``files`` specifies files to be modified before we stash (its format is</span>
 <span class="line-empty" title="No Anys on this line!">        ``{'filename': 'file contents', ...}``. At least one file should be modified in</span>
 <span class="line-empty" title="No Anys on this line!">        order for ``git stash`` to be meaningful.</span>
+<span class="line-empty" title="No Anys on this line!"></span>
+<span class="line-empty" title="No Anys on this line!">        Warning</span>
+<span class="line-empty" title="No Anys on this line!">        --------</span>
+<span class="line-empty" title="No Anys on this line!">        At the end of this method we sleep for 1 second otherwise stashes created very</span>
+<span class="line-empty" title="No Anys on this line!">        fast one after another might share the "index commit" (or might not, depending</span>
+<span class="line-empty" title="No Anys on this line!">        on delay). See https://github.com/drdv/git-dag/issues/84.</span>
 <span class="line-empty" title="No Anys on this line!"></span>
 <span class="line-empty" title="No Anys on this line!">        """</span>
 <span class="line-precise" title="No Anys on this line!">        for filename, contents in files.items():</span>
@@ -811,6 +842,9 @@ Explicit (x1)">            with open(Path(self.path) / filename, "w", encoding="
 <span class="line-precise" title="No Anys on this line!">            self._run("stash", env=self.env)</span>
 <span class="line-empty" title="No Anys on this line!">        else:</span>
 <span class="line-precise" title="No Anys on this line!">            self._run(f'stash push -m "{title}"', env=self.env)</span>
+<span class="line-empty" title="No Anys on this line!"></span>
+<span class="line-precise" title="No Anys on this line!">        if sleep:</span>
+<span class="line-precise" title="No Anys on this line!">            time.sleep(1)  # see Warning in docstring</span>
 <span class="line-empty" title="No Anys on this line!"></span>
 <span class="line-precise" title="No Anys on this line!">    def tag(</span>
 <span class="line-empty" title="No Anys on this line!">        self,</span>

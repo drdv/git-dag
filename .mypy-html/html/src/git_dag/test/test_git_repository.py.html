@@ -207,7 +207,6 @@
 <span id="L197" class="lineno"><a class="lineno" href="#L197">197</a></span>
 <span id="L198" class="lineno"><a class="lineno" href="#L198">198</a></span>
 <span id="L199" class="lineno"><a class="lineno" href="#L199">199</a></span>
-<span id="L200" class="lineno"><a class="lineno" href="#L200">200</a></span>
 </pre></td>
 <td class="table-code"><pre><span class="line-empty" title="No Anys on this line!">"""Test git_repository.py."""</span>
 <span class="line-empty" title="No Anys on this line!"></span>
@@ -284,7 +283,7 @@
 <span class="line-empty" title="No Anys on this line!"></span>
 <span class="line-precise" title="No Anys on this line!">    commits = repo.commits.values()</span>
 <span class="line-precise" title="No Anys on this line!">    assert len([c for c in commits if c.is_reachable]) == 12</span>
-<span class="line-precise" title="No Anys on this line!">    assert len([c for c in commits if not c.is_reachable]) == 3</span>
+<span class="line-precise" title="No Anys on this line!">    assert len([c for c in commits if not c.is_reachable]) == 5</span>
 <span class="line-empty" title="No Anys on this line!"></span>
 <span class="line-precise" title="No Anys on this line!">    tags = repo.tags.values()</span>
 <span class="line-precise" title="No Anys on this line!">    assert len([c for c in tags if not c.is_deleted]) == 6</span>
@@ -325,7 +324,7 @@
 <span class="line-empty" title="No Anys on this line!"></span>
 <span class="line-precise" title="No Anys on this line!">    commits = repo.commits.values()</span>
 <span class="line-precise" title="No Anys on this line!">    assert len([c for c in commits if c.is_reachable]) == 12 + numb_obj_due_to_notes</span>
-<span class="line-precise" title="No Anys on this line!">    assert len([c for c in commits if not c.is_reachable]) == 3</span>
+<span class="line-precise" title="No Anys on this line!">    assert len([c for c in commits if not c.is_reachable]) == 5</span>
 <span class="line-empty" title="No Anys on this line!"></span>
 <span class="line-precise" title="No Anys on this line!">    assert len(repo.filter_objects(GitTree).values()) == 6 + numb_obj_due_to_notes</span>
 <span class="line-precise" title="No Anys on this line!">    assert len(repo.filter_objects(GitBlob).values()) == 5 + numb_obj_due_to_notes</span>
@@ -366,7 +365,6 @@ Explicit (x3)">        repo.show(dag_backend="missing", format="gv", filename=re
 <span class="line-precise" title="No Anys on this line!">        repo_path,</span>
 <span class="line-empty" title="No Anys on this line!">    )</span>
 <span class="line-precise" title="No Anys on this line!">    repo = GitRepository(repo_path, parse_trees=True)</span>
-<span class="line-precise" title="No Anys on this line!">    print(repo_path)</span>
 <span class="line-any" title="Any Types on this line: 
 Explicit (x3)">    repo.show(</span>
 <span class="line-precise" title="No Anys on this line!">        show_unreachable_commits=True,</span>
