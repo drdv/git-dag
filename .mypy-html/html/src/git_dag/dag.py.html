@@ -474,6 +474,7 @@
 <span id="L464" class="lineno"><a class="lineno" href="#L464">464</a></span>
 <span id="L465" class="lineno"><a class="lineno" href="#L465">465</a></span>
 <span id="L466" class="lineno"><a class="lineno" href="#L466">466</a></span>
+<span id="L467" class="lineno"><a class="lineno" href="#L467">467</a></span>
 </pre></td>
 <td class="table-code"><pre><span class="line-empty" title="No Anys on this line!">"""DAG visualization.</span>
 <span class="line-empty" title="No Anys on this line!"></span>
@@ -489,6 +490,7 @@
 <span class="line-empty" title="No Anys on this line!"></span>
 <span class="line-precise" title="No Anys on this line!">import subprocess</span>
 <span class="line-precise" title="No Anys on this line!">from dataclasses import dataclass</span>
+<span class="line-precise" title="No Anys on this line!">from pathlib import Path</span>
 <span class="line-precise" title="No Anys on this line!">from typing import TYPE_CHECKING, Any, Optional, Protocol</span>
 <span class="line-empty" title="No Anys on this line!"></span>
 <span class="line-precise" title="No Anys on this line!">from .constants import (</span>
@@ -887,7 +889,7 @@ Explicit (x1)">        with open(filename + ".html", "w", encoding="utf-8") as h
 <span class="line-precise" title="No Anys on this line!">                HTML_EMBED_SVG.format(</span>
 <span class="line-precise" title="No Anys on this line!">                    svg_pan_zoom_js=svg_pan_zoom_js,</span>
 <span class="line-precise" title="No Anys on this line!">                    custom_js=custom_js,</span>
-<span class="line-precise" title="No Anys on this line!">                    svg_filename=filename,</span>
+<span class="line-precise" title="No Anys on this line!">                    svg_filename=Path(filename).name,</span>
 <span class="line-empty" title="No Anys on this line!">                )</span>
 <span class="line-empty" title="No Anys on this line!">            )</span>
 <span class="line-empty" title="No Anys on this line!"></span>
