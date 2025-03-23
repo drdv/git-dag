@@ -67,7 +67,7 @@
             <a id="nextFileLink" class="nav" href="z_a894922efc62b556_dag_base_py.html">&#xbb; next</a>
             &nbsp; &nbsp; &nbsp;
             <a class="nav" href="https://coverage.readthedocs.io/en/7.7.1">coverage.py v7.7.1</a>,
-            created at 2025-03-22 20:26 +0100
+            created at 2025-03-23 07:15 +0100
         </p>
         <aside class="hidden">
             <button type="button" class="button_next_chunk" data-shortcut="j"></button>
@@ -400,7 +400,7 @@
     <p class="pln"><span class="n"><a id="t316" href="#t316">316</a></span><span class="t">&nbsp;</span><span class="r"></span></p>
     <p class="run"><span class="n"><a id="t317" href="#t317">317</a></span><span class="t">        <span class="nam">numb_commits_not_found</span> <span class="op">=</span> <span class="nam">len</span><span class="op">(</span><span class="nam">self</span><span class="op">.</span><span class="nam">commits_sha</span><span class="op">[</span><span class="str">"all"</span><span class="op">]</span><span class="op">)</span> <span class="op">-</span> <span class="nam">len</span><span class="op">(</span><span class="nam">commits_info</span><span class="op">)</span>&nbsp;</span><span class="r"></span></p>
     <p class="par run show_par"><span class="n"><a id="t318" href="#t318">318</a></span><span class="t">        <span class="key">if</span> <span class="nam">numb_commits_not_found</span> <span class="op">></span> <span class="num">0</span><span class="op">:</span>&nbsp;</span><span class="r"><span class="annotate short">318&#x202F;&#x219B;&#x202F;319</span><span class="annotate long">line 318 didn't jump to line 319 because the condition on line 318 was never true</span></span></p>
-    <p class="mis show_mis"><span class="n"><a id="t319" href="#t319">319</a></span><span class="t">            <span class="nam">LOG</span><span class="op">.</span><span class="nam">warning</span><span class="op">(</span>&nbsp;</span><span class="r"></span></p>
+    <p class="mis show_mis"><span class="n"><a id="t319" href="#t319">319</a></span><span class="t">            <span class="nam">LOG</span><span class="op">.</span><span class="nam">info</span><span class="op">(</span>&nbsp;</span><span class="r"></span></p>
     <p class="pln"><span class="n"><a id="t320" href="#t320">320</a></span><span class="t">                <span class="fst">f"</span><span class="op">{</span><span class="nam">numb_commits_not_found</span><span class="op">}</span><span class="fst"> commits not found in </span><span class="fst">"</span>&nbsp;</span><span class="r"></span></p>
     <p class="pln"><span class="n"><a id="t321" href="#t321">321</a></span><span class="t">                <span class="str">"git rev-list --all --reflog"</span>&nbsp;</span><span class="r"></span></p>
     <p class="pln"><span class="n"><a id="t322" href="#t322">322</a></span><span class="t">            <span class="op">)</span>&nbsp;</span><span class="r"></span></p>
@@ -440,7 +440,7 @@
     <p class="run"><span class="n"><a id="t356" href="#t356">356</a></span><span class="t">                    <span class="nam">commit_info</span> <span class="op">=</span> <span class="nam">self</span><span class="op">.</span><span class="nam">commits_info</span><span class="op">[</span><span class="nam">sha</span><span class="op">]</span>&nbsp;</span><span class="r"></span></p>
     <p class="pln"><span class="n"><a id="t357" href="#t357">357</a></span><span class="t">                <span class="key">else</span><span class="op">:</span>&nbsp;</span><span class="r"></span></p>
     <p class="mis show_mis"><span class="n"><a id="t358" href="#t358">358</a></span><span class="t">                    <span class="nam">commit_info</span> <span class="op">=</span> <span class="nam">self</span><span class="op">.</span><span class="nam">git</span><span class="op">.</span><span class="nam">read_object_file</span><span class="op">(</span><span class="nam">sha</span><span class="op">)</span>  <span class="com"># slower</span>&nbsp;</span><span class="r"></span></p>
-    <p class="mis show_mis"><span class="n"><a id="t359" href="#t359">359</a></span><span class="t">                    <span class="nam">LOG</span><span class="op">.</span><span class="nam">warning</span><span class="op">(</span><span class="fst">f"</span><span class="fst">[commit] manually executing git cat-file -p </span><span class="op">{</span><span class="nam">sha</span><span class="op">}</span><span class="fst">"</span><span class="op">)</span>&nbsp;</span><span class="r"></span></p>
+    <p class="mis show_mis"><span class="n"><a id="t359" href="#t359">359</a></span><span class="t">                    <span class="nam">LOG</span><span class="op">.</span><span class="nam">info</span><span class="op">(</span><span class="fst">f"</span><span class="fst">[commit] manually executing git cat-file -p </span><span class="op">{</span><span class="nam">sha</span><span class="op">}</span><span class="fst">"</span><span class="op">)</span>&nbsp;</span><span class="r"></span></p>
     <p class="pln"><span class="n"><a id="t360" href="#t360">360</a></span><span class="t">&nbsp;</span><span class="r"></span></p>
     <p class="run"><span class="n"><a id="t361" href="#t361">361</a></span><span class="t">                <span class="key">return</span> <span class="nam">GitCommit</span><span class="op">(</span>&nbsp;</span><span class="r"></span></p>
     <p class="pln"><span class="n"><a id="t362" href="#t362">362</a></span><span class="t">                    <span class="nam">sha</span><span class="op">=</span><span class="nam">sha</span><span class="op">,</span>&nbsp;</span><span class="r"></span></p>
@@ -798,7 +798,7 @@
             <a class="nav" href="z_a894922efc62b556_dag_base_py.html">&#xbb; next</a>
             &nbsp; &nbsp; &nbsp;
             <a class="nav" href="https://coverage.readthedocs.io/en/7.7.1">coverage.py v7.7.1</a>,
-            created at 2025-03-22 20:26 +0100
+            created at 2025-03-23 07:15 +0100
         </p>
     </div>
 </footer>

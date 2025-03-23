@@ -306,6 +306,19 @@
 <span id="L296" class="lineno"><a class="lineno" href="#L296">296</a></span>
 <span id="L297" class="lineno"><a class="lineno" href="#L297">297</a></span>
 <span id="L298" class="lineno"><a class="lineno" href="#L298">298</a></span>
+<span id="L299" class="lineno"><a class="lineno" href="#L299">299</a></span>
+<span id="L300" class="lineno"><a class="lineno" href="#L300">300</a></span>
+<span id="L301" class="lineno"><a class="lineno" href="#L301">301</a></span>
+<span id="L302" class="lineno"><a class="lineno" href="#L302">302</a></span>
+<span id="L303" class="lineno"><a class="lineno" href="#L303">303</a></span>
+<span id="L304" class="lineno"><a class="lineno" href="#L304">304</a></span>
+<span id="L305" class="lineno"><a class="lineno" href="#L305">305</a></span>
+<span id="L306" class="lineno"><a class="lineno" href="#L306">306</a></span>
+<span id="L307" class="lineno"><a class="lineno" href="#L307">307</a></span>
+<span id="L308" class="lineno"><a class="lineno" href="#L308">308</a></span>
+<span id="L309" class="lineno"><a class="lineno" href="#L309">309</a></span>
+<span id="L310" class="lineno"><a class="lineno" href="#L310">310</a></span>
+<span id="L311" class="lineno"><a class="lineno" href="#L311">311</a></span>
 </pre></td>
 <td class="table-code"><pre><span class="line-empty" title="No Anys on this line!">#!/usr/bin/env python</span>
 <span class="line-empty" title="No Anys on this line!"># PYTHON_ARGCOMPLETE_OK</span>
@@ -341,6 +354,8 @@
 <span class="line-precise" title="No Anys on this line!">    dpi: str</span>
 <span class="line-precise" title="No Anys on this line!">    rankdir: str</span>
 <span class="line-precise" title="No Anys on this line!">    bgcolor: str</span>
+<span class="line-empty" title="No Anys on this line!"></span>
+<span class="line-precise" title="No Anys on this line!">    html_embed_svg: bool</span>
 <span class="line-empty" title="No Anys on this line!"></span>
 <span class="line-precise" title="No Anys on this line!">    show_unreachable_commits: bool</span>
 <span class="line-precise" title="No Anys on this line!">    show_tags: bool</span>
@@ -576,6 +591,17 @@ Explicit (x3)">    parser.add_argument(</span>
 <span class="line-precise" title="No Anys on this line!">        help="Open output file with xdg-open.",</span>
 <span class="line-empty" title="No Anys on this line!">    )</span>
 <span class="line-empty" title="No Anys on this line!"></span>
+<span class="line-precise" title="Any Types on this line: 
+Explicit (x3)">    parser.add_argument(</span>
+<span class="line-precise" title="No Anys on this line!">        "--html",</span>
+<span class="line-precise" title="No Anys on this line!">        dest="html_embed_svg",</span>
+<span class="line-precise" title="No Anys on this line!">        action="store_true",</span>
+<span class="line-empty" title="No Anys on this line!">        help=(</span>
+<span class="line-precise" title="No Anys on this line!">            "Generate a standalone HTML file that embeds the generated SVG. "</span>
+<span class="line-empty" title="No Anys on this line!">            "Hass effect only when --format is svg."</span>
+<span class="line-empty" title="No Anys on this line!">        ),</span>
+<span class="line-empty" title="No Anys on this line!">    )</span>
+<span class="line-empty" title="No Anys on this line!"></span>
 <span class="line-any" title="Any Types on this line: 
 Explicit (x3)">    parser.add_argument(</span>
 <span class="line-precise" title="No Anys on this line!">        "--log-level",</span>
@@ -609,6 +635,7 @@ Explicit (x3)">    GitRepository(args.path, parse_trees=args.show_trees).show(</
 <span class="line-precise" title="No Anys on this line!">        dag_backend=DagBackends[args.dag_backend.upper()],</span>
 <span class="line-precise" title="No Anys on this line!">        xdg_open=args.xdg_open,</span>
 <span class="line-precise" title="No Anys on this line!">        format=args.format,</span>
+<span class="line-precise" title="No Anys on this line!">        html_embed_svg=args.html_embed_svg,</span>
 <span class="line-precise" title="No Anys on this line!">        show_unreachable_commits=args.show_unreachable_commits,</span>
 <span class="line-precise" title="No Anys on this line!">        show_tags=args.show_tags,</span>
 <span class="line-precise" title="No Anys on this line!">        show_deleted_tags=args.show_deleted_tags,</span>

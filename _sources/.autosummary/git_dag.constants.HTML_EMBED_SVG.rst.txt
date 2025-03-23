@@ -1,0 +1,6 @@
+git\_dag.constants.HTML\_EMBED\_SVG
+===================================
+
+.. currentmodule:: git_dag.constants
+
+.. autodata:: HTML_EMBED_SVG

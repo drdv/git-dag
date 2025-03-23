@@ -442,6 +442,38 @@
 <span id="L432" class="lineno"><a class="lineno" href="#L432">432</a></span>
 <span id="L433" class="lineno"><a class="lineno" href="#L433">433</a></span>
 <span id="L434" class="lineno"><a class="lineno" href="#L434">434</a></span>
+<span id="L435" class="lineno"><a class="lineno" href="#L435">435</a></span>
+<span id="L436" class="lineno"><a class="lineno" href="#L436">436</a></span>
+<span id="L437" class="lineno"><a class="lineno" href="#L437">437</a></span>
+<span id="L438" class="lineno"><a class="lineno" href="#L438">438</a></span>
+<span id="L439" class="lineno"><a class="lineno" href="#L439">439</a></span>
+<span id="L440" class="lineno"><a class="lineno" href="#L440">440</a></span>
+<span id="L441" class="lineno"><a class="lineno" href="#L441">441</a></span>
+<span id="L442" class="lineno"><a class="lineno" href="#L442">442</a></span>
+<span id="L443" class="lineno"><a class="lineno" href="#L443">443</a></span>
+<span id="L444" class="lineno"><a class="lineno" href="#L444">444</a></span>
+<span id="L445" class="lineno"><a class="lineno" href="#L445">445</a></span>
+<span id="L446" class="lineno"><a class="lineno" href="#L446">446</a></span>
+<span id="L447" class="lineno"><a class="lineno" href="#L447">447</a></span>
+<span id="L448" class="lineno"><a class="lineno" href="#L448">448</a></span>
+<span id="L449" class="lineno"><a class="lineno" href="#L449">449</a></span>
+<span id="L450" class="lineno"><a class="lineno" href="#L450">450</a></span>
+<span id="L451" class="lineno"><a class="lineno" href="#L451">451</a></span>
+<span id="L452" class="lineno"><a class="lineno" href="#L452">452</a></span>
+<span id="L453" class="lineno"><a class="lineno" href="#L453">453</a></span>
+<span id="L454" class="lineno"><a class="lineno" href="#L454">454</a></span>
+<span id="L455" class="lineno"><a class="lineno" href="#L455">455</a></span>
+<span id="L456" class="lineno"><a class="lineno" href="#L456">456</a></span>
+<span id="L457" class="lineno"><a class="lineno" href="#L457">457</a></span>
+<span id="L458" class="lineno"><a class="lineno" href="#L458">458</a></span>
+<span id="L459" class="lineno"><a class="lineno" href="#L459">459</a></span>
+<span id="L460" class="lineno"><a class="lineno" href="#L460">460</a></span>
+<span id="L461" class="lineno"><a class="lineno" href="#L461">461</a></span>
+<span id="L462" class="lineno"><a class="lineno" href="#L462">462</a></span>
+<span id="L463" class="lineno"><a class="lineno" href="#L463">463</a></span>
+<span id="L464" class="lineno"><a class="lineno" href="#L464">464</a></span>
+<span id="L465" class="lineno"><a class="lineno" href="#L465">465</a></span>
+<span id="L466" class="lineno"><a class="lineno" href="#L466">466</a></span>
 </pre></td>
 <td class="table-code"><pre><span class="line-empty" title="No Anys on this line!">"""DAG visualization.</span>
 <span class="line-empty" title="No Anys on this line!"></span>
@@ -465,6 +497,7 @@
 <span class="line-empty" title="No Anys on this line!">    DAG_NODE_ATTR,</span>
 <span class="line-empty" title="No Anys on this line!">    DAG_NODE_COLORS,</span>
 <span class="line-empty" title="No Anys on this line!">    GIT_EMPTY_TREE_OBJECT_SHA,</span>
+<span class="line-empty" title="No Anys on this line!">    HTML_EMBED_SVG,</span>
 <span class="line-empty" title="No Anys on this line!">    SHA_LIMIT,</span>
 <span class="line-empty" title="No Anys on this line!">    DagBackends,</span>
 <span class="line-empty" title="No Anys on this line!">    DictStrStr,</span>
@@ -787,6 +820,7 @@ Omitted Generics (x6)">@dataclass</span>
 <span class="line-precise" title="No Anys on this line!">    format: str = "svg"</span>
 <span class="line-precise" title="No Anys on this line!">    filename: str = "git-dag.gv"</span>
 <span class="line-empty" title="No Anys on this line!"></span>
+<span class="line-precise" title="No Anys on this line!">    html_embed_svg: bool = False</span>
 <span class="line-precise" title="No Anys on this line!">    show_unreachable_commits: bool = False</span>
 <span class="line-precise" title="No Anys on this line!">    show_local_branches: bool = False</span>
 <span class="line-precise" title="No Anys on this line!">    show_remote_branches: bool = False</span>
@@ -826,6 +860,37 @@ Unannotated (x6)">                raise ValueError(f"Unrecognised backend: {self
 <span class="line-empty" title="No Anys on this line!"></span>
 <span class="line-precise" title="No Anys on this line!">        self._build_dag()</span>
 <span class="line-empty" title="No Anys on this line!"></span>
+<span class="line-empty" title="No Anys on this line!">    @staticmethod</span>
+<span class="line-precise" title="No Anys on this line!">    def _embed_svg_in_html(filename: str) -&gt; None:</span>
+<span class="line-precise" title="Any Types on this line: 
+Unimported (x7)
+Explicit (x1)">        with open(</span>
+<span class="line-precise" title="No Anys on this line!">            "docs/sphinx/src/.static/js/svg-pan-zoom.min.js",</span>
+<span class="line-precise" title="No Anys on this line!">            "r",</span>
+<span class="line-precise" title="No Anys on this line!">            encoding="utf-8",</span>
+<span class="line-precise" title="No Anys on this line!">        ) as h:</span>
+<span class="line-precise" title="No Anys on this line!">            svg_pan_zoom_js = h.read()</span>
+<span class="line-empty" title="No Anys on this line!"></span>
+<span class="line-precise" title="Any Types on this line: 
+Unimported (x7)
+Explicit (x1)">        with open(</span>
+<span class="line-precise" title="No Anys on this line!">            "docs/sphinx/src/.static/js/custom.js",</span>
+<span class="line-precise" title="No Anys on this line!">            "r",</span>
+<span class="line-precise" title="No Anys on this line!">            encoding="utf-8",</span>
+<span class="line-precise" title="No Anys on this line!">        ) as h:</span>
+<span class="line-precise" title="No Anys on this line!">            custom_js = h.read()</span>
+<span class="line-empty" title="No Anys on this line!"></span>
+<span class="line-precise" title="Any Types on this line: 
+Unimported (x7)
+Explicit (x1)">        with open(filename + ".html", "w", encoding="utf-8") as h:</span>
+<span class="line-precise" title="No Anys on this line!">            h.write(</span>
+<span class="line-precise" title="No Anys on this line!">                HTML_EMBED_SVG.format(</span>
+<span class="line-precise" title="No Anys on this line!">                    svg_pan_zoom_js=svg_pan_zoom_js,</span>
+<span class="line-precise" title="No Anys on this line!">                    custom_js=custom_js,</span>
+<span class="line-precise" title="No Anys on this line!">                    svg_filename=filename,</span>
+<span class="line-empty" title="No Anys on this line!">                )</span>
+<span class="line-empty" title="No Anys on this line!">            )</span>
+<span class="line-empty" title="No Anys on this line!"></span>
 <span class="line-any" title="Any Types on this line: 
 Explicit (x1)">    def show(self, xdg_open: bool = False) -&gt; Any:</span>
 <span class="line-empty" title="No Anys on this line!">        """Show the dag.</span>
@@ -850,13 +915,18 @@ Explicit (x1)">            with open(self.filename, "w", encoding="utf-8") as h:
 <span class="line-precise" title="No Anys on this line!">                h.write(self.dag.source())</span>
 <span class="line-empty" title="No Anys on this line!">        else:</span>
 <span class="line-precise" title="No Anys on this line!">            self.dag.render()</span>
+<span class="line-empty" title="No Anys on this line!"></span>
+<span class="line-precise" title="No Anys on this line!">            filename_format = f"{self.filename}.{self.format}"</span>
 <span class="line-precise" title="No Anys on this line!">            if xdg_open:  # pragma: no cover</span>
 <span class="line-precise" title="Any Types on this line: 
 Explicit (x13)">                subprocess.run(</span>
-<span class="line-precise" title="No Anys on this line!">                    f"xdg-open {self.filename}.{self.format}",</span>
+<span class="line-precise" title="No Anys on this line!">                    f"xdg-open {filename_format}",</span>
 <span class="line-precise" title="No Anys on this line!">                    shell=True,</span>
 <span class="line-precise" title="No Anys on this line!">                    check=True,</span>
 <span class="line-empty" title="No Anys on this line!">                )</span>
+<span class="line-empty" title="No Anys on this line!"></span>
+<span class="line-precise" title="No Anys on this line!">            if self.format == "svg" and self.html_embed_svg:</span>
+<span class="line-precise" title="No Anys on this line!">                self._embed_svg_in_html(filename_format)</span>
 <span class="line-empty" title="No Anys on this line!"></span>
 <span class="line-any" title="Any Types on this line: 
 Explicit (x2)">        return self.dag.get()</span>

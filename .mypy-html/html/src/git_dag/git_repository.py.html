@@ -1054,7 +1054,7 @@ Omitted Generics (x3)">        all_commits = set(</span>
 <span class="line-empty" title="No Anys on this line!"></span>
 <span class="line-precise" title="No Anys on this line!">        numb_commits_not_found = len(self.commits_sha["all"]) - len(commits_info)</span>
 <span class="line-precise" title="No Anys on this line!">        if numb_commits_not_found &gt; 0:</span>
-<span class="line-precise" title="No Anys on this line!">            LOG.warning(</span>
+<span class="line-precise" title="No Anys on this line!">            LOG.info(</span>
 <span class="line-precise" title="No Anys on this line!">                f"{numb_commits_not_found} commits not found in "</span>
 <span class="line-empty" title="No Anys on this line!">                "git rev-list --all --reflog"</span>
 <span class="line-empty" title="No Anys on this line!">            )</span>
@@ -1098,7 +1098,7 @@ Explicit (x9)">        return dict(zip(all_sha, object_file_content))</span>
 <span class="line-precise" title="No Anys on this line!">                    commit_info = self.commits_info[sha]</span>
 <span class="line-empty" title="No Anys on this line!">                else:</span>
 <span class="line-precise" title="No Anys on this line!">                    commit_info = self.git.read_object_file(sha)  # slower</span>
-<span class="line-precise" title="No Anys on this line!">                    LOG.warning(f"[commit] manually executing git cat-file -p {sha}")</span>
+<span class="line-precise" title="No Anys on this line!">                    LOG.info(f"[commit] manually executing git cat-file -p {sha}")</span>
 <span class="line-empty" title="No Anys on this line!"></span>
 <span class="line-precise" title="No Anys on this line!">                return GitCommit(</span>
 <span class="line-precise" title="No Anys on this line!">                    sha=sha,</span>

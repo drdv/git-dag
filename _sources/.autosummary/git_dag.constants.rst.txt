@@ -16,6 +16,7 @@
       DAG_NODE_COLORS
       STANDALONE_CLUSTER_PARAMS
       SHA_LIMIT
+      HTML_EMBED_SVG
    
    
 

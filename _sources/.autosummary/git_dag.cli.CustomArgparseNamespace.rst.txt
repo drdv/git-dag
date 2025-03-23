@@ -34,6 +34,7 @@ git\_dag.cli.CustomArgparseNamespace
       ~CustomArgparseNamespace.dpi
       ~CustomArgparseNamespace.rankdir
       ~CustomArgparseNamespace.bgcolor
+      ~CustomArgparseNamespace.html_embed_svg
       ~CustomArgparseNamespace.show_unreachable_commits
       ~CustomArgparseNamespace.show_tags
       ~CustomArgparseNamespace.show_deleted_tags

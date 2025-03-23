@@ -30,6 +30,7 @@ git\_dag.dag.DagVisualizer
       ~DagVisualizer.dag_attr
       ~DagVisualizer.filename
       ~DagVisualizer.format
+      ~DagVisualizer.html_embed_svg
       ~DagVisualizer.objects_sha_to_include
       ~DagVisualizer.range
       ~DagVisualizer.show_blobs
