@@ -12,6 +12,7 @@ from __future__ import annotations
 
 import subprocess
 from dataclasses import dataclass
+from pathlib import Path
 from typing import TYPE_CHECKING, Any, Optional, Protocol
 
 from .constants import (
@@ -375,7 +376,7 @@ class DagVisualizer(
                 HTML_EMBED_SVG.format(
                     svg_pan_zoom_js=svg_pan_zoom_js,
                     custom_js=custom_js,
-                    svg_filename=filename,
+                    svg_filename=Path(filename).name,
                 )
             )
 
