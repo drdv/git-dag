@@ -12,6 +12,7 @@ import re
 import shlex
 import subprocess
 import tarfile
+import time
 from pathlib import Path
 from typing import Any, Literal, Optional
 
@@ -166,12 +167,25 @@ class GitCommandMutate(GitCommandBase):
         """Merge."""
         self._run(f'merge -X {strategy} {branch} -m "{message}"', env=self.env)
 
-    def stash(self, files: DictStrStr, title: Optional[str] = None) -> None:
+    def stash(
+        self,
+        files: DictStrStr,
+        title: Optional[str] = None,
+        sleep: bool = True,
+    ) -> None:
         """Stash.
 
+        Note
+        -----
         ``files`` specifies files to be modified before we stash (its format is
         ``{'filename': 'file contents', ...}``. At least one file should be modified in
         order for ``git stash`` to be meaningful.
+
+        Warning
+        --------
+        At the end of this method we sleep for 1 second otherwise stashes created very
+        fast one after another might share the "index commit" (or might not, depending
+        on delay). See https://github.com/drdv/git-dag/issues/84.
 
         """
         for filename, contents in files.items():
@@ -182,6 +196,9 @@ class GitCommandMutate(GitCommandBase):
             self._run("stash", env=self.env)
         else:
             self._run(f'stash push -m "{title}"', env=self.env)
+
+        if sleep:
+            time.sleep(1)  # see Warning in docstring
 
     def tag(
         self,
