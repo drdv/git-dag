@@ -217,6 +217,7 @@
 </ul>
 </li>
 <li class="toctree-l2 has-children"><a class="reference internal" href="../../.autosummary/git_dag.constants.html">git_dag.constants</a><input class="toctree-checkbox" id="toctree-checkbox-4" name="toctree-checkbox-4" role="switch" type="checkbox"/><label for="toctree-checkbox-4"><div class="visually-hidden">Toggle navigation of git_dag.constants</div><i class="icon"><svg><use href="#svg-arrow-right"></use></svg></i></label><ul>
+<li class="toctree-l3"><a class="reference internal" href="../../.autosummary/git_dag.constants.SHA_PATTERN.html">git_dag.constants.SHA_PATTERN</a></li>
 <li class="toctree-l3"><a class="reference internal" href="../../.autosummary/git_dag.constants.TAG_FORMAT_FIELDS.html">git_dag.constants.TAG_FORMAT_FIELDS</a></li>
 <li class="toctree-l3"><a class="reference internal" href="../../.autosummary/git_dag.constants.CMD_TAGS_INFO.html">git_dag.constants.CMD_TAGS_INFO</a></li>
 <li class="toctree-l3"><a class="reference internal" href="../../.autosummary/git_dag.constants.GIT_EMPTY_TREE_OBJECT_SHA.html">git_dag.constants.GIT_EMPTY_TREE_OBJECT_SHA</a></li>
@@ -312,6 +313,9 @@
 
 <span class="n">DictStrStr</span> <span class="o">=</span> <span class="nb">dict</span><span class="p">[</span><span class="nb">str</span><span class="p">,</span> <span class="nb">str</span><span class="p">]</span>
 
+<span class="c1">#: Regex patterx for SHA-1 hash.</span>
+<span class="n">SHA_PATTERN</span> <span class="o">=</span> <span class="s2">&quot;(?P&lt;sha&gt;[0-9a-f]</span><span class="si">{40}</span><span class="s2">)&quot;</span>
+
 <span class="c1">#: See https://stackoverflow.com/a/21868228</span>
 <span class="n">TAG_FORMAT_FIELDS</span><span class="p">:</span> <span class="n">Final</span><span class="p">[</span><span class="nb">list</span><span class="p">[</span><span class="nb">str</span><span class="p">]]</span> <span class="o">=</span> <span class="p">[</span>
     <span class="s2">&quot;refname&quot;</span><span class="p">,</span>  <span class="c1"># short name of lightweight tag (LWT)</span>
@@ -350,6 +354,7 @@
 <span class="n">DAG_NODE_COLORS</span><span class="p">:</span> <span class="n">Final</span><span class="p">[</span><span class="n">DictStrStr</span><span class="p">]</span> <span class="o">=</span> <span class="p">{</span>
     <span class="s2">&quot;commit&quot;</span><span class="p">:</span> <span class="s2">&quot;gold3&quot;</span><span class="p">,</span>
     <span class="s2">&quot;commit-unreachable&quot;</span><span class="p">:</span> <span class="s2">&quot;darkorange&quot;</span><span class="p">,</span>
+    <span class="s2">&quot;commit-in-range&quot;</span><span class="p">:</span> <span class="s2">&quot;red&quot;</span><span class="p">,</span>
     <span class="s2">&quot;tree&quot;</span><span class="p">:</span> <span class="s2">&quot;deepskyblue4&quot;</span><span class="p">,</span>
     <span class="s2">&quot;the-empty-tree&quot;</span><span class="p">:</span> <span class="s2">&quot;darkturquoise&quot;</span><span class="p">,</span>
     <span class="s2">&quot;blob&quot;</span><span class="p">:</span> <span class="s2">&quot;gray&quot;</span><span class="p">,</span>
@@ -451,7 +456,7 @@
       
     </aside>
   </div>
-</div><script src="../../_static/documentation_options.js?v=14f5bd8b"></script>
+</div><script src="../../_static/documentation_options.js?v=290b3a5c"></script>
     <script src="../../_static/doctools.js?v=9bcbadda"></script>
     <script src="../../_static/sphinx_highlight.js?v=dc90522c"></script>
     <script src="../../_static/scripts/furo.js?v=5fa4622c"></script>

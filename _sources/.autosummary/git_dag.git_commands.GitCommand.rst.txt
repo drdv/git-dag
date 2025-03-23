@@ -23,6 +23,7 @@ git\_dag.git\_commands.GitCommand
       ~GitCommand.get_local_head_commit_sha
       ~GitCommand.get_notes_dag_root
       ~GitCommand.get_objects_sha_kind
+      ~GitCommand.get_prs_heads
       ~GitCommand.get_remote_heads_sym_ref
       ~GitCommand.get_remotes
       ~GitCommand.get_stash_info

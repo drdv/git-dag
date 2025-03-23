@@ -10,6 +10,7 @@
    .. autosummary::
       :toctree:
    
+      SHA_PATTERN
       TAG_FORMAT_FIELDS
       CMD_TAGS_INFO
       GIT_EMPTY_TREE_OBJECT_SHA

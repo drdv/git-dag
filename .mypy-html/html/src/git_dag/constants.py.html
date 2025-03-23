@@ -119,6 +119,10 @@
 <span id="L109" class="lineno"><a class="lineno" href="#L109">109</a></span>
 <span id="L110" class="lineno"><a class="lineno" href="#L110">110</a></span>
 <span id="L111" class="lineno"><a class="lineno" href="#L111">111</a></span>
+<span id="L112" class="lineno"><a class="lineno" href="#L112">112</a></span>
+<span id="L113" class="lineno"><a class="lineno" href="#L113">113</a></span>
+<span id="L114" class="lineno"><a class="lineno" href="#L114">114</a></span>
+<span id="L115" class="lineno"><a class="lineno" href="#L115">115</a></span>
 </pre></td>
 <td class="table-code"><pre><span class="line-empty" title="No Anys on this line!">"""Constants."""</span>
 <span class="line-empty" title="No Anys on this line!"></span>
@@ -126,6 +130,9 @@
 <span class="line-precise" title="No Anys on this line!">from typing import Final</span>
 <span class="line-empty" title="No Anys on this line!"></span>
 <span class="line-precise" title="No Anys on this line!">DictStrStr = dict[str, str]</span>
+<span class="line-empty" title="No Anys on this line!"></span>
+<span class="line-empty" title="No Anys on this line!">#: Regex patterx for SHA-1 hash.</span>
+<span class="line-precise" title="No Anys on this line!">SHA_PATTERN = "(?P&lt;sha&gt;[0-9a-f]{40})"</span>
 <span class="line-empty" title="No Anys on this line!"></span>
 <span class="line-empty" title="No Anys on this line!">#: See https://stackoverflow.com/a/21868228</span>
 <span class="line-precise" title="No Anys on this line!">TAG_FORMAT_FIELDS: Final[list[str]] = [</span>
@@ -162,6 +169,7 @@
 <span class="line-precise" title="No Anys on this line!">DAG_NODE_COLORS: Final[DictStrStr] = {</span>
 <span class="line-precise" title="No Anys on this line!">    "commit": "gold3",</span>
 <span class="line-precise" title="No Anys on this line!">    "commit-unreachable": "darkorange",</span>
+<span class="line-precise" title="No Anys on this line!">    "commit-in-range": "red",</span>
 <span class="line-precise" title="No Anys on this line!">    "tree": "deepskyblue4",</span>
 <span class="line-precise" title="No Anys on this line!">    "the-empty-tree": "darkturquoise",</span>
 <span class="line-precise" title="No Anys on this line!">    "blob": "gray",</span>

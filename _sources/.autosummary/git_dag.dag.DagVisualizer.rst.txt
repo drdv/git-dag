@@ -38,6 +38,7 @@ git\_dag.dag.DagVisualizer
       ~DagVisualizer.show_deleted_tags
       ~DagVisualizer.show_head
       ~DagVisualizer.show_local_branches
+      ~DagVisualizer.show_prs_heads
       ~DagVisualizer.show_remote_branches
       ~DagVisualizer.show_stash
       ~DagVisualizer.show_tags

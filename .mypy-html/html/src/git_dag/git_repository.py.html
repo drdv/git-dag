@@ -715,6 +715,12 @@
 <span id="L705" class="lineno"><a class="lineno" href="#L705">705</a></span>
 <span id="L706" class="lineno"><a class="lineno" href="#L706">706</a></span>
 <span id="L707" class="lineno"><a class="lineno" href="#L707">707</a></span>
+<span id="L708" class="lineno"><a class="lineno" href="#L708">708</a></span>
+<span id="L709" class="lineno"><a class="lineno" href="#L709">709</a></span>
+<span id="L710" class="lineno"><a class="lineno" href="#L710">710</a></span>
+<span id="L711" class="lineno"><a class="lineno" href="#L711">711</a></span>
+<span id="L712" class="lineno"><a class="lineno" href="#L712">712</a></span>
+<span id="L713" class="lineno"><a class="lineno" href="#L713">713</a></span>
 </pre></td>
 <td class="table-code"><pre><span class="line-empty" title="No Anys on this line!">"""Git repository parsing functionality."""</span>
 <span class="line-empty" title="No Anys on this line!"></span>
@@ -732,7 +738,7 @@
 <span class="line-empty" title="No Anys on this line!"></span>
 <span class="line-precise" title="No Anys on this line!">from pydantic import BeforeValidator, TypeAdapter</span>
 <span class="line-empty" title="No Anys on this line!"></span>
-<span class="line-precise" title="No Anys on this line!">from .constants import GIT_EMPTY_TREE_OBJECT_SHA, DagBackends, DictStrStr</span>
+<span class="line-precise" title="No Anys on this line!">from .constants import GIT_EMPTY_TREE_OBJECT_SHA, SHA_PATTERN, DagBackends, DictStrStr</span>
 <span class="line-precise" title="No Anys on this line!">from .dag import DagVisualizer</span>
 <span class="line-precise" title="No Anys on this line!">from .git_commands import GitCommand</span>
 <span class="line-precise" title="No Anys on this line!">from .git_objects import (</span>
@@ -802,12 +808,10 @@ Omitted Generics (x4)">    return wrap</span>
 <span class="line-empty" title="No Anys on this line!"></span>
 <span class="line-empty" title="No Anys on this line!">    """</span>
 <span class="line-empty" title="No Anys on this line!"></span>
-<span class="line-precise" title="No Anys on this line!">    SHA_PATTERN = "(?P&lt;sha&gt;[0-9a-f]{40})"</span>
-<span class="line-empty" title="No Anys on this line!"></span>
 <span class="line-empty" title="No Anys on this line!">    @staticmethod</span>
 <span class="line-precise" title="No Anys on this line!">    def parse_object_descriptor(string: str) -&gt; DictStrStr:</span>
 <span class="line-empty" title="No Anys on this line!">        """Parse an object descriptor with format ``SHA OBJECT_TYPE``."""</span>
-<span class="line-precise" title="No Anys on this line!">        pattern = f"^{RegexParser.SHA_PATTERN} (?P&lt;kind&gt;.+)"</span>
+<span class="line-precise" title="No Anys on this line!">        pattern = f"^{SHA_PATTERN} (?P&lt;kind&gt;.+)"</span>
 <span class="line-precise" title="No Anys on this line!">        match = re.search(pattern, string)</span>
 <span class="line-precise" title="No Anys on this line!">        if match:</span>
 <span class="line-precise" title="No Anys on this line!">            return {"sha": match.group("sha"), "kind": match.group("kind")}</span>
@@ -821,7 +825,7 @@ Omitted Generics (x4)">    return wrap</span>
 <span class="line-empty" title="No Anys on this line!">            return []</span>
 <span class="line-empty" title="No Anys on this line!"></span>
 <span class="line-empty" title="No Anys on this line!">        # in the presence of submodules, trees may refer to commits as well</span>
-<span class="line-precise" title="No Anys on this line!">        pattern = f"(?P&lt;kind&gt;tree|blob|commit) {RegexParser.SHA_PATTERN}\t"</span>
+<span class="line-precise" title="No Anys on this line!">        pattern = f"(?P&lt;kind&gt;tree|blob|commit) {SHA_PATTERN}\t"</span>
 <span class="line-precise" title="No Anys on this line!">        output = []</span>
 <span class="line-precise" title="No Anys on this line!">        for string in data:</span>
 <span class="line-precise" title="No Anys on this line!">            match = re.search(pattern, string)</span>
@@ -901,7 +905,7 @@ Explicit (x1)">            "parents": parents,</span>
 <span class="line-empty" title="No Anys on this line!">    @staticmethod</span>
 <span class="line-precise" title="No Anys on this line!">    def parse_commit_info(data: list[str]) -&gt; GitCommitRawDataType:</span>
 <span class="line-empty" title="No Anys on this line!">        """Parse a commit object file (read with ``git cat-file -p``)."""</span>
-<span class="line-precise" title="No Anys on this line!">        pattern = f"^(?P&lt;kind&gt;tree|parent) {RegexParser.SHA_PATTERN}"</span>
+<span class="line-precise" title="No Anys on this line!">        pattern = f"^(?P&lt;kind&gt;tree|parent) {SHA_PATTERN}"</span>
 <span class="line-precise" title="No Anys on this line!">        output, misc_info = [], []</span>
 <span class="line-empty" title="No Anys on this line!">        # The tree and the parents always come first in the object file of a commit.</span>
 <span class="line-empty" title="No Anys on this line!">        # Next is the author, and this is the start of what I call "misc info".</span>
@@ -922,7 +926,7 @@ Explicit (x1)">            "parents": parents,</span>
 <span class="line-empty" title="No Anys on this line!">        """Parse a tag object file (read using ``git cat-file -p``)."""</span>
 <span class="line-precise" title="No Anys on this line!">        labels = ["sha", "type", "refname", "tagger"]</span>
 <span class="line-precise" title="No Anys on this line!">        patterns = [</span>
-<span class="line-precise" title="No Anys on this line!">            f"^object {RegexParser.SHA_PATTERN}",</span>
+<span class="line-precise" title="No Anys on this line!">            f"^object {SHA_PATTERN}",</span>
 <span class="line-precise" title="No Anys on this line!">            "^type (?P&lt;type&gt;.+)",</span>
 <span class="line-precise" title="No Anys on this line!">            "^tag (?P&lt;refname&gt;.+)",</span>
 <span class="line-precise" title="No Anys on this line!">            "^tagger (?P&lt;tagger&gt;.+)",</span>
@@ -956,7 +960,7 @@ Omitted Generics (x2)">        output["anchor"] = output.pop("sha")</span>
 <span class="line-precise" title="No Anys on this line!">        if not data:</span>
 <span class="line-empty" title="No Anys on this line!">            return []</span>
 <span class="line-empty" title="No Anys on this line!"></span>
-<span class="line-precise" title="No Anys on this line!">        pattern = f"{RegexParser.SHA_PATTERN} stash@{{(?P&lt;index&gt;[0-9]+)}} (?P&lt;title&gt;.*)"</span>
+<span class="line-precise" title="No Anys on this line!">        pattern = f"{SHA_PATTERN} stash@{{(?P&lt;index&gt;[0-9]+)}} (?P&lt;title&gt;.*)"</span>
 <span class="line-precise" title="No Anys on this line!">        keys = ["index", "sha", "title"]</span>
 <span class="line-empty" title="No Anys on this line!"></span>
 <span class="line-precise" title="No Anys on this line!">        out = []</span>
@@ -1194,6 +1198,7 @@ Omitted Generics (x9)">            for obj in TypeAdapter(list[GitObjectAnnotate
 <span class="line-empty" title="No Anys on this line!">        self,</span>
 <span class="line-precise" title="No Anys on this line!">        repository_path: str | Path = ".",</span>
 <span class="line-precise" title="No Anys on this line!">        parse_trees: bool = False,</span>
+<span class="line-precise" title="No Anys on this line!">        ls_remote: bool = False,</span>
 <span class="line-empty" title="No Anys on this line!">    ) -&gt; None:</span>
 <span class="line-empty" title="No Anys on this line!">        """Initialize instance.</span>
 <span class="line-empty" title="No Anys on this line!"></span>
@@ -1203,9 +1208,13 @@ Omitted Generics (x9)">            for obj in TypeAdapter(list[GitObjectAnnotate
 <span class="line-empty" title="No Anys on this line!">            Path to the git repository.</span>
 <span class="line-empty" title="No Anys on this line!">        parse_trees</span>
 <span class="line-empty" title="No Anys on this line!">            Whether to parse the tree objects (doing this can be very slow).</span>
+<span class="line-empty" title="No Anys on this line!">        ls_remote</span>
+<span class="line-empty" title="No Anys on this line!">            This should be set to ``True`` when it is required to show PRs heads (see</span>
+<span class="line-empty" title="No Anys on this line!">            the flag ``--prs-heads``).</span>
 <span class="line-empty" title="No Anys on this line!"></span>
 <span class="line-empty" title="No Anys on this line!">        """</span>
 <span class="line-precise" title="No Anys on this line!">        self.inspector = GitInspector(repository_path, parse_trees)</span>
+<span class="line-precise" title="No Anys on this line!">        self.ls_remote = ls_remote</span>
 <span class="line-precise" title="No Anys on this line!">        self.post_process_inspector_data()</span>
 <span class="line-empty" title="No Anys on this line!"></span>
 <span class="line-precise" title="Any Types on this line: 
@@ -1221,6 +1230,9 @@ Omitted Generics (x6)">    @time_it</span>
 <span class="line-precise" title="No Anys on this line!">        self.branches: list[GitBranch] = self._form_branches()</span>
 <span class="line-precise" title="No Anys on this line!">        self.head: GitHead = self._form_local_head()</span>
 <span class="line-precise" title="No Anys on this line!">        self.remote_heads: DictStrStr = self._form_remote_heads()</span>
+<span class="line-precise" title="No Anys on this line!">        self.prs_heads: Optional[DictStrStr] = (</span>
+<span class="line-precise" title="No Anys on this line!">            self.inspector.git.get_prs_heads() if self.ls_remote else None</span>
+<span class="line-empty" title="No Anys on this line!">        )</span>
 <span class="line-precise" title="No Anys on this line!">        self.stashes: list[GitStash] = self._form_stashes()</span>
 <span class="line-precise" title="No Anys on this line!">        self.notes_dag_root: Optional[DictStrStr] = self.inspector.notes_dag_root</span>
 <span class="line-empty" title="No Anys on this line!"></span>

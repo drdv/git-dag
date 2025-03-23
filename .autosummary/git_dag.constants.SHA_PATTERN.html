@@ -3,10 +3,10 @@
   <head><meta charset="utf-8"/>
     <meta name="viewport" content="width=device-width,initial-scale=1"/>
     <meta name="color-scheme" content="light dark"><meta name="viewport" content="width=device-width, initial-scale=1" />
-<link rel="index" title="Index" href="../genindex.html" /><link rel="search" title="Search" href="../search.html" /><link rel="next" title="git_dag.utils.transform_ascii_control_chars" href="git_dag.utils.transform_ascii_control_chars.html" /><link rel="prev" title="git_dag.utils.creator_timestamp_format" href="git_dag.utils.creator_timestamp_format.html" />
+<link rel="index" title="Index" href="../genindex.html" /><link rel="search" title="Search" href="../search.html" /><link rel="next" title="git_dag.constants.TAG_FORMAT_FIELDS" href="git_dag.constants.TAG_FORMAT_FIELDS.html" /><link rel="prev" title="git_dag.constants" href="git_dag.constants.html" />
 
     <!-- Generated with Sphinx 8.2.3 and Furo 2024.08.06 -->
-        <title>git_dag.utils.escape_decode - git-dag</title>
+        <title>git_dag.constants.SHA_PATTERN - git-dag</title>
       <link rel="stylesheet" type="text/css" href="../_static/pygments.css?v=a746c00c" />
     <link rel="stylesheet" type="text/css" href="../_static/styles/furo.css?v=354aac6f" />
     <link rel="stylesheet" type="text/css" href="../_static/autodoc_pydantic.css" />
@@ -217,8 +217,8 @@
 <li class="toctree-l3"><a class="reference internal" href="git_dag.cli.CustomArgparseNamespace.html">git_dag.cli.CustomArgparseNamespace</a></li>
 </ul>
 </li>
-<li class="toctree-l2 has-children"><a class="reference internal" href="git_dag.constants.html">git_dag.constants</a><input class="toctree-checkbox" id="toctree-checkbox-4" name="toctree-checkbox-4" role="switch" type="checkbox"/><label for="toctree-checkbox-4"><div class="visually-hidden">Toggle navigation of git_dag.constants</div><i class="icon"><svg><use href="#svg-arrow-right"></use></svg></i></label><ul>
-<li class="toctree-l3"><a class="reference internal" href="git_dag.constants.SHA_PATTERN.html">git_dag.constants.SHA_PATTERN</a></li>
+<li class="toctree-l2 current has-children"><a class="reference internal" href="git_dag.constants.html">git_dag.constants</a><input checked="" class="toctree-checkbox" id="toctree-checkbox-4" name="toctree-checkbox-4" role="switch" type="checkbox"/><label for="toctree-checkbox-4"><div class="visually-hidden">Toggle navigation of git_dag.constants</div><i class="icon"><svg><use href="#svg-arrow-right"></use></svg></i></label><ul class="current">
+<li class="toctree-l3 current current-page"><a class="current reference internal" href="#">git_dag.constants.SHA_PATTERN</a></li>
 <li class="toctree-l3"><a class="reference internal" href="git_dag.constants.TAG_FORMAT_FIELDS.html">git_dag.constants.TAG_FORMAT_FIELDS</a></li>
 <li class="toctree-l3"><a class="reference internal" href="git_dag.constants.CMD_TAGS_INFO.html">git_dag.constants.CMD_TAGS_INFO</a></li>
 <li class="toctree-l3"><a class="reference internal" href="git_dag.constants.GIT_EMPTY_TREE_OBJECT_SHA.html">git_dag.constants.GIT_EMPTY_TREE_OBJECT_SHA</a></li>
@@ -263,9 +263,9 @@
 <li class="toctree-l3"><a class="reference internal" href="git_dag.interfaces.graphviz.DagGraphviz.html">git_dag.interfaces.graphviz.DagGraphviz</a></li>
 </ul>
 </li>
-<li class="toctree-l2 current has-children"><a class="reference internal" href="git_dag.utils.html">git_dag.utils</a><input checked="" class="toctree-checkbox" id="toctree-checkbox-10" name="toctree-checkbox-10" role="switch" type="checkbox"/><label for="toctree-checkbox-10"><div class="visually-hidden">Toggle navigation of git_dag.utils</div><i class="icon"><svg><use href="#svg-arrow-right"></use></svg></i></label><ul class="current">
+<li class="toctree-l2 has-children"><a class="reference internal" href="git_dag.utils.html">git_dag.utils</a><input class="toctree-checkbox" id="toctree-checkbox-10" name="toctree-checkbox-10" role="switch" type="checkbox"/><label for="toctree-checkbox-10"><div class="visually-hidden">Toggle navigation of git_dag.utils</div><i class="icon"><svg><use href="#svg-arrow-right"></use></svg></i></label><ul>
 <li class="toctree-l3"><a class="reference internal" href="git_dag.utils.creator_timestamp_format.html">git_dag.utils.creator_timestamp_format</a></li>
-<li class="toctree-l3 current current-page"><a class="current reference internal" href="#">git_dag.utils.escape_decode</a></li>
+<li class="toctree-l3"><a class="reference internal" href="git_dag.utils.escape_decode.html">git_dag.utils.escape_decode</a></li>
 <li class="toctree-l3"><a class="reference internal" href="git_dag.utils.transform_ascii_control_chars.html">git_dag.utils.transform_ascii_control_chars</a></li>
 </ul>
 </li>
@@ -292,7 +292,7 @@
         </a>
         <div class="content-icon-container">
           <div class="view-this-page">
-  <a class="muted-link" href="../_sources/.autosummary/git_dag.utils.escape_decode.rst.txt" title="View this page">
+  <a class="muted-link" href="../_sources/.autosummary/git_dag.constants.SHA_PATTERN.rst.txt" title="View this page">
     <svg><use href="#svg-eye"></use></svg>
     <span class="visually-hidden">View this page</span>
   </a>
@@ -312,18 +312,12 @@
           </label>
         </div>
         <article role="main" id="furo-main-content">
-          <section id="git-dag-utils-escape-decode">
-<h1>git_dag.utils.escape_decode<a class="headerlink" href="#git-dag-utils-escape-decode" title="Link to this heading">¶</a></h1>
-<dl class="py function">
-<dt class="sig sig-object py" id="git_dag.utils.escape_decode">
-<span class="sig-prename descclassname"><span class="pre">git_dag.utils.</span></span><span class="sig-name descname"><span class="pre">escape_decode</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">text</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">str</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">str</span></span></span><a class="reference internal" href="../_modules/git_dag/utils.html#escape_decode"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#git_dag.utils.escape_decode" title="Link to this definition">¶</a></dt>
-<dd><p>Decode escapes of escapes (e.g., <code class="docutils literal notranslate"><span class="pre">\\n</span> <span class="pre">-&gt;</span> <span class="pre">\n</span></code>).</p>
-<section id="note">
-<h2>Note<a class="headerlink" href="#note" title="Link to this heading">¶</a></h2>
-<p>The approach in <a class="reference external" href="https://stackoverflow.com/a/37059682">https://stackoverflow.com/a/37059682</a> is used because it handles
-unicode characters. FIXME: unfortunately, it relies on the internal function
-<code class="docutils literal notranslate"><span class="pre">codecs.escape_decode</span></code> (<a class="reference external" href="https://github.com/python/cpython/issues/74773">https://github.com/python/cpython/issues/74773</a>).</p>
-</section>
+          <section id="git-dag-constants-sha-pattern">
+<h1>git_dag.constants.SHA_PATTERN<a class="headerlink" href="#git-dag-constants-sha-pattern" title="Link to this heading">¶</a></h1>
+<dl class="py data">
+<dt class="sig sig-object py" id="git_dag.constants.SHA_PATTERN">
+<span class="sig-prename descclassname"><span class="pre">git_dag.constants.</span></span><span class="sig-name descname"><span class="pre">SHA_PATTERN</span></span><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">'(?P&lt;sha&gt;[0-9a-f]{40})'</span></em><a class="headerlink" href="#git_dag.constants.SHA_PATTERN" title="Link to this definition">¶</a></dt>
+<dd><p>Regex patterx for SHA-1 hash.</p>
 </dd></dl>
 
 </section>
@@ -333,23 +327,23 @@ unicode characters. FIXME: unfortunately, it relies on the internal function
       <footer>
         
         <div class="related-pages">
-          <a class="next-page" href="git_dag.utils.transform_ascii_control_chars.html">
+          <a class="next-page" href="git_dag.constants.TAG_FORMAT_FIELDS.html">
               <div class="page-info">
                 <div class="context">
                   <span>Next</span>
                 </div>
-                <div class="title">git_dag.utils.transform_ascii_control_chars</div>
+                <div class="title">git_dag.constants.TAG_FORMAT_FIELDS</div>
               </div>
               <svg class="furo-related-icon"><use href="#svg-arrow-right"></use></svg>
             </a>
-          <a class="prev-page" href="git_dag.utils.creator_timestamp_format.html">
+          <a class="prev-page" href="git_dag.constants.html">
               <svg class="furo-related-icon"><use href="#svg-arrow-right"></use></svg>
               <div class="page-info">
                 <div class="context">
                   <span>Previous</span>
                 </div>
                 
-                <div class="title">git_dag.utils.creator_timestamp_format</div>
+                <div class="title">git_dag.constants</div>
                 
               </div>
             </a>
@@ -383,8 +377,8 @@ unicode characters. FIXME: unfortunately, it relies on the internal function
         <div class="toc-tree-container">
           <div class="toc-tree">
             <ul>
-<li><a class="reference internal" href="#">git_dag.utils.escape_decode</a><ul>
-<li><a class="reference internal" href="#git_dag.utils.escape_decode"><code class="docutils literal notranslate"><span class="pre">escape_decode()</span></code></a></li>
+<li><a class="reference internal" href="#">git_dag.constants.SHA_PATTERN</a><ul>
+<li><a class="reference internal" href="#git_dag.constants.SHA_PATTERN"><code class="docutils literal notranslate"><span class="pre">SHA_PATTERN</span></code></a></li>
 </ul>
 </li>
 </ul>

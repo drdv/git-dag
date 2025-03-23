@@ -636,6 +636,21 @@
 <span id="L626" class="lineno"><a class="lineno" href="#L626">626</a></span>
 <span id="L627" class="lineno"><a class="lineno" href="#L627">627</a></span>
 <span id="L628" class="lineno"><a class="lineno" href="#L628">628</a></span>
+<span id="L629" class="lineno"><a class="lineno" href="#L629">629</a></span>
+<span id="L630" class="lineno"><a class="lineno" href="#L630">630</a></span>
+<span id="L631" class="lineno"><a class="lineno" href="#L631">631</a></span>
+<span id="L632" class="lineno"><a class="lineno" href="#L632">632</a></span>
+<span id="L633" class="lineno"><a class="lineno" href="#L633">633</a></span>
+<span id="L634" class="lineno"><a class="lineno" href="#L634">634</a></span>
+<span id="L635" class="lineno"><a class="lineno" href="#L635">635</a></span>
+<span id="L636" class="lineno"><a class="lineno" href="#L636">636</a></span>
+<span id="L637" class="lineno"><a class="lineno" href="#L637">637</a></span>
+<span id="L638" class="lineno"><a class="lineno" href="#L638">638</a></span>
+<span id="L639" class="lineno"><a class="lineno" href="#L639">639</a></span>
+<span id="L640" class="lineno"><a class="lineno" href="#L640">640</a></span>
+<span id="L641" class="lineno"><a class="lineno" href="#L641">641</a></span>
+<span id="L642" class="lineno"><a class="lineno" href="#L642">642</a></span>
+<span id="L643" class="lineno"><a class="lineno" href="#L643">643</a></span>
 </pre></td>
 <td class="table-code"><pre><span class="line-empty" title="No Anys on this line!">"""Git commands related functionality.</span>
 <span class="line-empty" title="No Anys on this line!"></span>
@@ -655,7 +670,7 @@
 <span class="line-precise" title="No Anys on this line!">from pathlib import Path</span>
 <span class="line-precise" title="No Anys on this line!">from typing import Any, Literal, Optional</span>
 <span class="line-empty" title="No Anys on this line!"></span>
-<span class="line-precise" title="No Anys on this line!">from git_dag.constants import CMD_TAGS_INFO, TAG_FORMAT_FIELDS, DictStrStr</span>
+<span class="line-precise" title="No Anys on this line!">from git_dag.constants import CMD_TAGS_INFO, SHA_PATTERN, TAG_FORMAT_FIELDS, DictStrStr</span>
 <span class="line-precise" title="No Anys on this line!">from git_dag.utils import escape_decode</span>
 <span class="line-empty" title="No Anys on this line!"></span>
 <span class="line-precise" title="No Anys on this line!">logging.basicConfig(level=logging.WARNING)</span>
@@ -964,6 +979,21 @@ Explicit (x1)">            with open(Path(self.path) / filename, "w", encoding="
 <span class="line-precise" title="No Anys on this line!">            except subprocess.CalledProcessError:</span>
 <span class="line-precise" title="No Anys on this line!">                LOG.warning(f"HEAD not defined for {remote}.")</span>
 <span class="line-precise" title="No Anys on this line!">        return symb_refs</span>
+<span class="line-empty" title="No Anys on this line!"></span>
+<span class="line-precise" title="No Anys on this line!">    def get_prs_heads(self) -&gt; DictStrStr:</span>
+<span class="line-empty" title="No Anys on this line!">        """Return heads of pull-requests."""</span>
+<span class="line-empty" title="No Anys on this line!">        try:</span>
+<span class="line-precise" title="No Anys on this line!">            cmd_output = self._run("ls-remote").strip().split("\n")</span>
+<span class="line-precise" title="No Anys on this line!">        except subprocess.CalledProcessError:</span>
+<span class="line-precise" title="No Anys on this line!">            LOG.warning("No remote")</span>
+<span class="line-empty" title="No Anys on this line!"></span>
+<span class="line-precise" title="No Anys on this line!">        out = {}</span>
+<span class="line-precise" title="No Anys on this line!">        for line in cmd_output:</span>
+<span class="line-precise" title="No Anys on this line!">            match = re.search(f"{SHA_PATTERN}\trefs/pull/(?P&lt;pr_id&gt;\d+)/head", line)</span>
+<span class="line-precise" title="No Anys on this line!">            if match:</span>
+<span class="line-precise" title="No Anys on this line!">                out[match.group("pr_id")] = match.group("sha")</span>
+<span class="line-empty" title="No Anys on this line!"></span>
+<span class="line-precise" title="No Anys on this line!">        return out</span>
 <span class="line-empty" title="No Anys on this line!"></span>
 <span class="line-precise" title="No Anys on this line!">    def get_branches(self, remotes: list[str]) -&gt; dict[str, DictStrStr]:</span>
 <span class="line-empty" title="No Anys on this line!">        """Get local/remote branches (while excluding remote HEADs)."""</span>

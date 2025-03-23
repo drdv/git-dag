@@ -217,6 +217,7 @@
 </ul>
 </li>
 <li class="toctree-l2 has-children"><a class="reference internal" href="../../.autosummary/git_dag.constants.html">git_dag.constants</a><input class="toctree-checkbox" id="toctree-checkbox-4" name="toctree-checkbox-4" role="switch" type="checkbox"/><label for="toctree-checkbox-4"><div class="visually-hidden">Toggle navigation of git_dag.constants</div><i class="icon"><svg><use href="#svg-arrow-right"></use></svg></i></label><ul>
+<li class="toctree-l3"><a class="reference internal" href="../../.autosummary/git_dag.constants.SHA_PATTERN.html">git_dag.constants.SHA_PATTERN</a></li>
 <li class="toctree-l3"><a class="reference internal" href="../../.autosummary/git_dag.constants.TAG_FORMAT_FIELDS.html">git_dag.constants.TAG_FORMAT_FIELDS</a></li>
 <li class="toctree-l3"><a class="reference internal" href="../../.autosummary/git_dag.constants.CMD_TAGS_INFO.html">git_dag.constants.CMD_TAGS_INFO</a></li>
 <li class="toctree-l3"><a class="reference internal" href="../../.autosummary/git_dag.constants.GIT_EMPTY_TREE_OBJECT_SHA.html">git_dag.constants.GIT_EMPTY_TREE_OBJECT_SHA</a></li>
@@ -321,7 +322,7 @@
 
 <span class="kn">from</span> <span class="nn">pydantic</span> <span class="kn">import</span> <span class="n">BeforeValidator</span><span class="p">,</span> <span class="n">TypeAdapter</span>
 
-<span class="kn">from</span> <span class="nn">.constants</span> <span class="kn">import</span> <span class="n">GIT_EMPTY_TREE_OBJECT_SHA</span><span class="p">,</span> <span class="n">DagBackends</span><span class="p">,</span> <span class="n">DictStrStr</span>
+<span class="kn">from</span> <span class="nn">.constants</span> <span class="kn">import</span> <span class="n">GIT_EMPTY_TREE_OBJECT_SHA</span><span class="p">,</span> <span class="n">SHA_PATTERN</span><span class="p">,</span> <span class="n">DagBackends</span><span class="p">,</span> <span class="n">DictStrStr</span>
 <span class="kn">from</span> <span class="nn">.dag</span> <span class="kn">import</span> <span class="n">DagVisualizer</span>
 <span class="kn">from</span> <span class="nn">.git_commands</span> <span class="kn">import</span> <span class="n">GitCommand</span>
 <span class="kn">from</span> <span class="nn">.git_objects</span> <span class="kn">import</span> <span class="p">(</span>
@@ -388,14 +389,12 @@
 
 <span class="sd">    &quot;&quot;&quot;</span>
 
-    <span class="n">SHA_PATTERN</span> <span class="o">=</span> <span class="s2">&quot;(?P&lt;sha&gt;[0-9a-f]</span><span class="si">{40}</span><span class="s2">)&quot;</span>
-
 <div class="viewcode-block" id="RegexParser.parse_object_descriptor">
 <a class="viewcode-back" href="../../.autosummary/git_dag.git_repository.RegexParser.html#git_dag.git_repository.RegexParser.parse_object_descriptor">[docs]</a>
     <span class="nd">@staticmethod</span>
     <span class="k">def</span> <span class="nf">parse_object_descriptor</span><span class="p">(</span><span class="n">string</span><span class="p">:</span> <span class="nb">str</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">DictStrStr</span><span class="p">:</span>
 <span class="w">        </span><span class="sd">&quot;&quot;&quot;Parse an object descriptor with format ``SHA OBJECT_TYPE``.&quot;&quot;&quot;</span>
-        <span class="n">pattern</span> <span class="o">=</span> <span class="sa">f</span><span class="s2">&quot;^</span><span class="si">{</span><span class="n">RegexParser</span><span class="o">.</span><span class="n">SHA_PATTERN</span><span class="si">}</span><span class="s2"> (?P&lt;kind&gt;.+)&quot;</span>
+        <span class="n">pattern</span> <span class="o">=</span> <span class="sa">f</span><span class="s2">&quot;^</span><span class="si">{</span><span class="n">SHA_PATTERN</span><span class="si">}</span><span class="s2"> (?P&lt;kind&gt;.+)&quot;</span>
         <span class="n">match</span> <span class="o">=</span> <span class="n">re</span><span class="o">.</span><span class="n">search</span><span class="p">(</span><span class="n">pattern</span><span class="p">,</span> <span class="n">string</span><span class="p">)</span>
         <span class="k">if</span> <span class="n">match</span><span class="p">:</span>
             <span class="k">return</span> <span class="p">{</span><span class="s2">&quot;sha&quot;</span><span class="p">:</span> <span class="n">match</span><span class="o">.</span><span class="n">group</span><span class="p">(</span><span class="s2">&quot;sha&quot;</span><span class="p">),</span> <span class="s2">&quot;kind&quot;</span><span class="p">:</span> <span class="n">match</span><span class="o">.</span><span class="n">group</span><span class="p">(</span><span class="s2">&quot;kind&quot;</span><span class="p">)}</span>
@@ -412,7 +411,7 @@
             <span class="k">return</span> <span class="p">[]</span>
 
         <span class="c1"># in the presence of submodules, trees may refer to commits as well</span>
-        <span class="n">pattern</span> <span class="o">=</span> <span class="sa">f</span><span class="s2">&quot;(?P&lt;kind&gt;tree|blob|commit) </span><span class="si">{</span><span class="n">RegexParser</span><span class="o">.</span><span class="n">SHA_PATTERN</span><span class="si">}</span><span class="se">\t</span><span class="s2">&quot;</span>
+        <span class="n">pattern</span> <span class="o">=</span> <span class="sa">f</span><span class="s2">&quot;(?P&lt;kind&gt;tree|blob|commit) </span><span class="si">{</span><span class="n">SHA_PATTERN</span><span class="si">}</span><span class="se">\t</span><span class="s2">&quot;</span>
         <span class="n">output</span> <span class="o">=</span> <span class="p">[]</span>
         <span class="k">for</span> <span class="n">string</span> <span class="ow">in</span> <span class="n">data</span><span class="p">:</span>
             <span class="n">match</span> <span class="o">=</span> <span class="n">re</span><span class="o">.</span><span class="n">search</span><span class="p">(</span><span class="n">pattern</span><span class="p">,</span> <span class="n">string</span><span class="p">)</span>
@@ -489,7 +488,7 @@
     <span class="nd">@staticmethod</span>
     <span class="k">def</span> <span class="nf">parse_commit_info</span><span class="p">(</span><span class="n">data</span><span class="p">:</span> <span class="nb">list</span><span class="p">[</span><span class="nb">str</span><span class="p">])</span> <span class="o">-&gt;</span> <span class="n">GitCommitRawDataType</span><span class="p">:</span>
 <span class="w">        </span><span class="sd">&quot;&quot;&quot;Parse a commit object file (read with ``git cat-file -p``).&quot;&quot;&quot;</span>
-        <span class="n">pattern</span> <span class="o">=</span> <span class="sa">f</span><span class="s2">&quot;^(?P&lt;kind&gt;tree|parent) </span><span class="si">{</span><span class="n">RegexParser</span><span class="o">.</span><span class="n">SHA_PATTERN</span><span class="si">}</span><span class="s2">&quot;</span>
+        <span class="n">pattern</span> <span class="o">=</span> <span class="sa">f</span><span class="s2">&quot;^(?P&lt;kind&gt;tree|parent) </span><span class="si">{</span><span class="n">SHA_PATTERN</span><span class="si">}</span><span class="s2">&quot;</span>
         <span class="n">output</span><span class="p">,</span> <span class="n">misc_info</span> <span class="o">=</span> <span class="p">[],</span> <span class="p">[]</span>
         <span class="c1"># The tree and the parents always come first in the object file of a commit.</span>
         <span class="c1"># Next is the author, and this is the start of what I call &quot;misc info&quot;.</span>
@@ -513,7 +512,7 @@
 <span class="w">        </span><span class="sd">&quot;&quot;&quot;Parse a tag object file (read using ``git cat-file -p``).&quot;&quot;&quot;</span>
         <span class="n">labels</span> <span class="o">=</span> <span class="p">[</span><span class="s2">&quot;sha&quot;</span><span class="p">,</span> <span class="s2">&quot;type&quot;</span><span class="p">,</span> <span class="s2">&quot;refname&quot;</span><span class="p">,</span> <span class="s2">&quot;tagger&quot;</span><span class="p">]</span>
         <span class="n">patterns</span> <span class="o">=</span> <span class="p">[</span>
-            <span class="sa">f</span><span class="s2">&quot;^object </span><span class="si">{</span><span class="n">RegexParser</span><span class="o">.</span><span class="n">SHA_PATTERN</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">,</span>
+            <span class="sa">f</span><span class="s2">&quot;^object </span><span class="si">{</span><span class="n">SHA_PATTERN</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">,</span>
             <span class="s2">&quot;^type (?P&lt;type&gt;.+)&quot;</span><span class="p">,</span>
             <span class="s2">&quot;^tag (?P&lt;refname&gt;.+)&quot;</span><span class="p">,</span>
             <span class="s2">&quot;^tagger (?P&lt;tagger&gt;.+)&quot;</span><span class="p">,</span>
@@ -547,7 +546,7 @@
         <span class="k">if</span> <span class="ow">not</span> <span class="n">data</span><span class="p">:</span>
             <span class="k">return</span> <span class="p">[]</span>
 
-        <span class="n">pattern</span> <span class="o">=</span> <span class="sa">f</span><span class="s2">&quot;</span><span class="si">{</span><span class="n">RegexParser</span><span class="o">.</span><span class="n">SHA_PATTERN</span><span class="si">}</span><span class="s2"> stash@</span><span class="se">{{</span><span class="s2">(?P&lt;index&gt;[0-9]+)</span><span class="se">}}</span><span class="s2"> (?P&lt;title&gt;.*)&quot;</span>
+        <span class="n">pattern</span> <span class="o">=</span> <span class="sa">f</span><span class="s2">&quot;</span><span class="si">{</span><span class="n">SHA_PATTERN</span><span class="si">}</span><span class="s2"> stash@</span><span class="se">{{</span><span class="s2">(?P&lt;index&gt;[0-9]+)</span><span class="se">}}</span><span class="s2"> (?P&lt;title&gt;.*)&quot;</span>
         <span class="n">keys</span> <span class="o">=</span> <span class="p">[</span><span class="s2">&quot;index&quot;</span><span class="p">,</span> <span class="s2">&quot;sha&quot;</span><span class="p">,</span> <span class="s2">&quot;title&quot;</span><span class="p">]</span>
 
         <span class="n">out</span> <span class="o">=</span> <span class="p">[]</span>
@@ -783,6 +782,7 @@
         <span class="bp">self</span><span class="p">,</span>
         <span class="n">repository_path</span><span class="p">:</span> <span class="nb">str</span> <span class="o">|</span> <span class="n">Path</span> <span class="o">=</span> <span class="s2">&quot;.&quot;</span><span class="p">,</span>
         <span class="n">parse_trees</span><span class="p">:</span> <span class="nb">bool</span> <span class="o">=</span> <span class="kc">False</span><span class="p">,</span>
+        <span class="n">ls_remote</span><span class="p">:</span> <span class="nb">bool</span> <span class="o">=</span> <span class="kc">False</span><span class="p">,</span>
     <span class="p">)</span> <span class="o">-&gt;</span> <span class="kc">None</span><span class="p">:</span>
 <span class="w">        </span><span class="sd">&quot;&quot;&quot;Initialize instance.</span>
 
@@ -792,9 +792,13 @@
 <span class="sd">            Path to the git repository.</span>
 <span class="sd">        parse_trees</span>
 <span class="sd">            Whether to parse the tree objects (doing this can be very slow).</span>
+<span class="sd">        ls_remote</span>
+<span class="sd">            This should be set to ``True`` when it is required to show PRs heads (see</span>
+<span class="sd">            the flag ``--prs-heads``).</span>
 
 <span class="sd">        &quot;&quot;&quot;</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">inspector</span> <span class="o">=</span> <span class="n">GitInspector</span><span class="p">(</span><span class="n">repository_path</span><span class="p">,</span> <span class="n">parse_trees</span><span class="p">)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">ls_remote</span> <span class="o">=</span> <span class="n">ls_remote</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">post_process_inspector_data</span><span class="p">()</span>
 
 <div class="viewcode-block" id="GitRepository.post_process_inspector_data">
@@ -811,6 +815,9 @@
         <span class="bp">self</span><span class="o">.</span><span class="n">branches</span><span class="p">:</span> <span class="nb">list</span><span class="p">[</span><span class="n">GitBranch</span><span class="p">]</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">_form_branches</span><span class="p">()</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">head</span><span class="p">:</span> <span class="n">GitHead</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">_form_local_head</span><span class="p">()</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">remote_heads</span><span class="p">:</span> <span class="n">DictStrStr</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">_form_remote_heads</span><span class="p">()</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">prs_heads</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="n">DictStrStr</span><span class="p">]</span> <span class="o">=</span> <span class="p">(</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">inspector</span><span class="o">.</span><span class="n">git</span><span class="o">.</span><span class="n">get_prs_heads</span><span class="p">()</span> <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">ls_remote</span> <span class="k">else</span> <span class="kc">None</span>
+        <span class="p">)</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">stashes</span><span class="p">:</span> <span class="nb">list</span><span class="p">[</span><span class="n">GitStash</span><span class="p">]</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">_form_stashes</span><span class="p">()</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">notes_dag_root</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="n">DictStrStr</span><span class="p">]</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">inspector</span><span class="o">.</span><span class="n">notes_dag_root</span></div>
 
@@ -1089,7 +1096,7 @@
       
     </aside>
   </div>
-</div><script src="../../_static/documentation_options.js?v=14f5bd8b"></script>
+</div><script src="../../_static/documentation_options.js?v=290b3a5c"></script>
     <script src="../../_static/doctools.js?v=9bcbadda"></script>
     <script src="../../_static/sphinx_highlight.js?v=dc90522c"></script>
     <script src="../../_static/scripts/furo.js?v=5fa4622c"></script>

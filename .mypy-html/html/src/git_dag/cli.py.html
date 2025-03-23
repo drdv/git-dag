@@ -319,6 +319,22 @@
 <span id="L309" class="lineno"><a class="lineno" href="#L309">309</a></span>
 <span id="L310" class="lineno"><a class="lineno" href="#L310">310</a></span>
 <span id="L311" class="lineno"><a class="lineno" href="#L311">311</a></span>
+<span id="L312" class="lineno"><a class="lineno" href="#L312">312</a></span>
+<span id="L313" class="lineno"><a class="lineno" href="#L313">313</a></span>
+<span id="L314" class="lineno"><a class="lineno" href="#L314">314</a></span>
+<span id="L315" class="lineno"><a class="lineno" href="#L315">315</a></span>
+<span id="L316" class="lineno"><a class="lineno" href="#L316">316</a></span>
+<span id="L317" class="lineno"><a class="lineno" href="#L317">317</a></span>
+<span id="L318" class="lineno"><a class="lineno" href="#L318">318</a></span>
+<span id="L319" class="lineno"><a class="lineno" href="#L319">319</a></span>
+<span id="L320" class="lineno"><a class="lineno" href="#L320">320</a></span>
+<span id="L321" class="lineno"><a class="lineno" href="#L321">321</a></span>
+<span id="L322" class="lineno"><a class="lineno" href="#L322">322</a></span>
+<span id="L323" class="lineno"><a class="lineno" href="#L323">323</a></span>
+<span id="L324" class="lineno"><a class="lineno" href="#L324">324</a></span>
+<span id="L325" class="lineno"><a class="lineno" href="#L325">325</a></span>
+<span id="L326" class="lineno"><a class="lineno" href="#L326">326</a></span>
+<span id="L327" class="lineno"><a class="lineno" href="#L327">327</a></span>
 </pre></td>
 <td class="table-code"><pre><span class="line-empty" title="No Anys on this line!">#!/usr/bin/env python</span>
 <span class="line-empty" title="No Anys on this line!"># PYTHON_ARGCOMPLETE_OK</span>
@@ -366,6 +382,7 @@
 <span class="line-precise" title="No Anys on this line!">    show_trees: bool</span>
 <span class="line-precise" title="No Anys on this line!">    show_blobs: bool</span>
 <span class="line-precise" title="No Anys on this line!">    show_head: bool</span>
+<span class="line-precise" title="No Anys on this line!">    show_prs_heads: bool</span>
 <span class="line-precise" title="No Anys on this line!">    range: Optional[list[str]]</span>
 <span class="line-precise" title="No Anys on this line!">    commit_message_as_label: int</span>
 <span class="line-precise" title="No Anys on this line!">    xdg_open: bool</span>
@@ -534,6 +551,17 @@ Explicit (x3)">    parser.add_argument(</span>
 <span class="line-empty" title="No Anys on this line!"></span>
 <span class="line-precise" title="Any Types on this line: 
 Explicit (x3)">    parser.add_argument(</span>
+<span class="line-precise" title="No Anys on this line!">        "--prs-heads",</span>
+<span class="line-precise" title="No Anys on this line!">        dest="show_prs_heads",</span>
+<span class="line-precise" title="No Anys on this line!">        action="store_true",</span>
+<span class="line-empty" title="No Anys on this line!">        help=(</span>
+<span class="line-precise" title="No Anys on this line!">            "Show pull-requests heads "</span>
+<span class="line-empty" title="No Anys on this line!">            "(most of the time this requires passing -u as well)."</span>
+<span class="line-empty" title="No Anys on this line!">        ),</span>
+<span class="line-empty" title="No Anys on this line!">    )</span>
+<span class="line-empty" title="No Anys on this line!"></span>
+<span class="line-precise" title="Any Types on this line: 
+Explicit (x3)">    parser.add_argument(</span>
 <span class="line-precise" title="No Anys on this line!">        "-T",</span>
 <span class="line-precise" title="No Anys on this line!">        dest="show_trees",</span>
 <span class="line-precise" title="No Anys on this line!">        action="store_true",</span>
@@ -631,7 +659,11 @@ Explicit (x13)
 Omitted Generics (x2)">    logging.getLogger().setLevel(getattr(logging, args.log_level))</span>
 <span class="line-empty" title="No Anys on this line!"></span>
 <span class="line-any" title="Any Types on this line: 
-Explicit (x3)">    GitRepository(args.path, parse_trees=args.show_trees).show(</span>
+Explicit (x3)">    GitRepository(</span>
+<span class="line-precise" title="No Anys on this line!">        args.path,</span>
+<span class="line-precise" title="No Anys on this line!">        parse_trees=args.show_trees,</span>
+<span class="line-precise" title="No Anys on this line!">        ls_remote=args.show_prs_heads,</span>
+<span class="line-empty" title="No Anys on this line!">    ).show(</span>
 <span class="line-precise" title="No Anys on this line!">        dag_backend=DagBackends[args.dag_backend.upper()],</span>
 <span class="line-precise" title="No Anys on this line!">        xdg_open=args.xdg_open,</span>
 <span class="line-precise" title="No Anys on this line!">        format=args.format,</span>
@@ -649,6 +681,7 @@ Explicit (x1)">        show_trees_standalone=args.show_trees_standalone,</span>
 Explicit (x1)">        show_blobs_standalone=args.show_blobs_standalone,</span>
 <span class="line-precise" title="No Anys on this line!">        show_stash=args.show_stash,</span>
 <span class="line-precise" title="No Anys on this line!">        show_head=args.show_head,</span>
+<span class="line-precise" title="No Anys on this line!">        show_prs_heads=args.show_prs_heads,</span>
 <span class="line-precise" title="No Anys on this line!">        range=args.range,</span>
 <span class="line-precise" title="No Anys on this line!">        commit_message_as_label=args.commit_message_as_label,</span>
 <span class="line-precise" title="No Anys on this line!">        init_refs=args.init_refs,</span>

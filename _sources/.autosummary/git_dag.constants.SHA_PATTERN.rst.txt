@@ -1,0 +1,6 @@
+git\_dag.constants.SHA\_PATTERN
+===============================
+
+.. currentmodule:: git_dag.constants
+
+.. autodata:: SHA_PATTERN

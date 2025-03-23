@@ -36,6 +36,7 @@ git\_dag.dag.MixinProtocol
       ~MixinProtocol.show_deleted_tags
       ~MixinProtocol.show_stash
       ~MixinProtocol.show_head
+      ~MixinProtocol.show_prs_heads
       ~MixinProtocol.range
       ~MixinProtocol.commit_message_as_label
       ~MixinProtocol.included_nodes_id

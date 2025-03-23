@@ -218,6 +218,7 @@
 </ul>
 </li>
 <li class="toctree-l2 has-children"><a class="reference internal" href="git_dag.constants.html">git_dag.constants</a><input class="toctree-checkbox" id="toctree-checkbox-4" name="toctree-checkbox-4" role="switch" type="checkbox"/><label for="toctree-checkbox-4"><div class="visually-hidden">Toggle navigation of git_dag.constants</div><i class="icon"><svg><use href="#svg-arrow-right"></use></svg></i></label><ul>
+<li class="toctree-l3"><a class="reference internal" href="git_dag.constants.SHA_PATTERN.html">git_dag.constants.SHA_PATTERN</a></li>
 <li class="toctree-l3"><a class="reference internal" href="git_dag.constants.TAG_FORMAT_FIELDS.html">git_dag.constants.TAG_FORMAT_FIELDS</a></li>
 <li class="toctree-l3"><a class="reference internal" href="git_dag.constants.CMD_TAGS_INFO.html">git_dag.constants.CMD_TAGS_INFO</a></li>
 <li class="toctree-l3"><a class="reference internal" href="git_dag.constants.GIT_EMPTY_TREE_OBJECT_SHA.html">git_dag.constants.GIT_EMPTY_TREE_OBJECT_SHA</a></li>
@@ -343,31 +344,34 @@
 <tr class="row-odd"><td><p><a class="reference internal" href="#git_dag.git_commands.GitCommand.get_objects_sha_kind" title="git_dag.git_commands.GitCommand.get_objects_sha_kind"><code class="xref py py-obj docutils literal notranslate"><span class="pre">get_objects_sha_kind</span></code></a></p></td>
 <td><p>Return the SHA and type of all git objects (in one string).</p></td>
 </tr>
-<tr class="row-even"><td><p><a class="reference internal" href="#git_dag.git_commands.GitCommand.get_remote_heads_sym_ref" title="git_dag.git_commands.GitCommand.get_remote_heads_sym_ref"><code class="xref py py-obj docutils literal notranslate"><span class="pre">get_remote_heads_sym_ref</span></code></a></p></td>
+<tr class="row-even"><td><p><a class="reference internal" href="#git_dag.git_commands.GitCommand.get_prs_heads" title="git_dag.git_commands.GitCommand.get_prs_heads"><code class="xref py py-obj docutils literal notranslate"><span class="pre">get_prs_heads</span></code></a></p></td>
+<td><p>Return heads of pull-requests.</p></td>
+</tr>
+<tr class="row-odd"><td><p><a class="reference internal" href="#git_dag.git_commands.GitCommand.get_remote_heads_sym_ref" title="git_dag.git_commands.GitCommand.get_remote_heads_sym_ref"><code class="xref py py-obj docutils literal notranslate"><span class="pre">get_remote_heads_sym_ref</span></code></a></p></td>
 <td><p>Return symbolic references of remote heads.</p></td>
 </tr>
-<tr class="row-odd"><td><p><a class="reference internal" href="#git_dag.git_commands.GitCommand.get_remotes" title="git_dag.git_commands.GitCommand.get_remotes"><code class="xref py py-obj docutils literal notranslate"><span class="pre">get_remotes</span></code></a></p></td>
+<tr class="row-even"><td><p><a class="reference internal" href="#git_dag.git_commands.GitCommand.get_remotes" title="git_dag.git_commands.GitCommand.get_remotes"><code class="xref py py-obj docutils literal notranslate"><span class="pre">get_remotes</span></code></a></p></td>
 <td><p>Return list of remotes.</p></td>
 </tr>
-<tr class="row-even"><td><p><a class="reference internal" href="#git_dag.git_commands.GitCommand.get_stash_info" title="git_dag.git_commands.GitCommand.get_stash_info"><code class="xref py py-obj docutils literal notranslate"><span class="pre">get_stash_info</span></code></a></p></td>
+<tr class="row-odd"><td><p><a class="reference internal" href="#git_dag.git_commands.GitCommand.get_stash_info" title="git_dag.git_commands.GitCommand.get_stash_info"><code class="xref py py-obj docutils literal notranslate"><span class="pre">get_stash_info</span></code></a></p></td>
 <td><p>Return stash IDs and their associated SHAs.</p></td>
 </tr>
-<tr class="row-odd"><td><p><a class="reference internal" href="#git_dag.git_commands.GitCommand.get_tags_info_parsed" title="git_dag.git_commands.GitCommand.get_tags_info_parsed"><code class="xref py py-obj docutils literal notranslate"><span class="pre">get_tags_info_parsed</span></code></a></p></td>
+<tr class="row-even"><td><p><a class="reference internal" href="#git_dag.git_commands.GitCommand.get_tags_info_parsed" title="git_dag.git_commands.GitCommand.get_tags_info_parsed"><code class="xref py py-obj docutils literal notranslate"><span class="pre">get_tags_info_parsed</span></code></a></p></td>
 <td><p>Return parsed info for all annotated and lightweight tags.</p></td>
 </tr>
-<tr class="row-even"><td><p><a class="reference internal" href="#git_dag.git_commands.GitCommand.local_branch_is_tracking" title="git_dag.git_commands.GitCommand.local_branch_is_tracking"><code class="xref py py-obj docutils literal notranslate"><span class="pre">local_branch_is_tracking</span></code></a></p></td>
+<tr class="row-odd"><td><p><a class="reference internal" href="#git_dag.git_commands.GitCommand.local_branch_is_tracking" title="git_dag.git_commands.GitCommand.local_branch_is_tracking"><code class="xref py py-obj docutils literal notranslate"><span class="pre">local_branch_is_tracking</span></code></a></p></td>
 <td><p>Detect if a local branch is tracking a remote one.</p></td>
 </tr>
-<tr class="row-odd"><td><p><a class="reference internal" href="#git_dag.git_commands.GitCommand.ls_tree" title="git_dag.git_commands.GitCommand.ls_tree"><code class="xref py py-obj docutils literal notranslate"><span class="pre">ls_tree</span></code></a></p></td>
+<tr class="row-even"><td><p><a class="reference internal" href="#git_dag.git_commands.GitCommand.ls_tree" title="git_dag.git_commands.GitCommand.ls_tree"><code class="xref py py-obj docutils literal notranslate"><span class="pre">ls_tree</span></code></a></p></td>
 <td><p>Return children of a tree object.</p></td>
 </tr>
-<tr class="row-even"><td><p><a class="reference internal" href="#git_dag.git_commands.GitCommand.read_object_file" title="git_dag.git_commands.GitCommand.read_object_file"><code class="xref py py-obj docutils literal notranslate"><span class="pre">read_object_file</span></code></a></p></td>
+<tr class="row-odd"><td><p><a class="reference internal" href="#git_dag.git_commands.GitCommand.read_object_file" title="git_dag.git_commands.GitCommand.read_object_file"><code class="xref py py-obj docutils literal notranslate"><span class="pre">read_object_file</span></code></a></p></td>
 <td><p>Read the file associated with an object.</p></td>
 </tr>
-<tr class="row-odd"><td><p><a class="reference internal" href="#git_dag.git_commands.GitCommand.rev_list" title="git_dag.git_commands.GitCommand.rev_list"><code class="xref py py-obj docutils literal notranslate"><span class="pre">rev_list</span></code></a></p></td>
+<tr class="row-even"><td><p><a class="reference internal" href="#git_dag.git_commands.GitCommand.rev_list" title="git_dag.git_commands.GitCommand.rev_list"><code class="xref py py-obj docutils literal notranslate"><span class="pre">rev_list</span></code></a></p></td>
 <td><p>Return output of <code class="docutils literal notranslate"><span class="pre">git-rev-list</span></code>.</p></td>
 </tr>
-<tr class="row-even"><td><p><a class="reference internal" href="#git_dag.git_commands.GitCommand.run_general" title="git_dag.git_commands.GitCommand.run_general"><code class="xref py py-obj docutils literal notranslate"><span class="pre">run_general</span></code></a></p></td>
+<tr class="row-odd"><td><p><a class="reference internal" href="#git_dag.git_commands.GitCommand.run_general" title="git_dag.git_commands.GitCommand.run_general"><code class="xref py py-obj docutils literal notranslate"><span class="pre">run_general</span></code></a></p></td>
 <td><p>Run a general command.</p></td>
 </tr>
 </tbody>
@@ -433,6 +437,12 @@ referenced by a tree object.</p>
 <h2>Note<a class="headerlink" href="#id3" title="Link to this heading">¶</a></h2>
 <p>The <code class="docutils literal notranslate"><span class="pre">--unordered</span></code> flag is used because ordering by SHA is not necessary.</p>
 </section>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="git_dag.git_commands.GitCommand.get_prs_heads">
+<span class="sig-name descname"><span class="pre">get_prs_heads</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">dict</span><span class="p"><span class="pre">[</span></span><span class="pre">str</span><span class="p"><span class="pre">,</span></span><span class="w"> </span><span class="pre">str</span><span class="p"><span class="pre">]</span></span></span></span><a class="reference internal" href="../_modules/git_dag/git_commands.html#GitCommand.get_prs_heads"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#git_dag.git_commands.GitCommand.get_prs_heads" title="Link to this definition">¶</a></dt>
+<dd><p>Return heads of pull-requests.</p>
 </dd></dl>
 
 <dl class="py method">
@@ -588,6 +598,7 @@ any reference.</p>
 <li><a class="reference internal" href="#git_dag.git_commands.GitCommand.get_local_head_commit_sha"><code class="docutils literal notranslate"><span class="pre">GitCommand.get_local_head_commit_sha()</span></code></a></li>
 <li><a class="reference internal" href="#git_dag.git_commands.GitCommand.get_notes_dag_root"><code class="docutils literal notranslate"><span class="pre">GitCommand.get_notes_dag_root()</span></code></a></li>
 <li><a class="reference internal" href="#git_dag.git_commands.GitCommand.get_objects_sha_kind"><code class="docutils literal notranslate"><span class="pre">GitCommand.get_objects_sha_kind()</span></code></a></li>
+<li><a class="reference internal" href="#git_dag.git_commands.GitCommand.get_prs_heads"><code class="docutils literal notranslate"><span class="pre">GitCommand.get_prs_heads()</span></code></a></li>
 <li><a class="reference internal" href="#git_dag.git_commands.GitCommand.get_remote_heads_sym_ref"><code class="docutils literal notranslate"><span class="pre">GitCommand.get_remote_heads_sym_ref()</span></code></a></li>
 <li><a class="reference internal" href="#git_dag.git_commands.GitCommand.get_remotes"><code class="docutils literal notranslate"><span class="pre">GitCommand.get_remotes()</span></code></a></li>
 <li><a class="reference internal" href="#git_dag.git_commands.GitCommand.get_stash_info"><code class="docutils literal notranslate"><span class="pre">GitCommand.get_stash_info()</span></code></a></li>
@@ -610,7 +621,7 @@ any reference.</p>
       
     </aside>
   </div>
-</div><script src="../_static/documentation_options.js?v=14f5bd8b"></script>
+</div><script src="../_static/documentation_options.js?v=290b3a5c"></script>
     <script src="../_static/doctools.js?v=9bcbadda"></script>
     <script src="../_static/sphinx_highlight.js?v=dc90522c"></script>
     <script src="../_static/scripts/furo.js?v=5fa4622c"></script>

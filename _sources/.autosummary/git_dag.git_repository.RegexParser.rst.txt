@@ -26,10 +26,4 @@ git\_dag.git\_repository.RegexParser
 
    
    
-   .. rubric:: Attributes
-
-   .. autosummary::
-   
-      ~RegexParser.SHA_PATTERN
-   
    

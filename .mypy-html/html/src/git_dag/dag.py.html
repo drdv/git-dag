@@ -475,6 +475,29 @@
 <span id="L465" class="lineno"><a class="lineno" href="#L465">465</a></span>
 <span id="L466" class="lineno"><a class="lineno" href="#L466">466</a></span>
 <span id="L467" class="lineno"><a class="lineno" href="#L467">467</a></span>
+<span id="L468" class="lineno"><a class="lineno" href="#L468">468</a></span>
+<span id="L469" class="lineno"><a class="lineno" href="#L469">469</a></span>
+<span id="L470" class="lineno"><a class="lineno" href="#L470">470</a></span>
+<span id="L471" class="lineno"><a class="lineno" href="#L471">471</a></span>
+<span id="L472" class="lineno"><a class="lineno" href="#L472">472</a></span>
+<span id="L473" class="lineno"><a class="lineno" href="#L473">473</a></span>
+<span id="L474" class="lineno"><a class="lineno" href="#L474">474</a></span>
+<span id="L475" class="lineno"><a class="lineno" href="#L475">475</a></span>
+<span id="L476" class="lineno"><a class="lineno" href="#L476">476</a></span>
+<span id="L477" class="lineno"><a class="lineno" href="#L477">477</a></span>
+<span id="L478" class="lineno"><a class="lineno" href="#L478">478</a></span>
+<span id="L479" class="lineno"><a class="lineno" href="#L479">479</a></span>
+<span id="L480" class="lineno"><a class="lineno" href="#L480">480</a></span>
+<span id="L481" class="lineno"><a class="lineno" href="#L481">481</a></span>
+<span id="L482" class="lineno"><a class="lineno" href="#L482">482</a></span>
+<span id="L483" class="lineno"><a class="lineno" href="#L483">483</a></span>
+<span id="L484" class="lineno"><a class="lineno" href="#L484">484</a></span>
+<span id="L485" class="lineno"><a class="lineno" href="#L485">485</a></span>
+<span id="L486" class="lineno"><a class="lineno" href="#L486">486</a></span>
+<span id="L487" class="lineno"><a class="lineno" href="#L487">487</a></span>
+<span id="L488" class="lineno"><a class="lineno" href="#L488">488</a></span>
+<span id="L489" class="lineno"><a class="lineno" href="#L489">489</a></span>
+<span id="L490" class="lineno"><a class="lineno" href="#L490">490</a></span>
 </pre></td>
 <td class="table-code"><pre><span class="line-empty" title="No Anys on this line!">"""DAG visualization.</span>
 <span class="line-empty" title="No Anys on this line!"></span>
@@ -526,6 +549,7 @@
 <span class="line-precise" title="No Anys on this line!">    show_deleted_tags: bool</span>
 <span class="line-precise" title="No Anys on this line!">    show_stash: bool</span>
 <span class="line-precise" title="No Anys on this line!">    show_head: bool</span>
+<span class="line-precise" title="No Anys on this line!">    show_prs_heads: bool</span>
 <span class="line-precise" title="No Anys on this line!">    range: Optional[list[str]]</span>
 <span class="line-precise" title="No Anys on this line!">    commit_message_as_label: int</span>
 <span class="line-precise" title="No Anys on this line!">    included_nodes_id: set[str]</span>
@@ -569,7 +593,7 @@ Explicit (x3)">        self.dag.edge("GIT-NOTES-LABEL", sha)</span>
 <span class="line-precise" title="No Anys on this line!">        if self._is_object_to_include(sha) and unreachable_switch:</span>
 <span class="line-precise" title="No Anys on this line!">            self.included_nodes_id.add(sha)</span>
 <span class="line-precise" title="No Anys on this line!">            color_label = "commit" if item.is_reachable else "commit-unreachable"</span>
-<span class="line-precise" title="No Anys on this line!">            in_range = self.range is None or sha not in self.range</span>
+<span class="line-precise" title="No Anys on this line!">            not_in_range = self.range is None or sha not in self.range</span>
 <span class="line-empty" title="No Anys on this line!"></span>
 <span class="line-precise" title="No Anys on this line!">            if self.commit_message_as_label &gt; 0:</span>
 <span class="line-precise" title="No Anys on this line!">                label = item.message[: self.commit_message_as_label]</span>
@@ -580,7 +604,11 @@ Explicit (x3)">        self.dag.edge("GIT-NOTES-LABEL", sha)</span>
 Explicit (x3)">            self.dag.node(</span>
 <span class="line-precise" title="No Anys on this line!">                name=sha,</span>
 <span class="line-precise" title="No Anys on this line!">                label=label,</span>
-<span class="line-precise" title="No Anys on this line!">                color=DAG_NODE_COLORS[color_label] if in_range else None,</span>
+<span class="line-empty" title="No Anys on this line!">                color=(</span>
+<span class="line-precise" title="No Anys on this line!">                    DAG_NODE_COLORS[color_label]</span>
+<span class="line-precise" title="No Anys on this line!">                    if not_in_range</span>
+<span class="line-precise" title="No Anys on this line!">                    else DAG_NODE_COLORS["commit-in-range"]</span>
+<span class="line-empty" title="No Anys on this line!">                ),</span>
 <span class="line-precise" title="No Anys on this line!">                fillcolor=DAG_NODE_COLORS[color_label],</span>
 <span class="line-precise" title="No Anys on this line!">                tooltip=form_tooltip(item),</span>
 <span class="line-empty" title="No Anys on this line!">            )</span>
@@ -801,6 +829,23 @@ Explicit (x3)">            self.dag.node(</span>
 <span class="line-any" title="Any Types on this line: 
 Explicit (x3)">            self.dag.edge(head, f"remote-branch-{ref}")</span>
 <span class="line-empty" title="No Anys on this line!"></span>
+<span class="line-precise" title="No Anys on this line!">    def _add_prs_heads(self: MixinProtocol) -&gt; None:</span>
+<span class="line-empty" title="No Anys on this line!">        """Add pull-request heads."""</span>
+<span class="line-precise" title="No Anys on this line!">        if self.repository.prs_heads is not None:</span>
+<span class="line-precise" title="No Anys on this line!">            for pr_id, sha in self.repository.prs_heads.items():</span>
+<span class="line-precise" title="No Anys on this line!">                if sha in self.included_nodes_id:</span>
+<span class="line-precise" title="No Anys on this line!">                    node_name = f"PR_{pr_id}_HEAD"</span>
+<span class="line-any" title="Any Types on this line: 
+Explicit (x3)">                    self.dag.node(</span>
+<span class="line-precise" title="No Anys on this line!">                        name=node_name,</span>
+<span class="line-precise" title="No Anys on this line!">                        label=pr_id,</span>
+<span class="line-precise" title="No Anys on this line!">                        color=DAG_NODE_COLORS["head"],</span>
+<span class="line-precise" title="No Anys on this line!">                        fillcolor=DAG_NODE_COLORS["head"],</span>
+<span class="line-precise" title="No Anys on this line!">                        shape="circle",</span>
+<span class="line-empty" title="No Anys on this line!">                    )</span>
+<span class="line-any" title="Any Types on this line: 
+Explicit (x3)">                    self.dag.edge(node_name, sha)</span>
+<span class="line-empty" title="No Anys on this line!"></span>
 <span class="line-empty" title="No Anys on this line!"></span>
 <span class="line-precise" title="Any Types on this line: 
 Omitted Generics (x6)">@dataclass</span>
@@ -834,6 +879,7 @@ Omitted Generics (x6)">@dataclass</span>
 <span class="line-precise" title="No Anys on this line!">    show_deleted_tags: bool = False</span>
 <span class="line-precise" title="No Anys on this line!">    show_stash: bool = False</span>
 <span class="line-precise" title="No Anys on this line!">    show_head: bool = False</span>
+<span class="line-precise" title="No Anys on this line!">    show_prs_heads: bool = False</span>
 <span class="line-precise" title="No Anys on this line!">    range: Optional[list[str]] = None</span>
 <span class="line-empty" title="No Anys on this line!"></span>
 <span class="line-precise" title="No Anys on this line!">    commit_message_as_label: int = 0</span>
@@ -968,6 +1014,8 @@ Explicit (x2)">        return self.dag.get()</span>
 <span class="line-precise" title="No Anys on this line!">            self._add_remote_branches()</span>
 <span class="line-precise" title="No Anys on this line!">            if self.show_head:</span>
 <span class="line-precise" title="No Anys on this line!">                self._add_remote_heads()</span>
+<span class="line-empty" title="No Anys on this line!"></span>
+<span class="line-precise" title="No Anys on this line!">        self._add_prs_heads()</span>
 <span class="line-empty" title="No Anys on this line!"></span>
 <span class="line-precise" title="No Anys on this line!">        if self.show_tags:</span>
 <span class="line-precise" title="No Anys on this line!">            self._add_annotated_tags()</span>
