@@ -14,7 +14,7 @@ from typing import Annotated, Any, Callable, Optional, Type, cast
 
 from pydantic import BeforeValidator, TypeAdapter
 
-from .constants import GIT_EMPTY_TREE_OBJECT_SHA, DagBackends, DictStrStr
+from .constants import GIT_EMPTY_TREE_OBJECT_SHA, SHA_PATTERN, DagBackends, DictStrStr
 from .dag import DagVisualizer
 from .git_commands import GitCommand
 from .git_objects import (
@@ -76,12 +76,10 @@ class RegexParser:
 
     """
 
-    SHA_PATTERN = "(?P<sha>[0-9a-f]{40})"
-
     @staticmethod
     def parse_object_descriptor(string: str) -> DictStrStr:
         """Parse an object descriptor with format ``SHA OBJECT_TYPE``."""
-        pattern = f"^{RegexParser.SHA_PATTERN} (?P<kind>.+)"
+        pattern = f"^{SHA_PATTERN} (?P<kind>.+)"
         match = re.search(pattern, string)
         if match:
             return {"sha": match.group("sha"), "kind": match.group("kind")}
@@ -95,7 +93,7 @@ class RegexParser:
             return []
 
         # in the presence of submodules, trees may refer to commits as well
-        pattern = f"(?P<kind>tree|blob|commit) {RegexParser.SHA_PATTERN}\t"
+        pattern = f"(?P<kind>tree|blob|commit) {SHA_PATTERN}\t"
         output = []
         for string in data:
             match = re.search(pattern, string)
@@ -169,7 +167,7 @@ class RegexParser:
     @staticmethod
     def parse_commit_info(data: list[str]) -> GitCommitRawDataType:
         """Parse a commit object file (read with ``git cat-file -p``)."""
-        pattern = f"^(?P<kind>tree|parent) {RegexParser.SHA_PATTERN}"
+        pattern = f"^(?P<kind>tree|parent) {SHA_PATTERN}"
         output, misc_info = [], []
         # The tree and the parents always come first in the object file of a commit.
         # Next is the author, and this is the start of what I call "misc info".
@@ -190,7 +188,7 @@ class RegexParser:
         """Parse a tag object file (read using ``git cat-file -p``)."""
         labels = ["sha", "type", "refname", "tagger"]
         patterns = [
-            f"^object {RegexParser.SHA_PATTERN}",
+            f"^object {SHA_PATTERN}",
             "^type (?P<type>.+)",
             "^tag (?P<refname>.+)",
             "^tagger (?P<tagger>.+)",
@@ -221,7 +219,7 @@ class RegexParser:
         if not data:
             return []
 
-        pattern = f"{RegexParser.SHA_PATTERN} stash@{{(?P<index>[0-9]+)}} (?P<title>.*)"
+        pattern = f"{SHA_PATTERN} stash@{{(?P<index>[0-9]+)}} (?P<title>.*)"
         keys = ["index", "sha", "title"]
 
         out = []
@@ -447,6 +445,7 @@ class GitRepository:
         self,
         repository_path: str | Path = ".",
         parse_trees: bool = False,
+        ls_remote: bool = False,
     ) -> None:
         """Initialize instance.
 
@@ -456,9 +455,13 @@ class GitRepository:
             Path to the git repository.
         parse_trees
             Whether to parse the tree objects (doing this can be very slow).
+        ls_remote
+            This should be set to ``True`` when it is required to show PRs heads (see
+            the flag ``--prs-heads``).
 
         """
         self.inspector = GitInspector(repository_path, parse_trees)
+        self.ls_remote = ls_remote
         self.post_process_inspector_data()
 
     @time_it
@@ -473,6 +476,9 @@ class GitRepository:
         self.branches: list[GitBranch] = self._form_branches()
         self.head: GitHead = self._form_local_head()
         self.remote_heads: DictStrStr = self._form_remote_heads()
+        self.prs_heads: Optional[DictStrStr] = (
+            self.inspector.git.get_prs_heads() if self.ls_remote else None
+        )
         self.stashes: list[GitStash] = self._form_stashes()
         self.notes_dag_root: Optional[DictStrStr] = self.inspector.notes_dag_root
 

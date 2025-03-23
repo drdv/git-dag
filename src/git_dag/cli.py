@@ -44,6 +44,7 @@ class CustomArgparseNamespace(argparse.Namespace):
     show_trees: bool
     show_blobs: bool
     show_head: bool
+    show_prs_heads: bool
     range: Optional[list[str]]
     commit_message_as_label: int
     xdg_open: bool
@@ -193,6 +194,16 @@ def get_cla_parser() -> argparse.ArgumentParser:
     )
 
     parser.add_argument(
+        "--prs-heads",
+        dest="show_prs_heads",
+        action="store_true",
+        help=(
+            "Show pull-requests heads "
+            "(most of the time this requires passing -u as well)."
+        ),
+    )
+
+    parser.add_argument(
         "-T",
         dest="show_trees",
         action="store_true",
@@ -278,7 +289,11 @@ def main(raw_args: Optional[list[str]] = None) -> None:
     args = get_cla(raw_args)
     logging.getLogger().setLevel(getattr(logging, args.log_level))
 
-    GitRepository(args.path, parse_trees=args.show_trees).show(
+    GitRepository(
+        args.path,
+        parse_trees=args.show_trees,
+        ls_remote=args.show_prs_heads,
+    ).show(
         dag_backend=DagBackends[args.dag_backend.upper()],
         xdg_open=args.xdg_open,
         format=args.format,
@@ -294,6 +309,7 @@ def main(raw_args: Optional[list[str]] = None) -> None:
         show_blobs_standalone=args.show_blobs_standalone,
         show_stash=args.show_stash,
         show_head=args.show_head,
+        show_prs_heads=args.show_prs_heads,
         range=args.range,
         commit_message_as_label=args.commit_message_as_label,
         init_refs=args.init_refs,
