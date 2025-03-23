@@ -81,3 +81,31 @@ DAG_EDGE_ATTR: Final[DictStrStr] = {
 
 #: Nuber of SHA characters to display in labels.
 SHA_LIMIT: Final[int] = 8
+
+#: HTML template to embed SVG
+HTML_EMBED_SVG = """
+<!DOCTYPE html>
+<!-- serve using python -m http.server -d /path/to/src -->
+<html lang="en">
+  <head>
+    <meta charset="UTF-8">
+    <title>Embed SVG</title>
+    <style>
+      .svg-object {{
+          height: 97vh;
+          width: 100%;
+          border: 1px solid black;
+      }}
+    </style>
+    <script>
+    {svg_pan_zoom_js}
+    </script>
+    <script>
+    {custom_js}
+    </script>
+  </head>
+  <body>
+    <object class="svg-object" data="{svg_filename}" type="image/svg+xml"></object>
+  </body>
+</html>
+"""

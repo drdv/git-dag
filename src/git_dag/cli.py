@@ -33,6 +33,8 @@ class CustomArgparseNamespace(argparse.Namespace):
     rankdir: str
     bgcolor: str
 
+    html_embed_svg: bool
+
     show_unreachable_commits: bool
     show_tags: bool
     show_deleted_tags: bool
@@ -244,6 +246,16 @@ def get_cla_parser() -> argparse.ArgumentParser:
     )
 
     parser.add_argument(
+        "--html",
+        dest="html_embed_svg",
+        action="store_true",
+        help=(
+            "Generate a standalone HTML file that embeds the generated SVG. "
+            "Hass effect only when --format is svg."
+        ),
+    )
+
+    parser.add_argument(
         "--log-level",
         default="WARNING",
         choices=["NOTSET", "INFO", "WARNING", "ERROR", "CRITICAL"],
@@ -270,6 +282,7 @@ def main(raw_args: Optional[list[str]] = None) -> None:
         dag_backend=DagBackends[args.dag_backend.upper()],
         xdg_open=args.xdg_open,
         format=args.format,
+        html_embed_svg=args.html_embed_svg,
         show_unreachable_commits=args.show_unreachable_commits,
         show_tags=args.show_tags,
         show_deleted_tags=args.show_deleted_tags,

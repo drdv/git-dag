@@ -125,16 +125,7 @@ process-integr-test-repos:
 
 ## Generate sphinx docs with tests lint mypy
 .PHONY: docs
-docs: test lint mypy docs-run
-
-##! Generate docs examples
-.PHONY: docs-examples-generate
-docs-examples-generate: DOCS_EXAMPLES_DIR := $(DOCS_DIR)/src/.static
-docs-examples-generate: TMP_EXAMPLES_DIR := /tmp/git-dag-examples
-docs-examples-generate:
-	mkdir -p $(DOCS_EXAMPLES_DIR)/examples/git_internals
-	cd $(DOCS_DIR)/src/examples_generate && $(PYTHON) example_git_internals.py
-	cp $(TMP_EXAMPLES_DIR)/git_internals/out/{*.rst,*.svg} $(DOCS_EXAMPLES_DIR)/examples/git_internals
+docs: docs-run test lint mypy
 
 ##! Generate docs examples
 .PHONY: docs-examples-generate
@@ -146,13 +137,16 @@ docs-examples-generate:
 	cp $(TMP_EXAMPLES_DIR)/git_internals/out/{*.rst,*.svg} $(DOCS_EXAMPLES_DIR)/examples/git_internals
 
 ## Generate SVG files for the docs
+# Unless --dry-run is passed to mktemp, a tmp directory is created even without
+# executing the target (due to the way make works)
 .PHONY: docs-svg
 docs-svg: IMAGES_DIR := $(HTML_DIR)/_static/images/ # images in the generated HTML
-docs-svg: TMP_DIR := $(shell mktemp -d /tmp/git-dag-svg-XXXXXX)
+docs-svg: TMP_DIR := $(shell mktemp --dry-run -d /tmp/git-dag-svg-XXXXXX)
 docs-svg: DIR_DEFAULT := $(TMP_DIR)/default_repo
 docs-svg: DIR_PYDANTIC := $(TMP_DIR)/pydantic
 docs-svg:
 	mkdir -p $(IMAGES_DIR)
+	mkdir -p $(TMP_DIR)  # note the --dry-run flag in mktemp
 
 	mkdir $(DIR_DEFAULT)
 	tar xf $(TEST_RESOURCES)/default_repo.tar.gz -C $(DIR_DEFAULT)
