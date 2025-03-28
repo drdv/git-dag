@@ -203,6 +203,7 @@
 <div id="searchbox"></div><div class="sidebar-scroll"><div class="sidebar-tree">
   <ul>
 <li class="toctree-l1"><a class="reference internal" href="../../../install.html">Install</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../quickstart.html">Quickstart</a></li>
 <li class="toctree-l1 has-children"><a class="reference internal" href="../../../examples.html">Examples</a><input class="toctree-checkbox" id="toctree-checkbox-1" name="toctree-checkbox-1" role="switch" type="checkbox"/><label for="toctree-checkbox-1"><div class="visually-hidden">Toggle navigation of Examples</div><i class="icon"><svg><use href="#svg-arrow-right"></use></svg></i></label><ul>
 <li class="toctree-l2"><a class="reference internal" href="../../../example_git_internals.html">Git internals</a></li>
 </ul>
@@ -210,8 +211,8 @@
 <li class="toctree-l1"><a class="reference internal" href="../../../cli.html">Command-line interface</a></li>
 <li class="toctree-l1 has-children"><a class="reference internal" href="../../../code_docs.html">Code</a><input class="toctree-checkbox" id="toctree-checkbox-2" name="toctree-checkbox-2" role="switch" type="checkbox"/><label for="toctree-checkbox-2"><div class="visually-hidden">Toggle navigation of Code</div><i class="icon"><svg><use href="#svg-arrow-right"></use></svg></i></label><ul>
 <li class="toctree-l2 has-children"><a class="reference internal" href="../../../.autosummary/git_dag.cli.html">git_dag.cli</a><input class="toctree-checkbox" id="toctree-checkbox-3" name="toctree-checkbox-3" role="switch" type="checkbox"/><label for="toctree-checkbox-3"><div class="visually-hidden">Toggle navigation of git_dag.cli</div><i class="icon"><svg><use href="#svg-arrow-right"></use></svg></i></label><ul>
-<li class="toctree-l3"><a class="reference internal" href="../../../.autosummary/git_dag.cli.get_cla.html">git_dag.cli.get_cla</a></li>
 <li class="toctree-l3"><a class="reference internal" href="../../../.autosummary/git_dag.cli.get_cla_parser.html">git_dag.cli.get_cla_parser</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../../../.autosummary/git_dag.cli.get_user_defined_cla.html">git_dag.cli.get_user_defined_cla</a></li>
 <li class="toctree-l3"><a class="reference internal" href="../../../.autosummary/git_dag.cli.main.html">git_dag.cli.main</a></li>
 <li class="toctree-l3"><a class="reference internal" href="../../../.autosummary/git_dag.cli.CustomArgparseNamespace.html">git_dag.cli.CustomArgparseNamespace</a></li>
 </ul>
@@ -221,10 +222,9 @@
 <li class="toctree-l3"><a class="reference internal" href="../../../.autosummary/git_dag.constants.TAG_FORMAT_FIELDS.html">git_dag.constants.TAG_FORMAT_FIELDS</a></li>
 <li class="toctree-l3"><a class="reference internal" href="../../../.autosummary/git_dag.constants.CMD_TAGS_INFO.html">git_dag.constants.CMD_TAGS_INFO</a></li>
 <li class="toctree-l3"><a class="reference internal" href="../../../.autosummary/git_dag.constants.GIT_EMPTY_TREE_OBJECT_SHA.html">git_dag.constants.GIT_EMPTY_TREE_OBJECT_SHA</a></li>
-<li class="toctree-l3"><a class="reference internal" href="../../../.autosummary/git_dag.constants.DAG_NODE_COLORS.html">git_dag.constants.DAG_NODE_COLORS</a></li>
-<li class="toctree-l3"><a class="reference internal" href="../../../.autosummary/git_dag.constants.STANDALONE_CLUSTER_PARAMS.html">git_dag.constants.STANDALONE_CLUSTER_PARAMS</a></li>
 <li class="toctree-l3"><a class="reference internal" href="../../../.autosummary/git_dag.constants.SHA_LIMIT.html">git_dag.constants.SHA_LIMIT</a></li>
 <li class="toctree-l3"><a class="reference internal" href="../../../.autosummary/git_dag.constants.HTML_EMBED_SVG.html">git_dag.constants.HTML_EMBED_SVG</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../../../.autosummary/git_dag.constants.CONFIG_FILE.html">git_dag.constants.CONFIG_FILE</a></li>
 <li class="toctree-l3"><a class="reference internal" href="../../../.autosummary/git_dag.constants.DagBackends.html">git_dag.constants.DagBackends</a></li>
 </ul>
 </li>
@@ -308,11 +308,12 @@
           <h1>Source code for git_dag.interfaces.graphviz</h1><div class="highlight"><pre>
 <span></span><span class="sd">&quot;&quot;&quot;Interface for graphviz (https://github.com/xflr6/graphviz).&quot;&quot;&quot;</span>
 
+<span class="kn">from</span> <span class="nn">pathlib</span> <span class="kn">import</span> <span class="n">Path</span>
 <span class="kn">from</span> <span class="nn">typing</span> <span class="kn">import</span> <span class="n">Any</span><span class="p">,</span> <span class="n">Literal</span><span class="p">,</span> <span class="n">Optional</span>
 
 <span class="kn">from</span> <span class="nn">graphviz</span> <span class="kn">import</span> <span class="n">Digraph</span>  <span class="c1"># type: ignore[import-untyped]</span>
 
-<span class="kn">from</span> <span class="nn">..constants</span> <span class="kn">import</span> <span class="n">STANDALONE_CLUSTER_PARAMS</span>
+<span class="kn">from</span> <span class="nn">..constants</span> <span class="kn">import</span> <span class="n">DictStrStr</span>
 <span class="kn">from</span> <span class="nn">.dag_base</span> <span class="kn">import</span> <span class="n">DagBase</span>
 
 
@@ -365,10 +366,11 @@
     <span class="k">def</span> <span class="nf">build</span><span class="p">(</span>  <span class="c1"># pylint: disable=too-many-positional-arguments</span>
         <span class="bp">self</span><span class="p">,</span>
         <span class="nb">format</span><span class="p">:</span> <span class="nb">str</span><span class="p">,</span>  <span class="c1"># pylint: disable=redefined-builtin</span>
-        <span class="n">node_attr</span><span class="p">:</span> <span class="nb">dict</span><span class="p">[</span><span class="nb">str</span><span class="p">,</span> <span class="nb">str</span><span class="p">],</span>
-        <span class="n">edge_attr</span><span class="p">:</span> <span class="nb">dict</span><span class="p">[</span><span class="nb">str</span><span class="p">,</span> <span class="nb">str</span><span class="p">],</span>
-        <span class="n">dag_attr</span><span class="p">:</span> <span class="nb">dict</span><span class="p">[</span><span class="nb">str</span><span class="p">,</span> <span class="nb">str</span><span class="p">],</span>
-        <span class="n">filename</span><span class="p">:</span> <span class="nb">str</span><span class="p">,</span>
+        <span class="n">node_attr</span><span class="p">:</span> <span class="n">DictStrStr</span><span class="p">,</span>
+        <span class="n">edge_attr</span><span class="p">:</span> <span class="n">DictStrStr</span><span class="p">,</span>
+        <span class="n">dag_attr</span><span class="p">:</span> <span class="n">DictStrStr</span><span class="p">,</span>
+        <span class="n">filename</span><span class="p">:</span> <span class="nb">str</span> <span class="o">|</span> <span class="n">Path</span><span class="p">,</span>
+        <span class="n">cluster_params</span><span class="p">:</span> <span class="n">DictStrStr</span><span class="p">,</span>
     <span class="p">)</span> <span class="o">-&gt;</span> <span class="kc">None</span><span class="p">:</span>
         <span class="k">def</span> <span class="nf">form_clulster_of_standalone_trees_and_blobs</span><span class="p">()</span> <span class="o">-&gt;</span> <span class="kc">None</span><span class="p">:</span>
             <span class="c1"># standalone blobs and trees are placed in a cluster</span>
@@ -382,8 +384,8 @@
                     <span class="n">edge_attr</span><span class="o">=</span><span class="p">{</span><span class="s2">&quot;style&quot;</span><span class="p">:</span> <span class="s2">&quot;invis&quot;</span><span class="p">},</span>
                 <span class="p">)</span> <span class="k">as</span> <span class="n">c</span><span class="p">:</span>
                     <span class="n">c</span><span class="o">.</span><span class="n">attr</span><span class="p">(</span>
-                        <span class="n">label</span><span class="o">=</span><span class="n">STANDALONE_CLUSTER_PARAMS</span><span class="p">[</span><span class="s2">&quot;label&quot;</span><span class="p">],</span>
-                        <span class="n">color</span><span class="o">=</span><span class="n">STANDALONE_CLUSTER_PARAMS</span><span class="p">[</span><span class="s2">&quot;color&quot;</span><span class="p">],</span>
+                        <span class="n">label</span><span class="o">=</span><span class="n">cluster_params</span><span class="p">[</span><span class="s2">&quot;label&quot;</span><span class="p">],</span>
+                        <span class="n">color</span><span class="o">=</span><span class="n">cluster_params</span><span class="p">[</span><span class="s2">&quot;color&quot;</span><span class="p">],</span>
                     <span class="p">)</span>
 
                     <span class="n">sorted_standalone_trees</span> <span class="o">=</span> <span class="nb">sorted</span><span class="p">(</span>
@@ -473,7 +475,7 @@
       
     </aside>
   </div>
-</div><script src="../../../_static/documentation_options.js?v=e3125bf2"></script>
+</div><script src="../../../_static/documentation_options.js?v=59d62c50"></script>
     <script src="../../../_static/doctools.js?v=9bcbadda"></script>
     <script src="../../../_static/sphinx_highlight.js?v=dc90522c"></script>
     <script src="../../../_static/scripts/furo.js?v=5fa4622c"></script>

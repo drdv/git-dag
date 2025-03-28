@@ -207,10 +207,39 @@
 <span id="L197" class="lineno"><a class="lineno" href="#L197">197</a></span>
 <span id="L198" class="lineno"><a class="lineno" href="#L198">198</a></span>
 <span id="L199" class="lineno"><a class="lineno" href="#L199">199</a></span>
+<span id="L200" class="lineno"><a class="lineno" href="#L200">200</a></span>
+<span id="L201" class="lineno"><a class="lineno" href="#L201">201</a></span>
+<span id="L202" class="lineno"><a class="lineno" href="#L202">202</a></span>
+<span id="L203" class="lineno"><a class="lineno" href="#L203">203</a></span>
+<span id="L204" class="lineno"><a class="lineno" href="#L204">204</a></span>
+<span id="L205" class="lineno"><a class="lineno" href="#L205">205</a></span>
+<span id="L206" class="lineno"><a class="lineno" href="#L206">206</a></span>
+<span id="L207" class="lineno"><a class="lineno" href="#L207">207</a></span>
+<span id="L208" class="lineno"><a class="lineno" href="#L208">208</a></span>
+<span id="L209" class="lineno"><a class="lineno" href="#L209">209</a></span>
+<span id="L210" class="lineno"><a class="lineno" href="#L210">210</a></span>
+<span id="L211" class="lineno"><a class="lineno" href="#L211">211</a></span>
+<span id="L212" class="lineno"><a class="lineno" href="#L212">212</a></span>
+<span id="L213" class="lineno"><a class="lineno" href="#L213">213</a></span>
+<span id="L214" class="lineno"><a class="lineno" href="#L214">214</a></span>
+<span id="L215" class="lineno"><a class="lineno" href="#L215">215</a></span>
+<span id="L216" class="lineno"><a class="lineno" href="#L216">216</a></span>
+<span id="L217" class="lineno"><a class="lineno" href="#L217">217</a></span>
+<span id="L218" class="lineno"><a class="lineno" href="#L218">218</a></span>
+<span id="L219" class="lineno"><a class="lineno" href="#L219">219</a></span>
+<span id="L220" class="lineno"><a class="lineno" href="#L220">220</a></span>
+<span id="L221" class="lineno"><a class="lineno" href="#L221">221</a></span>
+<span id="L222" class="lineno"><a class="lineno" href="#L222">222</a></span>
+<span id="L223" class="lineno"><a class="lineno" href="#L223">223</a></span>
+<span id="L224" class="lineno"><a class="lineno" href="#L224">224</a></span>
+<span id="L225" class="lineno"><a class="lineno" href="#L225">225</a></span>
+<span id="L226" class="lineno"><a class="lineno" href="#L226">226</a></span>
+<span id="L227" class="lineno"><a class="lineno" href="#L227">227</a></span>
+<span id="L228" class="lineno"><a class="lineno" href="#L228">228</a></span>
 </pre></td>
 <td class="table-code"><pre><span class="line-empty" title="No Anys on this line!">"""Test git_repository.py."""</span>
 <span class="line-empty" title="No Anys on this line!"></span>
-<span class="line-empty" title="No Anys on this line!"># pylint: disable=missing-function-docstring,redefined-outer-name</span>
+<span class="line-empty" title="No Anys on this line!"># pylint: disable=missing-function-docstring</span>
 <span class="line-empty" title="No Anys on this line!"></span>
 <span class="line-precise" title="No Anys on this line!">import logging</span>
 <span class="line-precise" title="No Anys on this line!">from pathlib import Path</span>
@@ -221,9 +250,9 @@
 <span class="line-precise" title="No Anys on this line!">from git_dag.git_commands import GitCommandMutate, TestGitRepository</span>
 <span class="line-precise" title="No Anys on this line!">from git_dag.git_objects import GitBlob, GitTree</span>
 <span class="line-precise" title="No Anys on this line!">from git_dag.git_repository import GitRepository</span>
+<span class="line-precise" title="No Anys on this line!">from git_dag.parameters import Params, ParamsDagGlobal, ParamsPublic</span>
 <span class="line-empty" title="No Anys on this line!"></span>
 <span class="line-precise" title="No Anys on this line!">TEST_DIR = Path(__file__).parent</span>
-<span class="line-precise" title="No Anys on this line!">LOG = logging.getLogger(__name__)</span>
 <span class="line-empty" title="No Anys on this line!"></span>
 <span class="line-empty" title="No Anys on this line!"></span>
 <span class="line-precise" title="No Anys on this line!">def test_repository_empty(</span>
@@ -311,7 +340,7 @@
 <span class="line-empty" title="No Anys on this line!">    """</span>
 <span class="line-empty" title="No Anys on this line!">    Maybe this test should be split. It tests three things:</span>
 <span class="line-empty" title="No Anys on this line!">    1. that git notes label is added</span>
-<span class="line-empty" title="No Anys on this line!">    2. setting max_numb_commits to None</span>
+<span class="line-empty" title="No Anys on this line!">    2. setting max_numb_commits to 0</span>
 <span class="line-empty" title="No Anys on this line!">    3. setting commit_message_as_label to 1</span>
 <span class="line-empty" title="No Anys on this line!">    """</span>
 <span class="line-precise" title="No Anys on this line!">    repo_path = git_repository_default_with_notes</span>
@@ -329,16 +358,21 @@
 <span class="line-precise" title="No Anys on this line!">    assert len(repo.filter_objects(GitTree).values()) == 6 + numb_obj_due_to_notes</span>
 <span class="line-precise" title="No Anys on this line!">    assert len(repo.filter_objects(GitBlob).values()) == 5 + numb_obj_due_to_notes</span>
 <span class="line-empty" title="No Anys on this line!"></span>
-<span class="line-any" title="Any Types on this line: 
-Explicit (x3)">    repo.show(</span>
-<span class="line-precise" title="No Anys on this line!">        max_numb_commits=None,</span>
-<span class="line-precise" title="No Anys on this line!">        commit_message_as_label=1,</span>
-<span class="line-precise" title="No Anys on this line!">        format="gv",</span>
-<span class="line-precise" title="No Anys on this line!">        filename=repo_path / "default_repo_with_notes.gv",</span>
+<span class="line-precise" title="No Anys on this line!">    file = repo_path / "default_repo_with_notes.gv"</span>
+<span class="line-precise" title="No Anys on this line!">    params = Params(</span>
+<span class="line-precise" title="No Anys on this line!">        public=ParamsPublic(</span>
+<span class="line-precise" title="No Anys on this line!">            max_numb_commits=0,</span>
+<span class="line-precise" title="No Anys on this line!">            commit_message_as_label=1,</span>
+<span class="line-precise" title="No Anys on this line!">            format="gv",</span>
+<span class="line-precise" title="No Anys on this line!">            file=file,</span>
+<span class="line-empty" title="No Anys on this line!">        )</span>
 <span class="line-empty" title="No Anys on this line!">    )</span>
+<span class="line-empty" title="No Anys on this line!"></span>
+<span class="line-any" title="Any Types on this line: 
+Explicit (x2)">    repo.show(params)</span>
 <span class="line-precise" title="Any Types on this line: 
 Unimported (x7)
-Explicit (x1)">    with open(repo_path / "default_repo_with_notes.gv", "r", encoding="utf-8") as h:</span>
+Explicit (x1)">    with open(file, "r", encoding="utf-8") as h:</span>
 <span class="line-precise" title="No Anys on this line!">        result_gv = h.read()</span>
 <span class="line-empty" title="No Anys on this line!"></span>
 <span class="line-precise" title="No Anys on this line!">    assert (</span>
@@ -349,11 +383,24 @@ Explicit (x1)">    with open(repo_path / "default_repo_with_notes.gv", "r", enco
 Omitted Generics (x3)">    for name in list("ABCDEFGHINmO"):</span>
 <span class="line-precise" title="No Anys on this line!">        assert f"label={name}" in result_gv</span>
 <span class="line-empty" title="No Anys on this line!"></span>
+<span class="line-empty" title="No Anys on this line!"></span>
+<span class="line-precise" title="No Anys on this line!">def test_unknown_dag_backend(git_repository_default: Path) -&gt; None:</span>
+<span class="line-precise" title="No Anys on this line!">    repo_path = git_repository_default</span>
+<span class="line-precise" title="No Anys on this line!">    repo = GitRepository(repo_path, parse_trees=False)</span>
+<span class="line-empty" title="No Anys on this line!"></span>
+<span class="line-precise" title="No Anys on this line!">    params = Params(</span>
+<span class="line-precise" title="No Anys on this line!">        public=ParamsPublic(</span>
+<span class="line-precise" title="No Anys on this line!">            dag_backend="unknown-backend",</span>
+<span class="line-precise" title="No Anys on this line!">            format="gv",</span>
+<span class="line-precise" title="No Anys on this line!">            file=repo_path / "tmp.gv",</span>
+<span class="line-empty" title="No Anys on this line!">        )</span>
+<span class="line-empty" title="No Anys on this line!">    )</span>
+<span class="line-empty" title="No Anys on this line!"></span>
 <span class="line-precise" title="Any Types on this line: 
 Omitted Generics (x6)
-Explicit (x5)">    with pytest.raises(ValueError):</span>
+Explicit (x5)">    with pytest.raises(KeyError):</span>
 <span class="line-any" title="Any Types on this line: 
-Explicit (x3)">        repo.show(dag_backend="missing", format="gv", filename=repo_path / "tmp.gv")  # type: ignore[arg-type]</span>
+Explicit (x2)">        repo.show(params)</span>
 <span class="line-empty" title="No Anys on this line!"></span>
 <span class="line-empty" title="No Anys on this line!"></span>
 <span class="line-precise" title="No Anys on this line!">def test_repository_default_dag(tmp_path: Path) -&gt; None:</span>
@@ -366,20 +413,25 @@ Explicit (x3)">        repo.show(dag_backend="missing", format="gv", filename=re
 <span class="line-empty" title="No Anys on this line!">    )</span>
 <span class="line-precise" title="No Anys on this line!">    repo = GitRepository(repo_path, parse_trees=True)</span>
 <span class="line-any" title="Any Types on this line: 
-Explicit (x3)">    repo.show(</span>
-<span class="line-precise" title="No Anys on this line!">        show_unreachable_commits=True,</span>
-<span class="line-precise" title="No Anys on this line!">        show_local_branches=True,</span>
-<span class="line-precise" title="No Anys on this line!">        show_remote_branches=True,</span>
-<span class="line-precise" title="No Anys on this line!">        show_trees=True,</span>
-<span class="line-precise" title="No Anys on this line!">        show_trees_standalone=False,</span>
-<span class="line-precise" title="No Anys on this line!">        show_blobs=True,</span>
-<span class="line-precise" title="No Anys on this line!">        show_blobs_standalone=False,</span>
-<span class="line-precise" title="No Anys on this line!">        show_tags=True,</span>
-<span class="line-precise" title="No Anys on this line!">        show_deleted_tags=True,</span>
-<span class="line-precise" title="No Anys on this line!">        show_stash=True,</span>
-<span class="line-precise" title="No Anys on this line!">        show_head=True,</span>
-<span class="line-precise" title="No Anys on this line!">        format="gv",</span>
-<span class="line-precise" title="No Anys on this line!">        filename=repo_path / "default_repo.gv",</span>
+Explicit (x2)">    repo.show(</span>
+<span class="line-precise" title="No Anys on this line!">        Params(</span>
+<span class="line-precise" title="No Anys on this line!">            public=ParamsPublic(</span>
+<span class="line-precise" title="No Anys on this line!">                show_unreachable_commits=True,</span>
+<span class="line-precise" title="No Anys on this line!">                show_local_branches=True,</span>
+<span class="line-precise" title="No Anys on this line!">                show_remote_branches=True,</span>
+<span class="line-precise" title="No Anys on this line!">                show_trees=True,</span>
+<span class="line-precise" title="No Anys on this line!">                show_trees_standalone=False,</span>
+<span class="line-precise" title="No Anys on this line!">                show_blobs=True,</span>
+<span class="line-precise" title="No Anys on this line!">                show_blobs_standalone=False,</span>
+<span class="line-precise" title="No Anys on this line!">                show_tags=True,</span>
+<span class="line-precise" title="No Anys on this line!">                show_deleted_tags=True,</span>
+<span class="line-precise" title="No Anys on this line!">                show_stash=True,</span>
+<span class="line-precise" title="No Anys on this line!">                show_head=True,</span>
+<span class="line-precise" title="No Anys on this line!">                format="gv",</span>
+<span class="line-precise" title="No Anys on this line!">                file=repo_path / "default_repo.gv",</span>
+<span class="line-empty" title="No Anys on this line!">            ),</span>
+<span class="line-precise" title="No Anys on this line!">            dag_global=ParamsDagGlobal(bgcolor="transparent"),</span>
+<span class="line-empty" title="No Anys on this line!">        )</span>
 <span class="line-empty" title="No Anys on this line!">    )</span>
 <span class="line-empty" title="No Anys on this line!"></span>
 <span class="line-precise" title="Any Types on this line: 
@@ -411,7 +463,13 @@ Explicit (x1)">    with open(TEST_DIR / "resources/default_repo.repr", "r", enco
 <span class="line-empty" title="No Anys on this line!">    )</span>
 <span class="line-precise" title="No Anys on this line!">    repo = GitRepository(repo_path, parse_trees=True)</span>
 <span class="line-any" title="Any Types on this line: 
-Explicit (x3)">    repo.show(filename=repo_path / "default_repo.gv")</span>
+Explicit (x2)">    repo.show(</span>
+<span class="line-precise" title="No Anys on this line!">        Params(</span>
+<span class="line-precise" title="No Anys on this line!">            public=ParamsPublic(</span>
+<span class="line-precise" title="No Anys on this line!">                file=repo_path / "default_repo.gv",</span>
+<span class="line-empty" title="No Anys on this line!">            )</span>
+<span class="line-empty" title="No Anys on this line!">        )</span>
+<span class="line-empty" title="No Anys on this line!">    )</span>
 <span class="line-precise" title="No Anys on this line!">    assert (repo_path / "default_repo.gv.svg").is_file()</span>
 <span class="line-empty" title="No Anys on this line!"></span>
 <span class="line-empty" title="No Anys on this line!"></span>

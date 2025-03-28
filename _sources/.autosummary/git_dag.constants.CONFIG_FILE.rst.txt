@@ -1,0 +1,6 @@
+git\_dag.constants.CONFIG\_FILE
+===============================
+
+.. currentmodule:: git_dag.constants
+
+.. autodata:: CONFIG_FILE

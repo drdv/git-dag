@@ -3,10 +3,10 @@
   <head><meta charset="utf-8"/>
     <meta name="viewport" content="width=device-width,initial-scale=1"/>
     <meta name="color-scheme" content="light dark"><meta name="viewport" content="width=device-width, initial-scale=1" />
-<link rel="index" title="Index" href="../genindex.html" /><link rel="search" title="Search" href="../search.html" /><link rel="next" title="git_dag.constants.STANDALONE_CLUSTER_PARAMS" href="git_dag.constants.STANDALONE_CLUSTER_PARAMS.html" /><link rel="prev" title="git_dag.constants.GIT_EMPTY_TREE_OBJECT_SHA" href="git_dag.constants.GIT_EMPTY_TREE_OBJECT_SHA.html" />
+<link rel="index" title="Index" href="../genindex.html" /><link rel="search" title="Search" href="../search.html" /><link rel="next" title="git_dag.cli.main" href="git_dag.cli.main.html" /><link rel="prev" title="git_dag.cli.get_cla_parser" href="git_dag.cli.get_cla_parser.html" />
 
     <!-- Generated with Sphinx 8.2.3 and Furo 2024.08.06 -->
-        <title>git_dag.constants.DAG_NODE_COLORS - git-dag</title>
+        <title>git_dag.cli.get_user_defined_cla - git-dag</title>
       <link rel="stylesheet" type="text/css" href="../_static/pygments.css?v=a746c00c" />
     <link rel="stylesheet" type="text/css" href="../_static/styles/furo.css?v=354aac6f" />
     <link rel="stylesheet" type="text/css" href="../_static/autodoc_pydantic.css" />
@@ -204,28 +204,28 @@
 <div id="searchbox"></div><div class="sidebar-scroll"><div class="sidebar-tree">
   <ul class="current">
 <li class="toctree-l1"><a class="reference internal" href="../install.html">Install</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../quickstart.html">Quickstart</a></li>
 <li class="toctree-l1 has-children"><a class="reference internal" href="../examples.html">Examples</a><input class="toctree-checkbox" id="toctree-checkbox-1" name="toctree-checkbox-1" role="switch" type="checkbox"/><label for="toctree-checkbox-1"><div class="visually-hidden">Toggle navigation of Examples</div><i class="icon"><svg><use href="#svg-arrow-right"></use></svg></i></label><ul>
 <li class="toctree-l2"><a class="reference internal" href="../example_git_internals.html">Git internals</a></li>
 </ul>
 </li>
 <li class="toctree-l1"><a class="reference internal" href="../cli.html">Command-line interface</a></li>
 <li class="toctree-l1 current has-children"><a class="reference internal" href="../code_docs.html">Code</a><input checked="" class="toctree-checkbox" id="toctree-checkbox-2" name="toctree-checkbox-2" role="switch" type="checkbox"/><label for="toctree-checkbox-2"><div class="visually-hidden">Toggle navigation of Code</div><i class="icon"><svg><use href="#svg-arrow-right"></use></svg></i></label><ul class="current">
-<li class="toctree-l2 has-children"><a class="reference internal" href="git_dag.cli.html">git_dag.cli</a><input class="toctree-checkbox" id="toctree-checkbox-3" name="toctree-checkbox-3" role="switch" type="checkbox"/><label for="toctree-checkbox-3"><div class="visually-hidden">Toggle navigation of git_dag.cli</div><i class="icon"><svg><use href="#svg-arrow-right"></use></svg></i></label><ul>
-<li class="toctree-l3"><a class="reference internal" href="git_dag.cli.get_cla.html">git_dag.cli.get_cla</a></li>
+<li class="toctree-l2 current has-children"><a class="reference internal" href="git_dag.cli.html">git_dag.cli</a><input checked="" class="toctree-checkbox" id="toctree-checkbox-3" name="toctree-checkbox-3" role="switch" type="checkbox"/><label for="toctree-checkbox-3"><div class="visually-hidden">Toggle navigation of git_dag.cli</div><i class="icon"><svg><use href="#svg-arrow-right"></use></svg></i></label><ul class="current">
 <li class="toctree-l3"><a class="reference internal" href="git_dag.cli.get_cla_parser.html">git_dag.cli.get_cla_parser</a></li>
+<li class="toctree-l3 current current-page"><a class="current reference internal" href="#">git_dag.cli.get_user_defined_cla</a></li>
 <li class="toctree-l3"><a class="reference internal" href="git_dag.cli.main.html">git_dag.cli.main</a></li>
 <li class="toctree-l3"><a class="reference internal" href="git_dag.cli.CustomArgparseNamespace.html">git_dag.cli.CustomArgparseNamespace</a></li>
 </ul>
 </li>
-<li class="toctree-l2 current has-children"><a class="reference internal" href="git_dag.constants.html">git_dag.constants</a><input checked="" class="toctree-checkbox" id="toctree-checkbox-4" name="toctree-checkbox-4" role="switch" type="checkbox"/><label for="toctree-checkbox-4"><div class="visually-hidden">Toggle navigation of git_dag.constants</div><i class="icon"><svg><use href="#svg-arrow-right"></use></svg></i></label><ul class="current">
+<li class="toctree-l2 has-children"><a class="reference internal" href="git_dag.constants.html">git_dag.constants</a><input class="toctree-checkbox" id="toctree-checkbox-4" name="toctree-checkbox-4" role="switch" type="checkbox"/><label for="toctree-checkbox-4"><div class="visually-hidden">Toggle navigation of git_dag.constants</div><i class="icon"><svg><use href="#svg-arrow-right"></use></svg></i></label><ul>
 <li class="toctree-l3"><a class="reference internal" href="git_dag.constants.SHA_PATTERN.html">git_dag.constants.SHA_PATTERN</a></li>
 <li class="toctree-l3"><a class="reference internal" href="git_dag.constants.TAG_FORMAT_FIELDS.html">git_dag.constants.TAG_FORMAT_FIELDS</a></li>
 <li class="toctree-l3"><a class="reference internal" href="git_dag.constants.CMD_TAGS_INFO.html">git_dag.constants.CMD_TAGS_INFO</a></li>
 <li class="toctree-l3"><a class="reference internal" href="git_dag.constants.GIT_EMPTY_TREE_OBJECT_SHA.html">git_dag.constants.GIT_EMPTY_TREE_OBJECT_SHA</a></li>
-<li class="toctree-l3 current current-page"><a class="current reference internal" href="#">git_dag.constants.DAG_NODE_COLORS</a></li>
-<li class="toctree-l3"><a class="reference internal" href="git_dag.constants.STANDALONE_CLUSTER_PARAMS.html">git_dag.constants.STANDALONE_CLUSTER_PARAMS</a></li>
 <li class="toctree-l3"><a class="reference internal" href="git_dag.constants.SHA_LIMIT.html">git_dag.constants.SHA_LIMIT</a></li>
 <li class="toctree-l3"><a class="reference internal" href="git_dag.constants.HTML_EMBED_SVG.html">git_dag.constants.HTML_EMBED_SVG</a></li>
+<li class="toctree-l3"><a class="reference internal" href="git_dag.constants.CONFIG_FILE.html">git_dag.constants.CONFIG_FILE</a></li>
 <li class="toctree-l3"><a class="reference internal" href="git_dag.constants.DagBackends.html">git_dag.constants.DagBackends</a></li>
 </ul>
 </li>
@@ -292,7 +292,7 @@
         </a>
         <div class="content-icon-container">
           <div class="view-this-page">
-  <a class="muted-link" href="../_sources/.autosummary/git_dag.constants.DAG_NODE_COLORS.rst.txt" title="View this page">
+  <a class="muted-link" href="../_sources/.autosummary/git_dag.cli.get_user_defined_cla.rst.txt" title="View this page">
     <svg><use href="#svg-eye"></use></svg>
     <span class="visually-hidden">View this page</span>
   </a>
@@ -312,12 +312,12 @@
           </label>
         </div>
         <article role="main" id="furo-main-content">
-          <section id="git-dag-constants-dag-node-colors">
-<h1>git_dag.constants.DAG_NODE_COLORS<a class="headerlink" href="#git-dag-constants-dag-node-colors" title="Link to this heading">¶</a></h1>
-<dl class="py data">
-<dt class="sig sig-object py" id="git_dag.constants.DAG_NODE_COLORS">
-<span class="sig-prename descclassname"><span class="pre">git_dag.constants.</span></span><span class="sig-name descname"><span class="pre">DAG_NODE_COLORS</span></span><em class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="pre">Final</span><span class="p"><span class="pre">[</span></span><span class="pre">dict</span><span class="p"><span class="pre">[</span></span><span class="pre">str</span><span class="p"><span class="pre">,</span></span><span class="w"> </span><span class="pre">str</span><span class="p"><span class="pre">]</span></span><span class="p"><span class="pre">]</span></span></em><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">{'blob':</span> <span class="pre">'gray',</span> <span class="pre">'commit':</span> <span class="pre">'gold3',</span> <span class="pre">'commit-in-range':</span> <span class="pre">'red',</span> <span class="pre">'commit-unreachable':</span> <span class="pre">'darkorange',</span> <span class="pre">'head':</span> <span class="pre">'cornflowerblue',</span> <span class="pre">'local-branches':</span> <span class="pre">'forestgreen',</span> <span class="pre">'notes':</span> <span class="pre">'white',</span> <span class="pre">'remote-branches':</span> <span class="pre">'firebrick',</span> <span class="pre">'stash':</span> <span class="pre">'skyblue',</span> <span class="pre">'tag':</span> <span class="pre">'pink',</span> <span class="pre">'tag-deleted':</span> <span class="pre">'rosybrown4',</span> <span class="pre">'tag-lw':</span> <span class="pre">'lightcoral',</span> <span class="pre">'the-empty-tree':</span> <span class="pre">'darkturquoise',</span> <span class="pre">'tree':</span> <span class="pre">'deepskyblue4'}</span></em><a class="headerlink" href="#git_dag.constants.DAG_NODE_COLORS" title="Link to this definition">¶</a></dt>
-<dd><p>Node colors (<a class="reference external" href="https://graphviz.org/doc/info/colors.html">https://graphviz.org/doc/info/colors.html</a>).</p>
+          <section id="git-dag-cli-get-user-defined-cla">
+<h1>git_dag.cli.get_user_defined_cla<a class="headerlink" href="#git-dag-cli-get-user-defined-cla" title="Link to this heading">¶</a></h1>
+<dl class="py function">
+<dt class="sig sig-object py" id="git_dag.cli.get_user_defined_cla">
+<span class="sig-prename descclassname"><span class="pre">git_dag.cli.</span></span><span class="sig-name descname"><span class="pre">get_user_defined_cla</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">raw_args</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">list</span><span class="p"><span class="pre">[</span></span><span class="pre">str</span><span class="p"><span class="pre">]</span></span><span class="w"> </span><span class="p"><span class="pre">|</span></span><span class="w"> </span><span class="pre">None</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">None</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">dict</span><span class="p"><span class="pre">[</span></span><span class="pre">str</span><span class="p"><span class="pre">,</span></span><span class="w"> </span><span class="pre">Any</span><span class="p"><span class="pre">]</span></span></span></span><a class="reference internal" href="../_modules/git_dag/cli.html#get_user_defined_cla"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#git_dag.cli.get_user_defined_cla" title="Link to this definition">¶</a></dt>
+<dd><p>Parse command-line arguments.</p>
 </dd></dl>
 
 </section>
@@ -327,23 +327,23 @@
       <footer>
         
         <div class="related-pages">
-          <a class="next-page" href="git_dag.constants.STANDALONE_CLUSTER_PARAMS.html">
+          <a class="next-page" href="git_dag.cli.main.html">
               <div class="page-info">
                 <div class="context">
                   <span>Next</span>
                 </div>
-                <div class="title">git_dag.constants.STANDALONE_CLUSTER_PARAMS</div>
+                <div class="title">git_dag.cli.main</div>
               </div>
               <svg class="furo-related-icon"><use href="#svg-arrow-right"></use></svg>
             </a>
-          <a class="prev-page" href="git_dag.constants.GIT_EMPTY_TREE_OBJECT_SHA.html">
+          <a class="prev-page" href="git_dag.cli.get_cla_parser.html">
               <svg class="furo-related-icon"><use href="#svg-arrow-right"></use></svg>
               <div class="page-info">
                 <div class="context">
                   <span>Previous</span>
                 </div>
                 
-                <div class="title">git_dag.constants.GIT_EMPTY_TREE_OBJECT_SHA</div>
+                <div class="title">git_dag.cli.get_cla_parser</div>
                 
               </div>
             </a>
@@ -377,8 +377,8 @@
         <div class="toc-tree-container">
           <div class="toc-tree">
             <ul>
-<li><a class="reference internal" href="#">git_dag.constants.DAG_NODE_COLORS</a><ul>
-<li><a class="reference internal" href="#git_dag.constants.DAG_NODE_COLORS"><code class="docutils literal notranslate"><span class="pre">DAG_NODE_COLORS</span></code></a></li>
+<li><a class="reference internal" href="#">git_dag.cli.get_user_defined_cla</a><ul>
+<li><a class="reference internal" href="#git_dag.cli.get_user_defined_cla"><code class="docutils literal notranslate"><span class="pre">get_user_defined_cla()</span></code></a></li>
 </ul>
 </li>
 </ul>
@@ -390,7 +390,7 @@
       
     </aside>
   </div>
-</div><script src="../_static/documentation_options.js?v=e3125bf2"></script>
+</div><script src="../_static/documentation_options.js?v=59d62c50"></script>
     <script src="../_static/doctools.js?v=9bcbadda"></script>
     <script src="../_static/sphinx_highlight.js?v=dc90522c"></script>
     <script src="../_static/scripts/furo.js?v=5fa4622c"></script>

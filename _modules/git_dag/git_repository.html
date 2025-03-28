@@ -203,6 +203,7 @@
 <div id="searchbox"></div><div class="sidebar-scroll"><div class="sidebar-tree">
   <ul>
 <li class="toctree-l1"><a class="reference internal" href="../../install.html">Install</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../quickstart.html">Quickstart</a></li>
 <li class="toctree-l1 has-children"><a class="reference internal" href="../../examples.html">Examples</a><input class="toctree-checkbox" id="toctree-checkbox-1" name="toctree-checkbox-1" role="switch" type="checkbox"/><label for="toctree-checkbox-1"><div class="visually-hidden">Toggle navigation of Examples</div><i class="icon"><svg><use href="#svg-arrow-right"></use></svg></i></label><ul>
 <li class="toctree-l2"><a class="reference internal" href="../../example_git_internals.html">Git internals</a></li>
 </ul>
@@ -210,8 +211,8 @@
 <li class="toctree-l1"><a class="reference internal" href="../../cli.html">Command-line interface</a></li>
 <li class="toctree-l1 has-children"><a class="reference internal" href="../../code_docs.html">Code</a><input class="toctree-checkbox" id="toctree-checkbox-2" name="toctree-checkbox-2" role="switch" type="checkbox"/><label for="toctree-checkbox-2"><div class="visually-hidden">Toggle navigation of Code</div><i class="icon"><svg><use href="#svg-arrow-right"></use></svg></i></label><ul>
 <li class="toctree-l2 has-children"><a class="reference internal" href="../../.autosummary/git_dag.cli.html">git_dag.cli</a><input class="toctree-checkbox" id="toctree-checkbox-3" name="toctree-checkbox-3" role="switch" type="checkbox"/><label for="toctree-checkbox-3"><div class="visually-hidden">Toggle navigation of git_dag.cli</div><i class="icon"><svg><use href="#svg-arrow-right"></use></svg></i></label><ul>
-<li class="toctree-l3"><a class="reference internal" href="../../.autosummary/git_dag.cli.get_cla.html">git_dag.cli.get_cla</a></li>
 <li class="toctree-l3"><a class="reference internal" href="../../.autosummary/git_dag.cli.get_cla_parser.html">git_dag.cli.get_cla_parser</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../../.autosummary/git_dag.cli.get_user_defined_cla.html">git_dag.cli.get_user_defined_cla</a></li>
 <li class="toctree-l3"><a class="reference internal" href="../../.autosummary/git_dag.cli.main.html">git_dag.cli.main</a></li>
 <li class="toctree-l3"><a class="reference internal" href="../../.autosummary/git_dag.cli.CustomArgparseNamespace.html">git_dag.cli.CustomArgparseNamespace</a></li>
 </ul>
@@ -221,10 +222,9 @@
 <li class="toctree-l3"><a class="reference internal" href="../../.autosummary/git_dag.constants.TAG_FORMAT_FIELDS.html">git_dag.constants.TAG_FORMAT_FIELDS</a></li>
 <li class="toctree-l3"><a class="reference internal" href="../../.autosummary/git_dag.constants.CMD_TAGS_INFO.html">git_dag.constants.CMD_TAGS_INFO</a></li>
 <li class="toctree-l3"><a class="reference internal" href="../../.autosummary/git_dag.constants.GIT_EMPTY_TREE_OBJECT_SHA.html">git_dag.constants.GIT_EMPTY_TREE_OBJECT_SHA</a></li>
-<li class="toctree-l3"><a class="reference internal" href="../../.autosummary/git_dag.constants.DAG_NODE_COLORS.html">git_dag.constants.DAG_NODE_COLORS</a></li>
-<li class="toctree-l3"><a class="reference internal" href="../../.autosummary/git_dag.constants.STANDALONE_CLUSTER_PARAMS.html">git_dag.constants.STANDALONE_CLUSTER_PARAMS</a></li>
 <li class="toctree-l3"><a class="reference internal" href="../../.autosummary/git_dag.constants.SHA_LIMIT.html">git_dag.constants.SHA_LIMIT</a></li>
 <li class="toctree-l3"><a class="reference internal" href="../../.autosummary/git_dag.constants.HTML_EMBED_SVG.html">git_dag.constants.HTML_EMBED_SVG</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../../.autosummary/git_dag.constants.CONFIG_FILE.html">git_dag.constants.CONFIG_FILE</a></li>
 <li class="toctree-l3"><a class="reference internal" href="../../.autosummary/git_dag.constants.DagBackends.html">git_dag.constants.DagBackends</a></li>
 </ul>
 </li>
@@ -322,7 +322,7 @@
 
 <span class="kn">from</span> <span class="nn">pydantic</span> <span class="kn">import</span> <span class="n">BeforeValidator</span><span class="p">,</span> <span class="n">TypeAdapter</span>
 
-<span class="kn">from</span> <span class="nn">.constants</span> <span class="kn">import</span> <span class="n">GIT_EMPTY_TREE_OBJECT_SHA</span><span class="p">,</span> <span class="n">SHA_PATTERN</span><span class="p">,</span> <span class="n">DagBackends</span><span class="p">,</span> <span class="n">DictStrStr</span>
+<span class="kn">from</span> <span class="nn">.constants</span> <span class="kn">import</span> <span class="n">GIT_EMPTY_TREE_OBJECT_SHA</span><span class="p">,</span> <span class="n">SHA_PATTERN</span><span class="p">,</span> <span class="n">DictStrStr</span>
 <span class="kn">from</span> <span class="nn">.dag</span> <span class="kn">import</span> <span class="n">DagVisualizer</span>
 <span class="kn">from</span> <span class="nn">.git_commands</span> <span class="kn">import</span> <span class="n">GitCommand</span>
 <span class="kn">from</span> <span class="nn">.git_objects</span> <span class="kn">import</span> <span class="p">(</span>
@@ -340,6 +340,7 @@
     <span class="n">GitTree</span><span class="p">,</span>
     <span class="n">GitTreeRawDataType</span><span class="p">,</span>
 <span class="p">)</span>
+<span class="kn">from</span> <span class="nn">.parameters</span> <span class="kn">import</span> <span class="n">Params</span>
 <span class="kn">from</span> <span class="nn">.utils</span> <span class="kn">import</span> <span class="n">creator_timestamp_format</span>
 
 <span class="n">IG</span> <span class="o">=</span> <span class="n">itemgetter</span><span class="p">(</span><span class="s2">&quot;sha&quot;</span><span class="p">,</span> <span class="s2">&quot;kind&quot;</span><span class="p">)</span>
@@ -724,15 +725,15 @@
 <span class="sd">        Note</span>
 <span class="sd">        -----</span>
 <span class="sd">        The objects are &quot;raw&quot;, in the sense that they are not fully initialized. For</span>
-<span class="sd">        example, consider a :class:`~git_dag.pydantic_models.GitTree` object. Even</span>
+<span class="sd">        example, consider a :class:`~git_dag.git_objects.GitTree` object. Even</span>
 <span class="sd">        though all necessary data is available in</span>
-<span class="sd">        :attr:`~git_dag.pydantic_models.GitTree.raw_data`, the ``GitTree._children``</span>
+<span class="sd">        :attr:`~git_dag.git_objects.GitTree.raw_data`, the ``GitTree._children``</span>
 <span class="sd">        field is still not initialized (and the</span>
-<span class="sd">        :class:`~git_dag.pydantic_models.GitTree` instances are not fully functional).</span>
+<span class="sd">        :class:`~git_dag.git_objects.GitTree` instances are not fully functional).</span>
 <span class="sd">        The remaining post-processing is performed in</span>
 <span class="sd">        :func:`~git_dag.git_repository.GitRepository.post_process_inspector_data` (as</span>
 <span class="sd">        all instances need to be formed first). The</span>
-<span class="sd">        :attr:`~git_dag.pydantic_models.GitObject.is_ready` property indicates whether</span>
+<span class="sd">        :attr:`~git_dag.git_objects.GitObject.is_ready` property indicates whether</span>
 <span class="sd">        an instance has been fully initialized.</span>
 
 <span class="sd">        &quot;&quot;&quot;</span>
@@ -1001,44 +1002,28 @@
 <div class="viewcode-block" id="GitRepository.show">
 <a class="viewcode-back" href="../../.autosummary/git_dag.git_repository.GitRepository.html#git_dag.git_repository.GitRepository.show">[docs]</a>
     <span class="nd">@time_it</span>
-    <span class="k">def</span> <span class="nf">show</span><span class="p">(</span>
-        <span class="bp">self</span><span class="p">,</span>
-        <span class="n">dag_backend</span><span class="p">:</span> <span class="n">DagBackends</span> <span class="o">=</span> <span class="n">DagBackends</span><span class="o">.</span><span class="n">GRAPHVIZ</span><span class="p">,</span>
-        <span class="n">xdg_open</span><span class="p">:</span> <span class="nb">bool</span> <span class="o">=</span> <span class="kc">False</span><span class="p">,</span>
-        <span class="n">init_refs</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="nb">list</span><span class="p">[</span><span class="nb">str</span><span class="p">]]</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span>
-        <span class="n">max_numb_commits</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="nb">int</span><span class="p">]</span> <span class="o">=</span> <span class="mi">1000</span><span class="p">,</span>
-        <span class="o">**</span><span class="n">kwargs</span><span class="p">:</span> <span class="n">Any</span><span class="p">,</span>
-    <span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Any</span><span class="p">:</span>
-<span class="w">        </span><span class="sd">&quot;&quot;&quot;Show dag.</span>
+    <span class="k">def</span> <span class="nf">show</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">params</span><span class="p">:</span> <span class="n">Params</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Any</span><span class="p">:</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;Show dag.&quot;&quot;&quot;</span>
 
-<span class="sd">        Parameters</span>
-<span class="sd">        -----------</span>
-<span class="sd">        dag_backend</span>
-<span class="sd">            DAG backend to use.</span>
-<span class="sd">        xdg_open</span>
-<span class="sd">            Whether to open the dag using ``xdg-open``.</span>
-<span class="sd">        init_refs</span>
-<span class="sd">            A list of branches, tags, git objects (commits, trees, blobs) that</span>
-<span class="sd">            represents a limitation from where to display the DAG (there are no</span>
-<span class="sd">            limitations when the list is empty).</span>
-<span class="sd">        max_numb_commits</span>
-<span class="sd">            Max number of commit objects to display.</span>
+        <span class="n">max_numb_commits</span> <span class="o">=</span> <span class="p">(</span>
+            <span class="kc">None</span>
+            <span class="k">if</span> <span class="n">params</span><span class="o">.</span><span class="n">public</span><span class="o">.</span><span class="n">max_numb_commits</span> <span class="o">&lt;</span> <span class="mi">1</span>
+            <span class="k">else</span> <span class="n">params</span><span class="o">.</span><span class="n">public</span><span class="o">.</span><span class="n">max_numb_commits</span>
+        <span class="p">)</span>
 
-<span class="sd">        &quot;&quot;&quot;</span>
-        <span class="k">if</span> <span class="ow">not</span> <span class="n">init_refs</span> <span class="ow">and</span> <span class="n">max_numb_commits</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>
+        <span class="k">if</span> <span class="ow">not</span> <span class="n">params</span><span class="o">.</span><span class="n">public</span><span class="o">.</span><span class="n">init_refs</span> <span class="ow">and</span> <span class="n">max_numb_commits</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>
             <span class="n">objects_sha_to_include</span> <span class="o">=</span> <span class="kc">None</span>
         <span class="k">else</span><span class="p">:</span>
             <span class="n">objects_sha_to_include</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">get_objects_reachable_from</span><span class="p">(</span>
-                <span class="n">init_refs</span><span class="p">,</span>
+                <span class="n">params</span><span class="o">.</span><span class="n">public</span><span class="o">.</span><span class="n">init_refs</span><span class="p">,</span>
                 <span class="n">max_numb_commits</span><span class="p">,</span>
             <span class="p">)</span>
 
         <span class="k">return</span> <span class="n">DagVisualizer</span><span class="p">(</span>
-            <span class="bp">self</span><span class="p">,</span>
-            <span class="n">dag_backend</span><span class="o">=</span><span class="n">dag_backend</span><span class="p">,</span>
+            <span class="n">repository</span><span class="o">=</span><span class="bp">self</span><span class="p">,</span>
+            <span class="n">params</span><span class="o">=</span><span class="n">params</span><span class="p">,</span>
             <span class="n">objects_sha_to_include</span><span class="o">=</span><span class="n">objects_sha_to_include</span><span class="p">,</span>
-            <span class="o">**</span><span class="n">kwargs</span><span class="p">,</span>
-        <span class="p">)</span><span class="o">.</span><span class="n">show</span><span class="p">(</span><span class="n">xdg_open</span><span class="p">)</span></div>
+        <span class="p">)</span><span class="o">.</span><span class="n">show</span><span class="p">(</span><span class="n">params</span><span class="o">.</span><span class="n">public</span><span class="o">.</span><span class="n">xdg_open</span><span class="p">)</span></div>
 
 
     <span class="k">def</span> <span class="fm">__repr__</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">str</span><span class="p">:</span>
@@ -1099,7 +1084,7 @@
       
     </aside>
   </div>
-</div><script src="../../_static/documentation_options.js?v=e3125bf2"></script>
+</div><script src="../../_static/documentation_options.js?v=59d62c50"></script>
     <script src="../../_static/doctools.js?v=9bcbadda"></script>
     <script src="../../_static/sphinx_highlight.js?v=dc90522c"></script>
     <script src="../../_static/scripts/furo.js?v=5fa4622c"></script>

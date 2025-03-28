@@ -202,6 +202,7 @@
 <div id="searchbox"></div><div class="sidebar-scroll"><div class="sidebar-tree">
   <ul>
 <li class="toctree-l1"><a class="reference internal" href="install.html">Install</a></li>
+<li class="toctree-l1"><a class="reference internal" href="quickstart.html">Quickstart</a></li>
 <li class="toctree-l1 has-children"><a class="reference internal" href="examples.html">Examples</a><input class="toctree-checkbox" id="toctree-checkbox-1" name="toctree-checkbox-1" role="switch" type="checkbox"/><label for="toctree-checkbox-1"><div class="visually-hidden">Toggle navigation of Examples</div><i class="icon"><svg><use href="#svg-arrow-right"></use></svg></i></label><ul>
 <li class="toctree-l2"><a class="reference internal" href="example_git_internals.html">Git internals</a></li>
 </ul>
@@ -209,8 +210,8 @@
 <li class="toctree-l1"><a class="reference internal" href="cli.html">Command-line interface</a></li>
 <li class="toctree-l1 has-children"><a class="reference internal" href="code_docs.html">Code</a><input class="toctree-checkbox" id="toctree-checkbox-2" name="toctree-checkbox-2" role="switch" type="checkbox"/><label for="toctree-checkbox-2"><div class="visually-hidden">Toggle navigation of Code</div><i class="icon"><svg><use href="#svg-arrow-right"></use></svg></i></label><ul>
 <li class="toctree-l2 has-children"><a class="reference internal" href=".autosummary/git_dag.cli.html">git_dag.cli</a><input class="toctree-checkbox" id="toctree-checkbox-3" name="toctree-checkbox-3" role="switch" type="checkbox"/><label for="toctree-checkbox-3"><div class="visually-hidden">Toggle navigation of git_dag.cli</div><i class="icon"><svg><use href="#svg-arrow-right"></use></svg></i></label><ul>
-<li class="toctree-l3"><a class="reference internal" href=".autosummary/git_dag.cli.get_cla.html">git_dag.cli.get_cla</a></li>
 <li class="toctree-l3"><a class="reference internal" href=".autosummary/git_dag.cli.get_cla_parser.html">git_dag.cli.get_cla_parser</a></li>
+<li class="toctree-l3"><a class="reference internal" href=".autosummary/git_dag.cli.get_user_defined_cla.html">git_dag.cli.get_user_defined_cla</a></li>
 <li class="toctree-l3"><a class="reference internal" href=".autosummary/git_dag.cli.main.html">git_dag.cli.main</a></li>
 <li class="toctree-l3"><a class="reference internal" href=".autosummary/git_dag.cli.CustomArgparseNamespace.html">git_dag.cli.CustomArgparseNamespace</a></li>
 </ul>
@@ -220,10 +221,9 @@
 <li class="toctree-l3"><a class="reference internal" href=".autosummary/git_dag.constants.TAG_FORMAT_FIELDS.html">git_dag.constants.TAG_FORMAT_FIELDS</a></li>
 <li class="toctree-l3"><a class="reference internal" href=".autosummary/git_dag.constants.CMD_TAGS_INFO.html">git_dag.constants.CMD_TAGS_INFO</a></li>
 <li class="toctree-l3"><a class="reference internal" href=".autosummary/git_dag.constants.GIT_EMPTY_TREE_OBJECT_SHA.html">git_dag.constants.GIT_EMPTY_TREE_OBJECT_SHA</a></li>
-<li class="toctree-l3"><a class="reference internal" href=".autosummary/git_dag.constants.DAG_NODE_COLORS.html">git_dag.constants.DAG_NODE_COLORS</a></li>
-<li class="toctree-l3"><a class="reference internal" href=".autosummary/git_dag.constants.STANDALONE_CLUSTER_PARAMS.html">git_dag.constants.STANDALONE_CLUSTER_PARAMS</a></li>
 <li class="toctree-l3"><a class="reference internal" href=".autosummary/git_dag.constants.SHA_LIMIT.html">git_dag.constants.SHA_LIMIT</a></li>
 <li class="toctree-l3"><a class="reference internal" href=".autosummary/git_dag.constants.HTML_EMBED_SVG.html">git_dag.constants.HTML_EMBED_SVG</a></li>
+<li class="toctree-l3"><a class="reference internal" href=".autosummary/git_dag.constants.CONFIG_FILE.html">git_dag.constants.CONFIG_FILE</a></li>
 <li class="toctree-l3"><a class="reference internal" href=".autosummary/git_dag.constants.DagBackends.html">git_dag.constants.DagBackends</a></li>
 </ul>
 </li>
@@ -373,15 +373,17 @@
         </ul></li>
         <li><a href=".autosummary/git_dag.dag.CommitHandlerMixin.html#git_dag.dag.CommitHandlerMixin">CommitHandlerMixin (class in git_dag.dag)</a>
 </li>
-    </ul></td>
-    <td style="width: 33%; vertical-align: top;"><ul>
         <li><a href="pydantic_models.html#git_dag.git_objects.GitCommit.committer">committer (git_dag.git_objects.GitCommit property)</a>
 </li>
+    </ul></td>
+    <td style="width: 33%; vertical-align: top;"><ul>
         <li><a href="pydantic_models.html#git_dag.git_objects.GitCommit.committer_date">committer_date (git_dag.git_objects.GitCommit property)</a>
 </li>
         <li><a href="pydantic_models.html#git_dag.git_objects.GitCommit.committer_email">committer_email (git_dag.git_objects.GitCommit property)</a>
 </li>
         <li><a href=".autosummary/git_dag.git_commands.GitCommandMutate.html#git_dag.git_commands.GitCommandMutate.config">config() (git_dag.git_commands.GitCommandMutate method)</a>
+</li>
+        <li><a href=".autosummary/git_dag.constants.CONFIG_FILE.html#git_dag.constants.CONFIG_FILE">CONFIG_FILE (in module git_dag.constants)</a>
 </li>
         <li><a href=".autosummary/git_dag.git_commands.TestGitRepository.html#git_dag.git_commands.TestGitRepository.create">create() (git_dag.git_commands.TestGitRepository class method)</a>
 </li>
@@ -399,14 +401,12 @@
   <h2>D</h2>
   <table style="width: 100%" class="indextable genindextable"><tr>
     <td style="width: 33%; vertical-align: top;"><ul>
-        <li><a href=".autosummary/git_dag.constants.DAG_NODE_COLORS.html#git_dag.constants.DAG_NODE_COLORS">DAG_NODE_COLORS (in module git_dag.constants)</a>
-</li>
         <li><a href=".autosummary/git_dag.constants.DagBackends.html#git_dag.constants.DagBackends">DagBackends (class in git_dag.constants)</a>
+</li>
+        <li><a href=".autosummary/git_dag.interfaces.dag_base.DagBase.html#git_dag.interfaces.dag_base.DagBase">DagBase (class in git_dag.interfaces.dag_base)</a>
 </li>
     </ul></td>
     <td style="width: 33%; vertical-align: top;"><ul>
-        <li><a href=".autosummary/git_dag.interfaces.dag_base.DagBase.html#git_dag.interfaces.dag_base.DagBase">DagBase (class in git_dag.interfaces.dag_base)</a>
-</li>
         <li><a href=".autosummary/git_dag.interfaces.graphviz.DagGraphviz.html#git_dag.interfaces.graphviz.DagGraphviz">DagGraphviz (class in git_dag.interfaces.graphviz)</a>
 </li>
         <li><a href=".autosummary/git_dag.dag.DagVisualizer.html#git_dag.dag.DagVisualizer">DagVisualizer (class in git_dag.dag)</a>
@@ -459,8 +459,6 @@
 </li>
         <li><a href=".autosummary/git_dag.git_commands.GitCommand.html#git_dag.git_commands.GitCommand.get_branches">get_branches() (git_dag.git_commands.GitCommand method)</a>
 </li>
-        <li><a href=".autosummary/git_dag.cli.get_cla.html#git_dag.cli.get_cla">get_cla() (in module git_dag.cli)</a>
-</li>
         <li><a href=".autosummary/git_dag.cli.get_cla_parser.html#git_dag.cli.get_cla_parser">get_cla_parser() (in module git_dag.cli)</a>
 </li>
         <li><a href=".autosummary/git_dag.git_commands.GitCommand.html#git_dag.git_commands.GitCommand.get_fsck_unreachable_commits">get_fsck_unreachable_commits() (git_dag.git_commands.GitCommand method)</a>
@@ -486,6 +484,8 @@
         <li><a href=".autosummary/git_dag.git_commands.GitCommand.html#git_dag.git_commands.GitCommand.get_stash_info">get_stash_info() (git_dag.git_commands.GitCommand method)</a>
 </li>
         <li><a href=".autosummary/git_dag.git_commands.GitCommand.html#git_dag.git_commands.GitCommand.get_tags_info_parsed">get_tags_info_parsed() (git_dag.git_commands.GitCommand method)</a>
+</li>
+        <li><a href=".autosummary/git_dag.cli.get_user_defined_cla.html#git_dag.cli.get_user_defined_cla">get_user_defined_cla() (in module git_dag.cli)</a>
 </li>
         <li>
     git_dag.cli
@@ -804,8 +804,6 @@
           <li><a href=".autosummary/git_dag.interfaces.graphviz.DagGraphviz.html#git_dag.interfaces.graphviz.DagGraphviz.source">(git_dag.interfaces.graphviz.DagGraphviz method)</a>
 </li>
         </ul></li>
-        <li><a href=".autosummary/git_dag.constants.STANDALONE_CLUSTER_PARAMS.html#git_dag.constants.STANDALONE_CLUSTER_PARAMS">STANDALONE_CLUSTER_PARAMS (in module git_dag.constants)</a>
-</li>
         <li><a href=".autosummary/git_dag.git_commands.GitCommandMutate.html#git_dag.git_commands.GitCommandMutate.stash">stash() (git_dag.git_commands.GitCommandMutate method)</a>
 </li>
         <li><a href=".autosummary/git_dag.dag.StashHandlerMixin.html#git_dag.dag.StashHandlerMixin">StashHandlerMixin (class in git_dag.dag)</a>
@@ -894,7 +892,7 @@
       
     </aside>
   </div>
-</div><script src="_static/documentation_options.js?v=e3125bf2"></script>
+</div><script src="_static/documentation_options.js?v=59d62c50"></script>
     <script src="_static/doctools.js?v=9bcbadda"></script>
     <script src="_static/sphinx_highlight.js?v=dc90522c"></script>
     <script src="_static/scripts/furo.js?v=5fa4622c"></script>

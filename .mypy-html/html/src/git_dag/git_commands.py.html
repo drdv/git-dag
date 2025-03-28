@@ -651,6 +651,11 @@
 <span id="L641" class="lineno"><a class="lineno" href="#L641">641</a></span>
 <span id="L642" class="lineno"><a class="lineno" href="#L642">642</a></span>
 <span id="L643" class="lineno"><a class="lineno" href="#L643">643</a></span>
+<span id="L644" class="lineno"><a class="lineno" href="#L644">644</a></span>
+<span id="L645" class="lineno"><a class="lineno" href="#L645">645</a></span>
+<span id="L646" class="lineno"><a class="lineno" href="#L646">646</a></span>
+<span id="L647" class="lineno"><a class="lineno" href="#L647">647</a></span>
+<span id="L648" class="lineno"><a class="lineno" href="#L648">648</a></span>
 </pre></td>
 <td class="table-code"><pre><span class="line-empty" title="No Anys on this line!">"""Git commands related functionality.</span>
 <span class="line-empty" title="No Anys on this line!"></span>
@@ -671,6 +676,7 @@
 <span class="line-precise" title="No Anys on this line!">from typing import Any, Literal, Optional</span>
 <span class="line-empty" title="No Anys on this line!"></span>
 <span class="line-precise" title="No Anys on this line!">from git_dag.constants import CMD_TAGS_INFO, SHA_PATTERN, TAG_FORMAT_FIELDS, DictStrStr</span>
+<span class="line-precise" title="No Anys on this line!">from git_dag.parameters import Params, ParamsPublic</span>
 <span class="line-precise" title="No Anys on this line!">from git_dag.utils import escape_decode</span>
 <span class="line-empty" title="No Anys on this line!"></span>
 <span class="line-precise" title="No Anys on this line!">logging.basicConfig(level=logging.WARNING)</span>
@@ -986,6 +992,7 @@ Explicit (x1)">            with open(Path(self.path) / filename, "w", encoding="
 <span class="line-precise" title="No Anys on this line!">            cmd_output = self._run("ls-remote").strip().split("\n")</span>
 <span class="line-precise" title="No Anys on this line!">        except subprocess.CalledProcessError:</span>
 <span class="line-precise" title="No Anys on this line!">            LOG.warning("No remote")</span>
+<span class="line-empty" title="No Anys on this line!">            return {}</span>
 <span class="line-empty" title="No Anys on this line!"></span>
 <span class="line-precise" title="No Anys on this line!">        out = {}</span>
 <span class="line-precise" title="No Anys on this line!">        for line in cmd_output:</span>
@@ -1294,20 +1301,23 @@ Explicit (x1)">                cls.repository_empty(repo_path, **kwargs)</span>
 Explicit (x1)">    TestGitRepository.create("default", path)</span>
 <span class="line-empty" title="No Anys on this line!"></span>
 <span class="line-precise" title="No Anys on this line!">    repo = GitRepository(path, parse_trees=True)</span>
-<span class="line-any" title="Any Types on this line: 
-Explicit (x3)">    repo.show(</span>
-<span class="line-precise" title="No Anys on this line!">        show_unreachable_commits=True,</span>
-<span class="line-precise" title="No Anys on this line!">        show_local_branches=True,</span>
-<span class="line-precise" title="No Anys on this line!">        show_remote_branches=True,</span>
-<span class="line-precise" title="No Anys on this line!">        show_trees=True,</span>
-<span class="line-precise" title="No Anys on this line!">        show_blobs=True,</span>
-<span class="line-precise" title="No Anys on this line!">        show_tags=True,</span>
-<span class="line-precise" title="No Anys on this line!">        show_deleted_tags=True,</span>
-<span class="line-precise" title="No Anys on this line!">        show_stash=True,</span>
-<span class="line-precise" title="No Anys on this line!">        show_head=True,</span>
-<span class="line-precise" title="No Anys on this line!">        format="gv",</span>
-<span class="line-precise" title="No Anys on this line!">        filename=path / "../default_repo.gv",</span>
+<span class="line-precise" title="No Anys on this line!">    params = Params(</span>
+<span class="line-precise" title="No Anys on this line!">        public=ParamsPublic(</span>
+<span class="line-precise" title="No Anys on this line!">            show_unreachable_commits=True,</span>
+<span class="line-precise" title="No Anys on this line!">            show_local_branches=True,</span>
+<span class="line-precise" title="No Anys on this line!">            show_remote_branches=True,</span>
+<span class="line-precise" title="No Anys on this line!">            show_trees=True,</span>
+<span class="line-precise" title="No Anys on this line!">            show_blobs=True,</span>
+<span class="line-precise" title="No Anys on this line!">            show_tags=True,</span>
+<span class="line-precise" title="No Anys on this line!">            show_deleted_tags=True,</span>
+<span class="line-precise" title="No Anys on this line!">            show_stash=True,</span>
+<span class="line-precise" title="No Anys on this line!">            show_head=True,</span>
+<span class="line-precise" title="No Anys on this line!">            format="gv",</span>
+<span class="line-precise" title="No Anys on this line!">            file=path / "../default_repo.gv",</span>
+<span class="line-empty" title="No Anys on this line!">        )</span>
 <span class="line-empty" title="No Anys on this line!">    )</span>
+<span class="line-any" title="Any Types on this line: 
+Explicit (x2)">    repo.show(params)</span>
 <span class="line-empty" title="No Anys on this line!"></span>
 <span class="line-precise" title="No Anys on this line!">    TestGitRepository.tar(path, path / "../default_repo.tar.gz")</span>
 <span class="line-empty" title="No Anys on this line!"></span>

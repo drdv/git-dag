@@ -204,6 +204,7 @@
 <div id="searchbox"></div><div class="sidebar-scroll"><div class="sidebar-tree">
   <ul class="current">
 <li class="toctree-l1"><a class="reference internal" href="install.html">Install</a></li>
+<li class="toctree-l1"><a class="reference internal" href="quickstart.html">Quickstart</a></li>
 <li class="toctree-l1 current has-children"><a class="reference internal" href="examples.html">Examples</a><input checked="" class="toctree-checkbox" id="toctree-checkbox-1" name="toctree-checkbox-1" role="switch" type="checkbox"/><label for="toctree-checkbox-1"><div class="visually-hidden">Toggle navigation of Examples</div><i class="icon"><svg><use href="#svg-arrow-right"></use></svg></i></label><ul class="current">
 <li class="toctree-l2 current current-page"><a class="current reference internal" href="#">Git internals</a></li>
 </ul>
@@ -211,8 +212,8 @@
 <li class="toctree-l1"><a class="reference internal" href="cli.html">Command-line interface</a></li>
 <li class="toctree-l1 has-children"><a class="reference internal" href="code_docs.html">Code</a><input class="toctree-checkbox" id="toctree-checkbox-2" name="toctree-checkbox-2" role="switch" type="checkbox"/><label for="toctree-checkbox-2"><div class="visually-hidden">Toggle navigation of Code</div><i class="icon"><svg><use href="#svg-arrow-right"></use></svg></i></label><ul>
 <li class="toctree-l2 has-children"><a class="reference internal" href=".autosummary/git_dag.cli.html">git_dag.cli</a><input class="toctree-checkbox" id="toctree-checkbox-3" name="toctree-checkbox-3" role="switch" type="checkbox"/><label for="toctree-checkbox-3"><div class="visually-hidden">Toggle navigation of git_dag.cli</div><i class="icon"><svg><use href="#svg-arrow-right"></use></svg></i></label><ul>
-<li class="toctree-l3"><a class="reference internal" href=".autosummary/git_dag.cli.get_cla.html">git_dag.cli.get_cla</a></li>
 <li class="toctree-l3"><a class="reference internal" href=".autosummary/git_dag.cli.get_cla_parser.html">git_dag.cli.get_cla_parser</a></li>
+<li class="toctree-l3"><a class="reference internal" href=".autosummary/git_dag.cli.get_user_defined_cla.html">git_dag.cli.get_user_defined_cla</a></li>
 <li class="toctree-l3"><a class="reference internal" href=".autosummary/git_dag.cli.main.html">git_dag.cli.main</a></li>
 <li class="toctree-l3"><a class="reference internal" href=".autosummary/git_dag.cli.CustomArgparseNamespace.html">git_dag.cli.CustomArgparseNamespace</a></li>
 </ul>
@@ -222,10 +223,9 @@
 <li class="toctree-l3"><a class="reference internal" href=".autosummary/git_dag.constants.TAG_FORMAT_FIELDS.html">git_dag.constants.TAG_FORMAT_FIELDS</a></li>
 <li class="toctree-l3"><a class="reference internal" href=".autosummary/git_dag.constants.CMD_TAGS_INFO.html">git_dag.constants.CMD_TAGS_INFO</a></li>
 <li class="toctree-l3"><a class="reference internal" href=".autosummary/git_dag.constants.GIT_EMPTY_TREE_OBJECT_SHA.html">git_dag.constants.GIT_EMPTY_TREE_OBJECT_SHA</a></li>
-<li class="toctree-l3"><a class="reference internal" href=".autosummary/git_dag.constants.DAG_NODE_COLORS.html">git_dag.constants.DAG_NODE_COLORS</a></li>
-<li class="toctree-l3"><a class="reference internal" href=".autosummary/git_dag.constants.STANDALONE_CLUSTER_PARAMS.html">git_dag.constants.STANDALONE_CLUSTER_PARAMS</a></li>
 <li class="toctree-l3"><a class="reference internal" href=".autosummary/git_dag.constants.SHA_LIMIT.html">git_dag.constants.SHA_LIMIT</a></li>
 <li class="toctree-l3"><a class="reference internal" href=".autosummary/git_dag.constants.HTML_EMBED_SVG.html">git_dag.constants.HTML_EMBED_SVG</a></li>
+<li class="toctree-l3"><a class="reference internal" href=".autosummary/git_dag.constants.CONFIG_FILE.html">git_dag.constants.CONFIG_FILE</a></li>
 <li class="toctree-l3"><a class="reference internal" href=".autosummary/git_dag.constants.DagBackends.html">git_dag.constants.DagBackends</a></li>
 </ul>
 </li>
@@ -483,8 +483,9 @@ and compare it with the tooltips of <code class="docutils literal notranslate"><
 </section>
 <section id="git-commit">
 <h2>Git commit<a class="headerlink" href="#git-commit" title="Link to this heading">¶</a></h2>
-<p>A commit object contains information about who, when and why created a given tree. Each
-commit has exactly one associated tree (which of course may contain sub-trees).</p>
+<p>A commit object contains information about who, when and why created a given tree and
+what are the parent commit(s) from where it descended. Each commit has exactly one
+associated tree (which of course may contain sub-trees).</p>
 <div class="literal-block-wrapper docutils container" id="id21">
 <div class="code-block-caption"><span class="caption-text">Create three commits</span><a class="headerlink" href="#id21" title="Link to this code">¶</a></div>
 <div class="highlight-bash notranslate"><div class="highlight"><pre><span></span><span class="nv">GIT_AUTHOR_NAME</span><span class="o">=</span><span class="s2">&quot;First Last&quot;</span>
@@ -504,9 +505,9 @@ commit has exactly one associated tree (which of course may contain sub-trees).<
 </div>
 <div class="literal-block-wrapper docutils container" id="id22">
 <div class="code-block-caption"><span class="caption-text">Output</span><a class="headerlink" href="#id22" title="Link to this code">¶</a></div>
-<div class="highlight-console notranslate"><div class="highlight"><pre><span></span><span class="go">dca3f7dc874da24de0e4d8ad2cb1db72b9ed78bc</span>
-<span class="go">6f3fd5c2a9e0be0844be6690e5c72d5b6986f3f6</span>
-<span class="go">c024a6449c2d7426043e97c5be753ca623258a5d</span>
+<div class="highlight-console notranslate"><div class="highlight"><pre><span></span><span class="go">89d48e2d82dc8b351afdf65bc477d46ab30b1163</span>
+<span class="go">ce29b5d39756a5dff91c556e632199cc88e909ed</span>
+<span class="go">5ed380ef1d428a13bac2fa5fefc82d5a9c414818</span>
 </pre></div>
 </div>
 </div>
@@ -643,8 +644,9 @@ reasonable for educational purpose for small repositories only. Skipping them re
 </object><aside class="footnote-list brackets">
 <aside class="footnote brackets" id="id2" role="doc-footnote">
 <span class="label"><span class="fn-bracket">[</span><a role="doc-backlink" href="#id1">1</a><span class="fn-bracket">]</span></span>
-<p>That is, trees and blobs are considered to be standalone if they don’t have
-parent commits that are reachable from a branch a tag or the reflog.</p>
+<p>The notion of standalone trees and blobs is not standard. We use it to label
+trees and blobs that don’t have parent commits that are reachable from a branch a
+tag or the reflog.</p>
 </aside>
 </aside>
 </section>
@@ -723,7 +725,7 @@ parent commits that are reachable from a branch a tag or the reflog.</p>
       
     </aside>
   </div>
-</div><script src="_static/documentation_options.js?v=e3125bf2"></script>
+</div><script src="_static/documentation_options.js?v=59d62c50"></script>
     <script src="_static/doctools.js?v=9bcbadda"></script>
     <script src="_static/sphinx_highlight.js?v=dc90522c"></script>
     <script src="_static/scripts/furo.js?v=5fa4622c"></script>

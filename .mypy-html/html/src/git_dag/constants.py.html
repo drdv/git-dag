@@ -86,53 +86,25 @@
 <span id="L76" class="lineno"><a class="lineno" href="#L76">76</a></span>
 <span id="L77" class="lineno"><a class="lineno" href="#L77">77</a></span>
 <span id="L78" class="lineno"><a class="lineno" href="#L78">78</a></span>
-<span id="L79" class="lineno"><a class="lineno" href="#L79">79</a></span>
-<span id="L80" class="lineno"><a class="lineno" href="#L80">80</a></span>
-<span id="L81" class="lineno"><a class="lineno" href="#L81">81</a></span>
-<span id="L82" class="lineno"><a class="lineno" href="#L82">82</a></span>
-<span id="L83" class="lineno"><a class="lineno" href="#L83">83</a></span>
-<span id="L84" class="lineno"><a class="lineno" href="#L84">84</a></span>
-<span id="L85" class="lineno"><a class="lineno" href="#L85">85</a></span>
-<span id="L86" class="lineno"><a class="lineno" href="#L86">86</a></span>
-<span id="L87" class="lineno"><a class="lineno" href="#L87">87</a></span>
-<span id="L88" class="lineno"><a class="lineno" href="#L88">88</a></span>
-<span id="L89" class="lineno"><a class="lineno" href="#L89">89</a></span>
-<span id="L90" class="lineno"><a class="lineno" href="#L90">90</a></span>
-<span id="L91" class="lineno"><a class="lineno" href="#L91">91</a></span>
-<span id="L92" class="lineno"><a class="lineno" href="#L92">92</a></span>
-<span id="L93" class="lineno"><a class="lineno" href="#L93">93</a></span>
-<span id="L94" class="lineno"><a class="lineno" href="#L94">94</a></span>
-<span id="L95" class="lineno"><a class="lineno" href="#L95">95</a></span>
-<span id="L96" class="lineno"><a class="lineno" href="#L96">96</a></span>
-<span id="L97" class="lineno"><a class="lineno" href="#L97">97</a></span>
-<span id="L98" class="lineno"><a class="lineno" href="#L98">98</a></span>
-<span id="L99" class="lineno"><a class="lineno" href="#L99">99</a></span>
-<span id="L100" class="lineno"><a class="lineno" href="#L100">100</a></span>
-<span id="L101" class="lineno"><a class="lineno" href="#L101">101</a></span>
-<span id="L102" class="lineno"><a class="lineno" href="#L102">102</a></span>
-<span id="L103" class="lineno"><a class="lineno" href="#L103">103</a></span>
-<span id="L104" class="lineno"><a class="lineno" href="#L104">104</a></span>
-<span id="L105" class="lineno"><a class="lineno" href="#L105">105</a></span>
-<span id="L106" class="lineno"><a class="lineno" href="#L106">106</a></span>
-<span id="L107" class="lineno"><a class="lineno" href="#L107">107</a></span>
-<span id="L108" class="lineno"><a class="lineno" href="#L108">108</a></span>
-<span id="L109" class="lineno"><a class="lineno" href="#L109">109</a></span>
-<span id="L110" class="lineno"><a class="lineno" href="#L110">110</a></span>
-<span id="L111" class="lineno"><a class="lineno" href="#L111">111</a></span>
-<span id="L112" class="lineno"><a class="lineno" href="#L112">112</a></span>
-<span id="L113" class="lineno"><a class="lineno" href="#L113">113</a></span>
-<span id="L114" class="lineno"><a class="lineno" href="#L114">114</a></span>
-<span id="L115" class="lineno"><a class="lineno" href="#L115">115</a></span>
 </pre></td>
 <td class="table-code"><pre><span class="line-empty" title="No Anys on this line!">"""Constants."""</span>
 <span class="line-empty" title="No Anys on this line!"></span>
+<span class="line-precise" title="No Anys on this line!">import os</span>
 <span class="line-precise" title="No Anys on this line!">from enum import Enum</span>
+<span class="line-precise" title="No Anys on this line!">from pathlib import Path</span>
 <span class="line-precise" title="No Anys on this line!">from typing import Final</span>
 <span class="line-empty" title="No Anys on this line!"></span>
 <span class="line-precise" title="No Anys on this line!">DictStrStr = dict[str, str]</span>
 <span class="line-empty" title="No Anys on this line!"></span>
+<span class="line-empty" title="No Anys on this line!"></span>
+<span class="line-precise" title="No Anys on this line!">class DagBackends(Enum):</span>
+<span class="line-empty" title="No Anys on this line!">    """Backend libraries for DAG visualisation."""</span>
+<span class="line-empty" title="No Anys on this line!"></span>
+<span class="line-precise" title="No Anys on this line!">    GRAPHVIZ = 1  #: https://github.com/xflr6/graphviz</span>
+<span class="line-empty" title="No Anys on this line!"></span>
+<span class="line-empty" title="No Anys on this line!"></span>
 <span class="line-empty" title="No Anys on this line!">#: Regex patterx for SHA-1 hash.</span>
-<span class="line-precise" title="No Anys on this line!">SHA_PATTERN = "(?P&lt;sha&gt;[0-9a-f]{40})"</span>
+<span class="line-precise" title="No Anys on this line!">SHA_PATTERN: Final[str] = "(?P&lt;sha&gt;[0-9a-f]{40})"</span>
 <span class="line-empty" title="No Anys on this line!"></span>
 <span class="line-empty" title="No Anys on this line!">#: See https://stackoverflow.com/a/21868228</span>
 <span class="line-precise" title="No Anys on this line!">TAG_FORMAT_FIELDS: Final[list[str]] = [</span>
@@ -155,65 +127,16 @@
 <span class="line-empty" title="No Anys on this line!">    "' refs/tags"</span>
 <span class="line-empty" title="No Anys on this line!">)</span>
 <span class="line-empty" title="No Anys on this line!"></span>
-<span class="line-empty" title="No Anys on this line!"></span>
-<span class="line-precise" title="No Anys on this line!">class DagBackends(Enum):</span>
-<span class="line-empty" title="No Anys on this line!">    """Backend libraries for DAG visualisation."""</span>
-<span class="line-empty" title="No Anys on this line!"></span>
-<span class="line-precise" title="No Anys on this line!">    GRAPHVIZ = 1  #: https://github.com/xflr6/graphviz</span>
-<span class="line-empty" title="No Anys on this line!"></span>
-<span class="line-empty" title="No Anys on this line!"></span>
 <span class="line-empty" title="No Anys on this line!">#: Empty git tree object.</span>
 <span class="line-precise" title="No Anys on this line!">GIT_EMPTY_TREE_OBJECT_SHA: Final[str] = "4b825dc642cb6eb9a060e54bf8d69288fbee4904"</span>
-<span class="line-empty" title="No Anys on this line!"></span>
-<span class="line-empty" title="No Anys on this line!">#: Node colors (https://graphviz.org/doc/info/colors.html).</span>
-<span class="line-precise" title="No Anys on this line!">DAG_NODE_COLORS: Final[DictStrStr] = {</span>
-<span class="line-precise" title="No Anys on this line!">    "commit": "gold3",</span>
-<span class="line-precise" title="No Anys on this line!">    "commit-unreachable": "darkorange",</span>
-<span class="line-precise" title="No Anys on this line!">    "commit-in-range": "red",</span>
-<span class="line-precise" title="No Anys on this line!">    "tree": "deepskyblue4",</span>
-<span class="line-precise" title="No Anys on this line!">    "the-empty-tree": "darkturquoise",</span>
-<span class="line-precise" title="No Anys on this line!">    "blob": "gray",</span>
-<span class="line-precise" title="No Anys on this line!">    "tag": "pink",</span>
-<span class="line-precise" title="No Anys on this line!">    "tag-deleted": "rosybrown4",</span>
-<span class="line-precise" title="No Anys on this line!">    "tag-lw": "lightcoral",</span>
-<span class="line-precise" title="No Anys on this line!">    "head": "cornflowerblue",</span>
-<span class="line-precise" title="No Anys on this line!">    "local-branches": "forestgreen",</span>
-<span class="line-precise" title="No Anys on this line!">    "remote-branches": "firebrick",</span>
-<span class="line-precise" title="No Anys on this line!">    "stash": "skyblue",</span>
-<span class="line-precise" title="No Anys on this line!">    "notes": "white",</span>
-<span class="line-empty" title="No Anys on this line!">}</span>
-<span class="line-empty" title="No Anys on this line!"></span>
-<span class="line-empty" title="No Anys on this line!">#: Parameters of the cluster for standalone trees and blobs</span>
-<span class="line-precise" title="No Anys on this line!">STANDALONE_CLUSTER_PARAMS: DictStrStr = {</span>
-<span class="line-precise" title="No Anys on this line!">    "color": "lightgrey",</span>
-<span class="line-precise" title="No Anys on this line!">    "label": "Standalone\nTrees &amp; Blobs",</span>
-<span class="line-empty" title="No Anys on this line!">}</span>
-<span class="line-empty" title="No Anys on this line!"></span>
-<span class="line-empty" title="No Anys on this line!"></span>
-<span class="line-precise" title="No Anys on this line!">DAG_ATTR: Final[DictStrStr] = {</span>
-<span class="line-precise" title="No Anys on this line!">    "rankdir": "TB",</span>
-<span class="line-precise" title="No Anys on this line!">    "dpi": "None",</span>
-<span class="line-precise" title="No Anys on this line!">    "bgcolor": "transparent",</span>
-<span class="line-empty" title="No Anys on this line!">}</span>
-<span class="line-empty" title="No Anys on this line!"></span>
-<span class="line-precise" title="No Anys on this line!">DAG_NODE_ATTR: Final[DictStrStr] = {</span>
-<span class="line-precise" title="No Anys on this line!">    "shape": "box",</span>
-<span class="line-precise" title="No Anys on this line!">    "style": "filled",</span>
-<span class="line-precise" title="No Anys on this line!">    "margin": "0.01,0.01",</span>
-<span class="line-precise" title="No Anys on this line!">    "width": "0.02",</span>
-<span class="line-precise" title="No Anys on this line!">    "height": "0.02",</span>
-<span class="line-empty" title="No Anys on this line!">}</span>
-<span class="line-empty" title="No Anys on this line!"></span>
-<span class="line-precise" title="No Anys on this line!">DAG_EDGE_ATTR: Final[DictStrStr] = {</span>
-<span class="line-precise" title="No Anys on this line!">    "arrowsize": "0.5",</span>
-<span class="line-precise" title="No Anys on this line!">    "color": "gray10",</span>
-<span class="line-empty" title="No Anys on this line!">}</span>
 <span class="line-empty" title="No Anys on this line!"></span>
 <span class="line-empty" title="No Anys on this line!">#: Nuber of SHA characters to display in labels.</span>
 <span class="line-precise" title="No Anys on this line!">SHA_LIMIT: Final[int] = 8</span>
 <span class="line-empty" title="No Anys on this line!"></span>
 <span class="line-empty" title="No Anys on this line!">#: HTML template to embed SVG</span>
-<span class="line-precise" title="No Anys on this line!">HTML_EMBED_SVG = """</span>
+<span class="line-precise" title="No Anys on this line!">HTML_EMBED_SVG: Final[</span>
+<span class="line-empty" title="No Anys on this line!">    str</span>
+<span class="line-precise" title="No Anys on this line!">] = """</span>
 <span class="line-empty" title="No Anys on this line!">&lt;!DOCTYPE html&gt;</span>
 <span class="line-empty" title="No Anys on this line!">&lt;!-- serve using python -m http.server -d /path/to/src --&gt;</span>
 <span class="line-empty" title="No Anys on this line!">&lt;html lang="en"&gt;</span>
@@ -239,6 +162,10 @@
 <span class="line-empty" title="No Anys on this line!">  &lt;/body&gt;</span>
 <span class="line-empty" title="No Anys on this line!">&lt;/html&gt;</span>
 <span class="line-empty" title="No Anys on this line!">"""</span>
+<span class="line-empty" title="No Anys on this line!"></span>
+<span class="line-empty" title="No Anys on this line!">#: Configuration file.</span>
+<span class="line-precise" title="Any Types on this line: 
+Omitted Generics (x4)">CONFIG_FILE: Final[Path] = Path(os.path.expandvars("$HOME/.git-dag.yml"))</span>
 </pre></td>
 </tr></tbody>
 </table>

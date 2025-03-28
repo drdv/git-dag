@@ -709,21 +709,6 @@
 <span id="L699" class="lineno"><a class="lineno" href="#L699">699</a></span>
 <span id="L700" class="lineno"><a class="lineno" href="#L700">700</a></span>
 <span id="L701" class="lineno"><a class="lineno" href="#L701">701</a></span>
-<span id="L702" class="lineno"><a class="lineno" href="#L702">702</a></span>
-<span id="L703" class="lineno"><a class="lineno" href="#L703">703</a></span>
-<span id="L704" class="lineno"><a class="lineno" href="#L704">704</a></span>
-<span id="L705" class="lineno"><a class="lineno" href="#L705">705</a></span>
-<span id="L706" class="lineno"><a class="lineno" href="#L706">706</a></span>
-<span id="L707" class="lineno"><a class="lineno" href="#L707">707</a></span>
-<span id="L708" class="lineno"><a class="lineno" href="#L708">708</a></span>
-<span id="L709" class="lineno"><a class="lineno" href="#L709">709</a></span>
-<span id="L710" class="lineno"><a class="lineno" href="#L710">710</a></span>
-<span id="L711" class="lineno"><a class="lineno" href="#L711">711</a></span>
-<span id="L712" class="lineno"><a class="lineno" href="#L712">712</a></span>
-<span id="L713" class="lineno"><a class="lineno" href="#L713">713</a></span>
-<span id="L714" class="lineno"><a class="lineno" href="#L714">714</a></span>
-<span id="L715" class="lineno"><a class="lineno" href="#L715">715</a></span>
-<span id="L716" class="lineno"><a class="lineno" href="#L716">716</a></span>
 </pre></td>
 <td class="table-code"><pre><span class="line-empty" title="No Anys on this line!">"""Git repository parsing functionality."""</span>
 <span class="line-empty" title="No Anys on this line!"></span>
@@ -741,7 +726,7 @@
 <span class="line-empty" title="No Anys on this line!"></span>
 <span class="line-precise" title="No Anys on this line!">from pydantic import BeforeValidator, TypeAdapter</span>
 <span class="line-empty" title="No Anys on this line!"></span>
-<span class="line-precise" title="No Anys on this line!">from .constants import GIT_EMPTY_TREE_OBJECT_SHA, SHA_PATTERN, DagBackends, DictStrStr</span>
+<span class="line-precise" title="No Anys on this line!">from .constants import GIT_EMPTY_TREE_OBJECT_SHA, SHA_PATTERN, DictStrStr</span>
 <span class="line-precise" title="No Anys on this line!">from .dag import DagVisualizer</span>
 <span class="line-precise" title="No Anys on this line!">from .git_commands import GitCommand</span>
 <span class="line-precise" title="No Anys on this line!">from .git_objects import (</span>
@@ -759,6 +744,7 @@
 <span class="line-empty" title="No Anys on this line!">    GitTree,</span>
 <span class="line-empty" title="No Anys on this line!">    GitTreeRawDataType,</span>
 <span class="line-empty" title="No Anys on this line!">)</span>
+<span class="line-precise" title="No Anys on this line!">from .parameters import Params</span>
 <span class="line-precise" title="No Anys on this line!">from .utils import creator_timestamp_format</span>
 <span class="line-empty" title="No Anys on this line!"></span>
 <span class="line-precise" title="Any Types on this line: 
@@ -1144,15 +1130,15 @@ Omitted Generics (x6)">    @time_it</span>
 <span class="line-empty" title="No Anys on this line!">        Note</span>
 <span class="line-empty" title="No Anys on this line!">        -----</span>
 <span class="line-empty" title="No Anys on this line!">        The objects are "raw", in the sense that they are not fully initialized. For</span>
-<span class="line-empty" title="No Anys on this line!">        example, consider a :class:`~git_dag.pydantic_models.GitTree` object. Even</span>
+<span class="line-empty" title="No Anys on this line!">        example, consider a :class:`~git_dag.git_objects.GitTree` object. Even</span>
 <span class="line-empty" title="No Anys on this line!">        though all necessary data is available in</span>
-<span class="line-empty" title="No Anys on this line!">        :attr:`~git_dag.pydantic_models.GitTree.raw_data`, the ``GitTree._children``</span>
+<span class="line-empty" title="No Anys on this line!">        :attr:`~git_dag.git_objects.GitTree.raw_data`, the ``GitTree._children``</span>
 <span class="line-empty" title="No Anys on this line!">        field is still not initialized (and the</span>
-<span class="line-empty" title="No Anys on this line!">        :class:`~git_dag.pydantic_models.GitTree` instances are not fully functional).</span>
+<span class="line-empty" title="No Anys on this line!">        :class:`~git_dag.git_objects.GitTree` instances are not fully functional).</span>
 <span class="line-empty" title="No Anys on this line!">        The remaining post-processing is performed in</span>
 <span class="line-empty" title="No Anys on this line!">        :func:`~git_dag.git_repository.GitRepository.post_process_inspector_data` (as</span>
 <span class="line-empty" title="No Anys on this line!">        all instances need to be formed first). The</span>
-<span class="line-empty" title="No Anys on this line!">        :attr:`~git_dag.pydantic_models.GitObject.is_ready` property indicates whether</span>
+<span class="line-empty" title="No Anys on this line!">        :attr:`~git_dag.git_objects.GitObject.is_ready` property indicates whether</span>
 <span class="line-empty" title="No Anys on this line!">        an instance has been fully initialized.</span>
 <span class="line-empty" title="No Anys on this line!"></span>
 <span class="line-empty" title="No Anys on this line!">        """</span>
@@ -1423,46 +1409,29 @@ Omitted Generics (x1)">            if isinstance(obj, object_type)</span>
 <span class="line-precise" title="Any Types on this line: 
 Omitted Generics (x6)">    @time_it</span>
 <span class="line-any" title="Any Types on this line: 
-Explicit (x2)">    def show(</span>
-<span class="line-empty" title="No Anys on this line!">        self,</span>
-<span class="line-precise" title="No Anys on this line!">        dag_backend: DagBackends = DagBackends.GRAPHVIZ,</span>
-<span class="line-precise" title="No Anys on this line!">        xdg_open: bool = False,</span>
-<span class="line-precise" title="No Anys on this line!">        init_refs: Optional[list[str]] = None,</span>
-<span class="line-precise" title="No Anys on this line!">        max_numb_commits: Optional[int] = 1000,</span>
-<span class="line-empty" title="No Anys on this line!">        **kwargs: Any,</span>
-<span class="line-empty" title="No Anys on this line!">    ) -&gt; Any:</span>
-<span class="line-empty" title="No Anys on this line!">        """Show dag.</span>
+Explicit (x1)">    def show(self, params: Params) -&gt; Any:</span>
+<span class="line-empty" title="No Anys on this line!">        """Show dag."""</span>
 <span class="line-empty" title="No Anys on this line!"></span>
-<span class="line-empty" title="No Anys on this line!">        Parameters</span>
-<span class="line-empty" title="No Anys on this line!">        -----------</span>
-<span class="line-empty" title="No Anys on this line!">        dag_backend</span>
-<span class="line-empty" title="No Anys on this line!">            DAG backend to use.</span>
-<span class="line-empty" title="No Anys on this line!">        xdg_open</span>
-<span class="line-empty" title="No Anys on this line!">            Whether to open the dag using ``xdg-open``.</span>
-<span class="line-empty" title="No Anys on this line!">        init_refs</span>
-<span class="line-empty" title="No Anys on this line!">            A list of branches, tags, git objects (commits, trees, blobs) that</span>
-<span class="line-empty" title="No Anys on this line!">            represents a limitation from where to display the DAG (there are no</span>
-<span class="line-empty" title="No Anys on this line!">            limitations when the list is empty).</span>
-<span class="line-empty" title="No Anys on this line!">        max_numb_commits</span>
-<span class="line-empty" title="No Anys on this line!">            Max number of commit objects to display.</span>
+<span class="line-precise" title="No Anys on this line!">        max_numb_commits = (</span>
+<span class="line-precise" title="No Anys on this line!">            None</span>
+<span class="line-precise" title="No Anys on this line!">            if params.public.max_numb_commits &lt; 1</span>
+<span class="line-precise" title="No Anys on this line!">            else params.public.max_numb_commits</span>
+<span class="line-empty" title="No Anys on this line!">        )</span>
 <span class="line-empty" title="No Anys on this line!"></span>
-<span class="line-empty" title="No Anys on this line!">        """</span>
-<span class="line-precise" title="No Anys on this line!">        if not init_refs and max_numb_commits is None:</span>
+<span class="line-precise" title="No Anys on this line!">        if not params.public.init_refs and max_numb_commits is None:</span>
 <span class="line-precise" title="No Anys on this line!">            objects_sha_to_include = None</span>
 <span class="line-empty" title="No Anys on this line!">        else:</span>
 <span class="line-precise" title="No Anys on this line!">            objects_sha_to_include = self.get_objects_reachable_from(</span>
-<span class="line-precise" title="No Anys on this line!">                init_refs,</span>
+<span class="line-precise" title="No Anys on this line!">                params.public.init_refs,</span>
 <span class="line-precise" title="No Anys on this line!">                max_numb_commits,</span>
 <span class="line-empty" title="No Anys on this line!">            )</span>
 <span class="line-empty" title="No Anys on this line!"></span>
 <span class="line-any" title="Any Types on this line: 
 Explicit (x2)">        return DagVisualizer(</span>
-<span class="line-precise" title="No Anys on this line!">            self,</span>
-<span class="line-precise" title="No Anys on this line!">            dag_backend=dag_backend,</span>
+<span class="line-precise" title="No Anys on this line!">            repository=self,</span>
+<span class="line-precise" title="No Anys on this line!">            params=params,</span>
 <span class="line-precise" title="No Anys on this line!">            objects_sha_to_include=objects_sha_to_include,</span>
-<span class="line-imprecise" title="Any Types on this line: 
-Explicit (x1)">            **kwargs,</span>
-<span class="line-precise" title="No Anys on this line!">        ).show(xdg_open)</span>
+<span class="line-precise" title="No Anys on this line!">        ).show(params.public.xdg_open)</span>
 <span class="line-empty" title="No Anys on this line!"></span>
 <span class="line-precise" title="No Anys on this line!">    def __repr__(self) -&gt; str:</span>
 <span class="line-precise" title="No Anys on this line!">        local_branches = [b for b in self.branches if b.is_local]</span>

@@ -203,6 +203,7 @@
 <div id="searchbox"></div><div class="sidebar-scroll"><div class="sidebar-tree">
   <ul>
 <li class="toctree-l1"><a class="reference internal" href="../../install.html">Install</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../quickstart.html">Quickstart</a></li>
 <li class="toctree-l1 has-children"><a class="reference internal" href="../../examples.html">Examples</a><input class="toctree-checkbox" id="toctree-checkbox-1" name="toctree-checkbox-1" role="switch" type="checkbox"/><label for="toctree-checkbox-1"><div class="visually-hidden">Toggle navigation of Examples</div><i class="icon"><svg><use href="#svg-arrow-right"></use></svg></i></label><ul>
 <li class="toctree-l2"><a class="reference internal" href="../../example_git_internals.html">Git internals</a></li>
 </ul>
@@ -210,8 +211,8 @@
 <li class="toctree-l1"><a class="reference internal" href="../../cli.html">Command-line interface</a></li>
 <li class="toctree-l1 has-children"><a class="reference internal" href="../../code_docs.html">Code</a><input class="toctree-checkbox" id="toctree-checkbox-2" name="toctree-checkbox-2" role="switch" type="checkbox"/><label for="toctree-checkbox-2"><div class="visually-hidden">Toggle navigation of Code</div><i class="icon"><svg><use href="#svg-arrow-right"></use></svg></i></label><ul>
 <li class="toctree-l2 has-children"><a class="reference internal" href="../../.autosummary/git_dag.cli.html">git_dag.cli</a><input class="toctree-checkbox" id="toctree-checkbox-3" name="toctree-checkbox-3" role="switch" type="checkbox"/><label for="toctree-checkbox-3"><div class="visually-hidden">Toggle navigation of git_dag.cli</div><i class="icon"><svg><use href="#svg-arrow-right"></use></svg></i></label><ul>
-<li class="toctree-l3"><a class="reference internal" href="../../.autosummary/git_dag.cli.get_cla.html">git_dag.cli.get_cla</a></li>
 <li class="toctree-l3"><a class="reference internal" href="../../.autosummary/git_dag.cli.get_cla_parser.html">git_dag.cli.get_cla_parser</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../../.autosummary/git_dag.cli.get_user_defined_cla.html">git_dag.cli.get_user_defined_cla</a></li>
 <li class="toctree-l3"><a class="reference internal" href="../../.autosummary/git_dag.cli.main.html">git_dag.cli.main</a></li>
 <li class="toctree-l3"><a class="reference internal" href="../../.autosummary/git_dag.cli.CustomArgparseNamespace.html">git_dag.cli.CustomArgparseNamespace</a></li>
 </ul>
@@ -221,10 +222,9 @@
 <li class="toctree-l3"><a class="reference internal" href="../../.autosummary/git_dag.constants.TAG_FORMAT_FIELDS.html">git_dag.constants.TAG_FORMAT_FIELDS</a></li>
 <li class="toctree-l3"><a class="reference internal" href="../../.autosummary/git_dag.constants.CMD_TAGS_INFO.html">git_dag.constants.CMD_TAGS_INFO</a></li>
 <li class="toctree-l3"><a class="reference internal" href="../../.autosummary/git_dag.constants.GIT_EMPTY_TREE_OBJECT_SHA.html">git_dag.constants.GIT_EMPTY_TREE_OBJECT_SHA</a></li>
-<li class="toctree-l3"><a class="reference internal" href="../../.autosummary/git_dag.constants.DAG_NODE_COLORS.html">git_dag.constants.DAG_NODE_COLORS</a></li>
-<li class="toctree-l3"><a class="reference internal" href="../../.autosummary/git_dag.constants.STANDALONE_CLUSTER_PARAMS.html">git_dag.constants.STANDALONE_CLUSTER_PARAMS</a></li>
 <li class="toctree-l3"><a class="reference internal" href="../../.autosummary/git_dag.constants.SHA_LIMIT.html">git_dag.constants.SHA_LIMIT</a></li>
 <li class="toctree-l3"><a class="reference internal" href="../../.autosummary/git_dag.constants.HTML_EMBED_SVG.html">git_dag.constants.HTML_EMBED_SVG</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../../.autosummary/git_dag.constants.CONFIG_FILE.html">git_dag.constants.CONFIG_FILE</a></li>
 <li class="toctree-l3"><a class="reference internal" href="../../.autosummary/git_dag.constants.DagBackends.html">git_dag.constants.DagBackends</a></li>
 </ul>
 </li>
@@ -324,10 +324,6 @@
 <span class="kn">from</span> <span class="nn">typing</span> <span class="kn">import</span> <span class="n">TYPE_CHECKING</span><span class="p">,</span> <span class="n">Any</span><span class="p">,</span> <span class="n">Optional</span><span class="p">,</span> <span class="n">Protocol</span>
 
 <span class="kn">from</span> <span class="nn">.constants</span> <span class="kn">import</span> <span class="p">(</span>
-    <span class="n">DAG_ATTR</span><span class="p">,</span>
-    <span class="n">DAG_EDGE_ATTR</span><span class="p">,</span>
-    <span class="n">DAG_NODE_ATTR</span><span class="p">,</span>
-    <span class="n">DAG_NODE_COLORS</span><span class="p">,</span>
     <span class="n">GIT_EMPTY_TREE_OBJECT_SHA</span><span class="p">,</span>
     <span class="n">HTML_EMBED_SVG</span><span class="p">,</span>
     <span class="n">SHA_LIMIT</span><span class="p">,</span>
@@ -336,6 +332,7 @@
 <span class="p">)</span>
 <span class="kn">from</span> <span class="nn">.git_objects</span> <span class="kn">import</span> <span class="n">GitBlob</span><span class="p">,</span> <span class="n">GitCommit</span><span class="p">,</span> <span class="n">GitTag</span><span class="p">,</span> <span class="n">GitTree</span>
 <span class="kn">from</span> <span class="nn">.interfaces.graphviz</span> <span class="kn">import</span> <span class="n">DagGraphviz</span>
+<span class="kn">from</span> <span class="nn">.parameters</span> <span class="kn">import</span> <span class="n">Params</span>
 <span class="kn">from</span> <span class="nn">.utils</span> <span class="kn">import</span> <span class="n">transform_ascii_control_chars</span>
 
 <span class="k">if</span> <span class="n">TYPE_CHECKING</span><span class="p">:</span>  <span class="c1"># pragma: no cover</span>
@@ -347,24 +344,12 @@
 <span class="k">class</span> <span class="nc">MixinProtocol</span><span class="p">(</span><span class="n">Protocol</span><span class="p">):</span>
 <span class="w">    </span><span class="sd">&quot;&quot;&quot;Mixin protocol.&quot;&quot;&quot;</span>
 
-    <span class="n">show_unreachable_commits</span><span class="p">:</span> <span class="nb">bool</span>
-    <span class="n">show_local_branches</span><span class="p">:</span> <span class="nb">bool</span>
-    <span class="n">show_remote_branches</span><span class="p">:</span> <span class="nb">bool</span>
-    <span class="n">show_trees</span><span class="p">:</span> <span class="nb">bool</span>
-    <span class="n">show_trees_standalone</span><span class="p">:</span> <span class="nb">bool</span>
-    <span class="n">show_blobs</span><span class="p">:</span> <span class="nb">bool</span>
-    <span class="n">show_blobs_standalone</span><span class="p">:</span> <span class="nb">bool</span>
-    <span class="n">show_tags</span><span class="p">:</span> <span class="nb">bool</span>
-    <span class="n">show_deleted_tags</span><span class="p">:</span> <span class="nb">bool</span>
-    <span class="n">show_stash</span><span class="p">:</span> <span class="nb">bool</span>
-    <span class="n">show_head</span><span class="p">:</span> <span class="nb">bool</span>
-    <span class="n">show_prs_heads</span><span class="p">:</span> <span class="nb">bool</span>
-    <span class="nb">range</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="nb">list</span><span class="p">[</span><span class="nb">str</span><span class="p">]]</span>
-    <span class="n">commit_message_as_label</span><span class="p">:</span> <span class="nb">int</span>
+    <span class="n">repository</span><span class="p">:</span> <span class="n">GitRepository</span>
+    <span class="n">params</span><span class="p">:</span> <span class="n">Params</span>
+    <span class="n">objects_sha_to_include</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="nb">set</span><span class="p">[</span><span class="nb">str</span><span class="p">]]</span>
+    <span class="n">dag</span><span class="p">:</span> <span class="n">Any</span>
     <span class="n">included_nodes_id</span><span class="p">:</span> <span class="nb">set</span><span class="p">[</span><span class="nb">str</span><span class="p">]</span>
     <span class="n">tooltip_names</span><span class="p">:</span> <span class="n">DictStrStr</span>
-    <span class="n">repository</span><span class="p">:</span> <span class="n">GitRepository</span>
-    <span class="n">dag</span><span class="p">:</span> <span class="n">Any</span>
 
     <span class="k">def</span> <span class="nf">_is_object_to_include</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">sha</span><span class="p">:</span> <span class="nb">str</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">bool</span><span class="p">:</span> <span class="o">...</span>  <span class="c1"># pragma: no cover</span>
     <span class="k">def</span> <span class="nf">_is_tag_to_include</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">item</span><span class="p">:</span> <span class="n">GitTag</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">bool</span><span class="p">:</span> <span class="o">...</span>  <span class="c1"># pragma: no cover</span>
@@ -382,7 +367,7 @@
         <span class="bp">self</span><span class="o">.</span><span class="n">dag</span><span class="o">.</span><span class="n">node</span><span class="p">(</span>
             <span class="n">name</span><span class="o">=</span><span class="s2">&quot;GIT-NOTES-LABEL&quot;</span><span class="p">,</span>
             <span class="n">label</span><span class="o">=</span><span class="s2">&quot;git notes&quot;</span><span class="p">,</span>
-            <span class="n">fillcolor</span><span class="o">=</span><span class="n">DAG_NODE_COLORS</span><span class="p">[</span><span class="s2">&quot;notes&quot;</span><span class="p">],</span>
+            <span class="n">fillcolor</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">params</span><span class="o">.</span><span class="n">dag_node_colors</span><span class="o">.</span><span class="n">notes</span><span class="p">,</span>
             <span class="n">tooltip</span><span class="o">=</span><span class="n">ref</span><span class="p">,</span>
             <span class="n">shape</span><span class="o">=</span><span class="s2">&quot;egg&quot;</span><span class="p">,</span>
         <span class="p">)</span>
@@ -398,26 +383,32 @@
                 <span class="sa">f</span><span class="s2">&quot;</span><span class="si">{</span><span class="n">transform_ascii_control_chars</span><span class="p">(</span><span class="n">item</span><span class="o">.</span><span class="n">message</span><span class="p">)</span><span class="si">}</span><span class="s2">&quot;</span>
             <span class="p">)[</span><span class="mi">1</span><span class="p">:</span><span class="o">-</span><span class="mi">1</span><span class="p">]</span>
 
-        <span class="n">unreachable_switch</span> <span class="o">=</span> <span class="n">item</span><span class="o">.</span><span class="n">is_reachable</span> <span class="ow">or</span> <span class="bp">self</span><span class="o">.</span><span class="n">show_unreachable_commits</span>
+        <span class="n">unreachable_switch</span> <span class="o">=</span> <span class="p">(</span>
+            <span class="n">item</span><span class="o">.</span><span class="n">is_reachable</span> <span class="ow">or</span> <span class="bp">self</span><span class="o">.</span><span class="n">params</span><span class="o">.</span><span class="n">public</span><span class="o">.</span><span class="n">show_unreachable_commits</span>
+        <span class="p">)</span>
+
         <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">_is_object_to_include</span><span class="p">(</span><span class="n">sha</span><span class="p">)</span> <span class="ow">and</span> <span class="n">unreachable_switch</span><span class="p">:</span>
             <span class="bp">self</span><span class="o">.</span><span class="n">included_nodes_id</span><span class="o">.</span><span class="n">add</span><span class="p">(</span><span class="n">sha</span><span class="p">)</span>
-            <span class="n">color_label</span> <span class="o">=</span> <span class="s2">&quot;commit&quot;</span> <span class="k">if</span> <span class="n">item</span><span class="o">.</span><span class="n">is_reachable</span> <span class="k">else</span> <span class="s2">&quot;commit-unreachable&quot;</span>
-            <span class="n">not_in_range</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">range</span> <span class="ow">is</span> <span class="kc">None</span> <span class="ow">or</span> <span class="n">sha</span> <span class="ow">not</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">range</span>
+            <span class="n">color_label</span> <span class="o">=</span> <span class="s2">&quot;commit&quot;</span> <span class="k">if</span> <span class="n">item</span><span class="o">.</span><span class="n">is_reachable</span> <span class="k">else</span> <span class="s2">&quot;commit_unreachable&quot;</span>
+            <span class="n">not_in_range</span> <span class="o">=</span> <span class="p">(</span>
+                <span class="bp">self</span><span class="o">.</span><span class="n">params</span><span class="o">.</span><span class="n">public</span><span class="o">.</span><span class="n">range</span> <span class="ow">is</span> <span class="kc">None</span> <span class="ow">or</span> <span class="n">sha</span> <span class="ow">not</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">params</span><span class="o">.</span><span class="n">public</span><span class="o">.</span><span class="n">range</span>
+            <span class="p">)</span>
 
-            <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">commit_message_as_label</span> <span class="o">&gt;</span> <span class="mi">0</span><span class="p">:</span>
-                <span class="n">label</span> <span class="o">=</span> <span class="n">item</span><span class="o">.</span><span class="n">message</span><span class="p">[:</span> <span class="bp">self</span><span class="o">.</span><span class="n">commit_message_as_label</span><span class="p">]</span>
+            <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">params</span><span class="o">.</span><span class="n">public</span><span class="o">.</span><span class="n">commit_message_as_label</span> <span class="o">&gt;</span> <span class="mi">0</span><span class="p">:</span>
+                <span class="n">label</span> <span class="o">=</span> <span class="n">item</span><span class="o">.</span><span class="n">message</span><span class="p">[:</span> <span class="bp">self</span><span class="o">.</span><span class="n">params</span><span class="o">.</span><span class="n">public</span><span class="o">.</span><span class="n">commit_message_as_label</span><span class="p">]</span>
             <span class="k">else</span><span class="p">:</span>
                 <span class="n">label</span> <span class="o">=</span> <span class="n">sha</span><span class="p">[:</span><span class="n">SHA_LIMIT</span><span class="p">]</span>
 
+            <span class="n">color</span> <span class="o">=</span> <span class="nb">getattr</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">params</span><span class="o">.</span><span class="n">dag_node_colors</span><span class="p">,</span> <span class="n">color_label</span><span class="p">)</span>
             <span class="bp">self</span><span class="o">.</span><span class="n">dag</span><span class="o">.</span><span class="n">node</span><span class="p">(</span>
                 <span class="n">name</span><span class="o">=</span><span class="n">sha</span><span class="p">,</span>
                 <span class="n">label</span><span class="o">=</span><span class="n">label</span><span class="p">,</span>
                 <span class="n">color</span><span class="o">=</span><span class="p">(</span>
-                    <span class="n">DAG_NODE_COLORS</span><span class="p">[</span><span class="n">color_label</span><span class="p">]</span>
+                    <span class="n">color</span>
                     <span class="k">if</span> <span class="n">not_in_range</span>
-                    <span class="k">else</span> <span class="n">DAG_NODE_COLORS</span><span class="p">[</span><span class="s2">&quot;commit-in-range&quot;</span><span class="p">]</span>
+                    <span class="k">else</span> <span class="bp">self</span><span class="o">.</span><span class="n">params</span><span class="o">.</span><span class="n">dag_node_colors</span><span class="o">.</span><span class="n">commit_in_range</span>
                 <span class="p">),</span>
-                <span class="n">fillcolor</span><span class="o">=</span><span class="n">DAG_NODE_COLORS</span><span class="p">[</span><span class="n">color_label</span><span class="p">],</span>
+                <span class="n">fillcolor</span><span class="o">=</span><span class="n">color</span><span class="p">,</span>
                 <span class="n">tooltip</span><span class="o">=</span><span class="n">form_tooltip</span><span class="p">(</span><span class="n">item</span><span class="p">),</span>
             <span class="p">)</span>
 
@@ -428,7 +419,7 @@
                         <span class="bp">self</span><span class="o">.</span><span class="n">repository</span><span class="o">.</span><span class="n">notes_dag_root</span><span class="p">[</span><span class="s2">&quot;ref&quot;</span><span class="p">],</span>
                     <span class="p">)</span>
 
-            <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">show_trees</span><span class="p">:</span>
+            <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">params</span><span class="o">.</span><span class="n">public</span><span class="o">.</span><span class="n">show_trees</span><span class="p">:</span>
                 <span class="bp">self</span><span class="o">.</span><span class="n">dag</span><span class="o">.</span><span class="n">edge</span><span class="p">(</span><span class="n">sha</span><span class="p">,</span> <span class="n">item</span><span class="o">.</span><span class="n">tree</span><span class="o">.</span><span class="n">sha</span><span class="p">)</span>
 
             <span class="k">for</span> <span class="n">parent</span> <span class="ow">in</span> <span class="n">item</span><span class="o">.</span><span class="n">parents</span><span class="p">:</span>
@@ -450,23 +441,24 @@
     <span class="p">)</span> <span class="o">-&gt;</span> <span class="kc">None</span><span class="p">:</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">included_nodes_id</span><span class="o">.</span><span class="n">add</span><span class="p">(</span><span class="n">sha</span><span class="p">)</span>
         <span class="k">if</span> <span class="n">sha</span> <span class="o">==</span> <span class="n">GIT_EMPTY_TREE_OBJECT_SHA</span><span class="p">:</span>
-            <span class="n">color_label</span> <span class="o">=</span> <span class="s2">&quot;the-empty-tree&quot;</span>
+            <span class="n">color_label</span> <span class="o">=</span> <span class="s2">&quot;the_empty_tree&quot;</span>
             <span class="n">tooltip</span> <span class="o">=</span> <span class="sa">f</span><span class="s2">&quot;THE EMPTY TREE</span><span class="se">\n</span><span class="si">{</span><span class="n">GIT_EMPTY_TREE_OBJECT_SHA</span><span class="si">}</span><span class="s2">&quot;</span>
         <span class="k">else</span><span class="p">:</span>
             <span class="n">color_label</span> <span class="o">=</span> <span class="s2">&quot;tree&quot;</span>
             <span class="n">tooltip</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">tooltip_names</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="n">sha</span><span class="p">,</span> <span class="n">sha</span><span class="p">)</span>
 
+        <span class="n">color</span> <span class="o">=</span> <span class="nb">getattr</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">params</span><span class="o">.</span><span class="n">dag_node_colors</span><span class="p">,</span> <span class="n">color_label</span><span class="p">)</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">dag</span><span class="o">.</span><span class="n">node</span><span class="p">(</span>
             <span class="n">name</span><span class="o">=</span><span class="n">sha</span><span class="p">,</span>
             <span class="n">label</span><span class="o">=</span><span class="n">sha</span><span class="p">[:</span><span class="n">SHA_LIMIT</span><span class="p">],</span>
-            <span class="n">color</span><span class="o">=</span><span class="n">DAG_NODE_COLORS</span><span class="p">[</span><span class="n">color_label</span><span class="p">],</span>
-            <span class="n">fillcolor</span><span class="o">=</span><span class="n">DAG_NODE_COLORS</span><span class="p">[</span><span class="n">color_label</span><span class="p">],</span>
+            <span class="n">color</span><span class="o">=</span><span class="n">color</span><span class="p">,</span>
+            <span class="n">fillcolor</span><span class="o">=</span><span class="n">color</span><span class="p">,</span>
             <span class="n">shape</span><span class="o">=</span><span class="s2">&quot;folder&quot;</span><span class="p">,</span>
             <span class="n">tooltip</span><span class="o">=</span><span class="n">tooltip</span><span class="p">,</span>
             <span class="n">standalone_kind</span><span class="o">=</span><span class="s2">&quot;tree&quot;</span> <span class="k">if</span> <span class="n">standalone</span> <span class="k">else</span> <span class="kc">None</span><span class="p">,</span>
         <span class="p">)</span>
 
-        <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">show_blobs</span><span class="p">:</span>
+        <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">params</span><span class="o">.</span><span class="n">public</span><span class="o">.</span><span class="n">show_blobs</span><span class="p">:</span>
             <span class="k">for</span> <span class="n">child</span> <span class="ow">in</span> <span class="n">item</span><span class="o">.</span><span class="n">children</span><span class="p">:</span>
                 <span class="bp">self</span><span class="o">.</span><span class="n">dag</span><span class="o">.</span><span class="n">edge</span><span class="p">(</span><span class="n">sha</span><span class="p">,</span> <span class="n">child</span><span class="o">.</span><span class="n">sha</span><span class="p">)</span>
 
@@ -475,8 +467,8 @@
         <span class="bp">self</span><span class="o">.</span><span class="n">dag</span><span class="o">.</span><span class="n">node</span><span class="p">(</span>
             <span class="n">name</span><span class="o">=</span><span class="n">sha</span><span class="p">,</span>
             <span class="n">label</span><span class="o">=</span><span class="n">sha</span><span class="p">[:</span><span class="n">SHA_LIMIT</span><span class="p">],</span>
-            <span class="n">color</span><span class="o">=</span><span class="n">DAG_NODE_COLORS</span><span class="p">[</span><span class="s2">&quot;blob&quot;</span><span class="p">],</span>
-            <span class="n">fillcolor</span><span class="o">=</span><span class="n">DAG_NODE_COLORS</span><span class="p">[</span><span class="s2">&quot;blob&quot;</span><span class="p">],</span>
+            <span class="n">color</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">params</span><span class="o">.</span><span class="n">dag_node_colors</span><span class="o">.</span><span class="n">blob</span><span class="p">,</span>
+            <span class="n">fillcolor</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">params</span><span class="o">.</span><span class="n">dag_node_colors</span><span class="o">.</span><span class="n">blob</span><span class="p">,</span>
             <span class="n">shape</span><span class="o">=</span><span class="s2">&quot;note&quot;</span><span class="p">,</span>
             <span class="n">tooltip</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">tooltip_names</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="n">sha</span><span class="p">,</span> <span class="n">sha</span><span class="p">),</span>
             <span class="n">standalone_kind</span><span class="o">=</span><span class="s2">&quot;blob&quot;</span> <span class="k">if</span> <span class="n">standalone</span> <span class="k">else</span> <span class="kc">None</span><span class="p">,</span>
@@ -510,14 +502,15 @@
             <span class="p">)[</span><span class="mi">1</span><span class="p">:</span><span class="o">-</span><span class="mi">1</span><span class="p">]</span>
 
         <span class="k">for</span> <span class="n">sha</span><span class="p">,</span> <span class="n">item</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">repository</span><span class="o">.</span><span class="n">tags</span><span class="o">.</span><span class="n">items</span><span class="p">():</span>
-            <span class="n">color_label</span> <span class="o">=</span> <span class="s2">&quot;tag-deleted&quot;</span> <span class="k">if</span> <span class="n">item</span><span class="o">.</span><span class="n">is_deleted</span> <span class="k">else</span> <span class="s2">&quot;tag&quot;</span>
             <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">_is_tag_to_include</span><span class="p">(</span><span class="n">item</span><span class="p">):</span>
-                <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">show_deleted_tags</span> <span class="ow">or</span> <span class="ow">not</span> <span class="n">item</span><span class="o">.</span><span class="n">is_deleted</span><span class="p">:</span>
+                <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">params</span><span class="o">.</span><span class="n">public</span><span class="o">.</span><span class="n">show_deleted_tags</span> <span class="ow">or</span> <span class="ow">not</span> <span class="n">item</span><span class="o">.</span><span class="n">is_deleted</span><span class="p">:</span>
+                    <span class="n">color_label</span> <span class="o">=</span> <span class="s2">&quot;tag_deleted&quot;</span> <span class="k">if</span> <span class="n">item</span><span class="o">.</span><span class="n">is_deleted</span> <span class="k">else</span> <span class="s2">&quot;tag&quot;</span>
+                    <span class="n">color</span> <span class="o">=</span> <span class="nb">getattr</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">params</span><span class="o">.</span><span class="n">dag_node_colors</span><span class="p">,</span> <span class="n">color_label</span><span class="p">)</span>
                     <span class="bp">self</span><span class="o">.</span><span class="n">dag</span><span class="o">.</span><span class="n">node</span><span class="p">(</span>
                         <span class="n">name</span><span class="o">=</span><span class="n">sha</span><span class="p">,</span>
                         <span class="n">label</span><span class="o">=</span><span class="n">item</span><span class="o">.</span><span class="n">name</span><span class="p">,</span>
-                        <span class="n">color</span><span class="o">=</span><span class="n">DAG_NODE_COLORS</span><span class="p">[</span><span class="n">color_label</span><span class="p">],</span>
-                        <span class="n">fillcolor</span><span class="o">=</span><span class="n">DAG_NODE_COLORS</span><span class="p">[</span><span class="n">color_label</span><span class="p">],</span>
+                        <span class="n">color</span><span class="o">=</span><span class="n">color</span><span class="p">,</span>
+                        <span class="n">fillcolor</span><span class="o">=</span><span class="n">color</span><span class="p">,</span>
                         <span class="n">tooltip</span><span class="o">=</span><span class="n">form_tooltip</span><span class="p">(</span><span class="n">item</span><span class="p">),</span>
                     <span class="p">)</span>
                     <span class="bp">self</span><span class="o">.</span><span class="n">dag</span><span class="o">.</span><span class="n">edge</span><span class="p">(</span><span class="n">sha</span><span class="p">,</span> <span class="n">item</span><span class="o">.</span><span class="n">anchor</span><span class="o">.</span><span class="n">sha</span><span class="p">)</span>
@@ -529,8 +522,8 @@
                 <span class="bp">self</span><span class="o">.</span><span class="n">dag</span><span class="o">.</span><span class="n">node</span><span class="p">(</span>
                     <span class="n">name</span><span class="o">=</span><span class="n">node_id</span><span class="p">,</span>
                     <span class="n">label</span><span class="o">=</span><span class="n">name</span><span class="p">,</span>
-                    <span class="n">color</span><span class="o">=</span><span class="n">DAG_NODE_COLORS</span><span class="p">[</span><span class="s2">&quot;tag-lw&quot;</span><span class="p">],</span>
-                    <span class="n">fillcolor</span><span class="o">=</span><span class="n">DAG_NODE_COLORS</span><span class="p">[</span><span class="s2">&quot;tag-lw&quot;</span><span class="p">],</span>
+                    <span class="n">color</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">params</span><span class="o">.</span><span class="n">dag_node_colors</span><span class="o">.</span><span class="n">tag_lw</span><span class="p">,</span>
+                    <span class="n">fillcolor</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">params</span><span class="o">.</span><span class="n">dag_node_colors</span><span class="o">.</span><span class="n">tag_lw</span><span class="p">,</span>
                     <span class="n">tooltip</span><span class="o">=</span><span class="n">item</span><span class="o">.</span><span class="n">anchor</span><span class="o">.</span><span class="n">sha</span><span class="p">,</span>
                 <span class="p">)</span>
                 <span class="k">if</span> <span class="n">item</span><span class="o">.</span><span class="n">anchor</span><span class="o">.</span><span class="n">sha</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">included_nodes_id</span><span class="p">:</span>
@@ -550,11 +543,14 @@
                 <span class="bp">self</span><span class="o">.</span><span class="n">dag</span><span class="o">.</span><span class="n">node</span><span class="p">(</span>
                     <span class="n">name</span><span class="o">=</span><span class="n">stash_id</span><span class="p">,</span>
                     <span class="n">label</span><span class="o">=</span><span class="sa">f</span><span class="s2">&quot;stash:</span><span class="si">{</span><span class="n">stash</span><span class="o">.</span><span class="n">index</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">,</span>
-                    <span class="n">color</span><span class="o">=</span><span class="n">DAG_NODE_COLORS</span><span class="p">[</span><span class="s2">&quot;stash&quot;</span><span class="p">],</span>
-                    <span class="n">fillcolor</span><span class="o">=</span><span class="n">DAG_NODE_COLORS</span><span class="p">[</span><span class="s2">&quot;stash&quot;</span><span class="p">],</span>
+                    <span class="n">color</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">params</span><span class="o">.</span><span class="n">dag_node_colors</span><span class="o">.</span><span class="n">stash</span><span class="p">,</span>
+                    <span class="n">fillcolor</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">params</span><span class="o">.</span><span class="n">dag_node_colors</span><span class="o">.</span><span class="n">stash</span><span class="p">,</span>
                     <span class="n">tooltip</span><span class="o">=</span><span class="n">stash</span><span class="o">.</span><span class="n">title</span><span class="p">,</span>
                 <span class="p">)</span>
-                <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">show_unreachable_commits</span> <span class="ow">or</span> <span class="n">stash</span><span class="o">.</span><span class="n">commit</span><span class="o">.</span><span class="n">is_reachable</span><span class="p">:</span>
+                <span class="k">if</span> <span class="p">(</span>
+                    <span class="bp">self</span><span class="o">.</span><span class="n">params</span><span class="o">.</span><span class="n">public</span><span class="o">.</span><span class="n">show_unreachable_commits</span>
+                    <span class="ow">or</span> <span class="n">stash</span><span class="o">.</span><span class="n">commit</span><span class="o">.</span><span class="n">is_reachable</span>
+                <span class="p">):</span>
                     <span class="bp">self</span><span class="o">.</span><span class="n">dag</span><span class="o">.</span><span class="n">edge</span><span class="p">(</span><span class="n">stash_id</span><span class="p">,</span> <span class="n">stash</span><span class="o">.</span><span class="n">commit</span><span class="o">.</span><span class="n">sha</span><span class="p">)</span></div>
 
 
@@ -572,8 +568,8 @@
                 <span class="bp">self</span><span class="o">.</span><span class="n">dag</span><span class="o">.</span><span class="n">node</span><span class="p">(</span>
                     <span class="n">name</span><span class="o">=</span><span class="n">node_id</span><span class="p">,</span>
                     <span class="n">label</span><span class="o">=</span><span class="n">branch</span><span class="o">.</span><span class="n">name</span><span class="p">,</span>
-                    <span class="n">color</span><span class="o">=</span><span class="n">DAG_NODE_COLORS</span><span class="p">[</span><span class="s2">&quot;local-branches&quot;</span><span class="p">],</span>
-                    <span class="n">fillcolor</span><span class="o">=</span><span class="n">DAG_NODE_COLORS</span><span class="p">[</span><span class="s2">&quot;local-branches&quot;</span><span class="p">],</span>
+                    <span class="n">color</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">params</span><span class="o">.</span><span class="n">dag_node_colors</span><span class="o">.</span><span class="n">local_branches</span><span class="p">,</span>
+                    <span class="n">fillcolor</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">params</span><span class="o">.</span><span class="n">dag_node_colors</span><span class="o">.</span><span class="n">local_branches</span><span class="p">,</span>
                     <span class="n">tooltip</span><span class="o">=</span><span class="sa">f</span><span class="s2">&quot;-&gt; </span><span class="si">{</span><span class="n">branch</span><span class="o">.</span><span class="n">tracking</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">,</span>
                 <span class="p">)</span>
                 <span class="bp">self</span><span class="o">.</span><span class="n">dag</span><span class="o">.</span><span class="n">edge</span><span class="p">(</span><span class="n">node_id</span><span class="p">,</span> <span class="n">branch</span><span class="o">.</span><span class="n">commit</span><span class="o">.</span><span class="n">sha</span><span class="p">)</span>
@@ -586,8 +582,8 @@
                 <span class="bp">self</span><span class="o">.</span><span class="n">dag</span><span class="o">.</span><span class="n">node</span><span class="p">(</span>
                     <span class="n">name</span><span class="o">=</span><span class="n">node_id</span><span class="p">,</span>
                     <span class="n">label</span><span class="o">=</span><span class="n">branch</span><span class="o">.</span><span class="n">name</span><span class="p">,</span>
-                    <span class="n">color</span><span class="o">=</span><span class="n">DAG_NODE_COLORS</span><span class="p">[</span><span class="s2">&quot;remote-branches&quot;</span><span class="p">],</span>
-                    <span class="n">fillcolor</span><span class="o">=</span><span class="n">DAG_NODE_COLORS</span><span class="p">[</span><span class="s2">&quot;remote-branches&quot;</span><span class="p">],</span>
+                    <span class="n">color</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">params</span><span class="o">.</span><span class="n">dag_node_colors</span><span class="o">.</span><span class="n">remote_branches</span><span class="p">,</span>
+                    <span class="n">fillcolor</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">params</span><span class="o">.</span><span class="n">dag_node_colors</span><span class="o">.</span><span class="n">remote_branches</span><span class="p">,</span>
                 <span class="p">)</span>
                 <span class="bp">self</span><span class="o">.</span><span class="n">dag</span><span class="o">.</span><span class="n">edge</span><span class="p">(</span><span class="n">node_id</span><span class="p">,</span> <span class="n">branch</span><span class="o">.</span><span class="n">commit</span><span class="o">.</span><span class="n">sha</span><span class="p">)</span></div>
 
@@ -611,11 +607,12 @@
                     <span class="bp">self</span><span class="o">.</span><span class="n">dag</span><span class="o">.</span><span class="n">edge</span><span class="p">(</span><span class="s2">&quot;HEAD&quot;</span><span class="p">,</span> <span class="sa">f</span><span class="s2">&quot;local-branch-</span><span class="si">{</span><span class="n">head</span><span class="o">.</span><span class="n">branch</span><span class="o">.</span><span class="n">name</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
                     <span class="n">tooltip</span> <span class="o">=</span> <span class="n">head</span><span class="o">.</span><span class="n">branch</span><span class="o">.</span><span class="n">name</span>
 
+                <span class="n">color</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">params</span><span class="o">.</span><span class="n">dag_node_colors</span><span class="o">.</span><span class="n">head</span>
                 <span class="bp">self</span><span class="o">.</span><span class="n">dag</span><span class="o">.</span><span class="n">node</span><span class="p">(</span>
                     <span class="n">name</span><span class="o">=</span><span class="s2">&quot;HEAD&quot;</span><span class="p">,</span>
                     <span class="n">label</span><span class="o">=</span><span class="s2">&quot;HEAD&quot;</span><span class="p">,</span>
-                    <span class="n">color</span><span class="o">=</span><span class="kc">None</span> <span class="k">if</span> <span class="n">head</span><span class="o">.</span><span class="n">is_detached</span> <span class="k">else</span> <span class="n">DAG_NODE_COLORS</span><span class="p">[</span><span class="s2">&quot;head&quot;</span><span class="p">],</span>
-                    <span class="n">fillcolor</span><span class="o">=</span><span class="n">DAG_NODE_COLORS</span><span class="p">[</span><span class="s2">&quot;head&quot;</span><span class="p">],</span>
+                    <span class="n">color</span><span class="o">=</span><span class="kc">None</span> <span class="k">if</span> <span class="n">head</span><span class="o">.</span><span class="n">is_detached</span> <span class="k">else</span> <span class="n">color</span><span class="p">,</span>
+                    <span class="n">fillcolor</span><span class="o">=</span><span class="n">color</span><span class="p">,</span>
                     <span class="n">tooltip</span><span class="o">=</span><span class="n">tooltip</span><span class="p">,</span>
                 <span class="p">)</span>
 
@@ -624,8 +621,8 @@
             <span class="bp">self</span><span class="o">.</span><span class="n">dag</span><span class="o">.</span><span class="n">node</span><span class="p">(</span>
                 <span class="n">name</span><span class="o">=</span><span class="n">head</span><span class="p">,</span>
                 <span class="n">label</span><span class="o">=</span><span class="n">head</span><span class="p">,</span>
-                <span class="n">color</span><span class="o">=</span><span class="n">DAG_NODE_COLORS</span><span class="p">[</span><span class="s2">&quot;head&quot;</span><span class="p">],</span>
-                <span class="n">fillcolor</span><span class="o">=</span><span class="n">DAG_NODE_COLORS</span><span class="p">[</span><span class="s2">&quot;head&quot;</span><span class="p">],</span>
+                <span class="n">color</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">params</span><span class="o">.</span><span class="n">dag_node_colors</span><span class="o">.</span><span class="n">head</span><span class="p">,</span>
+                <span class="n">fillcolor</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">params</span><span class="o">.</span><span class="n">dag_node_colors</span><span class="o">.</span><span class="n">head</span><span class="p">,</span>
                 <span class="n">tooltip</span><span class="o">=</span><span class="n">ref</span><span class="p">,</span>
             <span class="p">)</span>
             <span class="bp">self</span><span class="o">.</span><span class="n">dag</span><span class="o">.</span><span class="n">edge</span><span class="p">(</span><span class="n">head</span><span class="p">,</span> <span class="sa">f</span><span class="s2">&quot;remote-branch-</span><span class="si">{</span><span class="n">ref</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
@@ -639,8 +636,8 @@
                     <span class="bp">self</span><span class="o">.</span><span class="n">dag</span><span class="o">.</span><span class="n">node</span><span class="p">(</span>
                         <span class="n">name</span><span class="o">=</span><span class="n">node_name</span><span class="p">,</span>
                         <span class="n">label</span><span class="o">=</span><span class="n">pr_id</span><span class="p">,</span>
-                        <span class="n">color</span><span class="o">=</span><span class="n">DAG_NODE_COLORS</span><span class="p">[</span><span class="s2">&quot;head&quot;</span><span class="p">],</span>
-                        <span class="n">fillcolor</span><span class="o">=</span><span class="n">DAG_NODE_COLORS</span><span class="p">[</span><span class="s2">&quot;head&quot;</span><span class="p">],</span>
+                        <span class="n">color</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">params</span><span class="o">.</span><span class="n">dag_node_colors</span><span class="o">.</span><span class="n">head</span><span class="p">,</span>
+                        <span class="n">fillcolor</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">params</span><span class="o">.</span><span class="n">dag_node_colors</span><span class="o">.</span><span class="n">head</span><span class="p">,</span>
                         <span class="n">shape</span><span class="o">=</span><span class="s2">&quot;circle&quot;</span><span class="p">,</span>
                     <span class="p">)</span>
                     <span class="bp">self</span><span class="o">.</span><span class="n">dag</span><span class="o">.</span><span class="n">edge</span><span class="p">(</span><span class="n">node_name</span><span class="p">,</span> <span class="n">sha</span><span class="p">)</span></div>
@@ -661,49 +658,23 @@
 <span class="w">    </span><span class="sd">&quot;&quot;&quot;Git DAG visualizer.&quot;&quot;&quot;</span>
 
     <span class="n">repository</span><span class="p">:</span> <span class="n">GitRepository</span>
-    <span class="n">dag_backend</span><span class="p">:</span> <span class="n">DagBackends</span>
+    <span class="n">params</span><span class="p">:</span> <span class="n">Params</span>
     <span class="n">objects_sha_to_include</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="nb">set</span><span class="p">[</span><span class="nb">str</span><span class="p">]]</span> <span class="o">=</span> <span class="kc">None</span>
-
-    <span class="n">dag_attr</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="n">DictStrStr</span><span class="p">]</span> <span class="o">=</span> <span class="kc">None</span>
-    <span class="nb">format</span><span class="p">:</span> <span class="nb">str</span> <span class="o">=</span> <span class="s2">&quot;svg&quot;</span>
-    <span class="n">filename</span><span class="p">:</span> <span class="nb">str</span> <span class="o">=</span> <span class="s2">&quot;git-dag.gv&quot;</span>
-
-    <span class="n">html_embed_svg</span><span class="p">:</span> <span class="nb">bool</span> <span class="o">=</span> <span class="kc">False</span>
-    <span class="n">show_unreachable_commits</span><span class="p">:</span> <span class="nb">bool</span> <span class="o">=</span> <span class="kc">False</span>
-    <span class="n">show_local_branches</span><span class="p">:</span> <span class="nb">bool</span> <span class="o">=</span> <span class="kc">False</span>
-    <span class="n">show_remote_branches</span><span class="p">:</span> <span class="nb">bool</span> <span class="o">=</span> <span class="kc">False</span>
-    <span class="n">show_trees</span><span class="p">:</span> <span class="nb">bool</span> <span class="o">=</span> <span class="kc">False</span>
-    <span class="n">show_trees_standalone</span><span class="p">:</span> <span class="nb">bool</span> <span class="o">=</span> <span class="kc">False</span>
-    <span class="n">show_blobs</span><span class="p">:</span> <span class="nb">bool</span> <span class="o">=</span> <span class="kc">False</span>
-    <span class="n">show_blobs_standalone</span><span class="p">:</span> <span class="nb">bool</span> <span class="o">=</span> <span class="kc">False</span>
-    <span class="n">show_tags</span><span class="p">:</span> <span class="nb">bool</span> <span class="o">=</span> <span class="kc">False</span>
-    <span class="n">show_deleted_tags</span><span class="p">:</span> <span class="nb">bool</span> <span class="o">=</span> <span class="kc">False</span>
-    <span class="n">show_stash</span><span class="p">:</span> <span class="nb">bool</span> <span class="o">=</span> <span class="kc">False</span>
-    <span class="n">show_head</span><span class="p">:</span> <span class="nb">bool</span> <span class="o">=</span> <span class="kc">False</span>
-    <span class="n">show_prs_heads</span><span class="p">:</span> <span class="nb">bool</span> <span class="o">=</span> <span class="kc">False</span>
-    <span class="nb">range</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="nb">list</span><span class="p">[</span><span class="nb">str</span><span class="p">]]</span> <span class="o">=</span> <span class="kc">None</span>
-
-    <span class="n">commit_message_as_label</span><span class="p">:</span> <span class="nb">int</span> <span class="o">=</span> <span class="mi">0</span>
 
     <span class="k">def</span> <span class="nf">__post_init__</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="kc">None</span><span class="p">:</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">tooltip_names</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">repository</span><span class="o">.</span><span class="n">inspector</span><span class="o">.</span><span class="n">blobs_and_trees_names</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">included_nodes_id</span><span class="p">:</span> <span class="nb">set</span><span class="p">[</span><span class="nb">str</span><span class="p">]</span> <span class="o">=</span> <span class="nb">set</span><span class="p">()</span>
-        <span class="bp">self</span><span class="o">.</span><span class="n">dag_attr_normalized</span> <span class="o">=</span> <span class="p">{</span>
-            <span class="o">**</span><span class="n">DAG_ATTR</span><span class="p">,</span>
-            <span class="o">**</span><span class="p">(</span>
-                <span class="p">{}</span>
-                <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">dag_attr</span> <span class="ow">is</span> <span class="kc">None</span>
-                <span class="k">else</span> <span class="p">{</span><span class="n">key</span><span class="p">:</span> <span class="nb">str</span><span class="p">(</span><span class="n">value</span><span class="p">)</span> <span class="k">for</span> <span class="n">key</span><span class="p">,</span> <span class="n">value</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">dag_attr</span><span class="o">.</span><span class="n">items</span><span class="p">()}</span>
-            <span class="p">),</span>
-        <span class="p">}</span>
 
-        <span class="k">match</span> <span class="bp">self</span><span class="o">.</span><span class="n">dag_backend</span><span class="p">:</span>
+        <span class="k">match</span> <span class="n">DagBackends</span><span class="p">[</span><span class="bp">self</span><span class="o">.</span><span class="n">params</span><span class="o">.</span><span class="n">public</span><span class="o">.</span><span class="n">dag_backend</span><span class="o">.</span><span class="n">upper</span><span class="p">()]:</span>
             <span class="k">case</span> <span class="n">DagBackends</span><span class="o">.</span><span class="n">GRAPHVIZ</span><span class="p">:</span>
                 <span class="bp">self</span><span class="o">.</span><span class="n">dag</span> <span class="o">=</span> <span class="n">DagGraphviz</span><span class="p">(</span>
-                    <span class="bp">self</span><span class="o">.</span><span class="n">show_blobs_standalone</span> <span class="ow">or</span> <span class="bp">self</span><span class="o">.</span><span class="n">show_trees_standalone</span>
+                    <span class="bp">self</span><span class="o">.</span><span class="n">params</span><span class="o">.</span><span class="n">public</span><span class="o">.</span><span class="n">show_blobs_standalone</span>
+                    <span class="ow">or</span> <span class="bp">self</span><span class="o">.</span><span class="n">params</span><span class="o">.</span><span class="n">public</span><span class="o">.</span><span class="n">show_trees_standalone</span>
                 <span class="p">)</span>
             <span class="k">case</span><span class="w"> </span><span class="k">_</span><span class="p">:</span>
-                <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;Unrecognised backend: </span><span class="si">{</span><span class="bp">self</span><span class="o">.</span><span class="n">dag_backend</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
+                <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span>
+                    <span class="sa">f</span><span class="s2">&quot;Unrecognised backend: </span><span class="si">{</span><span class="bp">self</span><span class="o">.</span><span class="n">params</span><span class="o">.</span><span class="n">public</span><span class="o">.</span><span class="n">dag_backend</span><span class="si">}</span><span class="s2">&quot;</span>
+                <span class="p">)</span>
 
         <span class="bp">self</span><span class="o">.</span><span class="n">_build_dag</span><span class="p">()</span>
 
@@ -750,13 +721,13 @@
 <span class="sd">        specific references and number of nodes using the ``-i`` and ``-n`` flags.</span>
 
 <span class="sd">        &quot;&quot;&quot;</span>
-        <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">format</span> <span class="o">==</span> <span class="s2">&quot;gv&quot;</span><span class="p">:</span>
-            <span class="k">with</span> <span class="nb">open</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">filename</span><span class="p">,</span> <span class="s2">&quot;w&quot;</span><span class="p">,</span> <span class="n">encoding</span><span class="o">=</span><span class="s2">&quot;utf-8&quot;</span><span class="p">)</span> <span class="k">as</span> <span class="n">h</span><span class="p">:</span>
+        <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">params</span><span class="o">.</span><span class="n">public</span><span class="o">.</span><span class="n">format</span> <span class="o">==</span> <span class="s2">&quot;gv&quot;</span><span class="p">:</span>
+            <span class="k">with</span> <span class="nb">open</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">params</span><span class="o">.</span><span class="n">public</span><span class="o">.</span><span class="n">file</span><span class="p">,</span> <span class="s2">&quot;w&quot;</span><span class="p">,</span> <span class="n">encoding</span><span class="o">=</span><span class="s2">&quot;utf-8&quot;</span><span class="p">)</span> <span class="k">as</span> <span class="n">h</span><span class="p">:</span>
                 <span class="n">h</span><span class="o">.</span><span class="n">write</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">dag</span><span class="o">.</span><span class="n">source</span><span class="p">())</span>
         <span class="k">else</span><span class="p">:</span>
             <span class="bp">self</span><span class="o">.</span><span class="n">dag</span><span class="o">.</span><span class="n">render</span><span class="p">()</span>
 
-            <span class="n">filename_format</span> <span class="o">=</span> <span class="sa">f</span><span class="s2">&quot;</span><span class="si">{</span><span class="bp">self</span><span class="o">.</span><span class="n">filename</span><span class="si">}</span><span class="s2">.</span><span class="si">{</span><span class="bp">self</span><span class="o">.</span><span class="n">format</span><span class="si">}</span><span class="s2">&quot;</span>
+            <span class="n">filename_format</span> <span class="o">=</span> <span class="sa">f</span><span class="s2">&quot;</span><span class="si">{</span><span class="bp">self</span><span class="o">.</span><span class="n">params</span><span class="o">.</span><span class="n">public</span><span class="o">.</span><span class="n">file</span><span class="si">}</span><span class="s2">.</span><span class="si">{</span><span class="bp">self</span><span class="o">.</span><span class="n">params</span><span class="o">.</span><span class="n">public</span><span class="o">.</span><span class="n">format</span><span class="si">}</span><span class="s2">&quot;</span>
             <span class="k">if</span> <span class="n">xdg_open</span><span class="p">:</span>  <span class="c1"># pragma: no cover</span>
                 <span class="n">subprocess</span><span class="o">.</span><span class="n">run</span><span class="p">(</span>
                     <span class="sa">f</span><span class="s2">&quot;xdg-open </span><span class="si">{</span><span class="n">filename_format</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">,</span>
@@ -764,7 +735,7 @@
                     <span class="n">check</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span>
                 <span class="p">)</span>
 
-            <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">format</span> <span class="o">==</span> <span class="s2">&quot;svg&quot;</span> <span class="ow">and</span> <span class="bp">self</span><span class="o">.</span><span class="n">html_embed_svg</span><span class="p">:</span>
+            <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">params</span><span class="o">.</span><span class="n">public</span><span class="o">.</span><span class="n">format</span> <span class="o">==</span> <span class="s2">&quot;svg&quot;</span> <span class="ow">and</span> <span class="bp">self</span><span class="o">.</span><span class="n">params</span><span class="o">.</span><span class="n">public</span><span class="o">.</span><span class="n">html_embed_svg</span><span class="p">:</span>
                 <span class="bp">self</span><span class="o">.</span><span class="n">_embed_svg_in_html</span><span class="p">(</span><span class="n">filename_format</span><span class="p">)</span>
 
         <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">dag</span><span class="o">.</span><span class="n">get</span><span class="p">()</span></div>
@@ -783,44 +754,45 @@
             <span class="n">not_reachable</span> <span class="o">=</span> <span class="n">sha</span> <span class="ow">not</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">repository</span><span class="o">.</span><span class="n">all_reachable_objects_sha</span>
             <span class="k">match</span> <span class="n">item</span><span class="p">:</span>
                 <span class="k">case</span> <span class="n">GitTree</span><span class="p">():</span>
-                    <span class="k">if</span> <span class="n">not_reachable</span> <span class="ow">and</span> <span class="bp">self</span><span class="o">.</span><span class="n">show_trees_standalone</span><span class="p">:</span>
+                    <span class="k">if</span> <span class="n">not_reachable</span> <span class="ow">and</span> <span class="bp">self</span><span class="o">.</span><span class="n">params</span><span class="o">.</span><span class="n">public</span><span class="o">.</span><span class="n">show_trees_standalone</span><span class="p">:</span>
                         <span class="bp">self</span><span class="o">.</span><span class="n">_add_tree</span><span class="p">(</span><span class="n">sha</span><span class="p">,</span> <span class="n">item</span><span class="p">,</span> <span class="n">standalone</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
-                    <span class="k">elif</span> <span class="n">to_include</span> <span class="ow">and</span> <span class="bp">self</span><span class="o">.</span><span class="n">show_trees</span><span class="p">:</span>
+                    <span class="k">elif</span> <span class="n">to_include</span> <span class="ow">and</span> <span class="bp">self</span><span class="o">.</span><span class="n">params</span><span class="o">.</span><span class="n">public</span><span class="o">.</span><span class="n">show_trees</span><span class="p">:</span>
                         <span class="bp">self</span><span class="o">.</span><span class="n">_add_tree</span><span class="p">(</span><span class="n">sha</span><span class="p">,</span> <span class="n">item</span><span class="p">)</span>
                 <span class="k">case</span> <span class="n">GitBlob</span><span class="p">():</span>
-                    <span class="k">if</span> <span class="n">not_reachable</span> <span class="ow">and</span> <span class="bp">self</span><span class="o">.</span><span class="n">show_blobs_standalone</span><span class="p">:</span>
+                    <span class="k">if</span> <span class="n">not_reachable</span> <span class="ow">and</span> <span class="bp">self</span><span class="o">.</span><span class="n">params</span><span class="o">.</span><span class="n">public</span><span class="o">.</span><span class="n">show_blobs_standalone</span><span class="p">:</span>
                         <span class="bp">self</span><span class="o">.</span><span class="n">_add_blob</span><span class="p">(</span><span class="n">sha</span><span class="p">,</span> <span class="n">standalone</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
-                    <span class="k">elif</span> <span class="n">to_include</span> <span class="ow">and</span> <span class="bp">self</span><span class="o">.</span><span class="n">show_blobs</span><span class="p">:</span>
+                    <span class="k">elif</span> <span class="n">to_include</span> <span class="ow">and</span> <span class="bp">self</span><span class="o">.</span><span class="n">params</span><span class="o">.</span><span class="n">public</span><span class="o">.</span><span class="n">show_blobs</span><span class="p">:</span>
                         <span class="bp">self</span><span class="o">.</span><span class="n">_add_blob</span><span class="p">(</span><span class="n">sha</span><span class="p">)</span>
                 <span class="k">case</span> <span class="n">GitCommit</span><span class="p">():</span>
                     <span class="bp">self</span><span class="o">.</span><span class="n">_add_commit</span><span class="p">(</span><span class="n">sha</span><span class="p">,</span> <span class="n">item</span><span class="p">)</span>
 
         <span class="c1"># no point in displaying HEAD if branches are not displayed</span>
-        <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">show_local_branches</span><span class="p">:</span>
+        <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">params</span><span class="o">.</span><span class="n">public</span><span class="o">.</span><span class="n">show_local_branches</span><span class="p">:</span>
             <span class="bp">self</span><span class="o">.</span><span class="n">_add_local_branches</span><span class="p">()</span>
-            <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">show_head</span><span class="p">:</span>
+            <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">params</span><span class="o">.</span><span class="n">public</span><span class="o">.</span><span class="n">show_head</span><span class="p">:</span>
                 <span class="bp">self</span><span class="o">.</span><span class="n">_add_local_head</span><span class="p">()</span>
 
-        <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">show_remote_branches</span><span class="p">:</span>
+        <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">params</span><span class="o">.</span><span class="n">public</span><span class="o">.</span><span class="n">show_remote_branches</span><span class="p">:</span>
             <span class="bp">self</span><span class="o">.</span><span class="n">_add_remote_branches</span><span class="p">()</span>
-            <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">show_head</span><span class="p">:</span>
+            <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">params</span><span class="o">.</span><span class="n">public</span><span class="o">.</span><span class="n">show_head</span><span class="p">:</span>
                 <span class="bp">self</span><span class="o">.</span><span class="n">_add_remote_heads</span><span class="p">()</span>
 
         <span class="bp">self</span><span class="o">.</span><span class="n">_add_prs_heads</span><span class="p">()</span>
 
-        <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">show_tags</span><span class="p">:</span>
+        <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">params</span><span class="o">.</span><span class="n">public</span><span class="o">.</span><span class="n">show_tags</span><span class="p">:</span>
             <span class="bp">self</span><span class="o">.</span><span class="n">_add_annotated_tags</span><span class="p">()</span>
             <span class="bp">self</span><span class="o">.</span><span class="n">_add_lightweight_tags</span><span class="p">()</span>
 
-        <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">show_stash</span><span class="p">:</span>
+        <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">params</span><span class="o">.</span><span class="n">public</span><span class="o">.</span><span class="n">show_stash</span><span class="p">:</span>
             <span class="bp">self</span><span class="o">.</span><span class="n">_add_stashes</span><span class="p">()</span>
 
         <span class="bp">self</span><span class="o">.</span><span class="n">dag</span><span class="o">.</span><span class="n">build</span><span class="p">(</span>
-            <span class="nb">format</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">format</span><span class="p">,</span>
-            <span class="n">node_attr</span><span class="o">=</span><span class="n">DAG_NODE_ATTR</span><span class="p">,</span>
-            <span class="n">edge_attr</span><span class="o">=</span><span class="n">DAG_EDGE_ATTR</span><span class="p">,</span>
-            <span class="n">dag_attr</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">dag_attr_normalized</span><span class="p">,</span>
-            <span class="n">filename</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">filename</span><span class="p">,</span>
+            <span class="nb">format</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">params</span><span class="o">.</span><span class="n">public</span><span class="o">.</span><span class="n">format</span><span class="p">,</span>
+            <span class="n">node_attr</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">params</span><span class="o">.</span><span class="n">dag_node</span><span class="o">.</span><span class="n">model_dump</span><span class="p">(),</span>
+            <span class="n">edge_attr</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">params</span><span class="o">.</span><span class="n">dag_edge</span><span class="o">.</span><span class="n">model_dump</span><span class="p">(),</span>
+            <span class="n">dag_attr</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">params</span><span class="o">.</span><span class="n">dag_global</span><span class="o">.</span><span class="n">model_dump</span><span class="p">(),</span>
+            <span class="n">filename</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">params</span><span class="o">.</span><span class="n">public</span><span class="o">.</span><span class="n">file</span><span class="p">,</span>
+            <span class="n">cluster_params</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">params</span><span class="o">.</span><span class="n">standalone_cluster</span><span class="o">.</span><span class="n">model_dump</span><span class="p">(),</span>
         <span class="p">)</span></div>
 
 </pre></div>
@@ -855,7 +827,7 @@
       
     </aside>
   </div>
-</div><script src="../../_static/documentation_options.js?v=e3125bf2"></script>
+</div><script src="../../_static/documentation_options.js?v=59d62c50"></script>
     <script src="../../_static/doctools.js?v=9bcbadda"></script>
     <script src="../../_static/sphinx_highlight.js?v=dc90522c"></script>
     <script src="../../_static/scripts/furo.js?v=5fa4622c"></script>

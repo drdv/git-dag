@@ -1,6 +1,0 @@
-git\_dag.constants.DAG\_NODE\_COLORS
-====================================
-
-.. currentmodule:: git_dag.constants
-
-.. autodata:: DAG_NODE_COLORS

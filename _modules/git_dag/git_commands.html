@@ -203,6 +203,7 @@
 <div id="searchbox"></div><div class="sidebar-scroll"><div class="sidebar-tree">
   <ul>
 <li class="toctree-l1"><a class="reference internal" href="../../install.html">Install</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../quickstart.html">Quickstart</a></li>
 <li class="toctree-l1 has-children"><a class="reference internal" href="../../examples.html">Examples</a><input class="toctree-checkbox" id="toctree-checkbox-1" name="toctree-checkbox-1" role="switch" type="checkbox"/><label for="toctree-checkbox-1"><div class="visually-hidden">Toggle navigation of Examples</div><i class="icon"><svg><use href="#svg-arrow-right"></use></svg></i></label><ul>
 <li class="toctree-l2"><a class="reference internal" href="../../example_git_internals.html">Git internals</a></li>
 </ul>
@@ -210,8 +211,8 @@
 <li class="toctree-l1"><a class="reference internal" href="../../cli.html">Command-line interface</a></li>
 <li class="toctree-l1 has-children"><a class="reference internal" href="../../code_docs.html">Code</a><input class="toctree-checkbox" id="toctree-checkbox-2" name="toctree-checkbox-2" role="switch" type="checkbox"/><label for="toctree-checkbox-2"><div class="visually-hidden">Toggle navigation of Code</div><i class="icon"><svg><use href="#svg-arrow-right"></use></svg></i></label><ul>
 <li class="toctree-l2 has-children"><a class="reference internal" href="../../.autosummary/git_dag.cli.html">git_dag.cli</a><input class="toctree-checkbox" id="toctree-checkbox-3" name="toctree-checkbox-3" role="switch" type="checkbox"/><label for="toctree-checkbox-3"><div class="visually-hidden">Toggle navigation of git_dag.cli</div><i class="icon"><svg><use href="#svg-arrow-right"></use></svg></i></label><ul>
-<li class="toctree-l3"><a class="reference internal" href="../../.autosummary/git_dag.cli.get_cla.html">git_dag.cli.get_cla</a></li>
 <li class="toctree-l3"><a class="reference internal" href="../../.autosummary/git_dag.cli.get_cla_parser.html">git_dag.cli.get_cla_parser</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../../.autosummary/git_dag.cli.get_user_defined_cla.html">git_dag.cli.get_user_defined_cla</a></li>
 <li class="toctree-l3"><a class="reference internal" href="../../.autosummary/git_dag.cli.main.html">git_dag.cli.main</a></li>
 <li class="toctree-l3"><a class="reference internal" href="../../.autosummary/git_dag.cli.CustomArgparseNamespace.html">git_dag.cli.CustomArgparseNamespace</a></li>
 </ul>
@@ -221,10 +222,9 @@
 <li class="toctree-l3"><a class="reference internal" href="../../.autosummary/git_dag.constants.TAG_FORMAT_FIELDS.html">git_dag.constants.TAG_FORMAT_FIELDS</a></li>
 <li class="toctree-l3"><a class="reference internal" href="../../.autosummary/git_dag.constants.CMD_TAGS_INFO.html">git_dag.constants.CMD_TAGS_INFO</a></li>
 <li class="toctree-l3"><a class="reference internal" href="../../.autosummary/git_dag.constants.GIT_EMPTY_TREE_OBJECT_SHA.html">git_dag.constants.GIT_EMPTY_TREE_OBJECT_SHA</a></li>
-<li class="toctree-l3"><a class="reference internal" href="../../.autosummary/git_dag.constants.DAG_NODE_COLORS.html">git_dag.constants.DAG_NODE_COLORS</a></li>
-<li class="toctree-l3"><a class="reference internal" href="../../.autosummary/git_dag.constants.STANDALONE_CLUSTER_PARAMS.html">git_dag.constants.STANDALONE_CLUSTER_PARAMS</a></li>
 <li class="toctree-l3"><a class="reference internal" href="../../.autosummary/git_dag.constants.SHA_LIMIT.html">git_dag.constants.SHA_LIMIT</a></li>
 <li class="toctree-l3"><a class="reference internal" href="../../.autosummary/git_dag.constants.HTML_EMBED_SVG.html">git_dag.constants.HTML_EMBED_SVG</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../../.autosummary/git_dag.constants.CONFIG_FILE.html">git_dag.constants.CONFIG_FILE</a></li>
 <li class="toctree-l3"><a class="reference internal" href="../../.autosummary/git_dag.constants.DagBackends.html">git_dag.constants.DagBackends</a></li>
 </ul>
 </li>
@@ -325,6 +325,7 @@
 <span class="kn">from</span> <span class="nn">typing</span> <span class="kn">import</span> <span class="n">Any</span><span class="p">,</span> <span class="n">Literal</span><span class="p">,</span> <span class="n">Optional</span>
 
 <span class="kn">from</span> <span class="nn">git_dag.constants</span> <span class="kn">import</span> <span class="n">CMD_TAGS_INFO</span><span class="p">,</span> <span class="n">SHA_PATTERN</span><span class="p">,</span> <span class="n">TAG_FORMAT_FIELDS</span><span class="p">,</span> <span class="n">DictStrStr</span>
+<span class="kn">from</span> <span class="nn">git_dag.parameters</span> <span class="kn">import</span> <span class="n">Params</span><span class="p">,</span> <span class="n">ParamsPublic</span>
 <span class="kn">from</span> <span class="nn">git_dag.utils</span> <span class="kn">import</span> <span class="n">escape_decode</span>
 
 <span class="n">logging</span><span class="o">.</span><span class="n">basicConfig</span><span class="p">(</span><span class="n">level</span><span class="o">=</span><span class="n">logging</span><span class="o">.</span><span class="n">WARNING</span><span class="p">)</span>
@@ -691,6 +692,7 @@
             <span class="n">cmd_output</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">_run</span><span class="p">(</span><span class="s2">&quot;ls-remote&quot;</span><span class="p">)</span><span class="o">.</span><span class="n">strip</span><span class="p">()</span><span class="o">.</span><span class="n">split</span><span class="p">(</span><span class="s2">&quot;</span><span class="se">\n</span><span class="s2">&quot;</span><span class="p">)</span>
         <span class="k">except</span> <span class="n">subprocess</span><span class="o">.</span><span class="n">CalledProcessError</span><span class="p">:</span>
             <span class="n">LOG</span><span class="o">.</span><span class="n">warning</span><span class="p">(</span><span class="s2">&quot;No remote&quot;</span><span class="p">)</span>
+            <span class="k">return</span> <span class="p">{}</span>
 
         <span class="n">out</span> <span class="o">=</span> <span class="p">{}</span>
         <span class="k">for</span> <span class="n">line</span> <span class="ow">in</span> <span class="n">cmd_output</span><span class="p">:</span>
@@ -1038,19 +1040,22 @@
     <span class="n">TestGitRepository</span><span class="o">.</span><span class="n">create</span><span class="p">(</span><span class="s2">&quot;default&quot;</span><span class="p">,</span> <span class="n">path</span><span class="p">)</span>
 
     <span class="n">repo</span> <span class="o">=</span> <span class="n">GitRepository</span><span class="p">(</span><span class="n">path</span><span class="p">,</span> <span class="n">parse_trees</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
-    <span class="n">repo</span><span class="o">.</span><span class="n">show</span><span class="p">(</span>
-        <span class="n">show_unreachable_commits</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span>
-        <span class="n">show_local_branches</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span>
-        <span class="n">show_remote_branches</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span>
-        <span class="n">show_trees</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span>
-        <span class="n">show_blobs</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span>
-        <span class="n">show_tags</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span>
-        <span class="n">show_deleted_tags</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span>
-        <span class="n">show_stash</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span>
-        <span class="n">show_head</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span>
-        <span class="nb">format</span><span class="o">=</span><span class="s2">&quot;gv&quot;</span><span class="p">,</span>
-        <span class="n">filename</span><span class="o">=</span><span class="n">path</span> <span class="o">/</span> <span class="s2">&quot;../default_repo.gv&quot;</span><span class="p">,</span>
+    <span class="n">params</span> <span class="o">=</span> <span class="n">Params</span><span class="p">(</span>
+        <span class="n">public</span><span class="o">=</span><span class="n">ParamsPublic</span><span class="p">(</span>
+            <span class="n">show_unreachable_commits</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span>
+            <span class="n">show_local_branches</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span>
+            <span class="n">show_remote_branches</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span>
+            <span class="n">show_trees</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span>
+            <span class="n">show_blobs</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span>
+            <span class="n">show_tags</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span>
+            <span class="n">show_deleted_tags</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span>
+            <span class="n">show_stash</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span>
+            <span class="n">show_head</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span>
+            <span class="nb">format</span><span class="o">=</span><span class="s2">&quot;gv&quot;</span><span class="p">,</span>
+            <span class="n">file</span><span class="o">=</span><span class="n">path</span> <span class="o">/</span> <span class="s2">&quot;../default_repo.gv&quot;</span><span class="p">,</span>
+        <span class="p">)</span>
     <span class="p">)</span>
+    <span class="n">repo</span><span class="o">.</span><span class="n">show</span><span class="p">(</span><span class="n">params</span><span class="p">)</span>
 
     <span class="n">TestGitRepository</span><span class="o">.</span><span class="n">tar</span><span class="p">(</span><span class="n">path</span><span class="p">,</span> <span class="n">path</span> <span class="o">/</span> <span class="s2">&quot;../default_repo.tar.gz&quot;</span><span class="p">)</span>
 
@@ -1095,7 +1100,7 @@
       
     </aside>
   </div>
-</div><script src="../../_static/documentation_options.js?v=e3125bf2"></script>
+</div><script src="../../_static/documentation_options.js?v=59d62c50"></script>
     <script src="../../_static/doctools.js?v=9bcbadda"></script>
     <script src="../../_static/sphinx_highlight.js?v=dc90522c"></script>
     <script src="../../_static/scripts/furo.js?v=5fa4622c"></script>

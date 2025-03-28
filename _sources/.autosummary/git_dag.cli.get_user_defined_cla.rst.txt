@@ -1,0 +1,6 @@
+git\_dag.cli.get\_user\_defined\_cla
+====================================
+
+.. currentmodule:: git_dag.cli
+
+.. autofunction:: get_user_defined_cla

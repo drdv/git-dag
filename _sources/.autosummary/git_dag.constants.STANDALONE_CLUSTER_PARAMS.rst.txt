@@ -1,6 +1,0 @@
-git\_dag.constants.STANDALONE\_CLUSTER\_PARAMS
-==============================================
-
-.. currentmodule:: git_dag.constants
-
-.. autodata:: STANDALONE_CLUSTER_PARAMS

@@ -457,10 +457,6 @@
 <span id="L447" class="lineno"><a class="lineno" href="#L447">447</a></span>
 <span id="L448" class="lineno"><a class="lineno" href="#L448">448</a></span>
 <span id="L449" class="lineno"><a class="lineno" href="#L449">449</a></span>
-<span id="L450" class="lineno"><a class="lineno" href="#L450">450</a></span>
-<span id="L451" class="lineno"><a class="lineno" href="#L451">451</a></span>
-<span id="L452" class="lineno"><a class="lineno" href="#L452">452</a></span>
-<span id="L453" class="lineno"><a class="lineno" href="#L453">453</a></span>
 </pre></td>
 <td class="table-code"><pre><span class="line-empty" title="No Anys on this line!">"""Example from https://git-scm.com/book/en/v2/Git-Internals-Git-Objects"""</span>
 <span class="line-empty" title="No Anys on this line!"></span>
@@ -472,9 +468,10 @@
 <span class="line-precise" title="No Anys on this line!">from typing import Any, Optional</span>
 <span class="line-empty" title="No Anys on this line!"></span>
 <span class="line-precise" title="No Anys on this line!">from git_dag import GitRepository</span>
-<span class="line-precise" title="No Anys on this line!">from git_dag.cli import get_cla</span>
+<span class="line-precise" title="No Anys on this line!">from git_dag.cli import get_user_defined_cla</span>
 <span class="line-precise" title="No Anys on this line!">from git_dag.constants import DictStrStr</span>
 <span class="line-precise" title="No Anys on this line!">from git_dag.git_commands import GitCommandMutate</span>
+<span class="line-precise" title="No Anys on this line!">from git_dag.parameters import Params, ParamsPublic</span>
 <span class="line-empty" title="No Anys on this line!"></span>
 <span class="line-precise" title="No Anys on this line!">EXAMPLE_NAME = "git_internals"</span>
 <span class="line-empty" title="No Anys on this line!"></span>
@@ -491,9 +488,7 @@
 <span class="line-empty" title="No Anys on this line!"></span>
 <span class="line-precise" title="No Anys on this line!">GIT = GitCommandMutate(TMP_DIR)</span>
 <span class="line-empty" title="No Anys on this line!"></span>
-<span class="line-imprecise" title="Any Types on this line: 
-Explicit (x5)">CLA_DEFAULT = vars(get_cla())</span>
-<span class="line-precise" title="No Anys on this line!">SHOW_ARGS_ALL_TRUE = [</span>
+<span class="line-precise" title="No Anys on this line!">SHOW_DEFAULT_ARGS = [</span>
 <span class="line-precise" title="No Anys on this line!">    "-T",</span>
 <span class="line-precise" title="No Anys on this line!">    "-B",</span>
 <span class="line-precise" title="No Anys on this line!">    "-l",</span>
@@ -510,24 +505,16 @@ Explicit (x5)">CLA_DEFAULT = vars(get_cla())</span>
 <span class="line-empty" title="No Anys on this line!">]</span>
 <span class="line-empty" title="No Anys on this line!"></span>
 <span class="line-empty" title="No Anys on this line!"></span>
-<span class="line-imprecise" title="Any Types on this line: 
-Explicit (x1)">def cla2dict(user_defined_args: list[str]) -&gt; dict[str, Any]:</span>
-<span class="line-empty" title="No Anys on this line!">    return {</span>
-<span class="line-any" title="Any Types on this line: 
-Explicit (x1)">        key: value</span>
-<span class="line-any" title="Any Types on this line: 
-Explicit (x7)">        for key, value in vars(get_cla(user_defined_args)).items()</span>
-<span class="line-any" title="Any Types on this line: 
-Explicit (x4)">        if CLA_DEFAULT[key] != value</span>
-<span class="line-empty" title="No Anys on this line!">    }</span>
-<span class="line-empty" title="No Anys on this line!"></span>
-<span class="line-empty" title="No Anys on this line!"></span>
 <span class="line-precise" title="No Anys on this line!">def visualize(name: str, show_args: list[str]) -&gt; None:</span>
-<span class="line-any" title="Any Types on this line: 
-Explicit (x3)">    GitRepository(TMP_DIR, parse_trees=True).show(</span>
+<span class="line-precise" title="No Anys on this line!">    params = Params(</span>
+<span class="line-precise" title="No Anys on this line!">        public=ParamsPublic(</span>
 <span class="line-imprecise" title="Any Types on this line: 
-Explicit (x2)">        **cla2dict(show_args), filename=OUT_DIR / f"{name}.gv"</span>
+Explicit (x2)">            **get_user_defined_cla(show_args),</span>
+<span class="line-precise" title="No Anys on this line!">            file=OUT_DIR / f"{name}.gv",</span>
+<span class="line-empty" title="No Anys on this line!">        )</span>
 <span class="line-empty" title="No Anys on this line!">    )</span>
+<span class="line-any" title="Any Types on this line: 
+Explicit (x2)">    GitRepository(TMP_DIR, parse_trees=True).show(params)</span>
 <span class="line-empty" title="No Anys on this line!"></span>
 <span class="line-precise" title="Any Types on this line: 
 Unimported (x7)
@@ -573,7 +560,7 @@ Explicit (x1)">    with open(OUT_DIR / f"{name}_args.rst", "w") as h:</span>
 <span class="line-precise" title="No Anys on this line!">        STEP_NUMBER += 1</span>
 <span class="line-precise" title="No Anys on this line!">        return None</span>
 <span class="line-empty" title="No Anys on this line!"></span>
-<span class="line-precise" title="No Anys on this line!">    visualize(name, SHOW_ARGS_ALL_TRUE if show_args is None else show_args)</span>
+<span class="line-precise" title="No Anys on this line!">    visualize(name, SHOW_DEFAULT_ARGS if show_args is None else show_args)</span>
 <span class="line-empty" title="No Anys on this line!"></span>
 <span class="line-precise" title="No Anys on this line!">    if commands is not None:</span>
 <span class="line-precise" title="Any Types on this line: 

@@ -203,6 +203,7 @@
 <div id="searchbox"></div><div class="sidebar-scroll"><div class="sidebar-tree">
   <ul>
 <li class="toctree-l1"><a class="reference internal" href="../../install.html">Install</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../quickstart.html">Quickstart</a></li>
 <li class="toctree-l1 has-children"><a class="reference internal" href="../../examples.html">Examples</a><input class="toctree-checkbox" id="toctree-checkbox-1" name="toctree-checkbox-1" role="switch" type="checkbox"/><label for="toctree-checkbox-1"><div class="visually-hidden">Toggle navigation of Examples</div><i class="icon"><svg><use href="#svg-arrow-right"></use></svg></i></label><ul>
 <li class="toctree-l2"><a class="reference internal" href="../../example_git_internals.html">Git internals</a></li>
 </ul>
@@ -210,8 +211,8 @@
 <li class="toctree-l1"><a class="reference internal" href="../../cli.html">Command-line interface</a></li>
 <li class="toctree-l1 has-children"><a class="reference internal" href="../../code_docs.html">Code</a><input class="toctree-checkbox" id="toctree-checkbox-2" name="toctree-checkbox-2" role="switch" type="checkbox"/><label for="toctree-checkbox-2"><div class="visually-hidden">Toggle navigation of Code</div><i class="icon"><svg><use href="#svg-arrow-right"></use></svg></i></label><ul>
 <li class="toctree-l2 has-children"><a class="reference internal" href="../../.autosummary/git_dag.cli.html">git_dag.cli</a><input class="toctree-checkbox" id="toctree-checkbox-3" name="toctree-checkbox-3" role="switch" type="checkbox"/><label for="toctree-checkbox-3"><div class="visually-hidden">Toggle navigation of git_dag.cli</div><i class="icon"><svg><use href="#svg-arrow-right"></use></svg></i></label><ul>
-<li class="toctree-l3"><a class="reference internal" href="../../.autosummary/git_dag.cli.get_cla.html">git_dag.cli.get_cla</a></li>
 <li class="toctree-l3"><a class="reference internal" href="../../.autosummary/git_dag.cli.get_cla_parser.html">git_dag.cli.get_cla_parser</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../../.autosummary/git_dag.cli.get_user_defined_cla.html">git_dag.cli.get_user_defined_cla</a></li>
 <li class="toctree-l3"><a class="reference internal" href="../../.autosummary/git_dag.cli.main.html">git_dag.cli.main</a></li>
 <li class="toctree-l3"><a class="reference internal" href="../../.autosummary/git_dag.cli.CustomArgparseNamespace.html">git_dag.cli.CustomArgparseNamespace</a></li>
 </ul>
@@ -221,10 +222,9 @@
 <li class="toctree-l3"><a class="reference internal" href="../../.autosummary/git_dag.constants.TAG_FORMAT_FIELDS.html">git_dag.constants.TAG_FORMAT_FIELDS</a></li>
 <li class="toctree-l3"><a class="reference internal" href="../../.autosummary/git_dag.constants.CMD_TAGS_INFO.html">git_dag.constants.CMD_TAGS_INFO</a></li>
 <li class="toctree-l3"><a class="reference internal" href="../../.autosummary/git_dag.constants.GIT_EMPTY_TREE_OBJECT_SHA.html">git_dag.constants.GIT_EMPTY_TREE_OBJECT_SHA</a></li>
-<li class="toctree-l3"><a class="reference internal" href="../../.autosummary/git_dag.constants.DAG_NODE_COLORS.html">git_dag.constants.DAG_NODE_COLORS</a></li>
-<li class="toctree-l3"><a class="reference internal" href="../../.autosummary/git_dag.constants.STANDALONE_CLUSTER_PARAMS.html">git_dag.constants.STANDALONE_CLUSTER_PARAMS</a></li>
 <li class="toctree-l3"><a class="reference internal" href="../../.autosummary/git_dag.constants.SHA_LIMIT.html">git_dag.constants.SHA_LIMIT</a></li>
 <li class="toctree-l3"><a class="reference internal" href="../../.autosummary/git_dag.constants.HTML_EMBED_SVG.html">git_dag.constants.HTML_EMBED_SVG</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../../.autosummary/git_dag.constants.CONFIG_FILE.html">git_dag.constants.CONFIG_FILE</a></li>
 <li class="toctree-l3"><a class="reference internal" href="../../.autosummary/git_dag.constants.DagBackends.html">git_dag.constants.DagBackends</a></li>
 </ul>
 </li>
@@ -308,13 +308,25 @@
           <h1>Source code for git_dag.constants</h1><div class="highlight"><pre>
 <span></span><span class="sd">&quot;&quot;&quot;Constants.&quot;&quot;&quot;</span>
 
+<span class="kn">import</span> <span class="nn">os</span>
 <span class="kn">from</span> <span class="nn">enum</span> <span class="kn">import</span> <span class="n">Enum</span>
+<span class="kn">from</span> <span class="nn">pathlib</span> <span class="kn">import</span> <span class="n">Path</span>
 <span class="kn">from</span> <span class="nn">typing</span> <span class="kn">import</span> <span class="n">Final</span>
 
 <span class="n">DictStrStr</span> <span class="o">=</span> <span class="nb">dict</span><span class="p">[</span><span class="nb">str</span><span class="p">,</span> <span class="nb">str</span><span class="p">]</span>
 
+
+<div class="viewcode-block" id="DagBackends">
+<a class="viewcode-back" href="../../.autosummary/git_dag.constants.DagBackends.html#git_dag.constants.DagBackends">[docs]</a>
+<span class="k">class</span> <span class="nc">DagBackends</span><span class="p">(</span><span class="n">Enum</span><span class="p">):</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;Backend libraries for DAG visualisation.&quot;&quot;&quot;</span>
+
+    <span class="n">GRAPHVIZ</span> <span class="o">=</span> <span class="mi">1</span>  <span class="c1">#: https://github.com/xflr6/graphviz</span></div>
+
+
+
 <span class="c1">#: Regex patterx for SHA-1 hash.</span>
-<span class="n">SHA_PATTERN</span> <span class="o">=</span> <span class="s2">&quot;(?P&lt;sha&gt;[0-9a-f]</span><span class="si">{40}</span><span class="s2">)&quot;</span>
+<span class="n">SHA_PATTERN</span><span class="p">:</span> <span class="n">Final</span><span class="p">[</span><span class="nb">str</span><span class="p">]</span> <span class="o">=</span> <span class="s2">&quot;(?P&lt;sha&gt;[0-9a-f]</span><span class="si">{40}</span><span class="s2">)&quot;</span>
 
 <span class="c1">#: See https://stackoverflow.com/a/21868228</span>
 <span class="n">TAG_FORMAT_FIELDS</span><span class="p">:</span> <span class="n">Final</span><span class="p">[</span><span class="nb">list</span><span class="p">[</span><span class="nb">str</span><span class="p">]]</span> <span class="o">=</span> <span class="p">[</span>
@@ -337,68 +349,16 @@
     <span class="s2">&quot;&#39; refs/tags&quot;</span>
 <span class="p">)</span>
 
-
-<div class="viewcode-block" id="DagBackends">
-<a class="viewcode-back" href="../../.autosummary/git_dag.constants.DagBackends.html#git_dag.constants.DagBackends">[docs]</a>
-<span class="k">class</span> <span class="nc">DagBackends</span><span class="p">(</span><span class="n">Enum</span><span class="p">):</span>
-<span class="w">    </span><span class="sd">&quot;&quot;&quot;Backend libraries for DAG visualisation.&quot;&quot;&quot;</span>
-
-    <span class="n">GRAPHVIZ</span> <span class="o">=</span> <span class="mi">1</span>  <span class="c1">#: https://github.com/xflr6/graphviz</span></div>
-
-
-
 <span class="c1">#: Empty git tree object.</span>
 <span class="n">GIT_EMPTY_TREE_OBJECT_SHA</span><span class="p">:</span> <span class="n">Final</span><span class="p">[</span><span class="nb">str</span><span class="p">]</span> <span class="o">=</span> <span class="s2">&quot;4b825dc642cb6eb9a060e54bf8d69288fbee4904&quot;</span>
-
-<span class="c1">#: Node colors (https://graphviz.org/doc/info/colors.html).</span>
-<span class="n">DAG_NODE_COLORS</span><span class="p">:</span> <span class="n">Final</span><span class="p">[</span><span class="n">DictStrStr</span><span class="p">]</span> <span class="o">=</span> <span class="p">{</span>
-    <span class="s2">&quot;commit&quot;</span><span class="p">:</span> <span class="s2">&quot;gold3&quot;</span><span class="p">,</span>
-    <span class="s2">&quot;commit-unreachable&quot;</span><span class="p">:</span> <span class="s2">&quot;darkorange&quot;</span><span class="p">,</span>
-    <span class="s2">&quot;commit-in-range&quot;</span><span class="p">:</span> <span class="s2">&quot;red&quot;</span><span class="p">,</span>
-    <span class="s2">&quot;tree&quot;</span><span class="p">:</span> <span class="s2">&quot;deepskyblue4&quot;</span><span class="p">,</span>
-    <span class="s2">&quot;the-empty-tree&quot;</span><span class="p">:</span> <span class="s2">&quot;darkturquoise&quot;</span><span class="p">,</span>
-    <span class="s2">&quot;blob&quot;</span><span class="p">:</span> <span class="s2">&quot;gray&quot;</span><span class="p">,</span>
-    <span class="s2">&quot;tag&quot;</span><span class="p">:</span> <span class="s2">&quot;pink&quot;</span><span class="p">,</span>
-    <span class="s2">&quot;tag-deleted&quot;</span><span class="p">:</span> <span class="s2">&quot;rosybrown4&quot;</span><span class="p">,</span>
-    <span class="s2">&quot;tag-lw&quot;</span><span class="p">:</span> <span class="s2">&quot;lightcoral&quot;</span><span class="p">,</span>
-    <span class="s2">&quot;head&quot;</span><span class="p">:</span> <span class="s2">&quot;cornflowerblue&quot;</span><span class="p">,</span>
-    <span class="s2">&quot;local-branches&quot;</span><span class="p">:</span> <span class="s2">&quot;forestgreen&quot;</span><span class="p">,</span>
-    <span class="s2">&quot;remote-branches&quot;</span><span class="p">:</span> <span class="s2">&quot;firebrick&quot;</span><span class="p">,</span>
-    <span class="s2">&quot;stash&quot;</span><span class="p">:</span> <span class="s2">&quot;skyblue&quot;</span><span class="p">,</span>
-    <span class="s2">&quot;notes&quot;</span><span class="p">:</span> <span class="s2">&quot;white&quot;</span><span class="p">,</span>
-<span class="p">}</span>
-
-<span class="c1">#: Parameters of the cluster for standalone trees and blobs</span>
-<span class="n">STANDALONE_CLUSTER_PARAMS</span><span class="p">:</span> <span class="n">DictStrStr</span> <span class="o">=</span> <span class="p">{</span>
-    <span class="s2">&quot;color&quot;</span><span class="p">:</span> <span class="s2">&quot;lightgrey&quot;</span><span class="p">,</span>
-    <span class="s2">&quot;label&quot;</span><span class="p">:</span> <span class="s2">&quot;Standalone</span><span class="se">\n</span><span class="s2">Trees &amp; Blobs&quot;</span><span class="p">,</span>
-<span class="p">}</span>
-
-
-<span class="n">DAG_ATTR</span><span class="p">:</span> <span class="n">Final</span><span class="p">[</span><span class="n">DictStrStr</span><span class="p">]</span> <span class="o">=</span> <span class="p">{</span>
-    <span class="s2">&quot;rankdir&quot;</span><span class="p">:</span> <span class="s2">&quot;TB&quot;</span><span class="p">,</span>
-    <span class="s2">&quot;dpi&quot;</span><span class="p">:</span> <span class="s2">&quot;None&quot;</span><span class="p">,</span>
-    <span class="s2">&quot;bgcolor&quot;</span><span class="p">:</span> <span class="s2">&quot;transparent&quot;</span><span class="p">,</span>
-<span class="p">}</span>
-
-<span class="n">DAG_NODE_ATTR</span><span class="p">:</span> <span class="n">Final</span><span class="p">[</span><span class="n">DictStrStr</span><span class="p">]</span> <span class="o">=</span> <span class="p">{</span>
-    <span class="s2">&quot;shape&quot;</span><span class="p">:</span> <span class="s2">&quot;box&quot;</span><span class="p">,</span>
-    <span class="s2">&quot;style&quot;</span><span class="p">:</span> <span class="s2">&quot;filled&quot;</span><span class="p">,</span>
-    <span class="s2">&quot;margin&quot;</span><span class="p">:</span> <span class="s2">&quot;0.01,0.01&quot;</span><span class="p">,</span>
-    <span class="s2">&quot;width&quot;</span><span class="p">:</span> <span class="s2">&quot;0.02&quot;</span><span class="p">,</span>
-    <span class="s2">&quot;height&quot;</span><span class="p">:</span> <span class="s2">&quot;0.02&quot;</span><span class="p">,</span>
-<span class="p">}</span>
-
-<span class="n">DAG_EDGE_ATTR</span><span class="p">:</span> <span class="n">Final</span><span class="p">[</span><span class="n">DictStrStr</span><span class="p">]</span> <span class="o">=</span> <span class="p">{</span>
-    <span class="s2">&quot;arrowsize&quot;</span><span class="p">:</span> <span class="s2">&quot;0.5&quot;</span><span class="p">,</span>
-    <span class="s2">&quot;color&quot;</span><span class="p">:</span> <span class="s2">&quot;gray10&quot;</span><span class="p">,</span>
-<span class="p">}</span>
 
 <span class="c1">#: Nuber of SHA characters to display in labels.</span>
 <span class="n">SHA_LIMIT</span><span class="p">:</span> <span class="n">Final</span><span class="p">[</span><span class="nb">int</span><span class="p">]</span> <span class="o">=</span> <span class="mi">8</span>
 
 <span class="c1">#: HTML template to embed SVG</span>
-<span class="n">HTML_EMBED_SVG</span> <span class="o">=</span> <span class="s2">&quot;&quot;&quot;</span>
+<span class="n">HTML_EMBED_SVG</span><span class="p">:</span> <span class="n">Final</span><span class="p">[</span>
+    <span class="nb">str</span>
+<span class="p">]</span> <span class="o">=</span> <span class="s2">&quot;&quot;&quot;</span>
 <span class="s2">&lt;!DOCTYPE html&gt;</span>
 <span class="s2">&lt;!-- serve using python -m http.server -d /path/to/src --&gt;</span>
 <span class="s2">&lt;html lang=&quot;en&quot;&gt;</span>
@@ -424,6 +384,9 @@
 <span class="s2">  &lt;/body&gt;</span>
 <span class="s2">&lt;/html&gt;</span>
 <span class="s2">&quot;&quot;&quot;</span>
+
+<span class="c1">#: Configuration file.</span>
+<span class="n">CONFIG_FILE</span><span class="p">:</span> <span class="n">Final</span><span class="p">[</span><span class="n">Path</span><span class="p">]</span> <span class="o">=</span> <span class="n">Path</span><span class="p">(</span><span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">expandvars</span><span class="p">(</span><span class="s2">&quot;$HOME/.git-dag.yml&quot;</span><span class="p">))</span>
 </pre></div>
         </article>
       </div>
@@ -456,7 +419,7 @@
       
     </aside>
   </div>
-</div><script src="../../_static/documentation_options.js?v=e3125bf2"></script>
+</div><script src="../../_static/documentation_options.js?v=59d62c50"></script>
     <script src="../../_static/doctools.js?v=9bcbadda"></script>
     <script src="../../_static/sphinx_highlight.js?v=dc90522c"></script>
     <script src="../../_static/scripts/furo.js?v=5fa4622c"></script>

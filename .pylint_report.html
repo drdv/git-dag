@@ -50,11 +50,11 @@ code {
   <body>
     <h1><u>Pylint report</u></h1>
     <small>
-      Report generated on 2025-23-03 at 16:50:52 using <a href="https://github.com/drdv/pylint-report">pylint-report</a>
+      Report generated on 2025-28-03 at 18:44:14 using <a href="https://github.com/drdv/pylint-report">pylint-report</a>
     </small>
     <h2>
       <span>Score:</span>
-      <span class="score"> 9.98 </span>
+      <span class="score"> 9.99 </span>
       <span> / 10 </span>
     </h2>
     <ul>
@@ -70,10 +70,12 @@ code {
       <li> <a href="#git_dag.git_repository"> git_dag.git_repository </a> (1)</li>
       <li> git_dag.interfaces.graphviz (0)</li>
       <li> git_dag.interfaces.dag_base (0)</li>
+      <li> git_dag.parameters (0)</li>
       <li> git_dag.py (0)</li>
       <li> git_dag.test.conftest (0)</li>
-      <li> <a href="#git_dag.test.test_git_repository"> git_dag.test.test_git_repository </a> (1)</li>
+      <li> git_dag.test.test_git_repository (0)</li>
       <li> git_dag.test.test_cli (0)</li>
+      <li> <a href="#git_dag.test.test_parameters"> git_dag.test.test_parameters </a> (1)</li>
       <li> git_dag.test.test_real_repos (0)</li>
       <li> git_dag.test.test_git_commands (0)</li>
       <li> git_dag.test.test_utils (0)</li>
@@ -133,7 +135,7 @@ code {
   <tbody>
     <tr>
       <th>0</th>
-      <td>568</td>
+      <td>569</td>
       <td>9</td>
       <td>fixme</td>
       <td>warning</td>
@@ -146,7 +148,7 @@ code {
     <section>
       <h2>
         <span>Module:</span>
-        <span id="git_dag.test.test_git_repository"> <code>git_dag.test.test_git_repository (1)</code> </span>
+        <span id="git_dag.test.test_parameters"> <code>git_dag.test.test_parameters (1)</code> </span>
       </h2>
       <hr><table><tr>
           <td>
@@ -159,7 +161,7 @@ code {
   </thead>
   <tbody>
     <tr>
-      <td>line-too-long</td>
+      <td>singleton-comparison</td>
       <td>1</td>
     </tr>
   </tbody>
@@ -197,12 +199,12 @@ code {
   <tbody>
     <tr>
       <th>0</th>
-      <td>139</td>
-      <td>0</td>
-      <td>line-too-long</td>
+      <td>133</td>
+      <td>11</td>
+      <td>singleton-comparison</td>
       <td>convention</td>
-      <td></td>
-      <td>Line too long (110/95)</td>
+      <td>test_default_values_from_config_manual</td>
+      <td>Comparison 'public.init_refs == None' should be 'public.init_refs is None'</td>
     </tr>
   </tbody>
 </table>

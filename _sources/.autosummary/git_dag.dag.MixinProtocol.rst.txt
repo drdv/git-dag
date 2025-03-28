@@ -25,23 +25,11 @@ git\_dag.dag.MixinProtocol
 
    .. autosummary::
    
-      ~MixinProtocol.show_unreachable_commits
-      ~MixinProtocol.show_local_branches
-      ~MixinProtocol.show_remote_branches
-      ~MixinProtocol.show_trees
-      ~MixinProtocol.show_trees_standalone
-      ~MixinProtocol.show_blobs
-      ~MixinProtocol.show_blobs_standalone
-      ~MixinProtocol.show_tags
-      ~MixinProtocol.show_deleted_tags
-      ~MixinProtocol.show_stash
-      ~MixinProtocol.show_head
-      ~MixinProtocol.show_prs_heads
-      ~MixinProtocol.range
-      ~MixinProtocol.commit_message_as_label
+      ~MixinProtocol.repository
+      ~MixinProtocol.params
+      ~MixinProtocol.objects_sha_to_include
+      ~MixinProtocol.dag
       ~MixinProtocol.included_nodes_id
       ~MixinProtocol.tooltip_names
-      ~MixinProtocol.repository
-      ~MixinProtocol.dag
    
    

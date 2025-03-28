@@ -327,26 +327,19 @@
 <span id="L317" class="lineno"><a class="lineno" href="#L317">317</a></span>
 <span id="L318" class="lineno"><a class="lineno" href="#L318">318</a></span>
 <span id="L319" class="lineno"><a class="lineno" href="#L319">319</a></span>
-<span id="L320" class="lineno"><a class="lineno" href="#L320">320</a></span>
-<span id="L321" class="lineno"><a class="lineno" href="#L321">321</a></span>
-<span id="L322" class="lineno"><a class="lineno" href="#L322">322</a></span>
-<span id="L323" class="lineno"><a class="lineno" href="#L323">323</a></span>
-<span id="L324" class="lineno"><a class="lineno" href="#L324">324</a></span>
-<span id="L325" class="lineno"><a class="lineno" href="#L325">325</a></span>
-<span id="L326" class="lineno"><a class="lineno" href="#L326">326</a></span>
-<span id="L327" class="lineno"><a class="lineno" href="#L327">327</a></span>
 </pre></td>
 <td class="table-code"><pre><span class="line-empty" title="No Anys on this line!">#!/usr/bin/env python</span>
 <span class="line-empty" title="No Anys on this line!"># PYTHON_ARGCOMPLETE_OK</span>
 <span class="line-empty" title="No Anys on this line!">"""Comman-line interface."""</span>
 <span class="line-precise" title="No Anys on this line!">import argparse</span>
 <span class="line-precise" title="No Anys on this line!">import logging</span>
-<span class="line-precise" title="No Anys on this line!">from typing import Optional</span>
+<span class="line-precise" title="No Anys on this line!">from typing import Any, Optional</span>
 <span class="line-empty" title="No Anys on this line!"></span>
 <span class="line-precise" title="No Anys on this line!">import argcomplete</span>
 <span class="line-empty" title="No Anys on this line!"></span>
-<span class="line-precise" title="No Anys on this line!">from .constants import DagBackends</span>
-<span class="line-precise" title="No Anys on this line!">from .git_repository import GitRepository</span>
+<span class="line-precise" title="No Anys on this line!">from git_dag.constants import CONFIG_FILE</span>
+<span class="line-precise" title="No Anys on this line!">from git_dag.git_repository import GitRepository</span>
+<span class="line-precise" title="No Anys on this line!">from git_dag.parameters import Params, ParamsPublic, context_ignore_config_file</span>
 <span class="line-empty" title="No Anys on this line!"></span>
 <span class="line-empty" title="No Anys on this line!"></span>
 <span class="line-precise" title="No Anys on this line!">class CustomArgparseNamespace(argparse.Namespace):</span>
@@ -366,13 +359,9 @@
 <span class="line-precise" title="No Anys on this line!">    init_refs: Optional[list[str]]</span>
 <span class="line-precise" title="No Anys on this line!">    max_numb_commits: int</span>
 <span class="line-precise" title="No Anys on this line!">    dag_backend: str</span>
-<span class="line-empty" title="No Anys on this line!"></span>
-<span class="line-precise" title="No Anys on this line!">    dpi: str</span>
-<span class="line-precise" title="No Anys on this line!">    rankdir: str</span>
-<span class="line-precise" title="No Anys on this line!">    bgcolor: str</span>
+<span class="line-precise" title="No Anys on this line!">    log_level: str</span>
 <span class="line-empty" title="No Anys on this line!"></span>
 <span class="line-precise" title="No Anys on this line!">    html_embed_svg: bool</span>
-<span class="line-empty" title="No Anys on this line!"></span>
 <span class="line-precise" title="No Anys on this line!">    show_unreachable_commits: bool</span>
 <span class="line-precise" title="No Anys on this line!">    show_tags: bool</span>
 <span class="line-precise" title="No Anys on this line!">    show_deleted_tags: bool</span>
@@ -380,67 +369,73 @@
 <span class="line-precise" title="No Anys on this line!">    show_remote_branches: bool</span>
 <span class="line-precise" title="No Anys on this line!">    show_stash: bool</span>
 <span class="line-precise" title="No Anys on this line!">    show_trees: bool</span>
+<span class="line-precise" title="No Anys on this line!">    show_trees_standalone: bool</span>
 <span class="line-precise" title="No Anys on this line!">    show_blobs: bool</span>
+<span class="line-precise" title="No Anys on this line!">    show_blobs_standalone: bool</span>
 <span class="line-precise" title="No Anys on this line!">    show_head: bool</span>
 <span class="line-precise" title="No Anys on this line!">    show_prs_heads: bool</span>
 <span class="line-precise" title="No Anys on this line!">    range: Optional[list[str]]</span>
 <span class="line-precise" title="No Anys on this line!">    commit_message_as_label: int</span>
 <span class="line-precise" title="No Anys on this line!">    xdg_open: bool</span>
-<span class="line-precise" title="No Anys on this line!">    log_level: str</span>
 <span class="line-empty" title="No Anys on this line!"></span>
 <span class="line-empty" title="No Anys on this line!"></span>
 <span class="line-precise" title="No Anys on this line!">def get_cla_parser() -&gt; argparse.ArgumentParser:</span>
-<span class="line-empty" title="No Anys on this line!">    """Define CLA parser."""</span>
+<span class="line-empty" title="No Anys on this line!">    """Define CLA parser.</span>
 <span class="line-empty" title="No Anys on this line!"></span>
-<span class="line-precise" title="No Anys on this line!">    def max_numb_commits_type(value_str: str) -&gt; Optional[int]:</span>
-<span class="line-empty" title="No Anys on this line!">        """Handle the type returned by the -n flag."""</span>
-<span class="line-precise" title="No Anys on this line!">        value = int(value_str)</span>
-<span class="line-precise" title="No Anys on this line!">        if value &lt; 1:</span>
-<span class="line-precise" title="No Anys on this line!">            return None</span>
-<span class="line-precise" title="No Anys on this line!">        return value</span>
+<span class="line-empty" title="No Anys on this line!">    Note</span>
+<span class="line-empty" title="No Anys on this line!">    -----</span>
+<span class="line-empty" title="No Anys on this line!">    The default value of all flags (``action="store_true"``) is set to ``None`` because</span>
+<span class="line-empty" title="No Anys on this line!">    it is used when default values for parameters are being set (see ``parameters.py``).</span>
 <span class="line-empty" title="No Anys on this line!"></span>
+<span class="line-empty" title="No Anys on this line!">    """</span>
 <span class="line-precise" title="Any Types on this line: 
 Explicit (x1)">    parser = argparse.ArgumentParser(description="Visualize the git DAG.")</span>
 <span class="line-empty" title="No Anys on this line!"></span>
 <span class="line-any" title="Any Types on this line: 
 Explicit (x3)">    parser.add_argument(</span>
-<span class="line-precise" title="No Anys on this line!">        "-p",</span>
-<span class="line-precise" title="No Anys on this line!">        "--path",</span>
-<span class="line-precise" title="No Anys on this line!">        default=".",</span>
-<span class="line-precise" title="No Anys on this line!">        help="Path to a git repository.",</span>
+<span class="line-precise" title="No Anys on this line!">        "--config-create",</span>
+<span class="line-precise" title="No Anys on this line!">        action="store_true",</span>
+<span class="line-precise" title="No Anys on this line!">        default=None,</span>
+<span class="line-precise" title="No Anys on this line!">        help=f"Create config {CONFIG_FILE} and exit.",</span>
 <span class="line-empty" title="No Anys on this line!">    )</span>
 <span class="line-empty" title="No Anys on this line!"></span>
 <span class="line-any" title="Any Types on this line: 
 Explicit (x3)">    parser.add_argument(</span>
-<span class="line-precise" title="No Anys on this line!">        "-f",</span>
-<span class="line-precise" title="No Anys on this line!">        "--file",</span>
-<span class="line-precise" title="No Anys on this line!">        default="git-dag.gv",</span>
-<span class="line-precise" title="No Anys on this line!">        help="Output graphviz file (e.g., `/path/to/file`).",</span>
-<span class="line-empty" title="No Anys on this line!">    )</span>
-<span class="line-empty" title="No Anys on this line!"></span>
-<span class="line-any" title="Any Types on this line: 
-Explicit (x3)">    parser.add_argument(</span>
-<span class="line-precise" title="No Anys on this line!">        "-b",</span>
-<span class="line-precise" title="No Anys on this line!">        "--dag-backend",</span>
-<span class="line-precise" title="No Anys on this line!">        default="graphviz",</span>
-<span class="line-precise" title="No Anys on this line!">        choices=["graphviz"],</span>
-<span class="line-precise" title="No Anys on this line!">        help="Backend DAG library.",</span>
-<span class="line-empty" title="No Anys on this line!">    )</span>
-<span class="line-empty" title="No Anys on this line!"></span>
-<span class="line-any" title="Any Types on this line: 
-Explicit (x3)">    parser.add_argument(</span>
-<span class="line-precise" title="No Anys on this line!">        "--format",</span>
-<span class="line-precise" title="No Anys on this line!">        default="svg",</span>
-<span class="line-empty" title="No Anys on this line!">        help=(</span>
-<span class="line-precise" title="No Anys on this line!">            "Graphviz output format (tooltips are available only with svg). "</span>
-<span class="line-empty" title="No Anys on this line!">            "If the format is set to `gv`, only the graphviz source file is generated."</span>
-<span class="line-empty" title="No Anys on this line!">        ),</span>
+<span class="line-precise" title="No Anys on this line!">        "--config-ignore",</span>
+<span class="line-precise" title="No Anys on this line!">        action="store_true",</span>
+<span class="line-precise" title="No Anys on this line!">        default=None,</span>
+<span class="line-precise" title="No Anys on this line!">        help=f"Ignore the {CONFIG_FILE} config.",</span>
 <span class="line-empty" title="No Anys on this line!">    )</span>
 <span class="line-empty" title="No Anys on this line!"></span>
 <span class="line-precise" title="Any Types on this line: 
 Explicit (x3)">    parser.add_argument(</span>
-<span class="line-precise" title="No Anys on this line!">        "--dpi",</span>
-<span class="line-precise" title="No Anys on this line!">        help="DPI of output figure (used with `--format png`).",</span>
+<span class="line-precise" title="No Anys on this line!">        "-p",</span>
+<span class="line-precise" title="No Anys on this line!">        "--path",</span>
+<span class="line-precise" title="No Anys on this line!">        help="Path to a git repository.",</span>
+<span class="line-empty" title="No Anys on this line!">    )</span>
+<span class="line-empty" title="No Anys on this line!"></span>
+<span class="line-precise" title="Any Types on this line: 
+Explicit (x3)">    parser.add_argument(</span>
+<span class="line-precise" title="No Anys on this line!">        "-f",</span>
+<span class="line-precise" title="No Anys on this line!">        "--file",</span>
+<span class="line-precise" title="No Anys on this line!">        help="Output graphviz file (e.g., `/path/to/file`).",</span>
+<span class="line-empty" title="No Anys on this line!">    )</span>
+<span class="line-empty" title="No Anys on this line!"></span>
+<span class="line-precise" title="Any Types on this line: 
+Explicit (x3)">    parser.add_argument(</span>
+<span class="line-precise" title="No Anys on this line!">        "-b",</span>
+<span class="line-precise" title="No Anys on this line!">        "--dag-backend",</span>
+<span class="line-precise" title="No Anys on this line!">        choices=["graphviz"],</span>
+<span class="line-precise" title="No Anys on this line!">        help="Backend DAG library.",</span>
+<span class="line-empty" title="No Anys on this line!">    )</span>
+<span class="line-empty" title="No Anys on this line!"></span>
+<span class="line-precise" title="Any Types on this line: 
+Explicit (x3)">    parser.add_argument(</span>
+<span class="line-precise" title="No Anys on this line!">        "--format",</span>
+<span class="line-empty" title="No Anys on this line!">        help=(</span>
+<span class="line-precise" title="No Anys on this line!">            "Graphviz output format (tooltips are available only with svg). "</span>
+<span class="line-empty" title="No Anys on this line!">            "If the format is set to `gv`, only the graphviz source file is generated."</span>
+<span class="line-empty" title="No Anys on this line!">        ),</span>
 <span class="line-empty" title="No Anys on this line!">    )</span>
 <span class="line-empty" title="No Anys on this line!"></span>
 <span class="line-precise" title="Any Types on this line: 
@@ -462,12 +457,11 @@ Explicit (x3)">    parser.add_argument(</span>
 <span class="line-precise" title="No Anys on this line!">        help="A list to commits in a range to display.",</span>
 <span class="line-empty" title="No Anys on this line!">    )</span>
 <span class="line-empty" title="No Anys on this line!"></span>
-<span class="line-any" title="Any Types on this line: 
+<span class="line-precise" title="Any Types on this line: 
 Explicit (x3)">    parser.add_argument(</span>
 <span class="line-precise" title="No Anys on this line!">        "-n",</span>
 <span class="line-precise" title="No Anys on this line!">        "--max-numb-commits",</span>
-<span class="line-precise" title="No Anys on this line!">        type=max_numb_commits_type,</span>
-<span class="line-precise" title="No Anys on this line!">        default=1000,  # default protection</span>
+<span class="line-precise" title="No Anys on this line!">        type=int,</span>
 <span class="line-empty" title="No Anys on this line!">        help=(</span>
 <span class="line-precise" title="No Anys on this line!">            "Max number of commits to display. If set to 0 and the -i flag is not "</span>
 <span class="line-empty" title="No Anys on this line!">            "specified, no limitations are considered whatsoever. If set to n &gt; 0, "</span>
@@ -480,130 +474,126 @@ Explicit (x3)">    parser.add_argument(</span>
 <span class="line-empty" title="No Anys on this line!"></span>
 <span class="line-any" title="Any Types on this line: 
 Explicit (x3)">    parser.add_argument(</span>
-<span class="line-precise" title="No Anys on this line!">        "--rankdir",</span>
-<span class="line-precise" title="No Anys on this line!">        default="TB",</span>
-<span class="line-precise" title="No Anys on this line!">        choices=["LR", "RL", "TB", "BT"],</span>
-<span class="line-precise" title="No Anys on this line!">        help="rankdir argument of graphviz.",</span>
+<span class="line-precise" title="No Anys on this line!">        "-u",</span>
+<span class="line-precise" title="No Anys on this line!">        dest="show_unreachable_commits",</span>
+<span class="line-precise" title="No Anys on this line!">        action="store_true",</span>
+<span class="line-precise" title="No Anys on this line!">        default=None,</span>
+<span class="line-precise" title="No Anys on this line!">        help="Show unreachable commits.",</span>
 <span class="line-empty" title="No Anys on this line!">    )</span>
 <span class="line-empty" title="No Anys on this line!"></span>
 <span class="line-any" title="Any Types on this line: 
 Explicit (x3)">    parser.add_argument(</span>
-<span class="line-precise" title="No Anys on this line!">        "--bgcolor",</span>
-<span class="line-precise" title="No Anys on this line!">        default="transparent",</span>
-<span class="line-precise" title="No Anys on this line!">        help="bgcolor argument of graphviz (e.g., gray42).",</span>
-<span class="line-empty" title="No Anys on this line!">    )</span>
-<span class="line-empty" title="No Anys on this line!"></span>
-<span class="line-precise" title="Any Types on this line: 
-Explicit (x3)">    parser.add_argument(</span>
-<span class="line-precise" title="No Anys on this line!">        "-u",</span>
-<span class="line-precise" title="No Anys on this line!">        dest="show_unreachable_commits",</span>
-<span class="line-precise" title="No Anys on this line!">        action="store_true",</span>
-<span class="line-precise" title="No Anys on this line!">        help="Show unreachable commits.",</span>
-<span class="line-empty" title="No Anys on this line!">    )</span>
-<span class="line-empty" title="No Anys on this line!"></span>
-<span class="line-precise" title="Any Types on this line: 
-Explicit (x3)">    parser.add_argument(</span>
 <span class="line-precise" title="No Anys on this line!">        "-t",</span>
 <span class="line-precise" title="No Anys on this line!">        dest="show_tags",</span>
 <span class="line-precise" title="No Anys on this line!">        action="store_true",</span>
+<span class="line-precise" title="No Anys on this line!">        default=None,</span>
 <span class="line-precise" title="No Anys on this line!">        help="Show tags.",</span>
 <span class="line-empty" title="No Anys on this line!">    )</span>
 <span class="line-empty" title="No Anys on this line!"></span>
-<span class="line-precise" title="Any Types on this line: 
+<span class="line-any" title="Any Types on this line: 
 Explicit (x3)">    parser.add_argument(</span>
 <span class="line-precise" title="No Anys on this line!">        "-D",</span>
 <span class="line-precise" title="No Anys on this line!">        dest="show_deleted_tags",</span>
 <span class="line-precise" title="No Anys on this line!">        action="store_true",</span>
+<span class="line-precise" title="No Anys on this line!">        default=None,</span>
 <span class="line-precise" title="No Anys on this line!">        help="Show deleted annotated tags.",</span>
 <span class="line-empty" title="No Anys on this line!">    )</span>
 <span class="line-empty" title="No Anys on this line!"></span>
-<span class="line-precise" title="Any Types on this line: 
+<span class="line-any" title="Any Types on this line: 
 Explicit (x3)">    parser.add_argument(</span>
 <span class="line-precise" title="No Anys on this line!">        "-l",</span>
 <span class="line-precise" title="No Anys on this line!">        dest="show_local_branches",</span>
 <span class="line-precise" title="No Anys on this line!">        action="store_true",</span>
+<span class="line-precise" title="No Anys on this line!">        default=None,</span>
 <span class="line-precise" title="No Anys on this line!">        help="Show local branches.",</span>
 <span class="line-empty" title="No Anys on this line!">    )</span>
 <span class="line-empty" title="No Anys on this line!"></span>
-<span class="line-precise" title="Any Types on this line: 
+<span class="line-any" title="Any Types on this line: 
 Explicit (x3)">    parser.add_argument(</span>
 <span class="line-precise" title="No Anys on this line!">        "-r",</span>
 <span class="line-precise" title="No Anys on this line!">        dest="show_remote_branches",</span>
 <span class="line-precise" title="No Anys on this line!">        action="store_true",</span>
+<span class="line-precise" title="No Anys on this line!">        default=None,</span>
 <span class="line-precise" title="No Anys on this line!">        help="Show remote branches.",</span>
 <span class="line-empty" title="No Anys on this line!">    )</span>
 <span class="line-empty" title="No Anys on this line!"></span>
-<span class="line-precise" title="Any Types on this line: 
+<span class="line-any" title="Any Types on this line: 
 Explicit (x3)">    parser.add_argument(</span>
 <span class="line-precise" title="No Anys on this line!">        "-s",</span>
 <span class="line-precise" title="No Anys on this line!">        dest="show_stash",</span>
 <span class="line-precise" title="No Anys on this line!">        action="store_true",</span>
+<span class="line-precise" title="No Anys on this line!">        default=None,</span>
 <span class="line-precise" title="No Anys on this line!">        help="Show stash.",</span>
 <span class="line-empty" title="No Anys on this line!">    )</span>
 <span class="line-empty" title="No Anys on this line!"></span>
-<span class="line-precise" title="Any Types on this line: 
+<span class="line-any" title="Any Types on this line: 
 Explicit (x3)">    parser.add_argument(</span>
 <span class="line-precise" title="No Anys on this line!">        "-H",</span>
 <span class="line-precise" title="No Anys on this line!">        dest="show_head",</span>
 <span class="line-precise" title="No Anys on this line!">        action="store_true",</span>
+<span class="line-precise" title="No Anys on this line!">        default=None,</span>
 <span class="line-precise" title="No Anys on this line!">        help="Show head (has effect only when -l or -r are set as well).",</span>
 <span class="line-empty" title="No Anys on this line!">    )</span>
 <span class="line-empty" title="No Anys on this line!"></span>
-<span class="line-precise" title="Any Types on this line: 
+<span class="line-any" title="Any Types on this line: 
 Explicit (x3)">    parser.add_argument(</span>
-<span class="line-precise" title="No Anys on this line!">        "--prs-heads",</span>
+<span class="line-precise" title="No Anys on this line!">        "--pr",</span>
 <span class="line-precise" title="No Anys on this line!">        dest="show_prs_heads",</span>
 <span class="line-precise" title="No Anys on this line!">        action="store_true",</span>
+<span class="line-precise" title="No Anys on this line!">        default=None,</span>
 <span class="line-empty" title="No Anys on this line!">        help=(</span>
 <span class="line-precise" title="No Anys on this line!">            "Show pull-requests heads "</span>
 <span class="line-empty" title="No Anys on this line!">            "(most of the time this requires passing -u as well)."</span>
 <span class="line-empty" title="No Anys on this line!">        ),</span>
 <span class="line-empty" title="No Anys on this line!">    )</span>
 <span class="line-empty" title="No Anys on this line!"></span>
-<span class="line-precise" title="Any Types on this line: 
+<span class="line-any" title="Any Types on this line: 
 Explicit (x3)">    parser.add_argument(</span>
 <span class="line-precise" title="No Anys on this line!">        "-T",</span>
 <span class="line-precise" title="No Anys on this line!">        dest="show_trees",</span>
 <span class="line-precise" title="No Anys on this line!">        action="store_true",</span>
+<span class="line-precise" title="No Anys on this line!">        default=None,</span>
 <span class="line-precise" title="No Anys on this line!">        help="Show trees (WARNING: should be used only with small repositories).",</span>
 <span class="line-empty" title="No Anys on this line!">    )</span>
 <span class="line-empty" title="No Anys on this line!"></span>
-<span class="line-precise" title="Any Types on this line: 
+<span class="line-any" title="Any Types on this line: 
 Explicit (x3)">    parser.add_argument(</span>
 <span class="line-precise" title="No Anys on this line!">        "--trees-standalone",</span>
 <span class="line-precise" title="No Anys on this line!">        dest="show_trees_standalone",</span>
 <span class="line-precise" title="No Anys on this line!">        action="store_true",</span>
+<span class="line-precise" title="No Anys on this line!">        default=None,</span>
 <span class="line-empty" title="No Anys on this line!">        help=(</span>
 <span class="line-precise" title="No Anys on this line!">            "Show trees that don't have parent commits reachable from "</span>
 <span class="line-empty" title="No Anys on this line!">            "a branch a tag or the reflog."</span>
 <span class="line-empty" title="No Anys on this line!">        ),</span>
 <span class="line-empty" title="No Anys on this line!">    )</span>
 <span class="line-empty" title="No Anys on this line!"></span>
-<span class="line-precise" title="Any Types on this line: 
+<span class="line-any" title="Any Types on this line: 
 Explicit (x3)">    parser.add_argument(</span>
 <span class="line-precise" title="No Anys on this line!">        "-B",</span>
 <span class="line-precise" title="No Anys on this line!">        dest="show_blobs",</span>
 <span class="line-precise" title="No Anys on this line!">        action="store_true",</span>
+<span class="line-precise" title="No Anys on this line!">        default=None,</span>
 <span class="line-precise" title="No Anys on this line!">        help="Show blobs (discarded if -T is not set).",</span>
 <span class="line-empty" title="No Anys on this line!">    )</span>
 <span class="line-empty" title="No Anys on this line!"></span>
-<span class="line-precise" title="Any Types on this line: 
+<span class="line-any" title="Any Types on this line: 
 Explicit (x3)">    parser.add_argument(</span>
 <span class="line-precise" title="No Anys on this line!">        "--blobs-standalone",</span>
 <span class="line-precise" title="No Anys on this line!">        dest="show_blobs_standalone",</span>
 <span class="line-precise" title="No Anys on this line!">        action="store_true",</span>
+<span class="line-precise" title="No Anys on this line!">        default=None,</span>
 <span class="line-empty" title="No Anys on this line!">        help=(</span>
 <span class="line-precise" title="No Anys on this line!">            "Show blobs that don't have parent commits reachable from "</span>
 <span class="line-empty" title="No Anys on this line!">            "a branch a tag or the reflog."</span>
 <span class="line-empty" title="No Anys on this line!">        ),</span>
 <span class="line-empty" title="No Anys on this line!">    )</span>
 <span class="line-empty" title="No Anys on this line!"></span>
-<span class="line-any" title="Any Types on this line: 
+<span class="line-precise" title="Any Types on this line: 
 Explicit (x3)">    parser.add_argument(</span>
 <span class="line-precise" title="No Anys on this line!">        "-m",</span>
 <span class="line-precise" title="No Anys on this line!">        "--message",</span>
 <span class="line-precise" title="No Anys on this line!">        type=int,</span>
-<span class="line-precise" title="No Anys on this line!">        default=0,</span>
 <span class="line-precise" title="No Anys on this line!">        dest="commit_message_as_label",</span>
 <span class="line-empty" title="No Anys on this line!">        help=(</span>
 <span class="line-precise" title="No Anys on this line!">            "When greater than 0, this is the number of characters from the commit "</span>
@@ -611,29 +601,30 @@ Explicit (x3)">    parser.add_argument(</span>
 <span class="line-empty" title="No Anys on this line!">        ),</span>
 <span class="line-empty" title="No Anys on this line!">    )</span>
 <span class="line-empty" title="No Anys on this line!"></span>
-<span class="line-precise" title="Any Types on this line: 
+<span class="line-any" title="Any Types on this line: 
 Explicit (x3)">    parser.add_argument(</span>
 <span class="line-precise" title="No Anys on this line!">        "-o",</span>
 <span class="line-precise" title="No Anys on this line!">        "--xdg-open",</span>
 <span class="line-precise" title="No Anys on this line!">        action="store_true",</span>
+<span class="line-precise" title="No Anys on this line!">        default=None,</span>
 <span class="line-precise" title="No Anys on this line!">        help="Open output file with xdg-open.",</span>
-<span class="line-empty" title="No Anys on this line!">    )</span>
-<span class="line-empty" title="No Anys on this line!"></span>
-<span class="line-precise" title="Any Types on this line: 
-Explicit (x3)">    parser.add_argument(</span>
-<span class="line-precise" title="No Anys on this line!">        "--html",</span>
-<span class="line-precise" title="No Anys on this line!">        dest="html_embed_svg",</span>
-<span class="line-precise" title="No Anys on this line!">        action="store_true",</span>
-<span class="line-empty" title="No Anys on this line!">        help=(</span>
-<span class="line-precise" title="No Anys on this line!">            "Generate a standalone HTML file that embeds the generated SVG. "</span>
-<span class="line-empty" title="No Anys on this line!">            "Hass effect only when --format is svg."</span>
-<span class="line-empty" title="No Anys on this line!">        ),</span>
 <span class="line-empty" title="No Anys on this line!">    )</span>
 <span class="line-empty" title="No Anys on this line!"></span>
 <span class="line-any" title="Any Types on this line: 
 Explicit (x3)">    parser.add_argument(</span>
+<span class="line-precise" title="No Anys on this line!">        "--html",</span>
+<span class="line-precise" title="No Anys on this line!">        dest="html_embed_svg",</span>
+<span class="line-precise" title="No Anys on this line!">        action="store_true",</span>
+<span class="line-precise" title="No Anys on this line!">        default=None,</span>
+<span class="line-empty" title="No Anys on this line!">        help=(</span>
+<span class="line-precise" title="No Anys on this line!">            "Create a standalone HTML file that embeds the generated SVG. "</span>
+<span class="line-empty" title="No Anys on this line!">            "Hass effect only when --format is svg."</span>
+<span class="line-empty" title="No Anys on this line!">        ),</span>
+<span class="line-empty" title="No Anys on this line!">    )</span>
+<span class="line-empty" title="No Anys on this line!"></span>
+<span class="line-precise" title="Any Types on this line: 
+Explicit (x3)">    parser.add_argument(</span>
 <span class="line-precise" title="No Anys on this line!">        "--log-level",</span>
-<span class="line-precise" title="No Anys on this line!">        default="WARNING",</span>
 <span class="line-precise" title="No Anys on this line!">        choices=["NOTSET", "INFO", "WARNING", "ERROR", "CRITICAL"],</span>
 <span class="line-precise" title="No Anys on this line!">        help="Log level.",</span>
 <span class="line-empty" title="No Anys on this line!">    )</span>
@@ -641,58 +632,59 @@ Explicit (x3)">    parser.add_argument(</span>
 <span class="line-precise" title="No Anys on this line!">    return parser</span>
 <span class="line-empty" title="No Anys on this line!"></span>
 <span class="line-empty" title="No Anys on this line!"></span>
-<span class="line-precise" title="No Anys on this line!">def get_cla(raw_args: Optional[list[str]] = None) -&gt; CustomArgparseNamespace:</span>
+<span class="line-imprecise" title="Any Types on this line: 
+Explicit (x1)">def get_user_defined_cla(</span>
+<span class="line-precise" title="No Anys on this line!">    raw_args: Optional[list[str]] = None,</span>
+<span class="line-empty" title="No Anys on this line!">) -&gt; dict[str, Any]:</span>
 <span class="line-empty" title="No Anys on this line!">    """Parse command-line arguments."""</span>
 <span class="line-precise" title="No Anys on this line!">    parser = get_cla_parser()</span>
 <span class="line-empty" title="No Anys on this line!"></span>
 <span class="line-precise" title="No Anys on this line!">    argcomplete.autocomplete(parser)</span>
 <span class="line-precise" title="Any Types on this line: 
 Omitted Generics (x4)
-Explicit (x1)">    return parser.parse_args(raw_args, namespace=CustomArgparseNamespace())</span>
+Explicit (x1)">    args = parser.parse_args(raw_args, namespace=CustomArgparseNamespace())</span>
+<span class="line-any" title="Any Types on this line: 
+Explicit (x9)">    return {key: value for key, value in vars(args).items() if value is not None}</span>
 <span class="line-empty" title="No Anys on this line!"></span>
 <span class="line-empty" title="No Anys on this line!"></span>
 <span class="line-precise" title="No Anys on this line!">def main(raw_args: Optional[list[str]] = None) -&gt; None:</span>
 <span class="line-empty" title="No Anys on this line!">    """CLI entry poit."""</span>
-<span class="line-precise" title="No Anys on this line!">    args = get_cla(raw_args)</span>
+<span class="line-imprecise" title="Any Types on this line: 
+Explicit (x3)">    user_defined_cla = get_user_defined_cla(raw_args)</span>
+<span class="line-empty" title="No Anys on this line!"></span>
+<span class="line-empty" title="No Anys on this line!">    # config_ignore and config_create are not stored as parameters</span>
 <span class="line-any" title="Any Types on this line: 
-Explicit (x13)
-Omitted Generics (x2)">    logging.getLogger().setLevel(getattr(logging, args.log_level))</span>
+Explicit (x7)
+Omitted Generics (x2)">    config_ignore = user_defined_cla.pop("config_ignore", False)</span>
+<span class="line-any" title="Any Types on this line: 
+Explicit (x7)
+Omitted Generics (x2)">    config_create = user_defined_cla.pop("config_create", False)</span>
 <span class="line-empty" title="No Anys on this line!"></span>
 <span class="line-any" title="Any Types on this line: 
-Explicit (x3)">    GitRepository(</span>
-<span class="line-precise" title="No Anys on this line!">        args.path,</span>
-<span class="line-precise" title="No Anys on this line!">        parse_trees=args.show_trees,</span>
-<span class="line-precise" title="No Anys on this line!">        ls_remote=args.show_prs_heads,</span>
-<span class="line-empty" title="No Anys on this line!">    ).show(</span>
-<span class="line-precise" title="No Anys on this line!">        dag_backend=DagBackends[args.dag_backend.upper()],</span>
-<span class="line-precise" title="No Anys on this line!">        xdg_open=args.xdg_open,</span>
-<span class="line-precise" title="No Anys on this line!">        format=args.format,</span>
-<span class="line-precise" title="No Anys on this line!">        html_embed_svg=args.html_embed_svg,</span>
-<span class="line-precise" title="No Anys on this line!">        show_unreachable_commits=args.show_unreachable_commits,</span>
-<span class="line-precise" title="No Anys on this line!">        show_tags=args.show_tags,</span>
-<span class="line-precise" title="No Anys on this line!">        show_deleted_tags=args.show_deleted_tags,</span>
-<span class="line-precise" title="No Anys on this line!">        show_local_branches=args.show_local_branches,</span>
-<span class="line-precise" title="No Anys on this line!">        show_remote_branches=args.show_remote_branches,</span>
-<span class="line-precise" title="No Anys on this line!">        show_trees=args.show_trees,</span>
+Explicit (x1)">    if config_ignore:</span>
+<span class="line-precise" title="No Anys on this line!">        with context_ignore_config_file():</span>
+<span class="line-imprecise" title="Any Types on this line: 
+Explicit (x1)">            params = Params(public=ParamsPublic(**user_defined_cla))</span>
+<span class="line-empty" title="No Anys on this line!">    else:</span>
+<span class="line-imprecise" title="Any Types on this line: 
+Explicit (x1)">        params = Params(public=ParamsPublic(**user_defined_cla))</span>
+<span class="line-empty" title="No Anys on this line!"></span>
 <span class="line-any" title="Any Types on this line: 
-Explicit (x1)">        show_trees_standalone=args.show_trees_standalone,</span>
-<span class="line-precise" title="No Anys on this line!">        show_blobs=args.show_blobs,</span>
+Explicit (x1)">    if config_create:</span>
+<span class="line-precise" title="No Anys on this line!">        params.create_config()</span>
+<span class="line-precise" title="No Anys on this line!">        return None</span>
+<span class="line-empty" title="No Anys on this line!"></span>
 <span class="line-any" title="Any Types on this line: 
-Explicit (x1)">        show_blobs_standalone=args.show_blobs_standalone,</span>
-<span class="line-precise" title="No Anys on this line!">        show_stash=args.show_stash,</span>
-<span class="line-precise" title="No Anys on this line!">        show_head=args.show_head,</span>
-<span class="line-precise" title="No Anys on this line!">        show_prs_heads=args.show_prs_heads,</span>
-<span class="line-precise" title="No Anys on this line!">        range=args.range,</span>
-<span class="line-precise" title="No Anys on this line!">        commit_message_as_label=args.commit_message_as_label,</span>
-<span class="line-precise" title="No Anys on this line!">        init_refs=args.init_refs,</span>
-<span class="line-precise" title="No Anys on this line!">        filename=args.file,</span>
-<span class="line-empty" title="No Anys on this line!">        dag_attr={</span>
-<span class="line-precise" title="No Anys on this line!">            "rankdir": args.rankdir,</span>
-<span class="line-precise" title="No Anys on this line!">            "dpi": args.dpi,</span>
-<span class="line-precise" title="No Anys on this line!">            "bgcolor": args.bgcolor,</span>
-<span class="line-empty" title="No Anys on this line!">        },</span>
-<span class="line-precise" title="No Anys on this line!">        max_numb_commits=args.max_numb_commits,</span>
-<span class="line-empty" title="No Anys on this line!">    )</span>
+Explicit (x13)
+Omitted Generics (x2)">    logging.getLogger().setLevel(getattr(logging, params.public.log_level))</span>
+<span class="line-any" title="Any Types on this line: 
+Explicit (x2)">    GitRepository(</span>
+<span class="line-precise" title="No Anys on this line!">        params.public.path,</span>
+<span class="line-precise" title="No Anys on this line!">        parse_trees=params.public.show_trees,</span>
+<span class="line-precise" title="No Anys on this line!">        ls_remote=params.public.show_prs_heads,</span>
+<span class="line-precise" title="No Anys on this line!">    ).show(params)</span>
+<span class="line-empty" title="No Anys on this line!"></span>
+<span class="line-precise" title="No Anys on this line!">    return None</span>
 <span class="line-empty" title="No Anys on this line!"></span>
 <span class="line-empty" title="No Anys on this line!"></span>
 <span class="line-precise" title="No Anys on this line!">if __name__ == "__main__":  # pragma: no cover</span>

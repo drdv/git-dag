@@ -31,9 +31,7 @@ git\_dag.cli.CustomArgparseNamespace
       ~CustomArgparseNamespace.init_refs
       ~CustomArgparseNamespace.max_numb_commits
       ~CustomArgparseNamespace.dag_backend
-      ~CustomArgparseNamespace.dpi
-      ~CustomArgparseNamespace.rankdir
-      ~CustomArgparseNamespace.bgcolor
+      ~CustomArgparseNamespace.log_level
       ~CustomArgparseNamespace.html_embed_svg
       ~CustomArgparseNamespace.show_unreachable_commits
       ~CustomArgparseNamespace.show_tags
@@ -42,12 +40,13 @@ git\_dag.cli.CustomArgparseNamespace
       ~CustomArgparseNamespace.show_remote_branches
       ~CustomArgparseNamespace.show_stash
       ~CustomArgparseNamespace.show_trees
+      ~CustomArgparseNamespace.show_trees_standalone
       ~CustomArgparseNamespace.show_blobs
+      ~CustomArgparseNamespace.show_blobs_standalone
       ~CustomArgparseNamespace.show_head
       ~CustomArgparseNamespace.show_prs_heads
       ~CustomArgparseNamespace.range
       ~CustomArgparseNamespace.commit_message_as_label
       ~CustomArgparseNamespace.xdg_open
-      ~CustomArgparseNamespace.log_level
    
    

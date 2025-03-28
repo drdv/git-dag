@@ -3,10 +3,10 @@
   <head><meta charset="utf-8"/>
     <meta name="viewport" content="width=device-width,initial-scale=1"/>
     <meta name="color-scheme" content="light dark"><meta name="viewport" content="width=device-width, initial-scale=1" />
-<link rel="index" title="Index" href="genindex.html" /><link rel="search" title="Search" href="search.html" /><link rel="next" title="Quickstart" href="quickstart.html" /><link rel="prev" title="git_dag" href="index.html" />
+<link rel="index" title="Index" href="genindex.html" /><link rel="search" title="Search" href="search.html" /><link rel="next" title="Examples" href="examples.html" /><link rel="prev" title="Install" href="install.html" />
 
     <!-- Generated with Sphinx 8.2.3 and Furo 2024.08.06 -->
-        <title>Install - git-dag</title>
+        <title>Quickstart - git-dag</title>
       <link rel="stylesheet" type="text/css" href="_static/pygments.css?v=a746c00c" />
     <link rel="stylesheet" type="text/css" href="_static/styles/furo.css?v=354aac6f" />
     <link rel="stylesheet" type="text/css" href="_static/autodoc_pydantic.css" />
@@ -182,7 +182,7 @@
           <svg class="theme-icon-when-light"><use href="#svg-sun"></use></svg>
         </button>
       </div>
-      <label class="toc-overlay-icon toc-header-icon no-toc" for="__toc">
+      <label class="toc-overlay-icon toc-header-icon" for="__toc">
         <div class="visually-hidden">Toggle table of contents sidebar</div>
         <i class="icon"><svg><use href="#svg-toc"></use></svg></i>
       </label>
@@ -203,8 +203,8 @@
 </form>
 <div id="searchbox"></div><div class="sidebar-scroll"><div class="sidebar-tree">
   <ul class="current">
-<li class="toctree-l1 current current-page"><a class="current reference internal" href="#">Install</a></li>
-<li class="toctree-l1"><a class="reference internal" href="quickstart.html">Quickstart</a></li>
+<li class="toctree-l1"><a class="reference internal" href="install.html">Install</a></li>
+<li class="toctree-l1 current current-page"><a class="current reference internal" href="#">Quickstart</a></li>
 <li class="toctree-l1 has-children"><a class="reference internal" href="examples.html">Examples</a><input class="toctree-checkbox" id="toctree-checkbox-1" name="toctree-checkbox-1" role="switch" type="checkbox"/><label for="toctree-checkbox-1"><div class="visually-hidden">Toggle navigation of Examples</div><i class="icon"><svg><use href="#svg-arrow-right"></use></svg></i></label><ul>
 <li class="toctree-l2"><a class="reference internal" href="example_git_internals.html">Git internals</a></li>
 </ul>
@@ -292,7 +292,7 @@
         </a>
         <div class="content-icon-container">
           <div class="view-this-page">
-  <a class="muted-link" href="_sources/install.rst.txt" title="View this page">
+  <a class="muted-link" href="_sources/quickstart.rst.txt" title="View this page">
     <svg><use href="#svg-eye"></use></svg>
     <span class="visually-hidden">View this page</span>
   </a>
@@ -306,34 +306,47 @@
               <svg class="theme-icon-when-light"><use href="#svg-sun"></use></svg>
             </button>
           </div>
-          <label class="toc-overlay-icon toc-content-icon no-toc" for="__toc">
+          <label class="toc-overlay-icon toc-content-icon" for="__toc">
             <div class="visually-hidden">Toggle table of contents sidebar</div>
             <i class="icon"><svg><use href="#svg-toc"></use></svg></i>
           </label>
         </div>
         <article role="main" id="furo-main-content">
-          <section id="install">
-<h1>Install<a class="headerlink" href="#install" title="Link to this heading">¶</a></h1>
-<p>The recommended way to install <code class="docutils literal notranslate"><span class="pre">git-dag</span></code> is using</p>
-<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>pip<span class="w"> </span>install<span class="w"> </span>git-dag
+          <section id="quickstart">
+<h1>Quickstart<a class="headerlink" href="#quickstart" title="Link to this heading">¶</a></h1>
+<p>After <a class="reference internal" href="install.html"><span class="doc">installing</span></a> <code class="docutils literal notranslate"><span class="pre">git-dag</span></code>, one can create a configuration file with
+all user-parameters using</p>
+<div class="literal-block-wrapper docutils container" id="id1">
+<div class="code-block-caption"><span class="caption-text">Create config file <code class="docutils literal notranslate"><span class="pre">~/.git-dag.yml</span></code></span><a class="headerlink" href="#id1" title="Link to this code">¶</a></div>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>git<span class="w"> </span>dag<span class="w"> </span>--config-create
 </pre></div>
 </div>
-<p>or, for a development version (with all optional dependencies)</p>
-<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>pip<span class="w"> </span>install<span class="w"> </span>git-dag<span class="o">[</span>dev<span class="o">]</span>
+</div>
+<p>By default there are 7 sections. The most useful one is <code class="docutils literal notranslate"><span class="pre">public:</span></code> which contains most
+<a class="reference internal" href="cli.html"><span class="doc">command-line</span></a> arguments. There is no need to keep all parameters in the
+config file (any of them can be deleted). The default values of missing parameters are
+defined in the <code class="xref py py-mod docutils literal notranslate"><span class="pre">git_dag.parameters</span></code> module. Command-line arguments take precedence
+over parameters in the config file.</p>
+<section id="generate-a-dag">
+<h2>Generate a DAG<a class="headerlink" href="#generate-a-dag" title="Link to this heading">¶</a></h2>
+<p>Assuming that we are in a folder with a git repository, running</p>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>git<span class="w"> </span>dag<span class="w"> </span>-lrstH<span class="w"> </span>-n<span class="w"> </span><span class="m">500</span>
 </pre></div>
 </div>
-<p>or, an editable install (in a venv)</p>
-<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>git<span class="w"> </span>clone<span class="w"> </span>https://github.com/drdv/git-dag
-<span class="nb">cd</span><span class="w"> </span>git-dag<span class="w"> </span><span class="o">&amp;&amp;</span><span class="w"> </span>make<span class="w"> </span>install
-</pre></div>
-</div>
-<p>In addition, a working installation of <a class="reference external" href="https://graphviz.org/download/">graphviz</a> is
-required. For example:</p>
+<p>would generate <code class="docutils literal notranslate"><span class="pre">git-dag.gv</span></code> (a graphviz dot file) and <code class="docutils literal notranslate"><span class="pre">git-dag.gv.svg</span></code> containing a
+DAG with the 500 most recent commits, including:</p>
 <ul class="simple">
-<li><p>fedora: <code class="docutils literal notranslate"><span class="pre">dnf</span> <span class="pre">install</span> <span class="pre">graphviz</span></code></p></li>
-<li><p>ubuntu: <code class="docutils literal notranslate"><span class="pre">apt</span> <span class="pre">install</span> <span class="pre">graphviz</span></code></p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">-l</span></code> local branches</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">-r</span></code> remote branches</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">-s</span></code> stashes</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">-t</span></code> tags</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">-H</span></code> HEAD</p></li>
 </ul>
-<p>The code has been tested on fedora 41, ubuntu 24.04.2 LTS, macos Sequoia.</p>
+<p>Setting <code class="docutils literal notranslate"><span class="pre">-n</span> <span class="pre">0</span></code> would include all commits (even unreachable ones if <code class="docutils literal notranslate"><span class="pre">-u</span></code> is passed as
+well). Trees and blobs can be displayed using <code class="docutils literal notranslate"><span class="pre">-T</span></code> and <code class="docutils literal notranslate"><span class="pre">-B</span></code> (this is recommended
+only for small repositories).</p>
+<p>See the <a class="reference internal" href="examples.html"><span class="doc">examples</span></a>.</p>
+</section>
 </section>
 
         </article>
@@ -341,23 +354,23 @@ required. For example:</p>
       <footer>
         
         <div class="related-pages">
-          <a class="next-page" href="quickstart.html">
+          <a class="next-page" href="examples.html">
               <div class="page-info">
                 <div class="context">
                   <span>Next</span>
                 </div>
-                <div class="title">Quickstart</div>
+                <div class="title">Examples</div>
               </div>
               <svg class="furo-related-icon"><use href="#svg-arrow-right"></use></svg>
             </a>
-          <a class="prev-page" href="index.html">
+          <a class="prev-page" href="install.html">
               <svg class="furo-related-icon"><use href="#svg-arrow-right"></use></svg>
               <div class="page-info">
                 <div class="context">
                   <span>Previous</span>
                 </div>
                 
-                <div class="title">Home</div>
+                <div class="title">Install</div>
                 
               </div>
             </a>
@@ -379,8 +392,27 @@ required. For example:</p>
         
       </footer>
     </div>
-    <aside class="toc-drawer no-toc">
+    <aside class="toc-drawer">
       
+      
+      <div class="toc-sticky toc-scroll">
+        <div class="toc-title-container">
+          <span class="toc-title">
+            On this page
+          </span>
+        </div>
+        <div class="toc-tree-container">
+          <div class="toc-tree">
+            <ul>
+<li><a class="reference internal" href="#">Quickstart</a><ul>
+<li><a class="reference internal" href="#generate-a-dag">Generate a DAG</a></li>
+</ul>
+</li>
+</ul>
+
+          </div>
+        </div>
+      </div>
       
       
     </aside>

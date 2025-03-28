@@ -19,3 +19,11 @@ or, an editable install (in a venv)
 
    git clone https://github.com/drdv/git-dag
    cd git-dag && make install
+
+In addition, a working installation of `graphviz <https://graphviz.org/download/>`_ is
+required. For example:
+
++ fedora: ``dnf install graphviz``
++ ubuntu: ``apt install graphviz``
+
+The code has been tested on fedora 41, ubuntu 24.04.2 LTS, macos Sequoia.

@@ -26,26 +26,8 @@ git\_dag.dag.DagVisualizer
 
    .. autosummary::
    
-      ~DagVisualizer.commit_message_as_label
-      ~DagVisualizer.dag_attr
-      ~DagVisualizer.filename
-      ~DagVisualizer.format
-      ~DagVisualizer.html_embed_svg
       ~DagVisualizer.objects_sha_to_include
-      ~DagVisualizer.range
-      ~DagVisualizer.show_blobs
-      ~DagVisualizer.show_blobs_standalone
-      ~DagVisualizer.show_deleted_tags
-      ~DagVisualizer.show_head
-      ~DagVisualizer.show_local_branches
-      ~DagVisualizer.show_prs_heads
-      ~DagVisualizer.show_remote_branches
-      ~DagVisualizer.show_stash
-      ~DagVisualizer.show_tags
-      ~DagVisualizer.show_trees
-      ~DagVisualizer.show_trees_standalone
-      ~DagVisualizer.show_unreachable_commits
       ~DagVisualizer.repository
-      ~DagVisualizer.dag_backend
+      ~DagVisualizer.params
    
    

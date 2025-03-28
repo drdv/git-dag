@@ -15,8 +15,8 @@
       :toctree:
       :nosignatures:
    
-      get_cla
       get_cla_parser
+      get_user_defined_cla
       main
    
    
