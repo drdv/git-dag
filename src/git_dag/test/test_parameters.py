@@ -130,7 +130,7 @@ def test_default_values_from_config_manual(tmp_path: Path) -> None:
 
     assert public.format == "svg"
     assert public.log_level == "WARNING"
-    assert public.init_refs == None
+    assert public.init_refs is None
     assert not public.show_head
     assert public.show_blobs
 

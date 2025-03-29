@@ -142,9 +142,13 @@ class TreeBlobHandlerMixin:
             standalone_kind="tree" if standalone else None,
         )
 
-        if self.params.public.show_blobs:
-            for child in item.children:
-                self.dag.edge(sha, child.sha)
+        for child in item.children:
+            match child:
+                case GitTree():
+                    self.dag.edge(sha, child.sha)
+                case GitBlob():
+                    if self.params.public.show_blobs:
+                        self.dag.edge(sha, child.sha)
 
     def _add_blob(self: MixinProtocol, sha: str, standalone: bool = False) -> None:
         self.included_nodes_id.add(sha)
