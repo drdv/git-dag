@@ -13,9 +13,13 @@ Code
    dag
    git_commands
    git_repository
+   parameters
    interfaces.dag_base
    interfaces.graphviz
    utils
+
+Pydantic models
+----------------
 
 .. toctree::
    :maxdepth: 2

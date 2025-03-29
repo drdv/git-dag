@@ -75,4 +75,6 @@ HTML_EMBED_SVG: Final[
 """
 
 #: Configuration file.
-CONFIG_FILE: Final[Path] = Path(os.path.expandvars("$HOME/.git-dag.yml"))
+CONFIG_FILE: Final[Path] = Path(
+    os.getenv("GIT_DAG_CONFIG_FILE", os.path.expandvars("$HOME/.git-dag.yml"))
+)

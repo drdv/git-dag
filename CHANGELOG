@@ -2,6 +2,8 @@
 
 * 0.1.4    UNRELEASED
 
++ Add option to change config file name (#93)
+
 * 0.1.3    2025-03-28
 
 + Store user-parameters in a configuration file (#4)

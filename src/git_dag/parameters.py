@@ -288,9 +288,10 @@ class Params(BaseModel):
     happy. On the other hand, mypy complains about call-arg (Missing named argument) if
     we use ``public: Annotated[ParamsPublic, Field(default_factory=ParamsPublic)]`` with
     which pylint is happy (see first comment of https://stackoverflow.com/a/77844893).
-      + mypy 1.15.0
-      + pylint 3.3.6 (astroid 3.3.9)
-      + python 3.13.1
+
+    + mypy 1.15.0
+    + pylint 3.3.6 (astroid 3.3.9)
+    + python 3.13.1
 
     The former syntax is used below (i.e., mypy is prioritized) and pylint errors are
     suppressed by specifying ``generated-members`` in ``pyproject.toml``.

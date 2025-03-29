@@ -25,5 +25,6 @@ required. For example:
 
 + fedora: ``dnf install graphviz``
 + ubuntu: ``apt install graphviz``
++ macos: ``brew install graphviz``
 
 The code has been tested on fedora 41, ubuntu 24.04.2 LTS, macos Sequoia.
