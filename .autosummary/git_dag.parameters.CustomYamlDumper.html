@@ -3,10 +3,10 @@
   <head><meta charset="utf-8"/>
     <meta name="viewport" content="width=device-width,initial-scale=1"/>
     <meta name="color-scheme" content="light dark"><meta name="viewport" content="width=device-width, initial-scale=1" />
-<link rel="index" title="Index" href="../genindex.html" /><link rel="search" title="Search" href="../search.html" /><link rel="next" title="git_dag.dag.HeadHandlerMixin" href="git_dag.dag.HeadHandlerMixin.html" /><link rel="prev" title="git_dag.dag.CommitHandlerMixin" href="git_dag.dag.CommitHandlerMixin.html" />
+<link rel="index" title="Index" href="../genindex.html" /><link rel="search" title="Search" href="../search.html" /><link rel="next" title="git_dag.parameters.context_ignore_config_file" href="git_dag.parameters.context_ignore_config_file.html" /><link rel="prev" title="git_dag.parameters" href="git_dag.parameters.html" />
 
     <!-- Generated with Sphinx 8.2.3 and Furo 2024.08.06 -->
-        <title>git_dag.dag.DagVisualizer - git-dag</title>
+        <title>git_dag.parameters.CustomYamlDumper - git-dag</title>
       <link rel="stylesheet" type="text/css" href="../_static/pygments.css?v=a746c00c" />
     <link rel="stylesheet" type="text/css" href="../_static/styles/furo.css?v=354aac6f" />
     <link rel="stylesheet" type="text/css" href="../_static/autodoc_pydantic.css" />
@@ -229,10 +229,10 @@
 <li class="toctree-l3"><a class="reference internal" href="git_dag.constants.DagBackends.html">git_dag.constants.DagBackends</a></li>
 </ul>
 </li>
-<li class="toctree-l2 current has-children"><a class="reference internal" href="git_dag.dag.html">git_dag.dag</a><input checked="" class="toctree-checkbox" id="toctree-checkbox-5" name="toctree-checkbox-5" role="switch" type="checkbox"/><label for="toctree-checkbox-5"><div class="visually-hidden">Toggle navigation of git_dag.dag</div><i class="icon"><svg><use href="#svg-arrow-right"></use></svg></i></label><ul class="current">
+<li class="toctree-l2 has-children"><a class="reference internal" href="git_dag.dag.html">git_dag.dag</a><input class="toctree-checkbox" id="toctree-checkbox-5" name="toctree-checkbox-5" role="switch" type="checkbox"/><label for="toctree-checkbox-5"><div class="visually-hidden">Toggle navigation of git_dag.dag</div><i class="icon"><svg><use href="#svg-arrow-right"></use></svg></i></label><ul>
 <li class="toctree-l3"><a class="reference internal" href="git_dag.dag.BranchHandlerMixin.html">git_dag.dag.BranchHandlerMixin</a></li>
 <li class="toctree-l3"><a class="reference internal" href="git_dag.dag.CommitHandlerMixin.html">git_dag.dag.CommitHandlerMixin</a></li>
-<li class="toctree-l3 current current-page"><a class="current reference internal" href="#">git_dag.dag.DagVisualizer</a></li>
+<li class="toctree-l3"><a class="reference internal" href="git_dag.dag.DagVisualizer.html">git_dag.dag.DagVisualizer</a></li>
 <li class="toctree-l3"><a class="reference internal" href="git_dag.dag.HeadHandlerMixin.html">git_dag.dag.HeadHandlerMixin</a></li>
 <li class="toctree-l3"><a class="reference internal" href="git_dag.dag.MixinProtocol.html">git_dag.dag.MixinProtocol</a></li>
 <li class="toctree-l3"><a class="reference internal" href="git_dag.dag.StashHandlerMixin.html">git_dag.dag.StashHandlerMixin</a></li>
@@ -255,8 +255,8 @@
 <li class="toctree-l3"><a class="reference internal" href="git_dag.git_repository.RegexParser.html">git_dag.git_repository.RegexParser</a></li>
 </ul>
 </li>
-<li class="toctree-l2 has-children"><a class="reference internal" href="git_dag.parameters.html">git_dag.parameters</a><input class="toctree-checkbox" id="toctree-checkbox-8" name="toctree-checkbox-8" role="switch" type="checkbox"/><label for="toctree-checkbox-8"><div class="visually-hidden">Toggle navigation of git_dag.parameters</div><i class="icon"><svg><use href="#svg-arrow-right"></use></svg></i></label><ul>
-<li class="toctree-l3"><a class="reference internal" href="git_dag.parameters.CustomYamlDumper.html">git_dag.parameters.CustomYamlDumper</a></li>
+<li class="toctree-l2 current has-children"><a class="reference internal" href="git_dag.parameters.html">git_dag.parameters</a><input checked="" class="toctree-checkbox" id="toctree-checkbox-8" name="toctree-checkbox-8" role="switch" type="checkbox"/><label for="toctree-checkbox-8"><div class="visually-hidden">Toggle navigation of git_dag.parameters</div><i class="icon"><svg><use href="#svg-arrow-right"></use></svg></i></label><ul class="current">
+<li class="toctree-l3 current current-page"><a class="current reference internal" href="#">git_dag.parameters.CustomYamlDumper</a></li>
 <li class="toctree-l3"><a class="reference internal" href="git_dag.parameters.context_ignore_config_file.html">git_dag.parameters.context_ignore_config_file</a></li>
 </ul>
 </li>
@@ -298,7 +298,7 @@
         </a>
         <div class="content-icon-container">
           <div class="view-this-page">
-  <a class="muted-link" href="../_sources/.autosummary/git_dag.dag.DagVisualizer.rst.txt" title="View this page">
+  <a class="muted-link" href="../_sources/.autosummary/git_dag.parameters.CustomYamlDumper.rst.txt" title="View this page">
     <svg><use href="#svg-eye"></use></svg>
     <span class="visually-hidden">View this page</span>
   </a>
@@ -318,19 +318,290 @@
           </label>
         </div>
         <article role="main" id="furo-main-content">
-          <section id="git-dag-dag-dagvisualizer">
-<h1>git_dag.dag.DagVisualizer<a class="headerlink" href="#git-dag-dag-dagvisualizer" title="Link to this heading">¶</a></h1>
+          <section id="git-dag-parameters-customyamldumper">
+<h1>git_dag.parameters.CustomYamlDumper<a class="headerlink" href="#git-dag-parameters-customyamldumper" title="Link to this heading">¶</a></h1>
 <dl class="py class">
-<dt class="sig sig-object py" id="git_dag.dag.DagVisualizer">
-<em class="property"><span class="k"><span class="pre">class</span></span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">git_dag.dag.</span></span><span class="sig-name descname"><span class="pre">DagVisualizer</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">repository</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference internal" href="git_dag.git_repository.GitRepository.html#git_dag.git_repository.GitRepository" title="git_dag.git_repository.GitRepository"><span class="pre">GitRepository</span></a></span></em>, <em class="sig-param"><span class="n"><span class="pre">params</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference internal" href="../pydantic_models.html#git_dag.parameters.Params" title="git_dag.parameters.Params"><span class="pre">Params</span></a></span></em>, <em class="sig-param"><span class="n"><span class="pre">objects_sha_to_include</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">set</span><span class="p"><span class="pre">[</span></span><span class="pre">str</span><span class="p"><span class="pre">]</span></span><span class="w"> </span><span class="p"><span class="pre">|</span></span><span class="w"> </span><span class="pre">None</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">None</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/git_dag/dag.html#DagVisualizer"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#git_dag.dag.DagVisualizer" title="Link to this definition">¶</a></dt>
-<dd><p>Bases: <a class="reference internal" href="git_dag.dag.CommitHandlerMixin.html#git_dag.dag.CommitHandlerMixin" title="git_dag.dag.CommitHandlerMixin"><code class="xref py py-class docutils literal notranslate"><span class="pre">CommitHandlerMixin</span></code></a>, <a class="reference internal" href="git_dag.dag.TreeBlobHandlerMixin.html#git_dag.dag.TreeBlobHandlerMixin" title="git_dag.dag.TreeBlobHandlerMixin"><code class="xref py py-class docutils literal notranslate"><span class="pre">TreeBlobHandlerMixin</span></code></a>, <a class="reference internal" href="git_dag.dag.TagHandlerMixin.html#git_dag.dag.TagHandlerMixin" title="git_dag.dag.TagHandlerMixin"><code class="xref py py-class docutils literal notranslate"><span class="pre">TagHandlerMixin</span></code></a>, <a class="reference internal" href="git_dag.dag.StashHandlerMixin.html#git_dag.dag.StashHandlerMixin" title="git_dag.dag.StashHandlerMixin"><code class="xref py py-class docutils literal notranslate"><span class="pre">StashHandlerMixin</span></code></a>, <a class="reference internal" href="git_dag.dag.BranchHandlerMixin.html#git_dag.dag.BranchHandlerMixin" title="git_dag.dag.BranchHandlerMixin"><code class="xref py py-class docutils literal notranslate"><span class="pre">BranchHandlerMixin</span></code></a>, <a class="reference internal" href="git_dag.dag.HeadHandlerMixin.html#git_dag.dag.HeadHandlerMixin" title="git_dag.dag.HeadHandlerMixin"><code class="xref py py-class docutils literal notranslate"><span class="pre">HeadHandlerMixin</span></code></a></p>
-<p>Git DAG visualizer.</p>
+<dt class="sig sig-object py" id="git_dag.parameters.CustomYamlDumper">
+<em class="property"><span class="k"><span class="pre">class</span></span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">git_dag.parameters.</span></span><span class="sig-name descname"><span class="pre">CustomYamlDumper</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">stream</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">default_style</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">default_flow_style</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">False</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">canonical</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">indent</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">width</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">allow_unicode</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">line_break</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">encoding</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">explicit_start</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">explicit_end</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">version</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">tags</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">sort_keys</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">True</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/git_dag/parameters.html#CustomYamlDumper"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#git_dag.parameters.CustomYamlDumper" title="Link to this definition">¶</a></dt>
+<dd><p>Bases: <code class="xref py py-class docutils literal notranslate"><span class="pre">SafeDumper</span></code></p>
+<p>Insert empty line between top-level sections.</p>
+<p><a class="reference external" href="https://github.com/yaml/pyyaml/issues/127#issuecomment-525800484">https://github.com/yaml/pyyaml/issues/127#issuecomment-525800484</a></p>
 <p class="rubric">Methods</p>
 <div class="table-wrapper autosummary longtable docutils container">
 <table class="autosummary longtable docutils align-default">
 <tbody>
-<tr class="row-odd"><td><p><a class="reference internal" href="#git_dag.dag.DagVisualizer.show" title="git_dag.dag.DagVisualizer.show"><code class="xref py py-obj docutils literal notranslate"><span class="pre">show</span></code></a></p></td>
-<td><p>Show the dag.</p></td>
+<tr class="row-odd"><td><p><code class="xref py py-obj docutils literal notranslate"><span class="pre">add_implicit_resolver</span></code></p></td>
+<td><p></p></td>
+</tr>
+<tr class="row-even"><td><p><code class="xref py py-obj docutils literal notranslate"><span class="pre">add_multi_representer</span></code></p></td>
+<td><p></p></td>
+</tr>
+<tr class="row-odd"><td><p><code class="xref py py-obj docutils literal notranslate"><span class="pre">add_path_resolver</span></code></p></td>
+<td><p></p></td>
+</tr>
+<tr class="row-even"><td><p><code class="xref py py-obj docutils literal notranslate"><span class="pre">add_representer</span></code></p></td>
+<td><p></p></td>
+</tr>
+<tr class="row-odd"><td><p><code class="xref py py-obj docutils literal notranslate"><span class="pre">analyze_scalar</span></code></p></td>
+<td><p></p></td>
+</tr>
+<tr class="row-even"><td><p><code class="xref py py-obj docutils literal notranslate"><span class="pre">anchor_node</span></code></p></td>
+<td><p></p></td>
+</tr>
+<tr class="row-odd"><td><p><code class="xref py py-obj docutils literal notranslate"><span class="pre">ascend_resolver</span></code></p></td>
+<td><p></p></td>
+</tr>
+<tr class="row-even"><td><p><code class="xref py py-obj docutils literal notranslate"><span class="pre">check_empty_document</span></code></p></td>
+<td><p></p></td>
+</tr>
+<tr class="row-odd"><td><p><code class="xref py py-obj docutils literal notranslate"><span class="pre">check_empty_mapping</span></code></p></td>
+<td><p></p></td>
+</tr>
+<tr class="row-even"><td><p><code class="xref py py-obj docutils literal notranslate"><span class="pre">check_empty_sequence</span></code></p></td>
+<td><p></p></td>
+</tr>
+<tr class="row-odd"><td><p><code class="xref py py-obj docutils literal notranslate"><span class="pre">check_resolver_prefix</span></code></p></td>
+<td><p></p></td>
+</tr>
+<tr class="row-even"><td><p><code class="xref py py-obj docutils literal notranslate"><span class="pre">check_simple_key</span></code></p></td>
+<td><p></p></td>
+</tr>
+<tr class="row-odd"><td><p><code class="xref py py-obj docutils literal notranslate"><span class="pre">choose_scalar_style</span></code></p></td>
+<td><p></p></td>
+</tr>
+<tr class="row-even"><td><p><code class="xref py py-obj docutils literal notranslate"><span class="pre">close</span></code></p></td>
+<td><p></p></td>
+</tr>
+<tr class="row-odd"><td><p><code class="xref py py-obj docutils literal notranslate"><span class="pre">descend_resolver</span></code></p></td>
+<td><p></p></td>
+</tr>
+<tr class="row-even"><td><p><code class="xref py py-obj docutils literal notranslate"><span class="pre">determine_block_hints</span></code></p></td>
+<td><p></p></td>
+</tr>
+<tr class="row-odd"><td><p><code class="xref py py-obj docutils literal notranslate"><span class="pre">dispose</span></code></p></td>
+<td><p></p></td>
+</tr>
+<tr class="row-even"><td><p><code class="xref py py-obj docutils literal notranslate"><span class="pre">emit</span></code></p></td>
+<td><p></p></td>
+</tr>
+<tr class="row-odd"><td><p><code class="xref py py-obj docutils literal notranslate"><span class="pre">expect_alias</span></code></p></td>
+<td><p></p></td>
+</tr>
+<tr class="row-even"><td><p><code class="xref py py-obj docutils literal notranslate"><span class="pre">expect_block_mapping</span></code></p></td>
+<td><p></p></td>
+</tr>
+<tr class="row-odd"><td><p><code class="xref py py-obj docutils literal notranslate"><span class="pre">expect_block_mapping_key</span></code></p></td>
+<td><p></p></td>
+</tr>
+<tr class="row-even"><td><p><code class="xref py py-obj docutils literal notranslate"><span class="pre">expect_block_mapping_simple_value</span></code></p></td>
+<td><p></p></td>
+</tr>
+<tr class="row-odd"><td><p><code class="xref py py-obj docutils literal notranslate"><span class="pre">expect_block_mapping_value</span></code></p></td>
+<td><p></p></td>
+</tr>
+<tr class="row-even"><td><p><code class="xref py py-obj docutils literal notranslate"><span class="pre">expect_block_sequence</span></code></p></td>
+<td><p></p></td>
+</tr>
+<tr class="row-odd"><td><p><code class="xref py py-obj docutils literal notranslate"><span class="pre">expect_block_sequence_item</span></code></p></td>
+<td><p></p></td>
+</tr>
+<tr class="row-even"><td><p><code class="xref py py-obj docutils literal notranslate"><span class="pre">expect_document_end</span></code></p></td>
+<td><p></p></td>
+</tr>
+<tr class="row-odd"><td><p><code class="xref py py-obj docutils literal notranslate"><span class="pre">expect_document_root</span></code></p></td>
+<td><p></p></td>
+</tr>
+<tr class="row-even"><td><p><code class="xref py py-obj docutils literal notranslate"><span class="pre">expect_document_start</span></code></p></td>
+<td><p></p></td>
+</tr>
+<tr class="row-odd"><td><p><code class="xref py py-obj docutils literal notranslate"><span class="pre">expect_first_block_mapping_key</span></code></p></td>
+<td><p></p></td>
+</tr>
+<tr class="row-even"><td><p><code class="xref py py-obj docutils literal notranslate"><span class="pre">expect_first_block_sequence_item</span></code></p></td>
+<td><p></p></td>
+</tr>
+<tr class="row-odd"><td><p><code class="xref py py-obj docutils literal notranslate"><span class="pre">expect_first_document_start</span></code></p></td>
+<td><p></p></td>
+</tr>
+<tr class="row-even"><td><p><code class="xref py py-obj docutils literal notranslate"><span class="pre">expect_first_flow_mapping_key</span></code></p></td>
+<td><p></p></td>
+</tr>
+<tr class="row-odd"><td><p><code class="xref py py-obj docutils literal notranslate"><span class="pre">expect_first_flow_sequence_item</span></code></p></td>
+<td><p></p></td>
+</tr>
+<tr class="row-even"><td><p><code class="xref py py-obj docutils literal notranslate"><span class="pre">expect_flow_mapping</span></code></p></td>
+<td><p></p></td>
+</tr>
+<tr class="row-odd"><td><p><code class="xref py py-obj docutils literal notranslate"><span class="pre">expect_flow_mapping_key</span></code></p></td>
+<td><p></p></td>
+</tr>
+<tr class="row-even"><td><p><code class="xref py py-obj docutils literal notranslate"><span class="pre">expect_flow_mapping_simple_value</span></code></p></td>
+<td><p></p></td>
+</tr>
+<tr class="row-odd"><td><p><code class="xref py py-obj docutils literal notranslate"><span class="pre">expect_flow_mapping_value</span></code></p></td>
+<td><p></p></td>
+</tr>
+<tr class="row-even"><td><p><code class="xref py py-obj docutils literal notranslate"><span class="pre">expect_flow_sequence</span></code></p></td>
+<td><p></p></td>
+</tr>
+<tr class="row-odd"><td><p><code class="xref py py-obj docutils literal notranslate"><span class="pre">expect_flow_sequence_item</span></code></p></td>
+<td><p></p></td>
+</tr>
+<tr class="row-even"><td><p><code class="xref py py-obj docutils literal notranslate"><span class="pre">expect_node</span></code></p></td>
+<td><p></p></td>
+</tr>
+<tr class="row-odd"><td><p><code class="xref py py-obj docutils literal notranslate"><span class="pre">expect_nothing</span></code></p></td>
+<td><p></p></td>
+</tr>
+<tr class="row-even"><td><p><code class="xref py py-obj docutils literal notranslate"><span class="pre">expect_scalar</span></code></p></td>
+<td><p></p></td>
+</tr>
+<tr class="row-odd"><td><p><code class="xref py py-obj docutils literal notranslate"><span class="pre">expect_stream_start</span></code></p></td>
+<td><p></p></td>
+</tr>
+<tr class="row-even"><td><p><code class="xref py py-obj docutils literal notranslate"><span class="pre">flush_stream</span></code></p></td>
+<td><p></p></td>
+</tr>
+<tr class="row-odd"><td><p><code class="xref py py-obj docutils literal notranslate"><span class="pre">generate_anchor</span></code></p></td>
+<td><p></p></td>
+</tr>
+<tr class="row-even"><td><p><code class="xref py py-obj docutils literal notranslate"><span class="pre">ignore_aliases</span></code></p></td>
+<td><p></p></td>
+</tr>
+<tr class="row-odd"><td><p><code class="xref py py-obj docutils literal notranslate"><span class="pre">increase_indent</span></code></p></td>
+<td><p></p></td>
+</tr>
+<tr class="row-even"><td><p><code class="xref py py-obj docutils literal notranslate"><span class="pre">need_events</span></code></p></td>
+<td><p></p></td>
+</tr>
+<tr class="row-odd"><td><p><code class="xref py py-obj docutils literal notranslate"><span class="pre">need_more_events</span></code></p></td>
+<td><p></p></td>
+</tr>
+<tr class="row-even"><td><p><code class="xref py py-obj docutils literal notranslate"><span class="pre">open</span></code></p></td>
+<td><p></p></td>
+</tr>
+<tr class="row-odd"><td><p><code class="xref py py-obj docutils literal notranslate"><span class="pre">prepare_anchor</span></code></p></td>
+<td><p></p></td>
+</tr>
+<tr class="row-even"><td><p><code class="xref py py-obj docutils literal notranslate"><span class="pre">prepare_tag</span></code></p></td>
+<td><p></p></td>
+</tr>
+<tr class="row-odd"><td><p><code class="xref py py-obj docutils literal notranslate"><span class="pre">prepare_tag_handle</span></code></p></td>
+<td><p></p></td>
+</tr>
+<tr class="row-even"><td><p><code class="xref py py-obj docutils literal notranslate"><span class="pre">prepare_tag_prefix</span></code></p></td>
+<td><p></p></td>
+</tr>
+<tr class="row-odd"><td><p><code class="xref py py-obj docutils literal notranslate"><span class="pre">prepare_version</span></code></p></td>
+<td><p></p></td>
+</tr>
+<tr class="row-even"><td><p><code class="xref py py-obj docutils literal notranslate"><span class="pre">process_anchor</span></code></p></td>
+<td><p></p></td>
+</tr>
+<tr class="row-odd"><td><p><code class="xref py py-obj docutils literal notranslate"><span class="pre">process_scalar</span></code></p></td>
+<td><p></p></td>
+</tr>
+<tr class="row-even"><td><p><code class="xref py py-obj docutils literal notranslate"><span class="pre">process_tag</span></code></p></td>
+<td><p></p></td>
+</tr>
+<tr class="row-odd"><td><p><code class="xref py py-obj docutils literal notranslate"><span class="pre">represent</span></code></p></td>
+<td><p></p></td>
+</tr>
+<tr class="row-even"><td><p><code class="xref py py-obj docutils literal notranslate"><span class="pre">represent_binary</span></code></p></td>
+<td><p></p></td>
+</tr>
+<tr class="row-odd"><td><p><code class="xref py py-obj docutils literal notranslate"><span class="pre">represent_bool</span></code></p></td>
+<td><p></p></td>
+</tr>
+<tr class="row-even"><td><p><code class="xref py py-obj docutils literal notranslate"><span class="pre">represent_data</span></code></p></td>
+<td><p></p></td>
+</tr>
+<tr class="row-odd"><td><p><code class="xref py py-obj docutils literal notranslate"><span class="pre">represent_date</span></code></p></td>
+<td><p></p></td>
+</tr>
+<tr class="row-even"><td><p><code class="xref py py-obj docutils literal notranslate"><span class="pre">represent_datetime</span></code></p></td>
+<td><p></p></td>
+</tr>
+<tr class="row-odd"><td><p><code class="xref py py-obj docutils literal notranslate"><span class="pre">represent_dict</span></code></p></td>
+<td><p></p></td>
+</tr>
+<tr class="row-even"><td><p><code class="xref py py-obj docutils literal notranslate"><span class="pre">represent_float</span></code></p></td>
+<td><p></p></td>
+</tr>
+<tr class="row-odd"><td><p><code class="xref py py-obj docutils literal notranslate"><span class="pre">represent_int</span></code></p></td>
+<td><p></p></td>
+</tr>
+<tr class="row-even"><td><p><code class="xref py py-obj docutils literal notranslate"><span class="pre">represent_list</span></code></p></td>
+<td><p></p></td>
+</tr>
+<tr class="row-odd"><td><p><code class="xref py py-obj docutils literal notranslate"><span class="pre">represent_mapping</span></code></p></td>
+<td><p></p></td>
+</tr>
+<tr class="row-even"><td><p><code class="xref py py-obj docutils literal notranslate"><span class="pre">represent_none</span></code></p></td>
+<td><p></p></td>
+</tr>
+<tr class="row-odd"><td><p><code class="xref py py-obj docutils literal notranslate"><span class="pre">represent_scalar</span></code></p></td>
+<td><p></p></td>
+</tr>
+<tr class="row-even"><td><p><code class="xref py py-obj docutils literal notranslate"><span class="pre">represent_sequence</span></code></p></td>
+<td><p></p></td>
+</tr>
+<tr class="row-odd"><td><p><code class="xref py py-obj docutils literal notranslate"><span class="pre">represent_set</span></code></p></td>
+<td><p></p></td>
+</tr>
+<tr class="row-even"><td><p><code class="xref py py-obj docutils literal notranslate"><span class="pre">represent_str</span></code></p></td>
+<td><p></p></td>
+</tr>
+<tr class="row-odd"><td><p><code class="xref py py-obj docutils literal notranslate"><span class="pre">represent_undefined</span></code></p></td>
+<td><p></p></td>
+</tr>
+<tr class="row-even"><td><p><code class="xref py py-obj docutils literal notranslate"><span class="pre">represent_yaml_object</span></code></p></td>
+<td><p></p></td>
+</tr>
+<tr class="row-odd"><td><p><code class="xref py py-obj docutils literal notranslate"><span class="pre">resolve</span></code></p></td>
+<td><p></p></td>
+</tr>
+<tr class="row-even"><td><p><code class="xref py py-obj docutils literal notranslate"><span class="pre">serialize</span></code></p></td>
+<td><p></p></td>
+</tr>
+<tr class="row-odd"><td><p><code class="xref py py-obj docutils literal notranslate"><span class="pre">serialize_node</span></code></p></td>
+<td><p></p></td>
+</tr>
+<tr class="row-even"><td><p><code class="xref py py-obj docutils literal notranslate"><span class="pre">write_double_quoted</span></code></p></td>
+<td><p></p></td>
+</tr>
+<tr class="row-odd"><td><p><code class="xref py py-obj docutils literal notranslate"><span class="pre">write_folded</span></code></p></td>
+<td><p></p></td>
+</tr>
+<tr class="row-even"><td><p><code class="xref py py-obj docutils literal notranslate"><span class="pre">write_indent</span></code></p></td>
+<td><p></p></td>
+</tr>
+<tr class="row-odd"><td><p><code class="xref py py-obj docutils literal notranslate"><span class="pre">write_indicator</span></code></p></td>
+<td><p></p></td>
+</tr>
+<tr class="row-even"><td><p><code class="xref py py-obj docutils literal notranslate"><span class="pre">write_line_break</span></code></p></td>
+<td><p></p></td>
+</tr>
+<tr class="row-odd"><td><p><code class="xref py py-obj docutils literal notranslate"><span class="pre">write_literal</span></code></p></td>
+<td><p></p></td>
+</tr>
+<tr class="row-even"><td><p><code class="xref py py-obj docutils literal notranslate"><span class="pre">write_plain</span></code></p></td>
+<td><p></p></td>
+</tr>
+<tr class="row-odd"><td><p><code class="xref py py-obj docutils literal notranslate"><span class="pre">write_single_quoted</span></code></p></td>
+<td><p></p></td>
+</tr>
+<tr class="row-even"><td><p><code class="xref py py-obj docutils literal notranslate"><span class="pre">write_stream_end</span></code></p></td>
+<td><p></p></td>
+</tr>
+<tr class="row-odd"><td><p><code class="xref py py-obj docutils literal notranslate"><span class="pre">write_stream_start</span></code></p></td>
+<td><p></p></td>
+</tr>
+<tr class="row-even"><td><p><code class="xref py py-obj docutils literal notranslate"><span class="pre">write_tag_directive</span></code></p></td>
+<td><p></p></td>
+</tr>
+<tr class="row-odd"><td><p><code class="xref py py-obj docutils literal notranslate"><span class="pre">write_version_directive</span></code></p></td>
+<td><p></p></td>
 </tr>
 </tbody>
 </table>
@@ -339,34 +610,42 @@
 <div class="table-wrapper autosummary longtable docutils container">
 <table class="autosummary longtable docutils align-default">
 <tbody>
-<tr class="row-odd"><td><p><code class="xref py py-obj docutils literal notranslate"><span class="pre">objects_sha_to_include</span></code></p></td>
+<tr class="row-odd"><td><p><code class="xref py py-obj docutils literal notranslate"><span class="pre">ANCHOR_TEMPLATE</span></code></p></td>
 <td><p></p></td>
 </tr>
-<tr class="row-even"><td><p><code class="xref py py-obj docutils literal notranslate"><span class="pre">repository</span></code></p></td>
+<tr class="row-even"><td><p><code class="xref py py-obj docutils literal notranslate"><span class="pre">DEFAULT_MAPPING_TAG</span></code></p></td>
 <td><p></p></td>
 </tr>
-<tr class="row-odd"><td><p><code class="xref py py-obj docutils literal notranslate"><span class="pre">params</span></code></p></td>
+<tr class="row-odd"><td><p><code class="xref py py-obj docutils literal notranslate"><span class="pre">DEFAULT_SCALAR_TAG</span></code></p></td>
+<td><p></p></td>
+</tr>
+<tr class="row-even"><td><p><code class="xref py py-obj docutils literal notranslate"><span class="pre">DEFAULT_SEQUENCE_TAG</span></code></p></td>
+<td><p></p></td>
+</tr>
+<tr class="row-odd"><td><p><code class="xref py py-obj docutils literal notranslate"><span class="pre">DEFAULT_TAG_PREFIXES</span></code></p></td>
+<td><p></p></td>
+</tr>
+<tr class="row-even"><td><p><code class="xref py py-obj docutils literal notranslate"><span class="pre">ESCAPE_REPLACEMENTS</span></code></p></td>
+<td><p></p></td>
+</tr>
+<tr class="row-odd"><td><p><code class="xref py py-obj docutils literal notranslate"><span class="pre">inf_value</span></code></p></td>
+<td><p></p></td>
+</tr>
+<tr class="row-even"><td><p><code class="xref py py-obj docutils literal notranslate"><span class="pre">yaml_implicit_resolvers</span></code></p></td>
+<td><p></p></td>
+</tr>
+<tr class="row-odd"><td><p><code class="xref py py-obj docutils literal notranslate"><span class="pre">yaml_multi_representers</span></code></p></td>
+<td><p></p></td>
+</tr>
+<tr class="row-even"><td><p><code class="xref py py-obj docutils literal notranslate"><span class="pre">yaml_path_resolvers</span></code></p></td>
+<td><p></p></td>
+</tr>
+<tr class="row-odd"><td><p><code class="xref py py-obj docutils literal notranslate"><span class="pre">yaml_representers</span></code></p></td>
 <td><p></p></td>
 </tr>
 </tbody>
 </table>
 </div>
-<dl class="py method">
-<dt class="sig sig-object py" id="git_dag.dag.DagVisualizer.show">
-<span class="sig-name descname"><span class="pre">show</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">xdg_open</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">bool</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">False</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">Any</span></span></span><a class="reference internal" href="../_modules/git_dag/dag.html#DagVisualizer.show"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#git_dag.dag.DagVisualizer.show" title="Link to this definition">¶</a></dt>
-<dd><p>Show the dag.</p>
-<section id="note">
-<h2>Note<a class="headerlink" href="#note" title="Link to this heading">¶</a></h2>
-<p>When the <code class="docutils literal notranslate"><span class="pre">format</span></code> is set to <code class="docutils literal notranslate"><span class="pre">gv</span></code>, only the source file is generated and the
-user can generate the DAG manually with any layout engine and parameters. For
-example: <code class="docutils literal notranslate"><span class="pre">dot</span> <span class="pre">-Gnslimit=2</span> <span class="pre">-Tsvg</span> <span class="pre">git-dag.gv</span> <span class="pre">-o</span> <span class="pre">git-dag.gv.svg</span></code>, see <a class="reference external" href="https://forum.graphviz.org/t/creating-a-dot-graph-with-thousands-of-nodes/1092/2">this</a>
-thread.</p>
-<p>Generating a DAG with more than 1000 nodes could be time-consuming. It is
-recommended to get an initial view using <code class="docutils literal notranslate"><span class="pre">git</span> <span class="pre">dag</span> <span class="pre">-lrto</span></code> and then limit to
-specific references and number of nodes using the <code class="docutils literal notranslate"><span class="pre">-i</span></code> and <code class="docutils literal notranslate"><span class="pre">-n</span></code> flags.</p>
-</section>
-</dd></dl>
-
 </dd></dl>
 
 </section>
@@ -376,23 +655,23 @@ specific references and number of nodes using the <code class="docutils literal 
       <footer>
         
         <div class="related-pages">
-          <a class="next-page" href="git_dag.dag.HeadHandlerMixin.html">
+          <a class="next-page" href="git_dag.parameters.context_ignore_config_file.html">
               <div class="page-info">
                 <div class="context">
                   <span>Next</span>
                 </div>
-                <div class="title">git_dag.dag.HeadHandlerMixin</div>
+                <div class="title">git_dag.parameters.context_ignore_config_file</div>
               </div>
               <svg class="furo-related-icon"><use href="#svg-arrow-right"></use></svg>
             </a>
-          <a class="prev-page" href="git_dag.dag.CommitHandlerMixin.html">
+          <a class="prev-page" href="git_dag.parameters.html">
               <svg class="furo-related-icon"><use href="#svg-arrow-right"></use></svg>
               <div class="page-info">
                 <div class="context">
                   <span>Previous</span>
                 </div>
                 
-                <div class="title">git_dag.dag.CommitHandlerMixin</div>
+                <div class="title">git_dag.parameters</div>
                 
               </div>
             </a>
@@ -426,11 +705,8 @@ specific references and number of nodes using the <code class="docutils literal 
         <div class="toc-tree-container">
           <div class="toc-tree">
             <ul>
-<li><a class="reference internal" href="#">git_dag.dag.DagVisualizer</a><ul>
-<li><a class="reference internal" href="#git_dag.dag.DagVisualizer"><code class="docutils literal notranslate"><span class="pre">DagVisualizer</span></code></a><ul>
-<li><a class="reference internal" href="#git_dag.dag.DagVisualizer.show"><code class="docutils literal notranslate"><span class="pre">DagVisualizer.show()</span></code></a></li>
-</ul>
-</li>
+<li><a class="reference internal" href="#">git_dag.parameters.CustomYamlDumper</a><ul>
+<li><a class="reference internal" href="#git_dag.parameters.CustomYamlDumper"><code class="docutils literal notranslate"><span class="pre">CustomYamlDumper</span></code></a></li>
 </ul>
 </li>
 </ul>

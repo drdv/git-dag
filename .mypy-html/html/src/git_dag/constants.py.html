@@ -86,6 +86,8 @@
 <span id="L76" class="lineno"><a class="lineno" href="#L76">76</a></span>
 <span id="L77" class="lineno"><a class="lineno" href="#L77">77</a></span>
 <span id="L78" class="lineno"><a class="lineno" href="#L78">78</a></span>
+<span id="L79" class="lineno"><a class="lineno" href="#L79">79</a></span>
+<span id="L80" class="lineno"><a class="lineno" href="#L80">80</a></span>
 </pre></td>
 <td class="table-code"><pre><span class="line-empty" title="No Anys on this line!">"""Constants."""</span>
 <span class="line-empty" title="No Anys on this line!"></span>
@@ -164,8 +166,10 @@
 <span class="line-empty" title="No Anys on this line!">"""</span>
 <span class="line-empty" title="No Anys on this line!"></span>
 <span class="line-empty" title="No Anys on this line!">#: Configuration file.</span>
+<span class="line-precise" title="No Anys on this line!">CONFIG_FILE: Final[Path] = Path(</span>
 <span class="line-precise" title="Any Types on this line: 
-Omitted Generics (x4)">CONFIG_FILE: Final[Path] = Path(os.path.expandvars("$HOME/.git-dag.yml"))</span>
+Omitted Generics (x6)">    os.getenv("GIT_DAG_CONFIG_FILE", os.path.expandvars("$HOME/.git-dag.yml"))</span>
+<span class="line-empty" title="No Anys on this line!">)</span>
 </pre></td>
 </tr></tbody>
 </table>

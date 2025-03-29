@@ -1,0 +1,131 @@
+git\_dag.parameters.CustomYamlDumper
+====================================
+
+.. currentmodule:: git_dag.parameters
+
+.. autoclass:: CustomYamlDumper
+   :members:
+   :show-inheritance:
+   :inherited-members:
+   :special-members: __call__, __add__, __mul__
+
+   
+   
+   .. rubric:: Methods
+
+   .. autosummary::
+      :nosignatures:
+   
+      ~CustomYamlDumper.add_implicit_resolver
+      ~CustomYamlDumper.add_multi_representer
+      ~CustomYamlDumper.add_path_resolver
+      ~CustomYamlDumper.add_representer
+      ~CustomYamlDumper.analyze_scalar
+      ~CustomYamlDumper.anchor_node
+      ~CustomYamlDumper.ascend_resolver
+      ~CustomYamlDumper.check_empty_document
+      ~CustomYamlDumper.check_empty_mapping
+      ~CustomYamlDumper.check_empty_sequence
+      ~CustomYamlDumper.check_resolver_prefix
+      ~CustomYamlDumper.check_simple_key
+      ~CustomYamlDumper.choose_scalar_style
+      ~CustomYamlDumper.close
+      ~CustomYamlDumper.descend_resolver
+      ~CustomYamlDumper.determine_block_hints
+      ~CustomYamlDumper.dispose
+      ~CustomYamlDumper.emit
+      ~CustomYamlDumper.expect_alias
+      ~CustomYamlDumper.expect_block_mapping
+      ~CustomYamlDumper.expect_block_mapping_key
+      ~CustomYamlDumper.expect_block_mapping_simple_value
+      ~CustomYamlDumper.expect_block_mapping_value
+      ~CustomYamlDumper.expect_block_sequence
+      ~CustomYamlDumper.expect_block_sequence_item
+      ~CustomYamlDumper.expect_document_end
+      ~CustomYamlDumper.expect_document_root
+      ~CustomYamlDumper.expect_document_start
+      ~CustomYamlDumper.expect_first_block_mapping_key
+      ~CustomYamlDumper.expect_first_block_sequence_item
+      ~CustomYamlDumper.expect_first_document_start
+      ~CustomYamlDumper.expect_first_flow_mapping_key
+      ~CustomYamlDumper.expect_first_flow_sequence_item
+      ~CustomYamlDumper.expect_flow_mapping
+      ~CustomYamlDumper.expect_flow_mapping_key
+      ~CustomYamlDumper.expect_flow_mapping_simple_value
+      ~CustomYamlDumper.expect_flow_mapping_value
+      ~CustomYamlDumper.expect_flow_sequence
+      ~CustomYamlDumper.expect_flow_sequence_item
+      ~CustomYamlDumper.expect_node
+      ~CustomYamlDumper.expect_nothing
+      ~CustomYamlDumper.expect_scalar
+      ~CustomYamlDumper.expect_stream_start
+      ~CustomYamlDumper.flush_stream
+      ~CustomYamlDumper.generate_anchor
+      ~CustomYamlDumper.ignore_aliases
+      ~CustomYamlDumper.increase_indent
+      ~CustomYamlDumper.need_events
+      ~CustomYamlDumper.need_more_events
+      ~CustomYamlDumper.open
+      ~CustomYamlDumper.prepare_anchor
+      ~CustomYamlDumper.prepare_tag
+      ~CustomYamlDumper.prepare_tag_handle
+      ~CustomYamlDumper.prepare_tag_prefix
+      ~CustomYamlDumper.prepare_version
+      ~CustomYamlDumper.process_anchor
+      ~CustomYamlDumper.process_scalar
+      ~CustomYamlDumper.process_tag
+      ~CustomYamlDumper.represent
+      ~CustomYamlDumper.represent_binary
+      ~CustomYamlDumper.represent_bool
+      ~CustomYamlDumper.represent_data
+      ~CustomYamlDumper.represent_date
+      ~CustomYamlDumper.represent_datetime
+      ~CustomYamlDumper.represent_dict
+      ~CustomYamlDumper.represent_float
+      ~CustomYamlDumper.represent_int
+      ~CustomYamlDumper.represent_list
+      ~CustomYamlDumper.represent_mapping
+      ~CustomYamlDumper.represent_none
+      ~CustomYamlDumper.represent_scalar
+      ~CustomYamlDumper.represent_sequence
+      ~CustomYamlDumper.represent_set
+      ~CustomYamlDumper.represent_str
+      ~CustomYamlDumper.represent_undefined
+      ~CustomYamlDumper.represent_yaml_object
+      ~CustomYamlDumper.resolve
+      ~CustomYamlDumper.serialize
+      ~CustomYamlDumper.serialize_node
+      ~CustomYamlDumper.write_double_quoted
+      ~CustomYamlDumper.write_folded
+      ~CustomYamlDumper.write_indent
+      ~CustomYamlDumper.write_indicator
+      ~CustomYamlDumper.write_line_break
+      ~CustomYamlDumper.write_literal
+      ~CustomYamlDumper.write_plain
+      ~CustomYamlDumper.write_single_quoted
+      ~CustomYamlDumper.write_stream_end
+      ~CustomYamlDumper.write_stream_start
+      ~CustomYamlDumper.write_tag_directive
+      ~CustomYamlDumper.write_version_directive
+   
+   
+
+   
+   
+   .. rubric:: Attributes
+
+   .. autosummary::
+   
+      ~CustomYamlDumper.ANCHOR_TEMPLATE
+      ~CustomYamlDumper.DEFAULT_MAPPING_TAG
+      ~CustomYamlDumper.DEFAULT_SCALAR_TAG
+      ~CustomYamlDumper.DEFAULT_SEQUENCE_TAG
+      ~CustomYamlDumper.DEFAULT_TAG_PREFIXES
+      ~CustomYamlDumper.ESCAPE_REPLACEMENTS
+      ~CustomYamlDumper.inf_value
+      ~CustomYamlDumper.yaml_implicit_resolvers
+      ~CustomYamlDumper.yaml_multi_representers
+      ~CustomYamlDumper.yaml_path_resolvers
+      ~CustomYamlDumper.yaml_representers
+   
+   

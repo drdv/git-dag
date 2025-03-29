@@ -3,10 +3,10 @@
   <head><meta charset="utf-8"/>
     <meta name="viewport" content="width=device-width,initial-scale=1"/>
     <meta name="color-scheme" content="light dark"><meta name="viewport" content="width=device-width, initial-scale=1" />
-<link rel="index" title="Index" href="../genindex.html" /><link rel="search" title="Search" href="../search.html" /><link rel="next" title="git_dag.cli.CustomArgparseNamespace" href="git_dag.cli.CustomArgparseNamespace.html" /><link rel="prev" title="git_dag.cli.get_user_defined_cla" href="git_dag.cli.get_user_defined_cla.html" />
+<link rel="index" title="Index" href="../genindex.html" /><link rel="search" title="Search" href="../search.html" /><link rel="next" title="git_dag.parameters.CustomYamlDumper" href="git_dag.parameters.CustomYamlDumper.html" /><link rel="prev" title="git_dag.git_repository.RegexParser" href="git_dag.git_repository.RegexParser.html" />
 
     <!-- Generated with Sphinx 8.2.3 and Furo 2024.08.06 -->
-        <title>git_dag.cli.main - git-dag</title>
+        <title>git_dag.parameters - git-dag</title>
       <link rel="stylesheet" type="text/css" href="../_static/pygments.css?v=a746c00c" />
     <link rel="stylesheet" type="text/css" href="../_static/styles/furo.css?v=354aac6f" />
     <link rel="stylesheet" type="text/css" href="../_static/autodoc_pydantic.css" />
@@ -182,7 +182,7 @@
           <svg class="theme-icon-when-light"><use href="#svg-sun"></use></svg>
         </button>
       </div>
-      <label class="toc-overlay-icon toc-header-icon" for="__toc">
+      <label class="toc-overlay-icon toc-header-icon no-toc" for="__toc">
         <div class="visually-hidden">Toggle table of contents sidebar</div>
         <i class="icon"><svg><use href="#svg-toc"></use></svg></i>
       </label>
@@ -211,10 +211,10 @@
 </li>
 <li class="toctree-l1"><a class="reference internal" href="../cli.html">Command-line interface</a></li>
 <li class="toctree-l1 current has-children"><a class="reference internal" href="../code_docs.html">Code</a><input checked="" class="toctree-checkbox" id="toctree-checkbox-2" name="toctree-checkbox-2" role="switch" type="checkbox"/><label for="toctree-checkbox-2"><div class="visually-hidden">Toggle navigation of Code</div><i class="icon"><svg><use href="#svg-arrow-right"></use></svg></i></label><ul class="current">
-<li class="toctree-l2 current has-children"><a class="reference internal" href="git_dag.cli.html">git_dag.cli</a><input checked="" class="toctree-checkbox" id="toctree-checkbox-3" name="toctree-checkbox-3" role="switch" type="checkbox"/><label for="toctree-checkbox-3"><div class="visually-hidden">Toggle navigation of git_dag.cli</div><i class="icon"><svg><use href="#svg-arrow-right"></use></svg></i></label><ul class="current">
+<li class="toctree-l2 has-children"><a class="reference internal" href="git_dag.cli.html">git_dag.cli</a><input class="toctree-checkbox" id="toctree-checkbox-3" name="toctree-checkbox-3" role="switch" type="checkbox"/><label for="toctree-checkbox-3"><div class="visually-hidden">Toggle navigation of git_dag.cli</div><i class="icon"><svg><use href="#svg-arrow-right"></use></svg></i></label><ul>
 <li class="toctree-l3"><a class="reference internal" href="git_dag.cli.get_cla_parser.html">git_dag.cli.get_cla_parser</a></li>
 <li class="toctree-l3"><a class="reference internal" href="git_dag.cli.get_user_defined_cla.html">git_dag.cli.get_user_defined_cla</a></li>
-<li class="toctree-l3 current current-page"><a class="current reference internal" href="#">git_dag.cli.main</a></li>
+<li class="toctree-l3"><a class="reference internal" href="git_dag.cli.main.html">git_dag.cli.main</a></li>
 <li class="toctree-l3"><a class="reference internal" href="git_dag.cli.CustomArgparseNamespace.html">git_dag.cli.CustomArgparseNamespace</a></li>
 </ul>
 </li>
@@ -255,7 +255,7 @@
 <li class="toctree-l3"><a class="reference internal" href="git_dag.git_repository.RegexParser.html">git_dag.git_repository.RegexParser</a></li>
 </ul>
 </li>
-<li class="toctree-l2 has-children"><a class="reference internal" href="git_dag.parameters.html">git_dag.parameters</a><input class="toctree-checkbox" id="toctree-checkbox-8" name="toctree-checkbox-8" role="switch" type="checkbox"/><label for="toctree-checkbox-8"><div class="visually-hidden">Toggle navigation of git_dag.parameters</div><i class="icon"><svg><use href="#svg-arrow-right"></use></svg></i></label><ul>
+<li class="toctree-l2 current has-children current-page"><a class="current reference internal" href="#">git_dag.parameters</a><input checked="" class="toctree-checkbox" id="toctree-checkbox-8" name="toctree-checkbox-8" role="switch" type="checkbox"/><label for="toctree-checkbox-8"><div class="visually-hidden">Toggle navigation of git_dag.parameters</div><i class="icon"><svg><use href="#svg-arrow-right"></use></svg></i></label><ul>
 <li class="toctree-l3"><a class="reference internal" href="git_dag.parameters.CustomYamlDumper.html">git_dag.parameters.CustomYamlDumper</a></li>
 <li class="toctree-l3"><a class="reference internal" href="git_dag.parameters.context_ignore_config_file.html">git_dag.parameters.context_ignore_config_file</a></li>
 </ul>
@@ -298,7 +298,7 @@
         </a>
         <div class="content-icon-container">
           <div class="view-this-page">
-  <a class="muted-link" href="../_sources/.autosummary/git_dag.cli.main.rst.txt" title="View this page">
+  <a class="muted-link" href="../_sources/.autosummary/git_dag.parameters.rst.txt" title="View this page">
     <svg><use href="#svg-eye"></use></svg>
     <span class="visually-hidden">View this page</span>
   </a>
@@ -312,20 +312,28 @@
               <svg class="theme-icon-when-light"><use href="#svg-sun"></use></svg>
             </button>
           </div>
-          <label class="toc-overlay-icon toc-content-icon" for="__toc">
+          <label class="toc-overlay-icon toc-content-icon no-toc" for="__toc">
             <div class="visually-hidden">Toggle table of contents sidebar</div>
             <i class="icon"><svg><use href="#svg-toc"></use></svg></i>
           </label>
         </div>
         <article role="main" id="furo-main-content">
-          <section id="git-dag-cli-main">
-<h1>git_dag.cli.main<a class="headerlink" href="#git-dag-cli-main" title="Link to this heading">¶</a></h1>
-<dl class="py function">
-<dt class="sig sig-object py" id="git_dag.cli.main">
-<span class="sig-prename descclassname"><span class="pre">git_dag.cli.</span></span><span class="sig-name descname"><span class="pre">main</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">raw_args</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">list</span><span class="p"><span class="pre">[</span></span><span class="pre">str</span><span class="p"><span class="pre">]</span></span><span class="w"> </span><span class="p"><span class="pre">|</span></span><span class="w"> </span><span class="pre">None</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">None</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">None</span></span></span><a class="reference internal" href="../_modules/git_dag/cli.html#main"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#git_dag.cli.main" title="Link to this definition">¶</a></dt>
-<dd><p>CLI entry poit.</p>
-</dd></dl>
-
+          <section id="module-git_dag.parameters">
+<span id="git-dag-parameters"></span><h1>git_dag.parameters<a class="headerlink" href="#module-git_dag.parameters" title="Link to this heading">¶</a></h1>
+<p>Parameters.</p>
+<p class="rubric">Classes</p>
+<div class="table-wrapper autosummary longtable docutils container">
+<table class="autosummary longtable docutils align-default">
+<tbody>
+<tr class="row-odd"><td><p><a class="reference internal" href="git_dag.parameters.CustomYamlDumper.html#git_dag.parameters.CustomYamlDumper" title="git_dag.parameters.CustomYamlDumper"><code class="xref py py-obj docutils literal notranslate"><span class="pre">CustomYamlDumper</span></code></a></p></td>
+<td><p>Insert empty line between top-level sections.</p></td>
+</tr>
+<tr class="row-even"><td><p><a class="reference internal" href="git_dag.parameters.context_ignore_config_file.html#git_dag.parameters.context_ignore_config_file" title="git_dag.parameters.context_ignore_config_file"><code class="xref py py-obj docutils literal notranslate"><span class="pre">context_ignore_config_file</span></code></a></p></td>
+<td><p>Context manager within which the config file is ignored.</p></td>
+</tr>
+</tbody>
+</table>
+</div>
 </section>
 
         </article>
@@ -333,23 +341,23 @@
       <footer>
         
         <div class="related-pages">
-          <a class="next-page" href="git_dag.cli.CustomArgparseNamespace.html">
+          <a class="next-page" href="git_dag.parameters.CustomYamlDumper.html">
               <div class="page-info">
                 <div class="context">
                   <span>Next</span>
                 </div>
-                <div class="title">git_dag.cli.CustomArgparseNamespace</div>
+                <div class="title">git_dag.parameters.CustomYamlDumper</div>
               </div>
               <svg class="furo-related-icon"><use href="#svg-arrow-right"></use></svg>
             </a>
-          <a class="prev-page" href="git_dag.cli.get_user_defined_cla.html">
+          <a class="prev-page" href="git_dag.git_repository.RegexParser.html">
               <svg class="furo-related-icon"><use href="#svg-arrow-right"></use></svg>
               <div class="page-info">
                 <div class="context">
                   <span>Previous</span>
                 </div>
                 
-                <div class="title">git_dag.cli.get_user_defined_cla</div>
+                <div class="title">git_dag.git_repository.RegexParser</div>
                 
               </div>
             </a>
@@ -371,27 +379,8 @@
         
       </footer>
     </div>
-    <aside class="toc-drawer">
+    <aside class="toc-drawer no-toc">
       
-      
-      <div class="toc-sticky toc-scroll">
-        <div class="toc-title-container">
-          <span class="toc-title">
-            On this page
-          </span>
-        </div>
-        <div class="toc-tree-container">
-          <div class="toc-tree">
-            <ul>
-<li><a class="reference internal" href="#">git_dag.cli.main</a><ul>
-<li><a class="reference internal" href="#git_dag.cli.main"><code class="docutils literal notranslate"><span class="pre">main()</span></code></a></li>
-</ul>
-</li>
-</ul>
-
-          </div>
-        </div>
-      </div>
       
       
     </aside>

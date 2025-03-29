@@ -1,0 +1,33 @@
+﻿git\_dag.parameters
+===================
+
+.. automodule:: git_dag.parameters
+
+   
+   
+   
+
+   
+   
+   
+
+   
+   
+   .. rubric:: Classes
+
+   .. autosummary::
+      :toctree:
+      :template: custom-class-template.rst
+      :nosignatures:
+   
+      CustomYamlDumper
+      context_ignore_config_file
+   
+   
+
+   
+   
+   
+
+
+
