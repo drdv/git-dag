@@ -44,7 +44,8 @@ class CustomArgparseNamespace(argparse.Namespace):
     show_blobs_standalone: bool
     show_head: bool
     show_prs_heads: bool
-    range: Optional[list[str]]
+    marked_commits: Optional[list[str]]
+    range: Optional[str]
     commit_message_as_label: int
     xdg_open: bool
 
@@ -113,9 +114,17 @@ def get_cla_parser() -> argparse.ArgumentParser:
 
     parser.add_argument(
         "-R",
-        "--range",
+        dest="range_expr",
+        help="A range expression (e.g, main..feature).",
+    )
+
+    parser.add_argument(
+        "--marked-commits",
         nargs="+",
-        help="A list to commits in a range to display.",
+        help=(
+            "A list of descriptors of commist to display in different color. "
+            "(e.g., HEAD, main, truncated SHA)"
+        ),
     )
 
     parser.add_argument(

@@ -7,6 +7,7 @@ PYTEST_FLAGS :=
 MYPY_FLAGS :=
 
 DOCS_DIR := docs/sphinx
+DOCS_EXAMPLES_GENERATE_DIR := $(DOCS_DIR)/src/examples_generate
 HTML_DIR := $(DOCS_DIR)/build/html
 
 TEST_RESOURCES := src/git_dag/test/resources
@@ -20,6 +21,13 @@ HTTP_SERVE_DIR := .
 
 define clone_repo
 	@cd ${INTEGR_TEST_DIR} && git clone $1 $2
+endef
+
+define generate_example_data
+	mkdir -p $(DOCS_EXAMPLES_DIR)/examples/$1
+	cd $(DOCS_EXAMPLES_GENERATE_DIR) && $(PYTHON) example_$1.py
+	cp $(TMP_EXAMPLES_DIR)/$1-out/{*.rst,*.svg} $(DOCS_EXAMPLES_DIR)/examples/$1
+	rm -rf $(TMP_EXAMPLES_DIR)/$1-out
 endef
 
 help: URL := github.com/drdv/makefile-doc/releases/latest/download/makefile-doc.awk
@@ -38,7 +46,7 @@ help: ## show this help
 lint: .pylint_report.html lint-copy-to-docs
 
 $(LINT_REPORT).html:
-	$(PYLINT) src/git_dag/* > $(LINT_REPORT).json || exit 0
+	$(PYLINT) src/git_dag/* $(DOCS_EXAMPLES_GENERATE_DIR)/* > $(LINT_REPORT).json || exit 0
 	pylint_report $(LINT_REPORT).json -o $@
 
 .PHONY: lint-copy-to-docs
@@ -78,9 +86,8 @@ pre-commit:
 	@pre-commit run -a
 
 .PHONY: mypy-run
-mypy-run: DOCS_EXAMPLES_DIR := $(DOCS_DIR)/src/examples_generate
 mypy-run:
-	mypy $(MYPY_FLAGS) src/git_dag $(DOCS_EXAMPLES_DIR)/example_git_internals.py
+	mypy $(MYPY_FLAGS) src/git_dag $(DOCS_EXAMPLES_GENERATE_DIR)
 
 .PHONY: test-run
 test-run:
@@ -123,8 +130,6 @@ process-integr-test-repos:
 ##@----- Docs -----
 ##@
 
-#python example_git_internals.py ; cp /tmp/git-dag-examples/out/* ../.static/example_git_internals/
-
 ## Generate sphinx docs with tests lint mypy
 .PHONY: docs
 docs: docs-run test lint mypy
@@ -134,9 +139,8 @@ docs: docs-run test lint mypy
 docs-examples-generate: DOCS_EXAMPLES_DIR := $(DOCS_DIR)/src/.static
 docs-examples-generate: TMP_EXAMPLES_DIR := /tmp/git-dag-examples
 docs-examples-generate:
-	mkdir -p $(DOCS_EXAMPLES_DIR)/examples/git_internals
-	cd $(DOCS_DIR)/src/examples_generate && $(PYTHON) example_git_internals.py
-	cp $(TMP_EXAMPLES_DIR)/git_internals/out/{*.rst,*.svg} $(DOCS_EXAMPLES_DIR)/examples/git_internals
+# $(call generate_example_data,git_internals)
+	$(call generate_example_data,rebase_onto)
 
 ## Generate SVG files for the docs
 # Unless --dry-run is passed to mktemp, a tmp directory is created even without

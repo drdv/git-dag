@@ -82,6 +82,7 @@ disable = [
     "logging-format-interpolation",
     "too-few-public-methods",
     "too-many-arguments",
+    "too-many-positional-arguments",
     "too-many-locals",
     "too-many-instance-attributes",
     "multiple-statements",

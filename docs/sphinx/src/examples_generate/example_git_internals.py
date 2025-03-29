@@ -1,118 +1,28 @@
 """Example from https://git-scm.com/book/en/v2/Git-Internals-Git-Objects"""
 
+# pylint: disable=missing-function-docstring,line-too-long,wrong-import-position,wrong-import-order
+
 import inspect
-import shutil
-import tempfile
+import sys
 from pathlib import Path
 from textwrap import dedent
-from typing import Any, Optional
 
-from git_dag import GitRepository
-from git_dag.cli import get_user_defined_cla
 from git_dag.constants import DictStrStr
 from git_dag.git_commands import GitCommandMutate
-from git_dag.parameters import Params, ParamsPublic
 
-EXAMPLE_NAME = "git_internals"
+sys.path.append(str(Path(__file__).parent))
+from common_utils import StepResultsGenerator
 
-# ------------------------------------------------
-# TMP_DIR = tempfile.mkdtemp()
-# ------------------------------------------------
-TMP_DIR = f"/tmp/git-dag-examples/{EXAMPLE_NAME}"
-shutil.rmtree(TMP_DIR, ignore_errors=True)
-Path(TMP_DIR).mkdir(parents=True)
-# ------------------------------------------------
-
-OUT_DIR = Path(TMP_DIR) / "out"
-OUT_DIR.mkdir()
-
-GIT = GitCommandMutate(TMP_DIR)
-
-SHOW_DEFAULT_ARGS = [
-    "-T",
-    "-B",
-    "-l",
-    "-r",
-    "-u",
-    "-s",
-    "-t",
-    "-D",
-    "-H",
-    "-n",
-    "0",
-    "--trees-standalone",
-    "--blobs-standalone",
-]
-
-
-def visualize(name: str, show_args: list[str]) -> None:
-    params = Params(
-        public=ParamsPublic(
-            **get_user_defined_cla(show_args),
-            file=OUT_DIR / f"{name}.gv",
-        )
-    )
-    GitRepository(TMP_DIR, parse_trees=True).show(params)
-
-    with open(OUT_DIR / f"{name}_html.rst", "w") as h:
-        h.write(
-            dedent(
-                f"""
-                .. raw:: html
-
-                    <object class="svg-object"
-                            data="_static/examples/{EXAMPLE_NAME}/{name}.gv.svg"
-                            type="image/svg+xml">
-                    </object>
-                """
-            )
-        )
-
-    with open(OUT_DIR / f"{name}_args.rst", "w") as h:
-        h.write(
-            dedent(
-                f"""
-                .. code-block:: bash
-                    :caption: Visualize DAG
-
-                    git dag {' '.join(show_args)}
-                """
-            )
-        )
-
-
-def generate_output(
-    name: Optional[str] = None,
-    show_args: Optional[list[str]] = None,
-    commands: Optional[str] = None,
-) -> None:
-    global STEP_NUMBER
-    if name is not None:
-        name = f"{STEP_NUMBER:02}_{name}"
-        STEP_NUMBER += 1
-    else:
-        STEP_NUMBER += 1
-        return None
-
-    visualize(name, SHOW_DEFAULT_ARGS if show_args is None else show_args)
-
-    if commands is not None:
-        with open(OUT_DIR / f"{name}_cmd.rst", "w") as h:
-            h.write(commands)
-
-
-def step_create_empty() -> None:
-    GIT.init()
-
-    generate_output()
+EXAMPLE_NAME = "_".join(Path(__file__).stem.split("_")[1:])
 
 
 def step_create_blob() -> None:
+    # pylint: disable=possibly-used-before-assignment
     GIT.run_general(
         f"echo 'test content' | {GIT.command_prefix} hash-object -w --stdin"
     )
 
-    generate_output(
+    SRG.results(
         inspect.stack()[0][3],
         show_args=["-B", "--blobs-standalone"],
         commands=dedent(
@@ -135,7 +45,7 @@ def step_create_blob_from_file() -> None:
     GIT.add({"test.txt": "version 1\n"})
     GIT.run_general(f"{GIT.command_prefix} hash-object -w test.txt")
 
-    generate_output(
+    SRG.results(
         inspect.stack()[0][3],
         show_args=["-B", "--blobs-standalone"],
         commands=dedent(
@@ -159,7 +69,7 @@ def step_create_blob_from_modified_file() -> None:
     GIT.add({"test.txt": "version 2\n"})
     GIT.run_general(f"{GIT.command_prefix} hash-object -w test.txt")
 
-    generate_output(
+    SRG.results(
         inspect.stack()[0][3],
         show_args=["-B", "--blobs-standalone"],
         commands=dedent(
@@ -186,7 +96,7 @@ def step_create_tree_from_cached_blob() -> None:
     )
     GIT.run_general(f"{GIT.command_prefix} write-tree")
 
-    generate_output(
+    SRG.results(
         inspect.stack()[0][3],
         show_args=["-T", "-B", "--trees-standalone", "--blobs-standalone"],
         commands=dedent(
@@ -215,7 +125,7 @@ def step_create_tree_from_cached_blob_and_file() -> None:
     GIT.run_general(f"{GIT.command_prefix} update-index --add new.txt")
     GIT.run_general(f"{GIT.command_prefix} write-tree")
 
-    generate_output(
+    SRG.results(
         inspect.stack()[0][3],
         show_args=["-T", "-B", "--trees-standalone", "--blobs-standalone"],
         commands=dedent(
@@ -241,7 +151,7 @@ def step_create_tree_with_tree() -> None:
     GIT.run_general(f"{GIT.command_prefix} read-tree --prefix=bak d8329fc1")
     GIT.run_general(f"{GIT.command_prefix} write-tree")
 
-    generate_output(
+    SRG.results(
         inspect.stack()[0][3],
         show_args=["-T", "-B", "--trees-standalone", "--blobs-standalone"],
         commands=dedent(
@@ -284,7 +194,7 @@ def step_add_commits() -> DictStrStr:
         env=env,
     )
 
-    generate_output(
+    SRG.results(
         inspect.stack()[0][3],
         show_args=[
             "-T",
@@ -331,7 +241,7 @@ def step_add_tag(commits: DictStrStr) -> None:
         f'{GIT.command_prefix} tag first-commit -m "First commit" {commits["commit1"]}'
     )
 
-    generate_output(
+    SRG.results(
         inspect.stack()[0][3],
         show_args=[
             "-T",
@@ -357,7 +267,7 @@ def step_add_tag(commits: DictStrStr) -> None:
 def step_add_branch(commits: DictStrStr) -> None:
     GIT.run_general(f"{GIT.command_prefix} branch main {commits['commit3']}")
 
-    generate_output(
+    SRG.results(
         inspect.stack()[0][3],
         show_args=["-T", "-B", "-H", "-l", "-t", "-u", "--blobs-standalone"],
         commands=dedent(
@@ -374,7 +284,7 @@ def step_add_branch(commits: DictStrStr) -> None:
 def step_reset_main(commits: DictStrStr) -> None:
     GIT.run_general(f"{GIT.command_prefix} reset {commits['commit2']}")
 
-    generate_output(
+    SRG.results(
         inspect.stack()[0][3],
         show_args=["-T", "-B", "-H", "-l", "-t", "-u", "--blobs-standalone"],
         commands=dedent(
@@ -394,7 +304,7 @@ def step_detached_head(commits: DictStrStr) -> None:
         expected_stderr="You are in 'detached HEAD' state",
     )
 
-    generate_output(
+    SRG.results(
         inspect.stack()[0][3],
         show_args=["-T", "-B", "-H", "-l", "-t", "-u", "--blobs-standalone"],
         commands=dedent(
@@ -411,7 +321,7 @@ def step_detached_head(commits: DictStrStr) -> None:
 def step_add_lightweight_tag(commits: DictStrStr) -> None:
     GIT.run_general(f'{GIT.command_prefix} tag third-commit {commits["commit3"]}')
 
-    generate_output(
+    SRG.results(
         inspect.stack()[0][3],
         show_args=["-T", "-B", "-H", "-l", "-t", "-u", "--blobs-standalone"],
         commands=dedent(
@@ -426,24 +336,26 @@ def step_add_lightweight_tag(commits: DictStrStr) -> None:
 
 
 if __name__ == "__main__":
-    STEP_NUMBER = 0
+    SRG = StepResultsGenerator(example_name=EXAMPLE_NAME)
+    GIT = GitCommandMutate(SRG.tmp_dir)
+    GIT.init()
 
-    step_create_empty()
     step_create_blob()
     step_create_blob_from_file()
     step_create_blob_from_modified_file()
     step_create_tree_from_cached_blob()
     step_create_tree_from_cached_blob_and_file()
     step_create_tree_with_tree()
-    commits = step_add_commits()
-    step_add_tag(commits)
-    step_add_branch(commits)
-    step_reset_main(commits)
-    step_detached_head(commits)
-    step_add_lightweight_tag(commits)
-    visualize(
+    commits_sha = step_add_commits()
+    step_add_tag(commits_sha)
+    step_add_branch(commits_sha)
+    step_reset_main(commits_sha)
+    step_detached_head(commits_sha)
+    step_add_lightweight_tag(commits_sha)
+    SRG.results(
         "final_dag_no_trees_and_blobs",
         show_args=["-H", "-l", "-t", "-u"],
+        increment_step_number=False,
     )
 
-    print(f"Temporary directory created: {TMP_DIR}")
+    print(f"Temporary directory created: {SRG.tmp_dir}")
