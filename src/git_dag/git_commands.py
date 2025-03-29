@@ -269,7 +269,11 @@ class GitCommand(GitCommandBase):
             "cat-file --batch-all-objects --unordered "
             '--batch-check="%(objectname) %(objecttype)"'
         )
-        objects = self._run(CMD).strip().split("\n")
+        try:
+            objects = self._run(CMD).strip().split("\n")
+        except subprocess.CalledProcessError as e:
+            raise RuntimeError(f"{e} ({e.stderr})") from e
+
         if len(objects) == 1 and not objects[0]:
             LOG.warning("No objects")
             return []
@@ -361,6 +365,47 @@ class GitCommand(GitCommandBase):
     def get_local_head_commit_sha(self) -> str:
         """Return SHA of the commit pointed to by local HEAD."""
         return self._run("rev-parse HEAD").strip()
+
+    def rev_parse_descriptors(
+        self, descriptors: Optional[list[str]]
+    ) -> Optional[set[str]]:
+        """Return a set of SHA corresponding to a list of descriptors.
+
+        Note
+        -----
+        A descriptor can be e.g., HEAD, main, a truncated SHA, etc.
+
+        """
+        if descriptors is None:
+            return None
+
+        try:
+            return set(
+                self._run(f"rev-parse {' '.join(descriptors)}").strip().split("\n")
+            )
+        except subprocess.CalledProcessError as e:
+            LOG.warning(f"{e} ({e.stderr})")
+
+        return None
+
+    def rev_list_range(self, range_expr: Optional[str]) -> Optional[set[str]]:
+        """Return set of commit SHA in the range defined by ``range_expr``.
+
+        Note
+        -----
+        For example ``range_expr`` could be ``main..feature``.
+
+        """
+        if range_expr is None:
+            return None
+
+        try:
+            out = self._run(f"rev-list {range_expr}").strip().split("\n")
+            return None if len(out) == 1 and not out[0] else set(out)
+        except subprocess.CalledProcessError as e:
+            LOG.warning(f"{e} ({e.stderr})")
+
+        return None
 
     def get_local_head_branch(self) -> Optional[str]:
         """Return name of branch pointed to by HEAD."""

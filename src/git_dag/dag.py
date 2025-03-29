@@ -40,6 +40,8 @@ class MixinProtocol(Protocol):
     dag: Any
     included_nodes_id: set[str]
     tooltip_names: DictStrStr
+    marked_commits: Optional[set[str]]
+    in_range_commits: Optional[set[str]]
 
     def _is_object_to_include(self, sha: str) -> bool: ...  # pragma: no cover
     def _is_tag_to_include(self, item: GitTag) -> bool: ...  # pragma: no cover
@@ -77,8 +79,9 @@ class CommitHandlerMixin:
         if self._is_object_to_include(sha) and unreachable_switch:
             self.included_nodes_id.add(sha)
             color_label = "commit" if item.is_reachable else "commit_unreachable"
-            not_in_range = (
-                self.params.public.range is None or sha not in self.params.public.range
+            is_marked = self.marked_commits is not None and sha in self.marked_commits
+            is_in_range = (
+                self.in_range_commits is not None and sha in self.in_range_commits
             )
 
             if self.params.public.commit_message_as_label > 0:
@@ -91,9 +94,9 @@ class CommitHandlerMixin:
                 name=sha,
                 label=label,
                 color=(
-                    color
-                    if not_in_range
-                    else self.params.dag_node_colors.commit_in_range
+                    self.params.dag_node_colors.marked_commit
+                    if is_marked or is_in_range
+                    else color
                 ),
                 fillcolor=color,
                 tooltip=form_tooltip(item),
@@ -333,6 +336,8 @@ class DagVisualizer(
     repository: GitRepository
     params: Params
     objects_sha_to_include: Optional[set[str]] = None
+    marked_commits: Optional[set[str]] = None
+    in_range_commits: Optional[set[str]] = None
 
     def __post_init__(self) -> None:
         self.tooltip_names = self.repository.inspector.blobs_and_trees_names

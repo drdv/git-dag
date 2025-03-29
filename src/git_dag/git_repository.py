@@ -462,7 +462,7 @@ class GitRepository:
 
         """
         if not Path(repository_path).exists():
-            raise RuntimeError(f"Repository {repository_path} doesn't exist.")
+            raise RuntimeError(f"Path {repository_path} doesn't exist.")
 
         self.inspector = GitInspector(repository_path, parse_trees)
         self.ls_remote = ls_remote
@@ -672,6 +672,12 @@ class GitRepository:
             repository=self,
             params=params,
             objects_sha_to_include=objects_sha_to_include,
+            marked_commits=(
+                self.inspector.git.rev_parse_descriptors(params.public.marked_commits)
+            ),
+            in_range_commits=(
+                self.inspector.git.rev_list_range(params.public.range_expr)
+            ),
         ).show(params.public.xdg_open)
 
     def __repr__(self) -> str:

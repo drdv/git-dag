@@ -16,6 +16,24 @@ from git_dag.parameters import Params, ParamsDagGlobal, ParamsPublic
 TEST_DIR = Path(__file__).parent
 
 
+def test_missing_path(tmp_path: Path) -> None:
+    repo_path = tmp_path / "missing"
+    with pytest.raises(
+        RuntimeError,
+        match=f"Path {repo_path} doesn't exist.",
+    ):
+        GitRepository(repo_path)
+
+
+def test_not_a_git_repository(tmp_path: Path) -> None:
+    repo_path = tmp_path
+    with pytest.raises(
+        RuntimeError,
+        match="not a git repository",
+    ):
+        GitRepository(repo_path)
+
+
 def test_repository_empty(
     git_repository_empty: Path,
     caplog: pytest.LogCaptureFixture,
@@ -180,6 +198,8 @@ def test_repository_default_dag(tmp_path: Path) -> None:
                 show_deleted_tags=True,
                 show_stash=True,
                 show_head=True,
+                init_refs=["main", "stash", "63bbec41", "733f8c0a", "9f8eac65"],
+                max_numb_commits=0,
                 format="gv",
                 file=repo_path / "default_repo.gv",
             ),
