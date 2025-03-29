@@ -1,5 +1,5 @@
-Git internals
---------------
+Git Internals - Git Objects
+----------------------------
 
 Here we follow the famous `Git Internals - Git Objects
 <https://git-scm.com/book/en/v2/Git-Internals-Git-Objects>`_ tutorial. The example below

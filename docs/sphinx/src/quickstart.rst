@@ -1,8 +1,7 @@
 Quickstart
 ===========
 
-After :doc:`installing <install>` ``git-dag``, one can create a configuration file with
-all user-parameters using
+After :doc:`installing <install>` ``git-dag``, one can create a configuration file [1]_ using
 
 .. code-block:: bash
     :caption: Create config file ``~/.git-dag.yml``
@@ -38,3 +37,6 @@ well). Trees and blobs can be displayed using ``-T`` and ``-B`` (this is recomme
 only for small repositories).
 
 See the :doc:`examples <examples>`.
+
+.. [1] The name of the configuration file is taken from the ``GIT_DAG_CONFIG_FILE``
+       environment variable, or if not set, it is ``~/.git-dag.yml`` by default.
