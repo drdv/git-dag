@@ -40,8 +40,8 @@ class MixinProtocol(Protocol):
     dag: Any
     included_nodes_id: set[str]
     tooltip_names: DictStrStr
-    marked_commits: Optional[set[str]]
-    in_range_commits: Optional[set[str]]
+    marked_commits: Optional[list[str]]
+    in_range_commits: Optional[list[str]]
 
     def _is_object_to_include(self, sha: str) -> bool: ...  # pragma: no cover
     def _is_tag_to_include(self, item: GitTag) -> bool: ...  # pragma: no cover
@@ -192,6 +192,7 @@ class TagHandlerMixin:
         for sha, item in self.repository.tags.items():
             if self._is_tag_to_include(item):
                 if self.params.public.show_deleted_tags or not item.is_deleted:
+                    self.included_nodes_id.add(sha)
                     color_label = "tag_deleted" if item.is_deleted else "tag"
                     color = getattr(self.params.dag_node_colors, color_label)
                     self.dag.node(
@@ -321,6 +322,45 @@ class HeadHandlerMixin:
                     )
                     self.dag.edge(node_name, sha)
 
+    def _add_annotations(self: MixinProtocol) -> None:
+        if self.params.public.annotations is not None:
+            for annotation in self.params.public.annotations:
+                descriptor = annotation[0]
+                shas = self.repository.inspector.git.rev_parse_descriptors([descriptor])
+
+                if shas is not None:
+                    sha = shas[0]
+                    if descriptor in sha or isinstance(
+                        self.repository.objects[sha], GitTag
+                    ):
+                        tooltip = (
+                            None  # the annotation will not be displayed at all
+                            if len(annotation) == 1
+                            else " ".join(annotation[1:])
+                        )
+                        label = self.params.misc.annotations_symbol
+                        shape = self.params.misc.annotations_shape
+                    else:
+                        tooltip = (
+                            descriptor
+                            if len(annotation) == 1
+                            else " ".join(annotation[1:])
+                        )
+                        label = descriptor
+                        shape = None
+
+                    if sha in self.included_nodes_id and tooltip is not None:
+                        name = f"annotation-{descriptor}"
+                        self.dag.node(
+                            name=name,
+                            label=label,
+                            color=self.params.dag_node_colors.annotations,
+                            fillcolor=self.params.dag_node_colors.annotations,
+                            tooltip=tooltip,
+                            shape=shape,
+                        )
+                        self.dag.edge(name, sha, style="dashed")
+
 
 @dataclass
 class DagVisualizer(
@@ -336,8 +376,8 @@ class DagVisualizer(
     repository: GitRepository
     params: Params
     objects_sha_to_include: Optional[set[str]] = None
-    marked_commits: Optional[set[str]] = None
-    in_range_commits: Optional[set[str]] = None
+    marked_commits: Optional[list[str]] = None
+    in_range_commits: Optional[list[str]] = None
 
     def __post_init__(self) -> None:
         self.tooltip_names = self.repository.inspector.blobs_and_trees_names
@@ -452,14 +492,15 @@ class DagVisualizer(
             if self.params.public.show_head:
                 self._add_remote_heads()
 
-        self._add_prs_heads()
-
         if self.params.public.show_tags:
             self._add_annotated_tags()
             self._add_lightweight_tags()
 
         if self.params.public.show_stash:
             self._add_stashes()
+
+        self._add_prs_heads()
+        self._add_annotations()
 
         self.dag.build(
             format=self.params.public.format,

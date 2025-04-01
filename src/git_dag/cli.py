@@ -198,6 +198,19 @@ def get_cla_parser() -> argparse.ArgumentParser:
     )
 
     parser.add_argument(
+        "-a",
+        dest="annotations",
+        action="append",
+        nargs="+",
+        default=None,
+        help=(
+            "Annotations of refs (can be passed multiple times). The first argument "
+            "after each -a should be a ref. Subsequent arguments (if any) are joined "
+            "and placed in the tooltip of the corresponding node."
+        ),
+    )
+
+    parser.add_argument(
         "--pr",
         dest="show_prs_heads",
         action="store_true",

@@ -12,38 +12,44 @@ from .dag_base import DagBase
 class DagGraphviz(DagBase):
     """Graphviz interface."""
 
-    def edge(self, node1_name: str, node2_name: str) -> None:
-        self.edges.add((node1_name, node2_name))
+    def edge(
+        self,
+        node1_name: str,
+        node2_name: str,
+        **attrs: str,
+    ) -> None:
+        if attrs:
+            self.edges_custom.append((node1_name, node2_name, attrs))
+        else:
+            self.edges.append((node1_name, node2_name))
 
     def node(  # pylint: disable=too-many-positional-arguments
         self,
         name: str,
         label: str,
         color: Optional[str] = None,
-        fillcolor: Optional[str] = None,
-        shape: Optional[str] = None,
         tooltip: Optional[str] = None,
         URL: Optional[str] = None,
         standalone_kind: Optional[Literal["tree", "blob"]] = None,
+        **attrs: str,
     ) -> None:
-        attr = {
+        combined_attrs = {
             "name": name,
             "label": label,
             "color": color,
-            "fillcolor": fillcolor,
-            "shape": shape,
             "tooltip": tooltip,
             "URL": URL,
+            **attrs,
         }
         if URL is not None:
-            attr["target"] = "_blank"
+            combined_attrs["target"] = "_blank"
 
         if standalone_kind is None:
-            self.nodes.append(attr)
+            self.nodes.append(combined_attrs)
         elif standalone_kind == "tree":
-            self.standalone_trees.append(attr)
+            self.standalone_trees.append(combined_attrs)
         elif standalone_kind == "blob":
-            self.standalone_blobs.append(attr)
+            self.standalone_blobs.append(combined_attrs)
 
     def build(  # pylint: disable=too-many-positional-arguments
         self,
@@ -103,6 +109,8 @@ class DagGraphviz(DagBase):
         for node in sorted(self.nodes, key=lambda x: (x["label"], x["tooltip"])):
             self._dag.node(**node)
         self._dag.edges(sorted(self.edges))
+        for node1, node2, attrs in self.edges_custom:
+            self._dag.edge(node1, node2, **attrs)
 
         form_clulster_of_standalone_trees_and_blobs()
 

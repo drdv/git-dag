@@ -2,7 +2,9 @@
 
 * 0.1.4    UNRELEASED
 
++ Provide interface to add annotations to the DAG (#100)
 + Add git rebase --onto example (#98)
+  + Change the -R cla to take a range expression (#97)
 + Add option to change config file name (#93)
 
 ** Bugfixes

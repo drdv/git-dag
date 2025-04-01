@@ -17,7 +17,7 @@ from pathlib import Path
 from typing import Any, Literal, Optional
 
 from git_dag.constants import CMD_TAGS_INFO, SHA_PATTERN, TAG_FORMAT_FIELDS, DictStrStr
-from git_dag.parameters import Params, ParamsPublic
+from git_dag.parameters import Params, ParamsPublic, context_ignore_config_file
 from git_dag.utils import escape_decode
 
 logging.basicConfig(level=logging.WARNING)
@@ -65,9 +65,10 @@ class GitCommandBase:
             output, error = process.communicate()
             # some git commands output messages to stderr even when there is no error
             if error:
-                if expected_stderr is not None:
-                    if not expected_stderr in error.decode("utf-8"):
-                        raise ValueError(error)  # pragma: no cover
+                if expected_stderr is None:
+                    raise RuntimeError(error)
+                if not expected_stderr in error.decode("utf-8"):
+                    raise RuntimeError(error)
             return output.decode(encoding, errors="replace").strip()
 
 
@@ -86,10 +87,12 @@ class GitCommandMutate(GitCommandBase):
         path: str | Path = ".",  # assumed to exist
         author: str = "First Last <first.last@mail.com>",
         committer: str = "Nom Prenom <nom.prenom@mail.com>",
+        date: Optional[str] = None,
     ) -> None:
         """Initialize instance."""
         self.author = author
         self.committer = committer
+        self.date = date
         self.env = self._get_env()
 
         super().__init__(path)
@@ -114,6 +117,10 @@ class GitCommandMutate(GitCommandBase):
             env["GIT_COMMITTER_EMAIL"] = match.group("email")
         else:
             raise ValueError("Committer not matched.")  # pragma: no cover
+
+        if self.date is not None:
+            env["GIT_AUTHOR_DATE"] = self.date
+            env["GIT_COMMITTER_DATE"] = self.date
 
         return env
 
@@ -243,7 +250,8 @@ class GitCommandMutate(GitCommandBase):
         Note
         -----
         This command doesn't mutate a repository but appears under
-        :class:`GitCommandMutate` as it is meant to be used only in the unit tests.
+        :class:`GitCommandMutate` as it is meant to be used only in the unit tests and
+        docs examples.
 
         """
         # note that git clone sends to stderr (so I suppress it using -q)
@@ -368,7 +376,7 @@ class GitCommand(GitCommandBase):
 
     def rev_parse_descriptors(
         self, descriptors: Optional[list[str]]
-    ) -> Optional[set[str]]:
+    ) -> Optional[list[str]]:
         """Return a set of SHA corresponding to a list of descriptors.
 
         Note
@@ -380,15 +388,13 @@ class GitCommand(GitCommandBase):
             return None
 
         try:
-            return set(
-                self._run(f"rev-parse {' '.join(descriptors)}").strip().split("\n")
-            )
+            return self._run(f"rev-parse {' '.join(descriptors)}").strip().split("\n")
         except subprocess.CalledProcessError as e:
             LOG.warning(f"{e} ({e.stderr})")
 
         return None
 
-    def rev_list_range(self, range_expr: Optional[str]) -> Optional[set[str]]:
+    def rev_list_range(self, range_expr: Optional[str]) -> Optional[list[str]]:
         """Return set of commit SHA in the range defined by ``range_expr``.
 
         Note
@@ -401,7 +407,7 @@ class GitCommand(GitCommandBase):
 
         try:
             out = self._run(f"rev-list {range_expr}").strip().split("\n")
-            return None if len(out) == 1 and not out[0] else set(out)
+            return None if len(out) == 1 and not out[0] else out
         except subprocess.CalledProcessError as e:
             LOG.warning(f"{e} ({e.stderr})")
 
@@ -550,20 +556,22 @@ class TestGitRepository:
         repo_path: Path | str,  # assumed to exist
         tar_file_name: Optional[Path | str] = None,
         **kwargs: dict[str, Any],
-    ) -> None:
+    ) -> GitCommandMutate:
         """Git repository creation displatch."""
         match label:
             case "default":
-                cls.repository_default(repo_path)
+                git = cls.repository_default(repo_path)
             case "default-with-notes":
-                cls.repository_default_with_notes(repo_path)
+                git = cls.repository_default_with_notes(repo_path)
             case "empty":
-                cls.repository_empty(repo_path, **kwargs)
+                git = cls.repository_empty(repo_path, **kwargs)
             case _:
                 raise ValueError(f"Unknown repository label: {label}")
 
         if tar_file_name is not None:
             cls.tar(repo_path, tar_file_name)
+
+        return git
 
     @staticmethod
     def tar(src_path: Path | str, tar_file_name: Path | str) -> None:
@@ -581,7 +589,7 @@ class TestGitRepository:
     def repository_empty(
         path: Path | str,
         files: Optional[DictStrStr] = None,
-    ) -> None:
+    ) -> GitCommandMutate:
         """Empty repository (possibly with files added to the index)."""
         git = GitCommandMutate(path)
         git.init()
@@ -589,10 +597,12 @@ class TestGitRepository:
         if files is not None:
             git.add(files)
 
+        return git
+
     @staticmethod
-    def repository_default(path: Path | str) -> None:
+    def repository_default(path: Path | str) -> GitCommandMutate:
         """Default repository."""
-        git = GitCommandMutate(path)
+        git = GitCommandMutate(path, date="01/01/25 09:00 +0100")
         git.init()
         git.cm("A\n\nBody:\n * First line\n * Second line\n * Third line")
         git.br("topic", create=True)
@@ -631,16 +641,29 @@ class TestGitRepository:
         git.stash({"file": "stash:first"})
         git.stash({"file": "stash:second"}, title="second")
         git.stash({"file": "stash:third"}, title="third")
+
+        # add two standalone blobs and a standalone tree
+        prefix = git.command_prefix
+        git.run_general(f"echo 'test content 1' | {prefix} hash-object -w --stdin")
+        git.run_general(f"echo 'test content 2' | {prefix} hash-object -w --stdin")
+
+        sha = "74689c87fb53b6d666de95efea667d99ba2fa52a"
+        git.run_general(f"{prefix} update-index --add --cacheinfo 100644 {sha} tmp.txt")
+        git.run_general(f"{prefix} write-tree")
+
         git.config("gc.auto 0")
 
+        return git
+
     @classmethod
-    def repository_default_with_notes(cls, path: Path | str) -> None:
+    def repository_default_with_notes(cls, path: Path | str) -> GitCommandMutate:
         """Default repository with git notes."""
-        cls.repository_default(path)
-        git = GitCommandMutate(path)
+        git = cls.repository_default(path)
 
         git.note("Add a note")
         git.note("Add a another note", "main")
+
+        return git
 
 
 def create_test_repo_and_reference_dot_file(
@@ -664,24 +687,35 @@ def create_test_repo_and_reference_dot_file(
     TestGitRepository.create("default", path)
 
     repo = GitRepository(path, parse_trees=True)
-    params = Params(
-        public=ParamsPublic(
-            show_unreachable_commits=True,
-            show_local_branches=True,
-            show_remote_branches=True,
-            show_trees=True,
-            show_blobs=True,
-            show_tags=True,
-            show_deleted_tags=True,
-            show_stash=True,
-            show_head=True,
-            format="gv",
-            file=path / "../default_repo.gv",
+    with context_ignore_config_file():
+        params = Params(
+            public=ParamsPublic(
+                show_unreachable_commits=True,
+                show_local_branches=True,
+                show_remote_branches=True,
+                show_trees=True,
+                show_trees_standalone=True,
+                show_blobs=True,
+                show_blobs_standalone=True,
+                show_tags=True,
+                show_deleted_tags=True,
+                show_stash=True,
+                show_head=True,
+                max_numb_commits=0,
+                annotations=[
+                    ["4499ee63", "just a tooltip"],
+                    ["0.3", "additional info"],
+                    ["0.5"],  # this will not be displayed
+                    ["HEAD"],
+                    ["main^", "a clarification"],
+                ],
+                format="gv",
+                file=path / "../default_repo.gv",
+            )
         )
-    )
     repo.show(params)
 
-    TestGitRepository.tar(path, path / "../default_repo.tar.gz")
+    # TestGitRepository.tar(path, path / "../default_repo.tar.gz")
 
     with open(path / "../default_repo.repr", "w", encoding="utf-8") as h:
         h.write(repr(repo))

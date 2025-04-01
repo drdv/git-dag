@@ -8,7 +8,7 @@ After :doc:`installing <install>` ``git-dag``, one can create a configuration fi
 
     git dag --config-create
 
-By default there are 7 sections. The most useful one is ``public:`` which contains most
+By default there are 8 sections. The most useful one is ``public:`` which contains most
 :doc:`command-line <cli>` arguments. There is no need to keep all parameters in the
 config file (any of them can be deleted). The default values of missing parameters are
 defined in the :mod:`git_dag.parameters` module. Command-line arguments take precedence
