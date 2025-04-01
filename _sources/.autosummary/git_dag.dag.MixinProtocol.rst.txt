@@ -31,5 +31,7 @@ git\_dag.dag.MixinProtocol
       ~MixinProtocol.dag
       ~MixinProtocol.included_nodes_id
       ~MixinProtocol.tooltip_names
+      ~MixinProtocol.marked_commits
+      ~MixinProtocol.in_range_commits
    
    

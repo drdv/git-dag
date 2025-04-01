@@ -32,6 +32,8 @@ git\_dag.git\_commands.GitCommand
       ~GitCommand.ls_tree
       ~GitCommand.read_object_file
       ~GitCommand.rev_list
+      ~GitCommand.rev_list_range
+      ~GitCommand.rev_parse_descriptors
       ~GitCommand.run_general
    
    

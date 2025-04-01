@@ -656,6 +656,51 @@
 <span id="L646" class="lineno"><a class="lineno" href="#L646">646</a></span>
 <span id="L647" class="lineno"><a class="lineno" href="#L647">647</a></span>
 <span id="L648" class="lineno"><a class="lineno" href="#L648">648</a></span>
+<span id="L649" class="lineno"><a class="lineno" href="#L649">649</a></span>
+<span id="L650" class="lineno"><a class="lineno" href="#L650">650</a></span>
+<span id="L651" class="lineno"><a class="lineno" href="#L651">651</a></span>
+<span id="L652" class="lineno"><a class="lineno" href="#L652">652</a></span>
+<span id="L653" class="lineno"><a class="lineno" href="#L653">653</a></span>
+<span id="L654" class="lineno"><a class="lineno" href="#L654">654</a></span>
+<span id="L655" class="lineno"><a class="lineno" href="#L655">655</a></span>
+<span id="L656" class="lineno"><a class="lineno" href="#L656">656</a></span>
+<span id="L657" class="lineno"><a class="lineno" href="#L657">657</a></span>
+<span id="L658" class="lineno"><a class="lineno" href="#L658">658</a></span>
+<span id="L659" class="lineno"><a class="lineno" href="#L659">659</a></span>
+<span id="L660" class="lineno"><a class="lineno" href="#L660">660</a></span>
+<span id="L661" class="lineno"><a class="lineno" href="#L661">661</a></span>
+<span id="L662" class="lineno"><a class="lineno" href="#L662">662</a></span>
+<span id="L663" class="lineno"><a class="lineno" href="#L663">663</a></span>
+<span id="L664" class="lineno"><a class="lineno" href="#L664">664</a></span>
+<span id="L665" class="lineno"><a class="lineno" href="#L665">665</a></span>
+<span id="L666" class="lineno"><a class="lineno" href="#L666">666</a></span>
+<span id="L667" class="lineno"><a class="lineno" href="#L667">667</a></span>
+<span id="L668" class="lineno"><a class="lineno" href="#L668">668</a></span>
+<span id="L669" class="lineno"><a class="lineno" href="#L669">669</a></span>
+<span id="L670" class="lineno"><a class="lineno" href="#L670">670</a></span>
+<span id="L671" class="lineno"><a class="lineno" href="#L671">671</a></span>
+<span id="L672" class="lineno"><a class="lineno" href="#L672">672</a></span>
+<span id="L673" class="lineno"><a class="lineno" href="#L673">673</a></span>
+<span id="L674" class="lineno"><a class="lineno" href="#L674">674</a></span>
+<span id="L675" class="lineno"><a class="lineno" href="#L675">675</a></span>
+<span id="L676" class="lineno"><a class="lineno" href="#L676">676</a></span>
+<span id="L677" class="lineno"><a class="lineno" href="#L677">677</a></span>
+<span id="L678" class="lineno"><a class="lineno" href="#L678">678</a></span>
+<span id="L679" class="lineno"><a class="lineno" href="#L679">679</a></span>
+<span id="L680" class="lineno"><a class="lineno" href="#L680">680</a></span>
+<span id="L681" class="lineno"><a class="lineno" href="#L681">681</a></span>
+<span id="L682" class="lineno"><a class="lineno" href="#L682">682</a></span>
+<span id="L683" class="lineno"><a class="lineno" href="#L683">683</a></span>
+<span id="L684" class="lineno"><a class="lineno" href="#L684">684</a></span>
+<span id="L685" class="lineno"><a class="lineno" href="#L685">685</a></span>
+<span id="L686" class="lineno"><a class="lineno" href="#L686">686</a></span>
+<span id="L687" class="lineno"><a class="lineno" href="#L687">687</a></span>
+<span id="L688" class="lineno"><a class="lineno" href="#L688">688</a></span>
+<span id="L689" class="lineno"><a class="lineno" href="#L689">689</a></span>
+<span id="L690" class="lineno"><a class="lineno" href="#L690">690</a></span>
+<span id="L691" class="lineno"><a class="lineno" href="#L691">691</a></span>
+<span id="L692" class="lineno"><a class="lineno" href="#L692">692</a></span>
+<span id="L693" class="lineno"><a class="lineno" href="#L693">693</a></span>
 </pre></td>
 <td class="table-code"><pre><span class="line-empty" title="No Anys on this line!">"""Git commands related functionality.</span>
 <span class="line-empty" title="No Anys on this line!"></span>
@@ -935,7 +980,12 @@ Explicit (x1)">            with open(Path(self.path) / filename, "w", encoding="
 <span class="line-precise" title="No Anys on this line!">            "cat-file --batch-all-objects --unordered "</span>
 <span class="line-empty" title="No Anys on this line!">            '--batch-check="%(objectname) %(objecttype)"'</span>
 <span class="line-empty" title="No Anys on this line!">        )</span>
-<span class="line-precise" title="No Anys on this line!">        objects = self._run(CMD).strip().split("\n")</span>
+<span class="line-empty" title="No Anys on this line!">        try:</span>
+<span class="line-precise" title="No Anys on this line!">            objects = self._run(CMD).strip().split("\n")</span>
+<span class="line-precise" title="No Anys on this line!">        except subprocess.CalledProcessError as e:</span>
+<span class="line-any" title="Any Types on this line: 
+Explicit (x1)">            raise RuntimeError(f"{e} ({e.stderr})") from e</span>
+<span class="line-empty" title="No Anys on this line!"></span>
 <span class="line-precise" title="No Anys on this line!">        if len(objects) == 1 and not objects[0]:</span>
 <span class="line-precise" title="No Anys on this line!">            LOG.warning("No objects")</span>
 <span class="line-empty" title="No Anys on this line!">            return []</span>
@@ -1027,6 +1077,51 @@ Explicit (x1)">            with open(Path(self.path) / filename, "w", encoding="
 <span class="line-precise" title="No Anys on this line!">    def get_local_head_commit_sha(self) -&gt; str:</span>
 <span class="line-empty" title="No Anys on this line!">        """Return SHA of the commit pointed to by local HEAD."""</span>
 <span class="line-precise" title="No Anys on this line!">        return self._run("rev-parse HEAD").strip()</span>
+<span class="line-empty" title="No Anys on this line!"></span>
+<span class="line-precise" title="No Anys on this line!">    def rev_parse_descriptors(</span>
+<span class="line-empty" title="No Anys on this line!">        self, descriptors: Optional[list[str]]</span>
+<span class="line-empty" title="No Anys on this line!">    ) -&gt; Optional[set[str]]:</span>
+<span class="line-empty" title="No Anys on this line!">        """Return a set of SHA corresponding to a list of descriptors.</span>
+<span class="line-empty" title="No Anys on this line!"></span>
+<span class="line-empty" title="No Anys on this line!">        Note</span>
+<span class="line-empty" title="No Anys on this line!">        -----</span>
+<span class="line-empty" title="No Anys on this line!">        A descriptor can be e.g., HEAD, main, a truncated SHA, etc.</span>
+<span class="line-empty" title="No Anys on this line!"></span>
+<span class="line-empty" title="No Anys on this line!">        """</span>
+<span class="line-precise" title="No Anys on this line!">        if descriptors is None:</span>
+<span class="line-precise" title="No Anys on this line!">            return None</span>
+<span class="line-empty" title="No Anys on this line!"></span>
+<span class="line-empty" title="No Anys on this line!">        try:</span>
+<span class="line-precise" title="Any Types on this line: 
+Omitted Generics (x3)">            return set(</span>
+<span class="line-precise" title="No Anys on this line!">                self._run(f"rev-parse {' '.join(descriptors)}").strip().split("\n")</span>
+<span class="line-empty" title="No Anys on this line!">            )</span>
+<span class="line-precise" title="No Anys on this line!">        except subprocess.CalledProcessError as e:</span>
+<span class="line-any" title="Any Types on this line: 
+Explicit (x1)">            LOG.warning(f"{e} ({e.stderr})")</span>
+<span class="line-empty" title="No Anys on this line!"></span>
+<span class="line-precise" title="No Anys on this line!">        return None</span>
+<span class="line-empty" title="No Anys on this line!"></span>
+<span class="line-precise" title="No Anys on this line!">    def rev_list_range(self, range_expr: Optional[str]) -&gt; Optional[set[str]]:</span>
+<span class="line-empty" title="No Anys on this line!">        """Return set of commit SHA in the range defined by ``range_expr``.</span>
+<span class="line-empty" title="No Anys on this line!"></span>
+<span class="line-empty" title="No Anys on this line!">        Note</span>
+<span class="line-empty" title="No Anys on this line!">        -----</span>
+<span class="line-empty" title="No Anys on this line!">        For example ``range_expr`` could be ``main..feature``.</span>
+<span class="line-empty" title="No Anys on this line!"></span>
+<span class="line-empty" title="No Anys on this line!">        """</span>
+<span class="line-precise" title="No Anys on this line!">        if range_expr is None:</span>
+<span class="line-precise" title="No Anys on this line!">            return None</span>
+<span class="line-empty" title="No Anys on this line!"></span>
+<span class="line-empty" title="No Anys on this line!">        try:</span>
+<span class="line-precise" title="No Anys on this line!">            out = self._run(f"rev-list {range_expr}").strip().split("\n")</span>
+<span class="line-precise" title="Any Types on this line: 
+Omitted Generics (x3)">            return None if len(out) == 1 and not out[0] else set(out)</span>
+<span class="line-precise" title="No Anys on this line!">        except subprocess.CalledProcessError as e:</span>
+<span class="line-any" title="Any Types on this line: 
+Explicit (x1)">            LOG.warning(f"{e} ({e.stderr})")</span>
+<span class="line-empty" title="No Anys on this line!"></span>
+<span class="line-precise" title="No Anys on this line!">        return None</span>
 <span class="line-empty" title="No Anys on this line!"></span>
 <span class="line-precise" title="No Anys on this line!">    def get_local_head_branch(self) -&gt; Optional[str]:</span>
 <span class="line-empty" title="No Anys on this line!">        """Return name of branch pointed to by HEAD."""</span>

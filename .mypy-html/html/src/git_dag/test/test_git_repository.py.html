@@ -236,6 +236,26 @@
 <span id="L226" class="lineno"><a class="lineno" href="#L226">226</a></span>
 <span id="L227" class="lineno"><a class="lineno" href="#L227">227</a></span>
 <span id="L228" class="lineno"><a class="lineno" href="#L228">228</a></span>
+<span id="L229" class="lineno"><a class="lineno" href="#L229">229</a></span>
+<span id="L230" class="lineno"><a class="lineno" href="#L230">230</a></span>
+<span id="L231" class="lineno"><a class="lineno" href="#L231">231</a></span>
+<span id="L232" class="lineno"><a class="lineno" href="#L232">232</a></span>
+<span id="L233" class="lineno"><a class="lineno" href="#L233">233</a></span>
+<span id="L234" class="lineno"><a class="lineno" href="#L234">234</a></span>
+<span id="L235" class="lineno"><a class="lineno" href="#L235">235</a></span>
+<span id="L236" class="lineno"><a class="lineno" href="#L236">236</a></span>
+<span id="L237" class="lineno"><a class="lineno" href="#L237">237</a></span>
+<span id="L238" class="lineno"><a class="lineno" href="#L238">238</a></span>
+<span id="L239" class="lineno"><a class="lineno" href="#L239">239</a></span>
+<span id="L240" class="lineno"><a class="lineno" href="#L240">240</a></span>
+<span id="L241" class="lineno"><a class="lineno" href="#L241">241</a></span>
+<span id="L242" class="lineno"><a class="lineno" href="#L242">242</a></span>
+<span id="L243" class="lineno"><a class="lineno" href="#L243">243</a></span>
+<span id="L244" class="lineno"><a class="lineno" href="#L244">244</a></span>
+<span id="L245" class="lineno"><a class="lineno" href="#L245">245</a></span>
+<span id="L246" class="lineno"><a class="lineno" href="#L246">246</a></span>
+<span id="L247" class="lineno"><a class="lineno" href="#L247">247</a></span>
+<span id="L248" class="lineno"><a class="lineno" href="#L248">248</a></span>
 </pre></td>
 <td class="table-code"><pre><span class="line-empty" title="No Anys on this line!">"""Test git_repository.py."""</span>
 <span class="line-empty" title="No Anys on this line!"></span>
@@ -253,6 +273,28 @@
 <span class="line-precise" title="No Anys on this line!">from git_dag.parameters import Params, ParamsDagGlobal, ParamsPublic</span>
 <span class="line-empty" title="No Anys on this line!"></span>
 <span class="line-precise" title="No Anys on this line!">TEST_DIR = Path(__file__).parent</span>
+<span class="line-empty" title="No Anys on this line!"></span>
+<span class="line-empty" title="No Anys on this line!"></span>
+<span class="line-precise" title="No Anys on this line!">def test_missing_path(tmp_path: Path) -&gt; None:</span>
+<span class="line-precise" title="No Anys on this line!">    repo_path = tmp_path / "missing"</span>
+<span class="line-precise" title="Any Types on this line: 
+Omitted Generics (x6)
+Explicit (x5)">    with pytest.raises(</span>
+<span class="line-precise" title="No Anys on this line!">        RuntimeError,</span>
+<span class="line-precise" title="No Anys on this line!">        match=f"Path {repo_path} doesn't exist.",</span>
+<span class="line-empty" title="No Anys on this line!">    ):</span>
+<span class="line-precise" title="No Anys on this line!">        GitRepository(repo_path)</span>
+<span class="line-empty" title="No Anys on this line!"></span>
+<span class="line-empty" title="No Anys on this line!"></span>
+<span class="line-precise" title="No Anys on this line!">def test_not_a_git_repository(tmp_path: Path) -&gt; None:</span>
+<span class="line-precise" title="No Anys on this line!">    repo_path = tmp_path</span>
+<span class="line-precise" title="Any Types on this line: 
+Omitted Generics (x6)
+Explicit (x5)">    with pytest.raises(</span>
+<span class="line-precise" title="No Anys on this line!">        RuntimeError,</span>
+<span class="line-precise" title="No Anys on this line!">        match="not a git repository",</span>
+<span class="line-empty" title="No Anys on this line!">    ):</span>
+<span class="line-precise" title="No Anys on this line!">        GitRepository(repo_path)</span>
 <span class="line-empty" title="No Anys on this line!"></span>
 <span class="line-empty" title="No Anys on this line!"></span>
 <span class="line-precise" title="No Anys on this line!">def test_repository_empty(</span>
@@ -427,6 +469,8 @@ Explicit (x2)">    repo.show(</span>
 <span class="line-precise" title="No Anys on this line!">                show_deleted_tags=True,</span>
 <span class="line-precise" title="No Anys on this line!">                show_stash=True,</span>
 <span class="line-precise" title="No Anys on this line!">                show_head=True,</span>
+<span class="line-precise" title="No Anys on this line!">                init_refs=["main", "stash", "63bbec41", "733f8c0a", "9f8eac65"],</span>
+<span class="line-precise" title="No Anys on this line!">                max_numb_commits=0,</span>
 <span class="line-precise" title="No Anys on this line!">                format="gv",</span>
 <span class="line-precise" title="No Anys on this line!">                file=repo_path / "default_repo.gv",</span>
 <span class="line-empty" title="No Anys on this line!">            ),</span>

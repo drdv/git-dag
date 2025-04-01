@@ -709,6 +709,12 @@
 <span id="L699" class="lineno"><a class="lineno" href="#L699">699</a></span>
 <span id="L700" class="lineno"><a class="lineno" href="#L700">700</a></span>
 <span id="L701" class="lineno"><a class="lineno" href="#L701">701</a></span>
+<span id="L702" class="lineno"><a class="lineno" href="#L702">702</a></span>
+<span id="L703" class="lineno"><a class="lineno" href="#L703">703</a></span>
+<span id="L704" class="lineno"><a class="lineno" href="#L704">704</a></span>
+<span id="L705" class="lineno"><a class="lineno" href="#L705">705</a></span>
+<span id="L706" class="lineno"><a class="lineno" href="#L706">706</a></span>
+<span id="L707" class="lineno"><a class="lineno" href="#L707">707</a></span>
 </pre></td>
 <td class="table-code"><pre><span class="line-empty" title="No Anys on this line!">"""Git repository parsing functionality."""</span>
 <span class="line-empty" title="No Anys on this line!"></span>
@@ -1203,7 +1209,7 @@ Omitted Generics (x9)">            for obj in TypeAdapter(list[GitObjectAnnotate
 <span class="line-empty" title="No Anys on this line!"></span>
 <span class="line-empty" title="No Anys on this line!">        """</span>
 <span class="line-precise" title="No Anys on this line!">        if not Path(repository_path).exists():</span>
-<span class="line-precise" title="No Anys on this line!">            raise RuntimeError(f"Repository {repository_path} doesn't exist.")</span>
+<span class="line-precise" title="No Anys on this line!">            raise RuntimeError(f"Path {repository_path} doesn't exist.")</span>
 <span class="line-empty" title="No Anys on this line!"></span>
 <span class="line-precise" title="No Anys on this line!">        self.inspector = GitInspector(repository_path, parse_trees)</span>
 <span class="line-precise" title="No Anys on this line!">        self.ls_remote = ls_remote</span>
@@ -1431,6 +1437,12 @@ Explicit (x2)">        return DagVisualizer(</span>
 <span class="line-precise" title="No Anys on this line!">            repository=self,</span>
 <span class="line-precise" title="No Anys on this line!">            params=params,</span>
 <span class="line-precise" title="No Anys on this line!">            objects_sha_to_include=objects_sha_to_include,</span>
+<span class="line-empty" title="No Anys on this line!">            marked_commits=(</span>
+<span class="line-precise" title="No Anys on this line!">                self.inspector.git.rev_parse_descriptors(params.public.marked_commits)</span>
+<span class="line-empty" title="No Anys on this line!">            ),</span>
+<span class="line-empty" title="No Anys on this line!">            in_range_commits=(</span>
+<span class="line-precise" title="No Anys on this line!">                self.inspector.git.rev_list_range(params.public.range_expr)</span>
+<span class="line-empty" title="No Anys on this line!">            ),</span>
 <span class="line-precise" title="No Anys on this line!">        ).show(params.public.xdg_open)</span>
 <span class="line-empty" title="No Anys on this line!"></span>
 <span class="line-precise" title="No Anys on this line!">    def __repr__(self) -&gt; str:</span>
