@@ -651,8 +651,11 @@ class GitRepository:
         }
 
     @time_it
-    def show(self, params: Params) -> Any:
+    def show(self, params: Optional[Params] = None) -> Any:
         """Show dag."""
+
+        if params is None:
+            params = Params()
 
         max_numb_commits = (
             None

@@ -203,10 +203,22 @@ class ParamsDagNodeColors(ParamsBase):
     remote_branches: str = "firebrick"
     stash: str = "skyblue"
     notes: str = "white"
+    annotations: str = "aquamarine3"
 
     @staticmethod
     def section_in_config() -> str:
         return "dag_node_colors"
+
+
+class ParamsMisc(ParamsBase):
+    """Misc parameters."""
+
+    annotations_symbol: str = "&#9758;"
+    annotations_shape: str = "cds"
+
+    @staticmethod
+    def section_in_config() -> str:
+        return "misc"
 
 
 class ParamsPublic(ParamsBase):
@@ -221,6 +233,7 @@ class ParamsPublic(ParamsBase):
     range_expr: Optional[str] = None
     init_refs: Optional[list[str]] = None
     marked_commits: Optional[list[str]] = None
+    annotations: Optional[list[list[str]]] = None
 
     max_numb_commits: int = 1000
     commit_message_as_label: int = 0
@@ -310,6 +323,7 @@ class Params(BaseModel):
         default_factory=ParamsStandaloneCluster
     )
     links: ParamsLinks = Field(default_factory=ParamsLinks)
+    misc: ParamsMisc = Field(default_factory=ParamsMisc)
 
     @staticmethod
     def set_ignore_config_file(value: bool) -> None:

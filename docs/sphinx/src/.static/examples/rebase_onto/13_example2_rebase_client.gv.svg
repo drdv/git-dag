@@ -45,7 +45,7 @@
 <g id="node4" class="node">
 <title>998d091eb3592a5cd4f7489595375afabc5ad460</title>
 <g id="a_node4"><a xlink:title="author: First Last &lt;first.last@mail.com&gt;&#10;Wed Jan 01 09:00:00 2025 +0100&#10;committer: Nom Prenom &lt;nom.prenom@mail.com&gt;&#10;Wed Jan 01 09:00:00 2025 +0100&#10;&#10;C3">
-<polygon fill="darkorange" stroke="red" points="124.94,-125.82 70.25,-125.82 70.25,-107.88 124.94,-107.88 124.94,-125.82"/>
+<polygon fill="darkorange" stroke="darkorange" points="124.94,-125.82 70.25,-125.82 70.25,-107.88 124.94,-107.88 124.94,-125.82"/>
 <text text-anchor="middle" x="97.59" y="-111.8" font-family="Times,serif" font-size="14.00">998d091e</text>
 </a>
 </g>
@@ -210,7 +210,7 @@
 <g id="node14" class="node">
 <title>ec2bc09c8d4395df595348dc595e3e0bf439daa8</title>
 <g id="a_node14"><a xlink:title="author: First Last &lt;first.last@mail.com&gt;&#10;Wed Jan 01 09:00:00 2025 +0100&#10;committer: Nom Prenom &lt;nom.prenom@mail.com&gt;&#10;Wed Jan 01 09:00:00 2025 +0100&#10;&#10;C3">
-<polygon fill="#cdad00" stroke="red" points="193.81,-233.7 141.38,-233.7 141.38,-215.76 193.81,-215.76 193.81,-233.7"/>
+<polygon fill="#cdad00" stroke="#cdad00" points="193.81,-233.7 141.38,-233.7 141.38,-215.76 193.81,-215.76 193.81,-233.7"/>
 <text text-anchor="middle" x="167.59" y="-219.68" font-family="Times,serif" font-size="14.00">ec2bc09c</text>
 </a>
 </g>

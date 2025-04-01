@@ -1,6 +1,6 @@
 [GitRepository: test/resources/default_repo]
   parsed trees         : True
-  objects              : 33
+  objects              : 36
   commits (reachable)  : 12
   commits (unreachable): 3
   tags (annotated)     : 7
@@ -9,8 +9,8 @@
   branches (local)     : 2
     main
     topic
-  HEAD: commit=GitCommit(sha='9ca8bf4bb7acbfbf1540bf21010e5cad0bdda865', is_reachable=True, is_ready=True) branch=GitBranch(name='topic', commit=GitCommit(sha='9ca8bf4bb7acbfbf1540bf21010e5cad0bdda865', is_reachable=True, is_ready=True), is_local=True, tracking=None)
+  HEAD: commit=GitCommit(sha='5bf221281f1aa8690dcdebff6a9d848c3bcc683d', is_reachable=True, is_ready=True) branch=GitBranch(name='topic', commit=GitCommit(sha='5bf221281f1aa8690dcdebff6a9d848c3bcc683d', is_reachable=True, is_ready=True), is_local=True, tracking=None)
   stashes: 3
      stash@{0}: On topic: third
      stash@{1}: On topic: second
-     stash@{2}: WIP on topic: 9ca8bf4 H
+     stash@{2}: WIP on topic: 5bf2212 H

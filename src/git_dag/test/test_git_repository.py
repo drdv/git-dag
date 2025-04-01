@@ -8,10 +8,10 @@ from pathlib import Path
 import pytest
 
 from git_dag.constants import GIT_EMPTY_TREE_OBJECT_SHA
-from git_dag.git_commands import GitCommandMutate, TestGitRepository
+from git_dag.git_commands import GitCommandMutate
 from git_dag.git_objects import GitBlob, GitTree
 from git_dag.git_repository import GitRepository
-from git_dag.parameters import Params, ParamsDagGlobal, ParamsPublic
+from git_dag.parameters import Params, ParamsPublic, context_ignore_config_file
 
 TEST_DIR = Path(__file__).parent
 
@@ -38,14 +38,34 @@ def test_repository_empty(
     git_repository_empty: Path,
     caplog: pytest.LogCaptureFixture,
 ) -> None:
+    repo_path = git_repository_empty
     with caplog.at_level(logging.WARNING):
-        repo = GitRepository(git_repository_empty)
+        repo = GitRepository(repo_path)
 
     assert not repo.head.is_defined
 
     assert "No objects" in caplog.text
     assert "No Head" in caplog.text
     assert "No refs" in caplog.text
+
+    with context_ignore_config_file():
+        params = Params(
+            public=ParamsPublic(
+                show_trees_standalone=True,
+                show_blobs_standalone=True,
+                format="gv",
+                file=repo_path / "empty_repo_cluster.gv",
+            )
+        )
+
+    repo.show(params)
+    with open(TEST_DIR / "resources/empty_repo_cluster.gv", "r", encoding="utf-8") as h:
+        reference_gv = h.read()
+
+    with open(repo_path / "empty_repo_cluster.gv", "r", encoding="utf-8") as h:
+        result_gv = h.read()
+
+    assert result_gv == reference_gv
 
 
 def test_repository_empty_with_index(
@@ -91,7 +111,9 @@ def test_repository_default(git_repository_default: Path) -> None:
 
     commits = repo.commits.values()
     assert len([c for c in commits if c.is_reachable]) == 12
-    assert len([c for c in commits if not c.is_reachable]) == 5
+    # in reality there should be 5 unreachable commits but all three stashes share the
+    # same index commit because the commit date is fixed in GitCommandMutate
+    assert len([c for c in commits if not c.is_reachable]) == 3
 
     tags = repo.tags.values()
     assert len([c for c in tags if not c.is_deleted]) == 6
@@ -100,8 +122,9 @@ def test_repository_default(git_repository_default: Path) -> None:
     assert len(repo.tags_lw) == 1
     repo.tags_lw["0.5"].name = "0.5"
 
-    assert len(repo.filter_objects(GitTree).values()) == 6
-    assert len(repo.filter_objects(GitBlob).values()) == 5
+    standalone_trees, standalone_blobs = 1, 2
+    assert len(repo.filter_objects(GitTree)) == 6 + standalone_trees
+    assert len(repo.filter_objects(GitBlob)) == 5 + standalone_blobs
 
     stashes = repo.stashes
     assert len(stashes) == 3
@@ -128,14 +151,15 @@ def test_repository_default_with_notes(git_repository_default_with_notes: Path) 
     for obj in repo.objects.values():
         assert obj.is_ready
 
-    numb_obj_due_to_notes = 2  # two notes were added
+    # two notes were added
+    notes_commits = notes_trees = notes_blobs = 2
+    standalone_trees, standalone_blobs = 1, 2
 
     commits = repo.commits.values()
-    assert len([c for c in commits if c.is_reachable]) == 12 + numb_obj_due_to_notes
-    assert len([c for c in commits if not c.is_reachable]) == 5
-
-    assert len(repo.filter_objects(GitTree).values()) == 6 + numb_obj_due_to_notes
-    assert len(repo.filter_objects(GitBlob).values()) == 5 + numb_obj_due_to_notes
+    assert len([c for c in commits if c.is_reachable]) == 12 + notes_commits
+    assert len([c for c in commits if not c.is_reachable]) == 3
+    assert len(repo.filter_objects(GitTree)) == 6 + standalone_trees + notes_trees
+    assert len(repo.filter_objects(GitBlob)) == 5 + standalone_blobs + notes_blobs
 
     file = repo_path / "default_repo_with_notes.gv"
     params = Params(
@@ -175,37 +199,39 @@ def test_unknown_dag_backend(git_repository_default: Path) -> None:
         repo.show(params)
 
 
-def test_repository_default_dag(tmp_path: Path) -> None:
+def test_repository_default_dag(git_repository_default: Path) -> None:
     # pylint: disable=duplicate-code
 
-    repo_path = tmp_path
-    TestGitRepository.untar(
-        TEST_DIR / "resources/default_repo.tar.gz",
-        repo_path,
-    )
+    repo_path = git_repository_default
     repo = GitRepository(repo_path, parse_trees=True)
-    repo.show(
-        Params(
+    with context_ignore_config_file():
+        params = Params(
             public=ParamsPublic(
                 show_unreachable_commits=True,
                 show_local_branches=True,
                 show_remote_branches=True,
                 show_trees=True,
-                show_trees_standalone=False,
+                show_trees_standalone=True,
                 show_blobs=True,
-                show_blobs_standalone=False,
+                show_blobs_standalone=True,
                 show_tags=True,
                 show_deleted_tags=True,
                 show_stash=True,
                 show_head=True,
-                init_refs=["main", "stash", "63bbec41", "733f8c0a", "9f8eac65"],
                 max_numb_commits=0,
+                annotations=[
+                    ["4499ee63", "just a tooltip"],
+                    ["0.3", "additional info"],
+                    ["0.5"],  # this will not be displayed
+                    ["HEAD"],
+                    ["main^", "a clarification"],
+                ],
                 format="gv",
                 file=repo_path / "default_repo.gv",
-            ),
-            dag_global=ParamsDagGlobal(bgcolor="transparent"),
+            )
         )
-    )
+
+    repo.show(params)
 
     with open(TEST_DIR / "resources/default_repo.gv", "r", encoding="utf-8") as h:
         reference_gv = h.read()
@@ -222,12 +248,8 @@ def test_repository_default_dag(tmp_path: Path) -> None:
     assert result_repr == reference_repr
 
 
-def test_repository_default_dag_svg(tmp_path: Path) -> None:
-    repo_path = tmp_path
-    TestGitRepository.untar(
-        TEST_DIR / "resources/default_repo.tar.gz",
-        repo_path,
-    )
+def test_repository_default_dag_svg(git_repository_default: Path) -> None:
+    repo_path = git_repository_default
     repo = GitRepository(repo_path, parse_trees=True)
     repo.show(
         Params(

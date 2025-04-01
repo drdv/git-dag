@@ -12,13 +12,14 @@ class DagBase(ABC):
     def __init__(self, standalone_cluster: bool = False) -> None:
         self._dag: Any = None
         self.nodes: list[dict[str, Optional[str]]] = []
-        self.edges: set[tuple[str, str]] = set()
+        self.edges: list[tuple[str, str]] = []
+        self.edges_custom: list[tuple[str, str, DictStrStr]] = []
         self.standalone_trees: list[dict[str, Optional[str]]] = []
         self.standalone_blobs: list[dict[str, Optional[str]]] = []
         self.standalone_cluster = standalone_cluster
 
     @abstractmethod
-    def edge(self, node1_name: str, node2_name: str) -> None:
+    def edge(self, node1_name: str, node2_name: str, **attrs: str) -> None:
         """Add an edge."""
 
     @abstractmethod
@@ -27,11 +28,10 @@ class DagBase(ABC):
         name: str,
         label: str,
         color: str,
-        fillcolor: str,
-        shape: Optional[str] = None,
         tooltip: Optional[str] = None,
         URL: Optional[str] = None,
         standalone_kind: Optional[Literal["tree", "blob"]] = None,
+        **attrs: str,
     ) -> None:
         """Add a node."""
 

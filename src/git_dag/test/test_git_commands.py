@@ -75,4 +75,15 @@ def test_create_test_repo_and_reference_dot_file(tmp_path: Path) -> None:
     assert not (path / "default_repo").exists()
     assert (path / "default_repo.gv").exists()
     assert (path / "default_repo.repr").exists()
-    assert (path / "default_repo.tar.gz").exists()
+
+
+def test_run_general(tmp_path: Path) -> None:
+    git = GitCommandMutate(tmp_path)
+
+    git.run_general("crazy-command-run", expected_stderr="crazy-command-run")
+
+    with pytest.raises(RuntimeError):
+        git.run_general("crazy-command-run")
+
+    with pytest.raises(RuntimeError):
+        git.run_general("crazy-command-run", expected_stderr="not matchd")
