@@ -139,7 +139,7 @@ docs: docs-run test lint mypy
 docs-examples-generate: DOCS_EXAMPLES_DIR := $(DOCS_DIR)/src/.static
 docs-examples-generate: TMP_EXAMPLES_DIR := /tmp/git-dag-examples
 docs-examples-generate:
-# $(call generate_example_data,git_internals)
+	$(call generate_example_data,git_internals)
 	$(call generate_example_data,rebase_onto)
 
 ## Generate SVG files for the docs

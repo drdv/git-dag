@@ -331,7 +331,6 @@ def main(raw_args: Optional[list[str]] = None) -> None:
     GitRepository(
         params.public.path,
         parse_trees=params.public.show_trees,
-        ls_remote=params.public.show_prs_heads,
     ).show(params)
 
     return None
