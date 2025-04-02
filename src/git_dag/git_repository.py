@@ -446,7 +446,6 @@ class GitRepository:
         self,
         repository_path: str | Path = ".",
         parse_trees: bool = False,
-        ls_remote: bool = False,
     ) -> None:
         """Initialize instance.
 
@@ -456,16 +455,12 @@ class GitRepository:
             Path to the git repository.
         parse_trees
             Whether to parse the tree objects (doing this can be very slow).
-        ls_remote
-            This should be set to ``True`` when it is required to show PRs heads (see
-            the flag ``--prs-heads``).
 
         """
         if not Path(repository_path).exists():
             raise RuntimeError(f"Path {repository_path} doesn't exist.")
 
         self.inspector = GitInspector(repository_path, parse_trees)
-        self.ls_remote = ls_remote
         self.post_process_inspector_data()
 
     @time_it
@@ -480,9 +475,6 @@ class GitRepository:
         self.branches: list[GitBranch] = self._form_branches()
         self.head: GitHead = self._form_local_head()
         self.remote_heads: DictStrStr = self._form_remote_heads()
-        self.prs_heads: Optional[DictStrStr] = (
-            self.inspector.git.get_prs_heads() if self.ls_remote else None
-        )
         self.stashes: list[GitStash] = self._form_stashes()
         self.notes_dag_root: Optional[DictStrStr] = self.inspector.notes_dag_root
 

@@ -24,6 +24,15 @@ logging.basicConfig(level=logging.WARNING)
 LOG = logging.getLogger(__name__)
 
 
+def form_process_error(error: subprocess.CalledProcessError) -> str:
+    """Format error."""
+    return (
+        f"\ncommand: {' '.join(error.cmd)}\n"
+        f"   code: {error.returncode}\n"
+        f"  error: {error.stderr}"
+    )
+
+
 class GitCommandBase:
     """Base class for git commands."""
 
@@ -93,7 +102,7 @@ class GitCommandMutate(GitCommandBase):
         self.author = author
         self.committer = committer
         self.date = date
-        self.env = self._get_env()
+        self.env = self.get_env()
 
         super().__init__(path)
 
@@ -101,7 +110,7 @@ class GitCommandMutate(GitCommandBase):
         """Initialise a git repository."""
         self._run("init -b main")
 
-    def _get_env(self) -> DictStrStr:
+    def get_env(self) -> DictStrStr:
         """Return environment with author and committer to pass to commands."""
         env = {}
         match = re.search("(?P<name>.*) (?P<email><.*>)", self.author)
@@ -280,7 +289,7 @@ class GitCommand(GitCommandBase):
         try:
             objects = self._run(CMD).strip().split("\n")
         except subprocess.CalledProcessError as e:
-            raise RuntimeError(f"{e} ({e.stderr})") from e
+            raise RuntimeError(form_process_error(e)) from e
 
         if len(objects) == 1 and not objects[0]:
             LOG.warning("No objects")
@@ -336,8 +345,8 @@ class GitCommand(GitCommandBase):
         """Return heads of pull-requests."""
         try:
             cmd_output = self._run("ls-remote").strip().split("\n")
-        except subprocess.CalledProcessError:
-            LOG.warning("No remote")
+        except subprocess.CalledProcessError as e:
+            LOG.warning(form_process_error(e))
             return {}
 
         out = {}
@@ -390,7 +399,7 @@ class GitCommand(GitCommandBase):
         try:
             return self._run(f"rev-parse {' '.join(descriptors)}").strip().split("\n")
         except subprocess.CalledProcessError as e:
-            LOG.warning(f"{e} ({e.stderr})")
+            LOG.warning(form_process_error(e))
 
         return None
 
@@ -409,7 +418,7 @@ class GitCommand(GitCommandBase):
             out = self._run(f"rev-list {range_expr}").strip().split("\n")
             return None if len(out) == 1 and not out[0] else out
         except subprocess.CalledProcessError as e:
-            LOG.warning(f"{e} ({e.stderr})")
+            LOG.warning(form_process_error(e))
 
         return None
 

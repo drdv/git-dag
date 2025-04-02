@@ -1,7 +1,11 @@
 # -*- mode: org -*-
 
-* 0.1.4    UNRELEASED
+* 0.1.5    UNRELEASED
 
+
+* 0.1.4    2025-04-02
+
++ Remove the ls_remote parameter (#99)
 + Provide interface to add annotations to the DAG (#100)
 + Add git rebase --onto example (#98)
   + Change the -R cla to take a range expression (#97)

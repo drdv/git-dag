@@ -172,26 +172,19 @@ def step_create_tree_with_tree() -> None:
 
 
 def step_add_commits() -> DictStrStr:
-    env = {
-        "GIT_AUTHOR_NAME": "First Last",
-        "GIT_AUTHOR_EMAIL": "first.last.mail.com",
-        "GIT_COMMITTER_NAME": "Nom Prenom",
-        "GIT_COMMITTER_EMAIL": "nom.prenom@mail.com",
-    }
-
     commit1 = GIT.run_general(
         f"echo 'First commit' | {GIT.command_prefix} commit-tree d8329f",
-        env=env,
+        env=GIT.get_env(),
     )
 
     commit2 = GIT.run_general(
         f"echo 'Second commit' | {GIT.command_prefix} commit-tree 0155eb -p {commit1}",
-        env=env,
+        env=GIT.get_env(),
     )
 
     commit3 = GIT.run_general(
         f"echo 'Third commit' | {GIT.command_prefix} commit-tree 3c4e9c -p {commit2}",
-        env=env,
+        env=GIT.get_env(),
     )
 
     SRG.results(
@@ -238,7 +231,8 @@ def step_add_commits() -> DictStrStr:
 
 def step_add_tag(commits: DictStrStr) -> None:
     GIT.run_general(
-        f'{GIT.command_prefix} tag first-commit -m "First commit" {commits["commit1"]}'
+        f'{GIT.command_prefix} tag first-commit -m "First commit" {commits["commit1"]}',
+        env=GIT.get_env(),
     )
 
     SRG.results(
@@ -337,7 +331,7 @@ def step_add_lightweight_tag(commits: DictStrStr) -> None:
 
 if __name__ == "__main__":
     SRG = StepResultsGenerator(example_name=EXAMPLE_NAME)
-    GIT = GitCommandMutate(SRG.tmp_dir)
+    GIT = GitCommandMutate(SRG.tmp_dir, date="01/01/25 09:00 +0100")
     GIT.init()
 
     step_create_blob()

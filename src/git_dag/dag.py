@@ -309,18 +309,20 @@ class HeadHandlerMixin:
 
     def _add_prs_heads(self: MixinProtocol) -> None:
         """Add pull-request heads."""
-        if self.repository.prs_heads is not None:
-            for pr_id, sha in self.repository.prs_heads.items():
-                if sha in self.included_nodes_id:
-                    node_name = f"PR_{pr_id}_HEAD"
-                    self.dag.node(
-                        name=node_name,
-                        label=pr_id,
-                        color=self.params.dag_node_colors.head,
-                        fillcolor=self.params.dag_node_colors.head,
-                        shape="circle",
-                    )
-                    self.dag.edge(node_name, sha)
+        if self.params.public.show_prs_heads:
+            prs_heads = self.repository.inspector.git.get_prs_heads()
+            if prs_heads is not None:
+                for pr_id, sha in prs_heads.items():
+                    if sha in self.included_nodes_id:
+                        node_name = f"PR_{pr_id}_HEAD"
+                        self.dag.node(
+                            name=node_name,
+                            label=pr_id,
+                            color=self.params.dag_node_colors.head,
+                            fillcolor=self.params.dag_node_colors.head,
+                            shape="circle",
+                        )
+                        self.dag.edge(node_name, sha)
 
     def _add_annotations(self: MixinProtocol) -> None:
         if self.params.public.annotations is not None:
@@ -328,38 +330,38 @@ class HeadHandlerMixin:
                 descriptor = annotation[0]
                 shas = self.repository.inspector.git.rev_parse_descriptors([descriptor])
 
-                if shas is not None:
-                    sha = shas[0]
-                    if descriptor in sha or isinstance(
-                        self.repository.objects[sha], GitTag
-                    ):
-                        tooltip = (
-                            None  # the annotation will not be displayed at all
-                            if len(annotation) == 1
-                            else " ".join(annotation[1:])
-                        )
-                        label = self.params.misc.annotations_symbol
-                        shape = self.params.misc.annotations_shape
-                    else:
-                        tooltip = (
-                            descriptor
-                            if len(annotation) == 1
-                            else " ".join(annotation[1:])
-                        )
-                        label = descriptor
-                        shape = None
+                if shas is None:
+                    continue
 
-                    if sha in self.included_nodes_id and tooltip is not None:
-                        name = f"annotation-{descriptor}"
-                        self.dag.node(
-                            name=name,
-                            label=label,
-                            color=self.params.dag_node_colors.annotations,
-                            fillcolor=self.params.dag_node_colors.annotations,
-                            tooltip=tooltip,
-                            shape=shape,
-                        )
-                        self.dag.edge(name, sha, style="dashed")
+                sha = shas[0]
+                if descriptor in sha or isinstance(
+                    self.repository.objects[sha], GitTag
+                ):
+                    tooltip = (
+                        None  # the annotation will not be displayed at all
+                        if len(annotation) == 1
+                        else " ".join(annotation[1:])
+                    )
+                    label = self.params.misc.annotations_symbol
+                    shape = self.params.misc.annotations_shape
+                else:
+                    tooltip = (
+                        descriptor if len(annotation) == 1 else " ".join(annotation[1:])
+                    )
+                    label = descriptor
+                    shape = None
+
+                if sha in self.included_nodes_id and tooltip is not None:
+                    name = f"annotation-{descriptor}"
+                    self.dag.node(
+                        name=name,
+                        label=label,
+                        color=self.params.dag_node_colors.annotations,
+                        fillcolor=self.params.dag_node_colors.annotations,
+                        tooltip=tooltip,
+                        shape=shape,
+                    )
+                    self.dag.edge(name, sha, style="dashed")
 
 
 @dataclass
