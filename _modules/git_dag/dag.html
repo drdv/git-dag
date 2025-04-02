@@ -242,6 +242,7 @@
 </li>
 <li class="toctree-l2 has-children"><a class="reference internal" href="../../.autosummary/git_dag.git_commands.html">git_dag.git_commands</a><input class="toctree-checkbox" id="toctree-checkbox-6" name="toctree-checkbox-6" role="switch" type="checkbox"/><label for="toctree-checkbox-6"><div class="visually-hidden">Toggle navigation of git_dag.git_commands</div><i class="icon"><svg><use href="#svg-arrow-right"></use></svg></i></label><ul>
 <li class="toctree-l3"><a class="reference internal" href="../../.autosummary/git_dag.git_commands.create_test_repo_and_reference_dot_file.html">git_dag.git_commands.create_test_repo_and_reference_dot_file</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../../.autosummary/git_dag.git_commands.form_process_error.html">git_dag.git_commands.form_process_error</a></li>
 <li class="toctree-l3"><a class="reference internal" href="../../.autosummary/git_dag.git_commands.GitCommand.html">git_dag.git_commands.GitCommand</a></li>
 <li class="toctree-l3"><a class="reference internal" href="../../.autosummary/git_dag.git_commands.GitCommandBase.html">git_dag.git_commands.GitCommandBase</a></li>
 <li class="toctree-l3"><a class="reference internal" href="../../.autosummary/git_dag.git_commands.GitCommandMutate.html">git_dag.git_commands.GitCommandMutate</a></li>
@@ -644,18 +645,20 @@
 
     <span class="k">def</span> <span class="nf">_add_prs_heads</span><span class="p">(</span><span class="bp">self</span><span class="p">:</span> <span class="n">MixinProtocol</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="kc">None</span><span class="p">:</span>
 <span class="w">        </span><span class="sd">&quot;&quot;&quot;Add pull-request heads.&quot;&quot;&quot;</span>
-        <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">repository</span><span class="o">.</span><span class="n">prs_heads</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span><span class="p">:</span>
-            <span class="k">for</span> <span class="n">pr_id</span><span class="p">,</span> <span class="n">sha</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">repository</span><span class="o">.</span><span class="n">prs_heads</span><span class="o">.</span><span class="n">items</span><span class="p">():</span>
-                <span class="k">if</span> <span class="n">sha</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">included_nodes_id</span><span class="p">:</span>
-                    <span class="n">node_name</span> <span class="o">=</span> <span class="sa">f</span><span class="s2">&quot;PR_</span><span class="si">{</span><span class="n">pr_id</span><span class="si">}</span><span class="s2">_HEAD&quot;</span>
-                    <span class="bp">self</span><span class="o">.</span><span class="n">dag</span><span class="o">.</span><span class="n">node</span><span class="p">(</span>
-                        <span class="n">name</span><span class="o">=</span><span class="n">node_name</span><span class="p">,</span>
-                        <span class="n">label</span><span class="o">=</span><span class="n">pr_id</span><span class="p">,</span>
-                        <span class="n">color</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">params</span><span class="o">.</span><span class="n">dag_node_colors</span><span class="o">.</span><span class="n">head</span><span class="p">,</span>
-                        <span class="n">fillcolor</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">params</span><span class="o">.</span><span class="n">dag_node_colors</span><span class="o">.</span><span class="n">head</span><span class="p">,</span>
-                        <span class="n">shape</span><span class="o">=</span><span class="s2">&quot;circle&quot;</span><span class="p">,</span>
-                    <span class="p">)</span>
-                    <span class="bp">self</span><span class="o">.</span><span class="n">dag</span><span class="o">.</span><span class="n">edge</span><span class="p">(</span><span class="n">node_name</span><span class="p">,</span> <span class="n">sha</span><span class="p">)</span>
+        <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">params</span><span class="o">.</span><span class="n">public</span><span class="o">.</span><span class="n">show_prs_heads</span><span class="p">:</span>
+            <span class="n">prs_heads</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">repository</span><span class="o">.</span><span class="n">inspector</span><span class="o">.</span><span class="n">git</span><span class="o">.</span><span class="n">get_prs_heads</span><span class="p">()</span>
+            <span class="k">if</span> <span class="n">prs_heads</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span><span class="p">:</span>
+                <span class="k">for</span> <span class="n">pr_id</span><span class="p">,</span> <span class="n">sha</span> <span class="ow">in</span> <span class="n">prs_heads</span><span class="o">.</span><span class="n">items</span><span class="p">():</span>
+                    <span class="k">if</span> <span class="n">sha</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">included_nodes_id</span><span class="p">:</span>
+                        <span class="n">node_name</span> <span class="o">=</span> <span class="sa">f</span><span class="s2">&quot;PR_</span><span class="si">{</span><span class="n">pr_id</span><span class="si">}</span><span class="s2">_HEAD&quot;</span>
+                        <span class="bp">self</span><span class="o">.</span><span class="n">dag</span><span class="o">.</span><span class="n">node</span><span class="p">(</span>
+                            <span class="n">name</span><span class="o">=</span><span class="n">node_name</span><span class="p">,</span>
+                            <span class="n">label</span><span class="o">=</span><span class="n">pr_id</span><span class="p">,</span>
+                            <span class="n">color</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">params</span><span class="o">.</span><span class="n">dag_node_colors</span><span class="o">.</span><span class="n">head</span><span class="p">,</span>
+                            <span class="n">fillcolor</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">params</span><span class="o">.</span><span class="n">dag_node_colors</span><span class="o">.</span><span class="n">head</span><span class="p">,</span>
+                            <span class="n">shape</span><span class="o">=</span><span class="s2">&quot;circle&quot;</span><span class="p">,</span>
+                        <span class="p">)</span>
+                        <span class="bp">self</span><span class="o">.</span><span class="n">dag</span><span class="o">.</span><span class="n">edge</span><span class="p">(</span><span class="n">node_name</span><span class="p">,</span> <span class="n">sha</span><span class="p">)</span>
 
     <span class="k">def</span> <span class="nf">_add_annotations</span><span class="p">(</span><span class="bp">self</span><span class="p">:</span> <span class="n">MixinProtocol</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="kc">None</span><span class="p">:</span>
         <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">params</span><span class="o">.</span><span class="n">public</span><span class="o">.</span><span class="n">annotations</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span><span class="p">:</span>
@@ -663,38 +666,38 @@
                 <span class="n">descriptor</span> <span class="o">=</span> <span class="n">annotation</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span>
                 <span class="n">shas</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">repository</span><span class="o">.</span><span class="n">inspector</span><span class="o">.</span><span class="n">git</span><span class="o">.</span><span class="n">rev_parse_descriptors</span><span class="p">([</span><span class="n">descriptor</span><span class="p">])</span>
 
-                <span class="k">if</span> <span class="n">shas</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span><span class="p">:</span>
-                    <span class="n">sha</span> <span class="o">=</span> <span class="n">shas</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span>
-                    <span class="k">if</span> <span class="n">descriptor</span> <span class="ow">in</span> <span class="n">sha</span> <span class="ow">or</span> <span class="nb">isinstance</span><span class="p">(</span>
-                        <span class="bp">self</span><span class="o">.</span><span class="n">repository</span><span class="o">.</span><span class="n">objects</span><span class="p">[</span><span class="n">sha</span><span class="p">],</span> <span class="n">GitTag</span>
-                    <span class="p">):</span>
-                        <span class="n">tooltip</span> <span class="o">=</span> <span class="p">(</span>
-                            <span class="kc">None</span>  <span class="c1"># the annotation will not be displayed at all</span>
-                            <span class="k">if</span> <span class="nb">len</span><span class="p">(</span><span class="n">annotation</span><span class="p">)</span> <span class="o">==</span> <span class="mi">1</span>
-                            <span class="k">else</span> <span class="s2">&quot; &quot;</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="n">annotation</span><span class="p">[</span><span class="mi">1</span><span class="p">:])</span>
-                        <span class="p">)</span>
-                        <span class="n">label</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">params</span><span class="o">.</span><span class="n">misc</span><span class="o">.</span><span class="n">annotations_symbol</span>
-                        <span class="n">shape</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">params</span><span class="o">.</span><span class="n">misc</span><span class="o">.</span><span class="n">annotations_shape</span>
-                    <span class="k">else</span><span class="p">:</span>
-                        <span class="n">tooltip</span> <span class="o">=</span> <span class="p">(</span>
-                            <span class="n">descriptor</span>
-                            <span class="k">if</span> <span class="nb">len</span><span class="p">(</span><span class="n">annotation</span><span class="p">)</span> <span class="o">==</span> <span class="mi">1</span>
-                            <span class="k">else</span> <span class="s2">&quot; &quot;</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="n">annotation</span><span class="p">[</span><span class="mi">1</span><span class="p">:])</span>
-                        <span class="p">)</span>
-                        <span class="n">label</span> <span class="o">=</span> <span class="n">descriptor</span>
-                        <span class="n">shape</span> <span class="o">=</span> <span class="kc">None</span>
+                <span class="k">if</span> <span class="n">shas</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>
+                    <span class="k">continue</span>
 
-                    <span class="k">if</span> <span class="n">sha</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">included_nodes_id</span> <span class="ow">and</span> <span class="n">tooltip</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span><span class="p">:</span>
-                        <span class="n">name</span> <span class="o">=</span> <span class="sa">f</span><span class="s2">&quot;annotation-</span><span class="si">{</span><span class="n">descriptor</span><span class="si">}</span><span class="s2">&quot;</span>
-                        <span class="bp">self</span><span class="o">.</span><span class="n">dag</span><span class="o">.</span><span class="n">node</span><span class="p">(</span>
-                            <span class="n">name</span><span class="o">=</span><span class="n">name</span><span class="p">,</span>
-                            <span class="n">label</span><span class="o">=</span><span class="n">label</span><span class="p">,</span>
-                            <span class="n">color</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">params</span><span class="o">.</span><span class="n">dag_node_colors</span><span class="o">.</span><span class="n">annotations</span><span class="p">,</span>
-                            <span class="n">fillcolor</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">params</span><span class="o">.</span><span class="n">dag_node_colors</span><span class="o">.</span><span class="n">annotations</span><span class="p">,</span>
-                            <span class="n">tooltip</span><span class="o">=</span><span class="n">tooltip</span><span class="p">,</span>
-                            <span class="n">shape</span><span class="o">=</span><span class="n">shape</span><span class="p">,</span>
-                        <span class="p">)</span>
-                        <span class="bp">self</span><span class="o">.</span><span class="n">dag</span><span class="o">.</span><span class="n">edge</span><span class="p">(</span><span class="n">name</span><span class="p">,</span> <span class="n">sha</span><span class="p">,</span> <span class="n">style</span><span class="o">=</span><span class="s2">&quot;dashed&quot;</span><span class="p">)</span></div>
+                <span class="n">sha</span> <span class="o">=</span> <span class="n">shas</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span>
+                <span class="k">if</span> <span class="n">descriptor</span> <span class="ow">in</span> <span class="n">sha</span> <span class="ow">or</span> <span class="nb">isinstance</span><span class="p">(</span>
+                    <span class="bp">self</span><span class="o">.</span><span class="n">repository</span><span class="o">.</span><span class="n">objects</span><span class="p">[</span><span class="n">sha</span><span class="p">],</span> <span class="n">GitTag</span>
+                <span class="p">):</span>
+                    <span class="n">tooltip</span> <span class="o">=</span> <span class="p">(</span>
+                        <span class="kc">None</span>  <span class="c1"># the annotation will not be displayed at all</span>
+                        <span class="k">if</span> <span class="nb">len</span><span class="p">(</span><span class="n">annotation</span><span class="p">)</span> <span class="o">==</span> <span class="mi">1</span>
+                        <span class="k">else</span> <span class="s2">&quot; &quot;</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="n">annotation</span><span class="p">[</span><span class="mi">1</span><span class="p">:])</span>
+                    <span class="p">)</span>
+                    <span class="n">label</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">params</span><span class="o">.</span><span class="n">misc</span><span class="o">.</span><span class="n">annotations_symbol</span>
+                    <span class="n">shape</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">params</span><span class="o">.</span><span class="n">misc</span><span class="o">.</span><span class="n">annotations_shape</span>
+                <span class="k">else</span><span class="p">:</span>
+                    <span class="n">tooltip</span> <span class="o">=</span> <span class="p">(</span>
+                        <span class="n">descriptor</span> <span class="k">if</span> <span class="nb">len</span><span class="p">(</span><span class="n">annotation</span><span class="p">)</span> <span class="o">==</span> <span class="mi">1</span> <span class="k">else</span> <span class="s2">&quot; &quot;</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="n">annotation</span><span class="p">[</span><span class="mi">1</span><span class="p">:])</span>
+                    <span class="p">)</span>
+                    <span class="n">label</span> <span class="o">=</span> <span class="n">descriptor</span>
+                    <span class="n">shape</span> <span class="o">=</span> <span class="kc">None</span>
+
+                <span class="k">if</span> <span class="n">sha</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">included_nodes_id</span> <span class="ow">and</span> <span class="n">tooltip</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span><span class="p">:</span>
+                    <span class="n">name</span> <span class="o">=</span> <span class="sa">f</span><span class="s2">&quot;annotation-</span><span class="si">{</span><span class="n">descriptor</span><span class="si">}</span><span class="s2">&quot;</span>
+                    <span class="bp">self</span><span class="o">.</span><span class="n">dag</span><span class="o">.</span><span class="n">node</span><span class="p">(</span>
+                        <span class="n">name</span><span class="o">=</span><span class="n">name</span><span class="p">,</span>
+                        <span class="n">label</span><span class="o">=</span><span class="n">label</span><span class="p">,</span>
+                        <span class="n">color</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">params</span><span class="o">.</span><span class="n">dag_node_colors</span><span class="o">.</span><span class="n">annotations</span><span class="p">,</span>
+                        <span class="n">fillcolor</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">params</span><span class="o">.</span><span class="n">dag_node_colors</span><span class="o">.</span><span class="n">annotations</span><span class="p">,</span>
+                        <span class="n">tooltip</span><span class="o">=</span><span class="n">tooltip</span><span class="p">,</span>
+                        <span class="n">shape</span><span class="o">=</span><span class="n">shape</span><span class="p">,</span>
+                    <span class="p">)</span>
+                    <span class="bp">self</span><span class="o">.</span><span class="n">dag</span><span class="o">.</span><span class="n">edge</span><span class="p">(</span><span class="n">name</span><span class="p">,</span> <span class="n">sha</span><span class="p">,</span> <span class="n">style</span><span class="o">=</span><span class="s2">&quot;dashed&quot;</span><span class="p">)</span></div>
 
 
 
@@ -884,7 +887,7 @@
       
     </aside>
   </div>
-</div><script src="../../_static/documentation_options.js?v=b352a30f"></script>
+</div><script src="../../_static/documentation_options.js?v=06826ec9"></script>
     <script src="../../_static/doctools.js?v=9bcbadda"></script>
     <script src="../../_static/sphinx_highlight.js?v=dc90522c"></script>
     <script src="../../_static/scripts/furo.js?v=5fa4622c"></script>

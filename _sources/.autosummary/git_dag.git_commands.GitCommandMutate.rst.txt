@@ -21,6 +21,7 @@ git\_dag.git\_commands.GitCommandMutate
       ~GitCommandMutate.clone_local_depth_1
       ~GitCommandMutate.cm
       ~GitCommandMutate.config
+      ~GitCommandMutate.get_env
       ~GitCommandMutate.init
       ~GitCommandMutate.mg
       ~GitCommandMutate.note

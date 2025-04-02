@@ -16,6 +16,7 @@
       :nosignatures:
    
       create_test_repo_and_reference_dot_file
+      form_process_error
    
    
 

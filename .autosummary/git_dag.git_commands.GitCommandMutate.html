@@ -243,6 +243,7 @@
 </li>
 <li class="toctree-l2 current has-children"><a class="reference internal" href="git_dag.git_commands.html">git_dag.git_commands</a><input checked="" class="toctree-checkbox" id="toctree-checkbox-6" name="toctree-checkbox-6" role="switch" type="checkbox"/><label for="toctree-checkbox-6"><div class="visually-hidden">Toggle navigation of git_dag.git_commands</div><i class="icon"><svg><use href="#svg-arrow-right"></use></svg></i></label><ul class="current">
 <li class="toctree-l3"><a class="reference internal" href="git_dag.git_commands.create_test_repo_and_reference_dot_file.html">git_dag.git_commands.create_test_repo_and_reference_dot_file</a></li>
+<li class="toctree-l3"><a class="reference internal" href="git_dag.git_commands.form_process_error.html">git_dag.git_commands.form_process_error</a></li>
 <li class="toctree-l3"><a class="reference internal" href="git_dag.git_commands.GitCommand.html">git_dag.git_commands.GitCommand</a></li>
 <li class="toctree-l3"><a class="reference internal" href="git_dag.git_commands.GitCommandBase.html">git_dag.git_commands.GitCommandBase</a></li>
 <li class="toctree-l3 current current-page"><a class="current reference internal" href="#">git_dag.git_commands.GitCommandMutate</a></li>
@@ -349,22 +350,25 @@ repository for the tests.</p>
 <tr class="row-odd"><td><p><a class="reference internal" href="#git_dag.git_commands.GitCommandMutate.config" title="git_dag.git_commands.GitCommandMutate.config"><code class="xref py py-obj docutils literal notranslate"><span class="pre">config</span></code></a></p></td>
 <td><p>Set a gonfig option.</p></td>
 </tr>
-<tr class="row-even"><td><p><a class="reference internal" href="#git_dag.git_commands.GitCommandMutate.init" title="git_dag.git_commands.GitCommandMutate.init"><code class="xref py py-obj docutils literal notranslate"><span class="pre">init</span></code></a></p></td>
+<tr class="row-even"><td><p><a class="reference internal" href="#git_dag.git_commands.GitCommandMutate.get_env" title="git_dag.git_commands.GitCommandMutate.get_env"><code class="xref py py-obj docutils literal notranslate"><span class="pre">get_env</span></code></a></p></td>
+<td><p>Return environment with author and committer to pass to commands.</p></td>
+</tr>
+<tr class="row-odd"><td><p><a class="reference internal" href="#git_dag.git_commands.GitCommandMutate.init" title="git_dag.git_commands.GitCommandMutate.init"><code class="xref py py-obj docutils literal notranslate"><span class="pre">init</span></code></a></p></td>
 <td><p>Initialise a git repository.</p></td>
 </tr>
-<tr class="row-odd"><td><p><a class="reference internal" href="#git_dag.git_commands.GitCommandMutate.mg" title="git_dag.git_commands.GitCommandMutate.mg"><code class="xref py py-obj docutils literal notranslate"><span class="pre">mg</span></code></a></p></td>
+<tr class="row-even"><td><p><a class="reference internal" href="#git_dag.git_commands.GitCommandMutate.mg" title="git_dag.git_commands.GitCommandMutate.mg"><code class="xref py py-obj docutils literal notranslate"><span class="pre">mg</span></code></a></p></td>
 <td><p>Merge.</p></td>
 </tr>
-<tr class="row-even"><td><p><a class="reference internal" href="#git_dag.git_commands.GitCommandMutate.note" title="git_dag.git_commands.GitCommandMutate.note"><code class="xref py py-obj docutils literal notranslate"><span class="pre">note</span></code></a></p></td>
+<tr class="row-odd"><td><p><a class="reference internal" href="#git_dag.git_commands.GitCommandMutate.note" title="git_dag.git_commands.GitCommandMutate.note"><code class="xref py py-obj docutils literal notranslate"><span class="pre">note</span></code></a></p></td>
 <td><p>Add a git note to a given ref (e.g., hash, branch name).</p></td>
 </tr>
-<tr class="row-odd"><td><p><a class="reference internal" href="#git_dag.git_commands.GitCommandMutate.run_general" title="git_dag.git_commands.GitCommandMutate.run_general"><code class="xref py py-obj docutils literal notranslate"><span class="pre">run_general</span></code></a></p></td>
+<tr class="row-even"><td><p><a class="reference internal" href="#git_dag.git_commands.GitCommandMutate.run_general" title="git_dag.git_commands.GitCommandMutate.run_general"><code class="xref py py-obj docutils literal notranslate"><span class="pre">run_general</span></code></a></p></td>
 <td><p>Run a general command.</p></td>
 </tr>
-<tr class="row-even"><td><p><a class="reference internal" href="#git_dag.git_commands.GitCommandMutate.stash" title="git_dag.git_commands.GitCommandMutate.stash"><code class="xref py py-obj docutils literal notranslate"><span class="pre">stash</span></code></a></p></td>
+<tr class="row-odd"><td><p><a class="reference internal" href="#git_dag.git_commands.GitCommandMutate.stash" title="git_dag.git_commands.GitCommandMutate.stash"><code class="xref py py-obj docutils literal notranslate"><span class="pre">stash</span></code></a></p></td>
 <td><p>Stash.</p></td>
 </tr>
-<tr class="row-odd"><td><p><a class="reference internal" href="#git_dag.git_commands.GitCommandMutate.tag" title="git_dag.git_commands.GitCommandMutate.tag"><code class="xref py py-obj docutils literal notranslate"><span class="pre">tag</span></code></a></p></td>
+<tr class="row-even"><td><p><a class="reference internal" href="#git_dag.git_commands.GitCommandMutate.tag" title="git_dag.git_commands.GitCommandMutate.tag"><code class="xref py py-obj docutils literal notranslate"><span class="pre">tag</span></code></a></p></td>
 <td><p>Create/delete annotated or lightweight tag.</p></td>
 </tr>
 </tbody>
@@ -413,6 +417,12 @@ cannot be specified).</p>
 <dt class="sig sig-object py" id="git_dag.git_commands.GitCommandMutate.config">
 <span class="sig-name descname"><span class="pre">config</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">option</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">str</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">None</span></span></span><a class="reference internal" href="../_modules/git_dag/git_commands.html#GitCommandMutate.config"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#git_dag.git_commands.GitCommandMutate.config" title="Link to this definition">¶</a></dt>
 <dd><p>Set a gonfig option.</p>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="git_dag.git_commands.GitCommandMutate.get_env">
+<span class="sig-name descname"><span class="pre">get_env</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">dict</span><span class="p"><span class="pre">[</span></span><span class="pre">str</span><span class="p"><span class="pre">,</span></span><span class="w"> </span><span class="pre">str</span><span class="p"><span class="pre">]</span></span></span></span><a class="reference internal" href="../_modules/git_dag/git_commands.html#GitCommandMutate.get_env"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#git_dag.git_commands.GitCommandMutate.get_env" title="Link to this definition">¶</a></dt>
+<dd><p>Return environment with author and committer to pass to commands.</p>
 </dd></dl>
 
 <dl class="py method">
@@ -534,6 +544,7 @@ on delay). See <a class="reference external" href="https://github.com/drdv/git-d
 <li><a class="reference internal" href="#git_dag.git_commands.GitCommandMutate.clone_local_depth_1"><code class="docutils literal notranslate"><span class="pre">GitCommandMutate.clone_local_depth_1()</span></code></a></li>
 <li><a class="reference internal" href="#git_dag.git_commands.GitCommandMutate.cm"><code class="docutils literal notranslate"><span class="pre">GitCommandMutate.cm()</span></code></a></li>
 <li><a class="reference internal" href="#git_dag.git_commands.GitCommandMutate.config"><code class="docutils literal notranslate"><span class="pre">GitCommandMutate.config()</span></code></a></li>
+<li><a class="reference internal" href="#git_dag.git_commands.GitCommandMutate.get_env"><code class="docutils literal notranslate"><span class="pre">GitCommandMutate.get_env()</span></code></a></li>
 <li><a class="reference internal" href="#git_dag.git_commands.GitCommandMutate.init"><code class="docutils literal notranslate"><span class="pre">GitCommandMutate.init()</span></code></a></li>
 <li><a class="reference internal" href="#git_dag.git_commands.GitCommandMutate.mg"><code class="docutils literal notranslate"><span class="pre">GitCommandMutate.mg()</span></code></a></li>
 <li><a class="reference internal" href="#git_dag.git_commands.GitCommandMutate.note"><code class="docutils literal notranslate"><span class="pre">GitCommandMutate.note()</span></code></a></li>
@@ -553,7 +564,7 @@ on delay). See <a class="reference external" href="https://github.com/drdv/git-d
       
     </aside>
   </div>
-</div><script src="../_static/documentation_options.js?v=b352a30f"></script>
+</div><script src="../_static/documentation_options.js?v=06826ec9"></script>
     <script src="../_static/doctools.js?v=9bcbadda"></script>
     <script src="../_static/sphinx_highlight.js?v=dc90522c"></script>
     <script src="../_static/scripts/furo.js?v=5fa4622c"></script>

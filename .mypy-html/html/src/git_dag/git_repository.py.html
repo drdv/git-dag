@@ -710,14 +710,6 @@
 <span id="L700" class="lineno"><a class="lineno" href="#L700">700</a></span>
 <span id="L701" class="lineno"><a class="lineno" href="#L701">701</a></span>
 <span id="L702" class="lineno"><a class="lineno" href="#L702">702</a></span>
-<span id="L703" class="lineno"><a class="lineno" href="#L703">703</a></span>
-<span id="L704" class="lineno"><a class="lineno" href="#L704">704</a></span>
-<span id="L705" class="lineno"><a class="lineno" href="#L705">705</a></span>
-<span id="L706" class="lineno"><a class="lineno" href="#L706">706</a></span>
-<span id="L707" class="lineno"><a class="lineno" href="#L707">707</a></span>
-<span id="L708" class="lineno"><a class="lineno" href="#L708">708</a></span>
-<span id="L709" class="lineno"><a class="lineno" href="#L709">709</a></span>
-<span id="L710" class="lineno"><a class="lineno" href="#L710">710</a></span>
 </pre></td>
 <td class="table-code"><pre><span class="line-empty" title="No Anys on this line!">"""Git repository parsing functionality."""</span>
 <span class="line-empty" title="No Anys on this line!"></span>
@@ -1196,7 +1188,6 @@ Omitted Generics (x9)">            for obj in TypeAdapter(list[GitObjectAnnotate
 <span class="line-empty" title="No Anys on this line!">        self,</span>
 <span class="line-precise" title="No Anys on this line!">        repository_path: str | Path = ".",</span>
 <span class="line-precise" title="No Anys on this line!">        parse_trees: bool = False,</span>
-<span class="line-precise" title="No Anys on this line!">        ls_remote: bool = False,</span>
 <span class="line-empty" title="No Anys on this line!">    ) -&gt; None:</span>
 <span class="line-empty" title="No Anys on this line!">        """Initialize instance.</span>
 <span class="line-empty" title="No Anys on this line!"></span>
@@ -1206,16 +1197,12 @@ Omitted Generics (x9)">            for obj in TypeAdapter(list[GitObjectAnnotate
 <span class="line-empty" title="No Anys on this line!">            Path to the git repository.</span>
 <span class="line-empty" title="No Anys on this line!">        parse_trees</span>
 <span class="line-empty" title="No Anys on this line!">            Whether to parse the tree objects (doing this can be very slow).</span>
-<span class="line-empty" title="No Anys on this line!">        ls_remote</span>
-<span class="line-empty" title="No Anys on this line!">            This should be set to ``True`` when it is required to show PRs heads (see</span>
-<span class="line-empty" title="No Anys on this line!">            the flag ``--prs-heads``).</span>
 <span class="line-empty" title="No Anys on this line!"></span>
 <span class="line-empty" title="No Anys on this line!">        """</span>
 <span class="line-precise" title="No Anys on this line!">        if not Path(repository_path).exists():</span>
 <span class="line-precise" title="No Anys on this line!">            raise RuntimeError(f"Path {repository_path} doesn't exist.")</span>
 <span class="line-empty" title="No Anys on this line!"></span>
 <span class="line-precise" title="No Anys on this line!">        self.inspector = GitInspector(repository_path, parse_trees)</span>
-<span class="line-precise" title="No Anys on this line!">        self.ls_remote = ls_remote</span>
 <span class="line-precise" title="No Anys on this line!">        self.post_process_inspector_data()</span>
 <span class="line-empty" title="No Anys on this line!"></span>
 <span class="line-precise" title="Any Types on this line: 
@@ -1231,9 +1218,6 @@ Omitted Generics (x6)">    @time_it</span>
 <span class="line-precise" title="No Anys on this line!">        self.branches: list[GitBranch] = self._form_branches()</span>
 <span class="line-precise" title="No Anys on this line!">        self.head: GitHead = self._form_local_head()</span>
 <span class="line-precise" title="No Anys on this line!">        self.remote_heads: DictStrStr = self._form_remote_heads()</span>
-<span class="line-precise" title="No Anys on this line!">        self.prs_heads: Optional[DictStrStr] = (</span>
-<span class="line-precise" title="No Anys on this line!">            self.inspector.git.get_prs_heads() if self.ls_remote else None</span>
-<span class="line-empty" title="No Anys on this line!">        )</span>
 <span class="line-precise" title="No Anys on this line!">        self.stashes: list[GitStash] = self._form_stashes()</span>
 <span class="line-precise" title="No Anys on this line!">        self.notes_dag_root: Optional[DictStrStr] = self.inspector.notes_dag_root</span>
 <span class="line-empty" title="No Anys on this line!"></span>

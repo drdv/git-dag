@@ -242,6 +242,7 @@
 </li>
 <li class="toctree-l2 has-children"><a class="reference internal" href="../../.autosummary/git_dag.git_commands.html">git_dag.git_commands</a><input class="toctree-checkbox" id="toctree-checkbox-6" name="toctree-checkbox-6" role="switch" type="checkbox"/><label for="toctree-checkbox-6"><div class="visually-hidden">Toggle navigation of git_dag.git_commands</div><i class="icon"><svg><use href="#svg-arrow-right"></use></svg></i></label><ul>
 <li class="toctree-l3"><a class="reference internal" href="../../.autosummary/git_dag.git_commands.create_test_repo_and_reference_dot_file.html">git_dag.git_commands.create_test_repo_and_reference_dot_file</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../../.autosummary/git_dag.git_commands.form_process_error.html">git_dag.git_commands.form_process_error</a></li>
 <li class="toctree-l3"><a class="reference internal" href="../../.autosummary/git_dag.git_commands.GitCommand.html">git_dag.git_commands.GitCommand</a></li>
 <li class="toctree-l3"><a class="reference internal" href="../../.autosummary/git_dag.git_commands.GitCommandBase.html">git_dag.git_commands.GitCommandBase</a></li>
 <li class="toctree-l3"><a class="reference internal" href="../../.autosummary/git_dag.git_commands.GitCommandMutate.html">git_dag.git_commands.GitCommandMutate</a></li>
@@ -790,7 +791,6 @@
         <span class="bp">self</span><span class="p">,</span>
         <span class="n">repository_path</span><span class="p">:</span> <span class="nb">str</span> <span class="o">|</span> <span class="n">Path</span> <span class="o">=</span> <span class="s2">&quot;.&quot;</span><span class="p">,</span>
         <span class="n">parse_trees</span><span class="p">:</span> <span class="nb">bool</span> <span class="o">=</span> <span class="kc">False</span><span class="p">,</span>
-        <span class="n">ls_remote</span><span class="p">:</span> <span class="nb">bool</span> <span class="o">=</span> <span class="kc">False</span><span class="p">,</span>
     <span class="p">)</span> <span class="o">-&gt;</span> <span class="kc">None</span><span class="p">:</span>
 <span class="w">        </span><span class="sd">&quot;&quot;&quot;Initialize instance.</span>
 
@@ -800,16 +800,12 @@
 <span class="sd">            Path to the git repository.</span>
 <span class="sd">        parse_trees</span>
 <span class="sd">            Whether to parse the tree objects (doing this can be very slow).</span>
-<span class="sd">        ls_remote</span>
-<span class="sd">            This should be set to ``True`` when it is required to show PRs heads (see</span>
-<span class="sd">            the flag ``--prs-heads``).</span>
 
 <span class="sd">        &quot;&quot;&quot;</span>
         <span class="k">if</span> <span class="ow">not</span> <span class="n">Path</span><span class="p">(</span><span class="n">repository_path</span><span class="p">)</span><span class="o">.</span><span class="n">exists</span><span class="p">():</span>
             <span class="k">raise</span> <span class="ne">RuntimeError</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;Path </span><span class="si">{</span><span class="n">repository_path</span><span class="si">}</span><span class="s2"> doesn&#39;t exist.&quot;</span><span class="p">)</span>
 
         <span class="bp">self</span><span class="o">.</span><span class="n">inspector</span> <span class="o">=</span> <span class="n">GitInspector</span><span class="p">(</span><span class="n">repository_path</span><span class="p">,</span> <span class="n">parse_trees</span><span class="p">)</span>
-        <span class="bp">self</span><span class="o">.</span><span class="n">ls_remote</span> <span class="o">=</span> <span class="n">ls_remote</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">post_process_inspector_data</span><span class="p">()</span>
 
 <div class="viewcode-block" id="GitRepository.post_process_inspector_data">
@@ -826,9 +822,6 @@
         <span class="bp">self</span><span class="o">.</span><span class="n">branches</span><span class="p">:</span> <span class="nb">list</span><span class="p">[</span><span class="n">GitBranch</span><span class="p">]</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">_form_branches</span><span class="p">()</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">head</span><span class="p">:</span> <span class="n">GitHead</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">_form_local_head</span><span class="p">()</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">remote_heads</span><span class="p">:</span> <span class="n">DictStrStr</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">_form_remote_heads</span><span class="p">()</span>
-        <span class="bp">self</span><span class="o">.</span><span class="n">prs_heads</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="n">DictStrStr</span><span class="p">]</span> <span class="o">=</span> <span class="p">(</span>
-            <span class="bp">self</span><span class="o">.</span><span class="n">inspector</span><span class="o">.</span><span class="n">git</span><span class="o">.</span><span class="n">get_prs_heads</span><span class="p">()</span> <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">ls_remote</span> <span class="k">else</span> <span class="kc">None</span>
-        <span class="p">)</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">stashes</span><span class="p">:</span> <span class="nb">list</span><span class="p">[</span><span class="n">GitStash</span><span class="p">]</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">_form_stashes</span><span class="p">()</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">notes_dag_root</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="n">DictStrStr</span><span class="p">]</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">inspector</span><span class="o">.</span><span class="n">notes_dag_root</span></div>
 
@@ -1100,7 +1093,7 @@
       
     </aside>
   </div>
-</div><script src="../../_static/documentation_options.js?v=b352a30f"></script>
+</div><script src="../../_static/documentation_options.js?v=06826ec9"></script>
     <script src="../../_static/doctools.js?v=9bcbadda"></script>
     <script src="../../_static/sphinx_highlight.js?v=dc90522c"></script>
     <script src="../../_static/scripts/furo.js?v=5fa4622c"></script>

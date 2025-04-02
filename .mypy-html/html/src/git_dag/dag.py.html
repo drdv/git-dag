@@ -520,6 +520,8 @@
 <span id="L510" class="lineno"><a class="lineno" href="#L510">510</a></span>
 <span id="L511" class="lineno"><a class="lineno" href="#L511">511</a></span>
 <span id="L512" class="lineno"><a class="lineno" href="#L512">512</a></span>
+<span id="L513" class="lineno"><a class="lineno" href="#L513">513</a></span>
+<span id="L514" class="lineno"><a class="lineno" href="#L514">514</a></span>
 </pre></td>
 <td class="table-code"><pre><span class="line-empty" title="No Anys on this line!">"""DAG visualization.</span>
 <span class="line-empty" title="No Anys on this line!"></span>
@@ -871,20 +873,22 @@ Explicit (x3)">            self.dag.edge(head, f"remote-branch-{ref}")</span>
 <span class="line-empty" title="No Anys on this line!"></span>
 <span class="line-precise" title="No Anys on this line!">    def _add_prs_heads(self: MixinProtocol) -&gt; None:</span>
 <span class="line-empty" title="No Anys on this line!">        """Add pull-request heads."""</span>
-<span class="line-precise" title="No Anys on this line!">        if self.repository.prs_heads is not None:</span>
-<span class="line-precise" title="No Anys on this line!">            for pr_id, sha in self.repository.prs_heads.items():</span>
-<span class="line-precise" title="No Anys on this line!">                if sha in self.included_nodes_id:</span>
-<span class="line-precise" title="No Anys on this line!">                    node_name = f"PR_{pr_id}_HEAD"</span>
+<span class="line-precise" title="No Anys on this line!">        if self.params.public.show_prs_heads:</span>
+<span class="line-precise" title="No Anys on this line!">            prs_heads = self.repository.inspector.git.get_prs_heads()</span>
+<span class="line-precise" title="No Anys on this line!">            if prs_heads is not None:</span>
+<span class="line-precise" title="No Anys on this line!">                for pr_id, sha in prs_heads.items():</span>
+<span class="line-precise" title="No Anys on this line!">                    if sha in self.included_nodes_id:</span>
+<span class="line-precise" title="No Anys on this line!">                        node_name = f"PR_{pr_id}_HEAD"</span>
 <span class="line-any" title="Any Types on this line: 
-Explicit (x3)">                    self.dag.node(</span>
-<span class="line-precise" title="No Anys on this line!">                        name=node_name,</span>
-<span class="line-precise" title="No Anys on this line!">                        label=pr_id,</span>
-<span class="line-precise" title="No Anys on this line!">                        color=self.params.dag_node_colors.head,</span>
-<span class="line-precise" title="No Anys on this line!">                        fillcolor=self.params.dag_node_colors.head,</span>
-<span class="line-precise" title="No Anys on this line!">                        shape="circle",</span>
-<span class="line-empty" title="No Anys on this line!">                    )</span>
+Explicit (x3)">                        self.dag.node(</span>
+<span class="line-precise" title="No Anys on this line!">                            name=node_name,</span>
+<span class="line-precise" title="No Anys on this line!">                            label=pr_id,</span>
+<span class="line-precise" title="No Anys on this line!">                            color=self.params.dag_node_colors.head,</span>
+<span class="line-precise" title="No Anys on this line!">                            fillcolor=self.params.dag_node_colors.head,</span>
+<span class="line-precise" title="No Anys on this line!">                            shape="circle",</span>
+<span class="line-empty" title="No Anys on this line!">                        )</span>
 <span class="line-any" title="Any Types on this line: 
-Explicit (x3)">                    self.dag.edge(node_name, sha)</span>
+Explicit (x3)">                        self.dag.edge(node_name, sha)</span>
 <span class="line-empty" title="No Anys on this line!"></span>
 <span class="line-precise" title="No Anys on this line!">    def _add_annotations(self: MixinProtocol) -&gt; None:</span>
 <span class="line-precise" title="No Anys on this line!">        if self.params.public.annotations is not None:</span>
@@ -892,40 +896,40 @@ Explicit (x3)">                    self.dag.edge(node_name, sha)</span>
 <span class="line-precise" title="No Anys on this line!">                descriptor = annotation[0]</span>
 <span class="line-precise" title="No Anys on this line!">                shas = self.repository.inspector.git.rev_parse_descriptors([descriptor])</span>
 <span class="line-empty" title="No Anys on this line!"></span>
-<span class="line-precise" title="No Anys on this line!">                if shas is not None:</span>
-<span class="line-precise" title="No Anys on this line!">                    sha = shas[0]</span>
-<span class="line-precise" title="No Anys on this line!">                    if descriptor in sha or isinstance(</span>
-<span class="line-precise" title="No Anys on this line!">                        self.repository.objects[sha], GitTag</span>
-<span class="line-empty" title="No Anys on this line!">                    ):</span>
-<span class="line-precise" title="No Anys on this line!">                        tooltip = (</span>
-<span class="line-precise" title="No Anys on this line!">                            None  # the annotation will not be displayed at all</span>
-<span class="line-precise" title="No Anys on this line!">                            if len(annotation) == 1</span>
-<span class="line-precise" title="No Anys on this line!">                            else " ".join(annotation[1:])</span>
-<span class="line-empty" title="No Anys on this line!">                        )</span>
-<span class="line-precise" title="No Anys on this line!">                        label = self.params.misc.annotations_symbol</span>
-<span class="line-precise" title="No Anys on this line!">                        shape = self.params.misc.annotations_shape</span>
-<span class="line-empty" title="No Anys on this line!">                    else:</span>
-<span class="line-precise" title="No Anys on this line!">                        tooltip = (</span>
-<span class="line-precise" title="No Anys on this line!">                            descriptor</span>
-<span class="line-precise" title="No Anys on this line!">                            if len(annotation) == 1</span>
-<span class="line-precise" title="No Anys on this line!">                            else " ".join(annotation[1:])</span>
-<span class="line-empty" title="No Anys on this line!">                        )</span>
-<span class="line-precise" title="No Anys on this line!">                        label = descriptor</span>
-<span class="line-precise" title="No Anys on this line!">                        shape = None</span>
+<span class="line-precise" title="No Anys on this line!">                if shas is None:</span>
+<span class="line-precise" title="No Anys on this line!">                    continue</span>
 <span class="line-empty" title="No Anys on this line!"></span>
-<span class="line-precise" title="No Anys on this line!">                    if sha in self.included_nodes_id and tooltip is not None:</span>
-<span class="line-precise" title="No Anys on this line!">                        name = f"annotation-{descriptor}"</span>
+<span class="line-precise" title="No Anys on this line!">                sha = shas[0]</span>
+<span class="line-precise" title="No Anys on this line!">                if descriptor in sha or isinstance(</span>
+<span class="line-precise" title="No Anys on this line!">                    self.repository.objects[sha], GitTag</span>
+<span class="line-empty" title="No Anys on this line!">                ):</span>
+<span class="line-precise" title="No Anys on this line!">                    tooltip = (</span>
+<span class="line-precise" title="No Anys on this line!">                        None  # the annotation will not be displayed at all</span>
+<span class="line-precise" title="No Anys on this line!">                        if len(annotation) == 1</span>
+<span class="line-precise" title="No Anys on this line!">                        else " ".join(annotation[1:])</span>
+<span class="line-empty" title="No Anys on this line!">                    )</span>
+<span class="line-precise" title="No Anys on this line!">                    label = self.params.misc.annotations_symbol</span>
+<span class="line-precise" title="No Anys on this line!">                    shape = self.params.misc.annotations_shape</span>
+<span class="line-empty" title="No Anys on this line!">                else:</span>
+<span class="line-precise" title="No Anys on this line!">                    tooltip = (</span>
+<span class="line-precise" title="No Anys on this line!">                        descriptor if len(annotation) == 1 else " ".join(annotation[1:])</span>
+<span class="line-empty" title="No Anys on this line!">                    )</span>
+<span class="line-precise" title="No Anys on this line!">                    label = descriptor</span>
+<span class="line-precise" title="No Anys on this line!">                    shape = None</span>
+<span class="line-empty" title="No Anys on this line!"></span>
+<span class="line-precise" title="No Anys on this line!">                if sha in self.included_nodes_id and tooltip is not None:</span>
+<span class="line-precise" title="No Anys on this line!">                    name = f"annotation-{descriptor}"</span>
 <span class="line-any" title="Any Types on this line: 
-Explicit (x3)">                        self.dag.node(</span>
-<span class="line-precise" title="No Anys on this line!">                            name=name,</span>
-<span class="line-precise" title="No Anys on this line!">                            label=label,</span>
-<span class="line-precise" title="No Anys on this line!">                            color=self.params.dag_node_colors.annotations,</span>
-<span class="line-precise" title="No Anys on this line!">                            fillcolor=self.params.dag_node_colors.annotations,</span>
-<span class="line-precise" title="No Anys on this line!">                            tooltip=tooltip,</span>
-<span class="line-precise" title="No Anys on this line!">                            shape=shape,</span>
-<span class="line-empty" title="No Anys on this line!">                        )</span>
+Explicit (x3)">                    self.dag.node(</span>
+<span class="line-precise" title="No Anys on this line!">                        name=name,</span>
+<span class="line-precise" title="No Anys on this line!">                        label=label,</span>
+<span class="line-precise" title="No Anys on this line!">                        color=self.params.dag_node_colors.annotations,</span>
+<span class="line-precise" title="No Anys on this line!">                        fillcolor=self.params.dag_node_colors.annotations,</span>
+<span class="line-precise" title="No Anys on this line!">                        tooltip=tooltip,</span>
+<span class="line-precise" title="No Anys on this line!">                        shape=shape,</span>
+<span class="line-empty" title="No Anys on this line!">                    )</span>
 <span class="line-any" title="Any Types on this line: 
-Explicit (x3)">                        self.dag.edge(name, sha, style="dashed")</span>
+Explicit (x3)">                    self.dag.edge(name, sha, style="dashed")</span>
 <span class="line-empty" title="No Anys on this line!"></span>
 <span class="line-empty" title="No Anys on this line!"></span>
 <span class="line-precise" title="Any Types on this line: 
