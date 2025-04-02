@@ -715,6 +715,9 @@
 <span id="L705" class="lineno"><a class="lineno" href="#L705">705</a></span>
 <span id="L706" class="lineno"><a class="lineno" href="#L706">706</a></span>
 <span id="L707" class="lineno"><a class="lineno" href="#L707">707</a></span>
+<span id="L708" class="lineno"><a class="lineno" href="#L708">708</a></span>
+<span id="L709" class="lineno"><a class="lineno" href="#L709">709</a></span>
+<span id="L710" class="lineno"><a class="lineno" href="#L710">710</a></span>
 </pre></td>
 <td class="table-code"><pre><span class="line-empty" title="No Anys on this line!">"""Git repository parsing functionality."""</span>
 <span class="line-empty" title="No Anys on this line!"></span>
@@ -1415,8 +1418,11 @@ Omitted Generics (x1)">            if isinstance(obj, object_type)</span>
 <span class="line-precise" title="Any Types on this line: 
 Omitted Generics (x6)">    @time_it</span>
 <span class="line-any" title="Any Types on this line: 
-Explicit (x1)">    def show(self, params: Params) -&gt; Any:</span>
+Explicit (x1)">    def show(self, params: Optional[Params] = None) -&gt; Any:</span>
 <span class="line-empty" title="No Anys on this line!">        """Show dag."""</span>
+<span class="line-empty" title="No Anys on this line!"></span>
+<span class="line-precise" title="No Anys on this line!">        if params is None:</span>
+<span class="line-precise" title="No Anys on this line!">            params = Params()</span>
 <span class="line-empty" title="No Anys on this line!"></span>
 <span class="line-precise" title="No Anys on this line!">        max_numb_commits = (</span>
 <span class="line-precise" title="No Anys on this line!">            None</span>

@@ -124,6 +124,14 @@
 <span id="L114" class="lineno"><a class="lineno" href="#L114">114</a></span>
 <span id="L115" class="lineno"><a class="lineno" href="#L115">115</a></span>
 <span id="L116" class="lineno"><a class="lineno" href="#L116">116</a></span>
+<span id="L117" class="lineno"><a class="lineno" href="#L117">117</a></span>
+<span id="L118" class="lineno"><a class="lineno" href="#L118">118</a></span>
+<span id="L119" class="lineno"><a class="lineno" href="#L119">119</a></span>
+<span id="L120" class="lineno"><a class="lineno" href="#L120">120</a></span>
+<span id="L121" class="lineno"><a class="lineno" href="#L121">121</a></span>
+<span id="L122" class="lineno"><a class="lineno" href="#L122">122</a></span>
+<span id="L123" class="lineno"><a class="lineno" href="#L123">123</a></span>
+<span id="L124" class="lineno"><a class="lineno" href="#L124">124</a></span>
 </pre></td>
 <td class="table-code"><pre><span class="line-empty" title="No Anys on this line!">"""Interface for graphviz (https://github.com/xflr6/graphviz)."""</span>
 <span class="line-empty" title="No Anys on this line!"></span>
@@ -139,38 +147,44 @@
 <span class="line-precise" title="No Anys on this line!">class DagGraphviz(DagBase):</span>
 <span class="line-empty" title="No Anys on this line!">    """Graphviz interface."""</span>
 <span class="line-empty" title="No Anys on this line!"></span>
-<span class="line-precise" title="No Anys on this line!">    def edge(self, node1_name: str, node2_name: str) -&gt; None:</span>
-<span class="line-precise" title="No Anys on this line!">        self.edges.add((node1_name, node2_name))</span>
+<span class="line-precise" title="No Anys on this line!">    def edge(</span>
+<span class="line-empty" title="No Anys on this line!">        self,</span>
+<span class="line-empty" title="No Anys on this line!">        node1_name: str,</span>
+<span class="line-empty" title="No Anys on this line!">        node2_name: str,</span>
+<span class="line-empty" title="No Anys on this line!">        **attrs: str,</span>
+<span class="line-empty" title="No Anys on this line!">    ) -&gt; None:</span>
+<span class="line-precise" title="No Anys on this line!">        if attrs:</span>
+<span class="line-precise" title="No Anys on this line!">            self.edges_custom.append((node1_name, node2_name, attrs))</span>
+<span class="line-empty" title="No Anys on this line!">        else:</span>
+<span class="line-precise" title="No Anys on this line!">            self.edges.append((node1_name, node2_name))</span>
 <span class="line-empty" title="No Anys on this line!"></span>
 <span class="line-precise" title="No Anys on this line!">    def node(  # pylint: disable=too-many-positional-arguments</span>
 <span class="line-empty" title="No Anys on this line!">        self,</span>
 <span class="line-empty" title="No Anys on this line!">        name: str,</span>
 <span class="line-empty" title="No Anys on this line!">        label: str,</span>
 <span class="line-precise" title="No Anys on this line!">        color: Optional[str] = None,</span>
-<span class="line-precise" title="No Anys on this line!">        fillcolor: Optional[str] = None,</span>
-<span class="line-precise" title="No Anys on this line!">        shape: Optional[str] = None,</span>
 <span class="line-precise" title="No Anys on this line!">        tooltip: Optional[str] = None,</span>
 <span class="line-precise" title="No Anys on this line!">        URL: Optional[str] = None,</span>
 <span class="line-precise" title="No Anys on this line!">        standalone_kind: Optional[Literal["tree", "blob"]] = None,</span>
+<span class="line-empty" title="No Anys on this line!">        **attrs: str,</span>
 <span class="line-empty" title="No Anys on this line!">    ) -&gt; None:</span>
-<span class="line-precise" title="No Anys on this line!">        attr = {</span>
+<span class="line-precise" title="No Anys on this line!">        combined_attrs = {</span>
 <span class="line-precise" title="No Anys on this line!">            "name": name,</span>
 <span class="line-precise" title="No Anys on this line!">            "label": label,</span>
 <span class="line-precise" title="No Anys on this line!">            "color": color,</span>
-<span class="line-precise" title="No Anys on this line!">            "fillcolor": fillcolor,</span>
-<span class="line-precise" title="No Anys on this line!">            "shape": shape,</span>
 <span class="line-precise" title="No Anys on this line!">            "tooltip": tooltip,</span>
 <span class="line-precise" title="No Anys on this line!">            "URL": URL,</span>
+<span class="line-precise" title="No Anys on this line!">            **attrs,</span>
 <span class="line-empty" title="No Anys on this line!">        }</span>
 <span class="line-precise" title="No Anys on this line!">        if URL is not None:</span>
-<span class="line-precise" title="No Anys on this line!">            attr["target"] = "_blank"</span>
+<span class="line-precise" title="No Anys on this line!">            combined_attrs["target"] = "_blank"</span>
 <span class="line-empty" title="No Anys on this line!"></span>
 <span class="line-precise" title="No Anys on this line!">        if standalone_kind is None:</span>
-<span class="line-precise" title="No Anys on this line!">            self.nodes.append(attr)</span>
+<span class="line-precise" title="No Anys on this line!">            self.nodes.append(combined_attrs)</span>
 <span class="line-precise" title="No Anys on this line!">        elif standalone_kind == "tree":</span>
-<span class="line-precise" title="No Anys on this line!">            self.standalone_trees.append(attr)</span>
+<span class="line-precise" title="No Anys on this line!">            self.standalone_trees.append(combined_attrs)</span>
 <span class="line-precise" title="No Anys on this line!">        elif standalone_kind == "blob":</span>
-<span class="line-precise" title="No Anys on this line!">            self.standalone_blobs.append(attr)</span>
+<span class="line-precise" title="No Anys on this line!">            self.standalone_blobs.append(combined_attrs)</span>
 <span class="line-empty" title="No Anys on this line!"></span>
 <span class="line-precise" title="No Anys on this line!">    def build(  # pylint: disable=too-many-positional-arguments</span>
 <span class="line-empty" title="No Anys on this line!">        self,</span>
@@ -248,6 +262,9 @@ Explicit (x3)">            self._dag.node(**node)</span>
 <span class="line-any" title="Any Types on this line: 
 Explicit (x3)
 Omitted Generics (x5)">        self._dag.edges(sorted(self.edges))</span>
+<span class="line-precise" title="No Anys on this line!">        for node1, node2, attrs in self.edges_custom:</span>
+<span class="line-any" title="Any Types on this line: 
+Explicit (x3)">            self._dag.edge(node1, node2, **attrs)</span>
 <span class="line-empty" title="No Anys on this line!"></span>
 <span class="line-precise" title="No Anys on this line!">        form_clulster_of_standalone_trees_and_blobs()</span>
 <span class="line-empty" title="No Anys on this line!"></span>

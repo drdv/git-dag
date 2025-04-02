@@ -479,6 +479,47 @@
 <span id="L469" class="lineno"><a class="lineno" href="#L469">469</a></span>
 <span id="L470" class="lineno"><a class="lineno" href="#L470">470</a></span>
 <span id="L471" class="lineno"><a class="lineno" href="#L471">471</a></span>
+<span id="L472" class="lineno"><a class="lineno" href="#L472">472</a></span>
+<span id="L473" class="lineno"><a class="lineno" href="#L473">473</a></span>
+<span id="L474" class="lineno"><a class="lineno" href="#L474">474</a></span>
+<span id="L475" class="lineno"><a class="lineno" href="#L475">475</a></span>
+<span id="L476" class="lineno"><a class="lineno" href="#L476">476</a></span>
+<span id="L477" class="lineno"><a class="lineno" href="#L477">477</a></span>
+<span id="L478" class="lineno"><a class="lineno" href="#L478">478</a></span>
+<span id="L479" class="lineno"><a class="lineno" href="#L479">479</a></span>
+<span id="L480" class="lineno"><a class="lineno" href="#L480">480</a></span>
+<span id="L481" class="lineno"><a class="lineno" href="#L481">481</a></span>
+<span id="L482" class="lineno"><a class="lineno" href="#L482">482</a></span>
+<span id="L483" class="lineno"><a class="lineno" href="#L483">483</a></span>
+<span id="L484" class="lineno"><a class="lineno" href="#L484">484</a></span>
+<span id="L485" class="lineno"><a class="lineno" href="#L485">485</a></span>
+<span id="L486" class="lineno"><a class="lineno" href="#L486">486</a></span>
+<span id="L487" class="lineno"><a class="lineno" href="#L487">487</a></span>
+<span id="L488" class="lineno"><a class="lineno" href="#L488">488</a></span>
+<span id="L489" class="lineno"><a class="lineno" href="#L489">489</a></span>
+<span id="L490" class="lineno"><a class="lineno" href="#L490">490</a></span>
+<span id="L491" class="lineno"><a class="lineno" href="#L491">491</a></span>
+<span id="L492" class="lineno"><a class="lineno" href="#L492">492</a></span>
+<span id="L493" class="lineno"><a class="lineno" href="#L493">493</a></span>
+<span id="L494" class="lineno"><a class="lineno" href="#L494">494</a></span>
+<span id="L495" class="lineno"><a class="lineno" href="#L495">495</a></span>
+<span id="L496" class="lineno"><a class="lineno" href="#L496">496</a></span>
+<span id="L497" class="lineno"><a class="lineno" href="#L497">497</a></span>
+<span id="L498" class="lineno"><a class="lineno" href="#L498">498</a></span>
+<span id="L499" class="lineno"><a class="lineno" href="#L499">499</a></span>
+<span id="L500" class="lineno"><a class="lineno" href="#L500">500</a></span>
+<span id="L501" class="lineno"><a class="lineno" href="#L501">501</a></span>
+<span id="L502" class="lineno"><a class="lineno" href="#L502">502</a></span>
+<span id="L503" class="lineno"><a class="lineno" href="#L503">503</a></span>
+<span id="L504" class="lineno"><a class="lineno" href="#L504">504</a></span>
+<span id="L505" class="lineno"><a class="lineno" href="#L505">505</a></span>
+<span id="L506" class="lineno"><a class="lineno" href="#L506">506</a></span>
+<span id="L507" class="lineno"><a class="lineno" href="#L507">507</a></span>
+<span id="L508" class="lineno"><a class="lineno" href="#L508">508</a></span>
+<span id="L509" class="lineno"><a class="lineno" href="#L509">509</a></span>
+<span id="L510" class="lineno"><a class="lineno" href="#L510">510</a></span>
+<span id="L511" class="lineno"><a class="lineno" href="#L511">511</a></span>
+<span id="L512" class="lineno"><a class="lineno" href="#L512">512</a></span>
 </pre></td>
 <td class="table-code"><pre><span class="line-empty" title="No Anys on this line!">"""DAG visualization.</span>
 <span class="line-empty" title="No Anys on this line!"></span>
@@ -523,8 +564,8 @@
 Explicit (x1)">    dag: Any</span>
 <span class="line-precise" title="No Anys on this line!">    included_nodes_id: set[str]</span>
 <span class="line-precise" title="No Anys on this line!">    tooltip_names: DictStrStr</span>
-<span class="line-precise" title="No Anys on this line!">    marked_commits: Optional[set[str]]</span>
-<span class="line-precise" title="No Anys on this line!">    in_range_commits: Optional[set[str]]</span>
+<span class="line-precise" title="No Anys on this line!">    marked_commits: Optional[list[str]]</span>
+<span class="line-precise" title="No Anys on this line!">    in_range_commits: Optional[list[str]]</span>
 <span class="line-empty" title="No Anys on this line!"></span>
 <span class="line-precise" title="No Anys on this line!">    def _is_object_to_include(self, sha: str) -&gt; bool: ...  # pragma: no cover</span>
 <span class="line-precise" title="No Anys on this line!">    def _is_tag_to_include(self, item: GitTag) -&gt; bool: ...  # pragma: no cover</span>
@@ -694,6 +735,7 @@ Omitted Generics (x2)">            tooltip=self.tooltip_names.get(sha, sha),</sp
 <span class="line-precise" title="No Anys on this line!">        for sha, item in self.repository.tags.items():</span>
 <span class="line-precise" title="No Anys on this line!">            if self._is_tag_to_include(item):</span>
 <span class="line-precise" title="No Anys on this line!">                if self.params.public.show_deleted_tags or not item.is_deleted:</span>
+<span class="line-precise" title="No Anys on this line!">                    self.included_nodes_id.add(sha)</span>
 <span class="line-precise" title="No Anys on this line!">                    color_label = "tag_deleted" if item.is_deleted else "tag"</span>
 <span class="line-any" title="Any Types on this line: 
 Explicit (x14)
@@ -844,6 +886,47 @@ Explicit (x3)">                    self.dag.node(</span>
 <span class="line-any" title="Any Types on this line: 
 Explicit (x3)">                    self.dag.edge(node_name, sha)</span>
 <span class="line-empty" title="No Anys on this line!"></span>
+<span class="line-precise" title="No Anys on this line!">    def _add_annotations(self: MixinProtocol) -&gt; None:</span>
+<span class="line-precise" title="No Anys on this line!">        if self.params.public.annotations is not None:</span>
+<span class="line-precise" title="No Anys on this line!">            for annotation in self.params.public.annotations:</span>
+<span class="line-precise" title="No Anys on this line!">                descriptor = annotation[0]</span>
+<span class="line-precise" title="No Anys on this line!">                shas = self.repository.inspector.git.rev_parse_descriptors([descriptor])</span>
+<span class="line-empty" title="No Anys on this line!"></span>
+<span class="line-precise" title="No Anys on this line!">                if shas is not None:</span>
+<span class="line-precise" title="No Anys on this line!">                    sha = shas[0]</span>
+<span class="line-precise" title="No Anys on this line!">                    if descriptor in sha or isinstance(</span>
+<span class="line-precise" title="No Anys on this line!">                        self.repository.objects[sha], GitTag</span>
+<span class="line-empty" title="No Anys on this line!">                    ):</span>
+<span class="line-precise" title="No Anys on this line!">                        tooltip = (</span>
+<span class="line-precise" title="No Anys on this line!">                            None  # the annotation will not be displayed at all</span>
+<span class="line-precise" title="No Anys on this line!">                            if len(annotation) == 1</span>
+<span class="line-precise" title="No Anys on this line!">                            else " ".join(annotation[1:])</span>
+<span class="line-empty" title="No Anys on this line!">                        )</span>
+<span class="line-precise" title="No Anys on this line!">                        label = self.params.misc.annotations_symbol</span>
+<span class="line-precise" title="No Anys on this line!">                        shape = self.params.misc.annotations_shape</span>
+<span class="line-empty" title="No Anys on this line!">                    else:</span>
+<span class="line-precise" title="No Anys on this line!">                        tooltip = (</span>
+<span class="line-precise" title="No Anys on this line!">                            descriptor</span>
+<span class="line-precise" title="No Anys on this line!">                            if len(annotation) == 1</span>
+<span class="line-precise" title="No Anys on this line!">                            else " ".join(annotation[1:])</span>
+<span class="line-empty" title="No Anys on this line!">                        )</span>
+<span class="line-precise" title="No Anys on this line!">                        label = descriptor</span>
+<span class="line-precise" title="No Anys on this line!">                        shape = None</span>
+<span class="line-empty" title="No Anys on this line!"></span>
+<span class="line-precise" title="No Anys on this line!">                    if sha in self.included_nodes_id and tooltip is not None:</span>
+<span class="line-precise" title="No Anys on this line!">                        name = f"annotation-{descriptor}"</span>
+<span class="line-any" title="Any Types on this line: 
+Explicit (x3)">                        self.dag.node(</span>
+<span class="line-precise" title="No Anys on this line!">                            name=name,</span>
+<span class="line-precise" title="No Anys on this line!">                            label=label,</span>
+<span class="line-precise" title="No Anys on this line!">                            color=self.params.dag_node_colors.annotations,</span>
+<span class="line-precise" title="No Anys on this line!">                            fillcolor=self.params.dag_node_colors.annotations,</span>
+<span class="line-precise" title="No Anys on this line!">                            tooltip=tooltip,</span>
+<span class="line-precise" title="No Anys on this line!">                            shape=shape,</span>
+<span class="line-empty" title="No Anys on this line!">                        )</span>
+<span class="line-any" title="Any Types on this line: 
+Explicit (x3)">                        self.dag.edge(name, sha, style="dashed")</span>
+<span class="line-empty" title="No Anys on this line!"></span>
 <span class="line-empty" title="No Anys on this line!"></span>
 <span class="line-precise" title="Any Types on this line: 
 Omitted Generics (x6)">@dataclass</span>
@@ -860,8 +943,8 @@ Omitted Generics (x6)">@dataclass</span>
 <span class="line-precise" title="No Anys on this line!">    repository: GitRepository</span>
 <span class="line-precise" title="No Anys on this line!">    params: Params</span>
 <span class="line-precise" title="No Anys on this line!">    objects_sha_to_include: Optional[set[str]] = None</span>
-<span class="line-precise" title="No Anys on this line!">    marked_commits: Optional[set[str]] = None</span>
-<span class="line-precise" title="No Anys on this line!">    in_range_commits: Optional[set[str]] = None</span>
+<span class="line-precise" title="No Anys on this line!">    marked_commits: Optional[list[str]] = None</span>
+<span class="line-precise" title="No Anys on this line!">    in_range_commits: Optional[list[str]] = None</span>
 <span class="line-empty" title="No Anys on this line!"></span>
 <span class="line-precise" title="No Anys on this line!">    def __post_init__(self) -&gt; None:</span>
 <span class="line-precise" title="No Anys on this line!">        self.tooltip_names = self.repository.inspector.blobs_and_trees_names</span>
@@ -990,14 +1073,15 @@ Explicit (x2)">        return self.dag.get()</span>
 <span class="line-precise" title="No Anys on this line!">            if self.params.public.show_head:</span>
 <span class="line-precise" title="No Anys on this line!">                self._add_remote_heads()</span>
 <span class="line-empty" title="No Anys on this line!"></span>
-<span class="line-precise" title="No Anys on this line!">        self._add_prs_heads()</span>
-<span class="line-empty" title="No Anys on this line!"></span>
 <span class="line-precise" title="No Anys on this line!">        if self.params.public.show_tags:</span>
 <span class="line-precise" title="No Anys on this line!">            self._add_annotated_tags()</span>
 <span class="line-precise" title="No Anys on this line!">            self._add_lightweight_tags()</span>
 <span class="line-empty" title="No Anys on this line!"></span>
 <span class="line-precise" title="No Anys on this line!">        if self.params.public.show_stash:</span>
 <span class="line-precise" title="No Anys on this line!">            self._add_stashes()</span>
+<span class="line-empty" title="No Anys on this line!"></span>
+<span class="line-precise" title="No Anys on this line!">        self._add_prs_heads()</span>
+<span class="line-precise" title="No Anys on this line!">        self._add_annotations()</span>
 <span class="line-empty" title="No Anys on this line!"></span>
 <span class="line-precise" title="No Anys on this line!">        self.dag.build(</span>
 <span class="line-precise" title="No Anys on this line!">            format=self.params.public.format,</span>

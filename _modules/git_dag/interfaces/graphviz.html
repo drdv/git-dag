@@ -331,8 +331,16 @@
 
 <div class="viewcode-block" id="DagGraphviz.edge">
 <a class="viewcode-back" href="../../../.autosummary/git_dag.interfaces.graphviz.DagGraphviz.html#git_dag.interfaces.graphviz.DagGraphviz.edge">[docs]</a>
-    <span class="k">def</span> <span class="nf">edge</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">node1_name</span><span class="p">:</span> <span class="nb">str</span><span class="p">,</span> <span class="n">node2_name</span><span class="p">:</span> <span class="nb">str</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="kc">None</span><span class="p">:</span>
-        <span class="bp">self</span><span class="o">.</span><span class="n">edges</span><span class="o">.</span><span class="n">add</span><span class="p">((</span><span class="n">node1_name</span><span class="p">,</span> <span class="n">node2_name</span><span class="p">))</span></div>
+    <span class="k">def</span> <span class="nf">edge</span><span class="p">(</span>
+        <span class="bp">self</span><span class="p">,</span>
+        <span class="n">node1_name</span><span class="p">:</span> <span class="nb">str</span><span class="p">,</span>
+        <span class="n">node2_name</span><span class="p">:</span> <span class="nb">str</span><span class="p">,</span>
+        <span class="o">**</span><span class="n">attrs</span><span class="p">:</span> <span class="nb">str</span><span class="p">,</span>
+    <span class="p">)</span> <span class="o">-&gt;</span> <span class="kc">None</span><span class="p">:</span>
+        <span class="k">if</span> <span class="n">attrs</span><span class="p">:</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">edges_custom</span><span class="o">.</span><span class="n">append</span><span class="p">((</span><span class="n">node1_name</span><span class="p">,</span> <span class="n">node2_name</span><span class="p">,</span> <span class="n">attrs</span><span class="p">))</span>
+        <span class="k">else</span><span class="p">:</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">edges</span><span class="o">.</span><span class="n">append</span><span class="p">((</span><span class="n">node1_name</span><span class="p">,</span> <span class="n">node2_name</span><span class="p">))</span></div>
 
 
 <div class="viewcode-block" id="DagGraphviz.node">
@@ -342,30 +350,28 @@
         <span class="n">name</span><span class="p">:</span> <span class="nb">str</span><span class="p">,</span>
         <span class="n">label</span><span class="p">:</span> <span class="nb">str</span><span class="p">,</span>
         <span class="n">color</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="nb">str</span><span class="p">]</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span>
-        <span class="n">fillcolor</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="nb">str</span><span class="p">]</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span>
-        <span class="n">shape</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="nb">str</span><span class="p">]</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span>
         <span class="n">tooltip</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="nb">str</span><span class="p">]</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span>
         <span class="n">URL</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="nb">str</span><span class="p">]</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span>
         <span class="n">standalone_kind</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="n">Literal</span><span class="p">[</span><span class="s2">&quot;tree&quot;</span><span class="p">,</span> <span class="s2">&quot;blob&quot;</span><span class="p">]]</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span>
+        <span class="o">**</span><span class="n">attrs</span><span class="p">:</span> <span class="nb">str</span><span class="p">,</span>
     <span class="p">)</span> <span class="o">-&gt;</span> <span class="kc">None</span><span class="p">:</span>
-        <span class="n">attr</span> <span class="o">=</span> <span class="p">{</span>
+        <span class="n">combined_attrs</span> <span class="o">=</span> <span class="p">{</span>
             <span class="s2">&quot;name&quot;</span><span class="p">:</span> <span class="n">name</span><span class="p">,</span>
             <span class="s2">&quot;label&quot;</span><span class="p">:</span> <span class="n">label</span><span class="p">,</span>
             <span class="s2">&quot;color&quot;</span><span class="p">:</span> <span class="n">color</span><span class="p">,</span>
-            <span class="s2">&quot;fillcolor&quot;</span><span class="p">:</span> <span class="n">fillcolor</span><span class="p">,</span>
-            <span class="s2">&quot;shape&quot;</span><span class="p">:</span> <span class="n">shape</span><span class="p">,</span>
             <span class="s2">&quot;tooltip&quot;</span><span class="p">:</span> <span class="n">tooltip</span><span class="p">,</span>
             <span class="s2">&quot;URL&quot;</span><span class="p">:</span> <span class="n">URL</span><span class="p">,</span>
+            <span class="o">**</span><span class="n">attrs</span><span class="p">,</span>
         <span class="p">}</span>
         <span class="k">if</span> <span class="n">URL</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span><span class="p">:</span>
-            <span class="n">attr</span><span class="p">[</span><span class="s2">&quot;target&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="s2">&quot;_blank&quot;</span>
+            <span class="n">combined_attrs</span><span class="p">[</span><span class="s2">&quot;target&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="s2">&quot;_blank&quot;</span>
 
         <span class="k">if</span> <span class="n">standalone_kind</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>
-            <span class="bp">self</span><span class="o">.</span><span class="n">nodes</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">attr</span><span class="p">)</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">nodes</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">combined_attrs</span><span class="p">)</span>
         <span class="k">elif</span> <span class="n">standalone_kind</span> <span class="o">==</span> <span class="s2">&quot;tree&quot;</span><span class="p">:</span>
-            <span class="bp">self</span><span class="o">.</span><span class="n">standalone_trees</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">attr</span><span class="p">)</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">standalone_trees</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">combined_attrs</span><span class="p">)</span>
         <span class="k">elif</span> <span class="n">standalone_kind</span> <span class="o">==</span> <span class="s2">&quot;blob&quot;</span><span class="p">:</span>
-            <span class="bp">self</span><span class="o">.</span><span class="n">standalone_blobs</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">attr</span><span class="p">)</span></div>
+            <span class="bp">self</span><span class="o">.</span><span class="n">standalone_blobs</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">combined_attrs</span><span class="p">)</span></div>
 
 
 <div class="viewcode-block" id="DagGraphviz.build">
@@ -428,6 +434,8 @@
         <span class="k">for</span> <span class="n">node</span> <span class="ow">in</span> <span class="nb">sorted</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">nodes</span><span class="p">,</span> <span class="n">key</span><span class="o">=</span><span class="k">lambda</span> <span class="n">x</span><span class="p">:</span> <span class="p">(</span><span class="n">x</span><span class="p">[</span><span class="s2">&quot;label&quot;</span><span class="p">],</span> <span class="n">x</span><span class="p">[</span><span class="s2">&quot;tooltip&quot;</span><span class="p">])):</span>
             <span class="bp">self</span><span class="o">.</span><span class="n">_dag</span><span class="o">.</span><span class="n">node</span><span class="p">(</span><span class="o">**</span><span class="n">node</span><span class="p">)</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">_dag</span><span class="o">.</span><span class="n">edges</span><span class="p">(</span><span class="nb">sorted</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">edges</span><span class="p">))</span>
+        <span class="k">for</span> <span class="n">node1</span><span class="p">,</span> <span class="n">node2</span><span class="p">,</span> <span class="n">attrs</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">edges_custom</span><span class="p">:</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">_dag</span><span class="o">.</span><span class="n">edge</span><span class="p">(</span><span class="n">node1</span><span class="p">,</span> <span class="n">node2</span><span class="p">,</span> <span class="o">**</span><span class="n">attrs</span><span class="p">)</span>
 
         <span class="n">form_clulster_of_standalone_trees_and_blobs</span><span class="p">()</span></div>
 
@@ -482,7 +490,7 @@
       
     </aside>
   </div>
-</div><script src="../../../_static/documentation_options.js?v=53d3b0ea"></script>
+</div><script src="../../../_static/documentation_options.js?v=fa794dd3"></script>
     <script src="../../../_static/doctools.js?v=9bcbadda"></script>
     <script src="../../../_static/sphinx_highlight.js?v=dc90522c"></script>
     <script src="../../../_static/scripts/furo.js?v=5fa4622c"></script>

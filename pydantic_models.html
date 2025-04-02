@@ -1083,6 +1083,9 @@ suppressed by specifying <code class="docutils literal notranslate"><span class=
 <span class="w">      </span><span class="p">},</span>
 <span class="w">      </span><span class="nt">&quot;links&quot;</span><span class="p">:</span><span class="w"> </span><span class="p">{</span>
 <span class="w">         </span><span class="nt">&quot;$ref&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;#/$defs/ParamsLinks&quot;</span>
+<span class="w">      </span><span class="p">},</span>
+<span class="w">      </span><span class="nt">&quot;misc&quot;</span><span class="p">:</span><span class="w"> </span><span class="p">{</span>
+<span class="w">         </span><span class="nt">&quot;$ref&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;#/$defs/ParamsMisc&quot;</span>
 <span class="w">      </span><span class="p">}</span>
 <span class="w">   </span><span class="p">},</span>
 <span class="w">   </span><span class="nt">&quot;$defs&quot;</span><span class="p">:</span><span class="w"> </span><span class="p">{</span>
@@ -1268,6 +1271,11 @@ suppressed by specifying <code class="docutils literal notranslate"><span class=
 <span class="w">               </span><span class="nt">&quot;default&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;white&quot;</span><span class="p">,</span>
 <span class="w">               </span><span class="nt">&quot;title&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;Notes&quot;</span><span class="p">,</span>
 <span class="w">               </span><span class="nt">&quot;type&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;string&quot;</span>
+<span class="w">            </span><span class="p">},</span>
+<span class="w">            </span><span class="nt">&quot;annotations&quot;</span><span class="p">:</span><span class="w"> </span><span class="p">{</span>
+<span class="w">               </span><span class="nt">&quot;default&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;aquamarine3&quot;</span><span class="p">,</span>
+<span class="w">               </span><span class="nt">&quot;title&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;Annotations&quot;</span><span class="p">,</span>
+<span class="w">               </span><span class="nt">&quot;type&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;string&quot;</span>
 <span class="w">            </span><span class="p">}</span>
 <span class="w">         </span><span class="p">},</span>
 <span class="w">         </span><span class="nt">&quot;title&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;ParamsDagNodeColors&quot;</span><span class="p">,</span>
@@ -1300,6 +1308,24 @@ suppressed by specifying <code class="docutils literal notranslate"><span class=
 <span class="w">            </span><span class="p">}</span>
 <span class="w">         </span><span class="p">},</span>
 <span class="w">         </span><span class="nt">&quot;title&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;ParamsLinks&quot;</span><span class="p">,</span>
+<span class="w">         </span><span class="nt">&quot;type&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;object&quot;</span>
+<span class="w">      </span><span class="p">},</span>
+<span class="w">      </span><span class="nt">&quot;ParamsMisc&quot;</span><span class="p">:</span><span class="w"> </span><span class="p">{</span>
+<span class="w">         </span><span class="nt">&quot;additionalProperties&quot;</span><span class="p">:</span><span class="w"> </span><span class="kc">false</span><span class="p">,</span>
+<span class="w">         </span><span class="nt">&quot;description&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;Misc parameters.&quot;</span><span class="p">,</span>
+<span class="w">         </span><span class="nt">&quot;properties&quot;</span><span class="p">:</span><span class="w"> </span><span class="p">{</span>
+<span class="w">            </span><span class="nt">&quot;annotations_symbol&quot;</span><span class="p">:</span><span class="w"> </span><span class="p">{</span>
+<span class="w">               </span><span class="nt">&quot;default&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;&amp;#9758;&quot;</span><span class="p">,</span>
+<span class="w">               </span><span class="nt">&quot;title&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;Annotations Symbol&quot;</span><span class="p">,</span>
+<span class="w">               </span><span class="nt">&quot;type&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;string&quot;</span>
+<span class="w">            </span><span class="p">},</span>
+<span class="w">            </span><span class="nt">&quot;annotations_shape&quot;</span><span class="p">:</span><span class="w"> </span><span class="p">{</span>
+<span class="w">               </span><span class="nt">&quot;default&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;cds&quot;</span><span class="p">,</span>
+<span class="w">               </span><span class="nt">&quot;title&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;Annotations Shape&quot;</span><span class="p">,</span>
+<span class="w">               </span><span class="nt">&quot;type&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;string&quot;</span>
+<span class="w">            </span><span class="p">}</span>
+<span class="w">         </span><span class="p">},</span>
+<span class="w">         </span><span class="nt">&quot;title&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;ParamsMisc&quot;</span><span class="p">,</span>
 <span class="w">         </span><span class="nt">&quot;type&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;object&quot;</span>
 <span class="w">      </span><span class="p">},</span>
 <span class="w">      </span><span class="nt">&quot;ParamsPublic&quot;</span><span class="p">:</span><span class="w"> </span><span class="p">{</span>
@@ -1380,6 +1406,24 @@ suppressed by specifying <code class="docutils literal notranslate"><span class=
 <span class="w">               </span><span class="p">],</span>
 <span class="w">               </span><span class="nt">&quot;default&quot;</span><span class="p">:</span><span class="w"> </span><span class="kc">null</span><span class="p">,</span>
 <span class="w">               </span><span class="nt">&quot;title&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;Marked Commits&quot;</span>
+<span class="w">            </span><span class="p">},</span>
+<span class="w">            </span><span class="nt">&quot;annotations&quot;</span><span class="p">:</span><span class="w"> </span><span class="p">{</span>
+<span class="w">               </span><span class="nt">&quot;anyOf&quot;</span><span class="p">:</span><span class="w"> </span><span class="p">[</span>
+<span class="w">                  </span><span class="p">{</span>
+<span class="w">                     </span><span class="nt">&quot;items&quot;</span><span class="p">:</span><span class="w"> </span><span class="p">{</span>
+<span class="w">                        </span><span class="nt">&quot;items&quot;</span><span class="p">:</span><span class="w"> </span><span class="p">{</span>
+<span class="w">                           </span><span class="nt">&quot;type&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;string&quot;</span>
+<span class="w">                        </span><span class="p">},</span>
+<span class="w">                        </span><span class="nt">&quot;type&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;array&quot;</span>
+<span class="w">                     </span><span class="p">},</span>
+<span class="w">                     </span><span class="nt">&quot;type&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;array&quot;</span>
+<span class="w">                  </span><span class="p">},</span>
+<span class="w">                  </span><span class="p">{</span>
+<span class="w">                     </span><span class="nt">&quot;type&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;null&quot;</span>
+<span class="w">                  </span><span class="p">}</span>
+<span class="w">               </span><span class="p">],</span>
+<span class="w">               </span><span class="nt">&quot;default&quot;</span><span class="p">:</span><span class="w"> </span><span class="kc">null</span><span class="p">,</span>
+<span class="w">               </span><span class="nt">&quot;title&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;Annotations&quot;</span>
 <span class="w">            </span><span class="p">},</span>
 <span class="w">            </span><span class="nt">&quot;max_numb_commits&quot;</span><span class="p">:</span><span class="w"> </span><span class="p">{</span>
 <span class="w">               </span><span class="nt">&quot;default&quot;</span><span class="p">:</span><span class="w"> </span><span class="mi">1000</span><span class="p">,</span>
@@ -1501,6 +1545,7 @@ suppressed by specifying <code class="docutils literal notranslate"><span class=
 <li><p><a class="reference internal" href="#git_dag.parameters.Params.dag_node" title="git_dag.parameters.Params.dag_node"><code class="xref py py-obj docutils literal notranslate"><span class="pre">dag_node</span> <span class="pre">(git_dag.parameters.ParamsDagNode)</span></code></a></p></li>
 <li><p><a class="reference internal" href="#git_dag.parameters.Params.dag_node_colors" title="git_dag.parameters.Params.dag_node_colors"><code class="xref py py-obj docutils literal notranslate"><span class="pre">dag_node_colors</span> <span class="pre">(git_dag.parameters.ParamsDagNodeColors)</span></code></a></p></li>
 <li><p><a class="reference internal" href="#git_dag.parameters.Params.links" title="git_dag.parameters.Params.links"><code class="xref py py-obj docutils literal notranslate"><span class="pre">links</span> <span class="pre">(git_dag.parameters.ParamsLinks)</span></code></a></p></li>
+<li><p><a class="reference internal" href="#git_dag.parameters.Params.misc" title="git_dag.parameters.Params.misc"><code class="xref py py-obj docutils literal notranslate"><span class="pre">misc</span> <span class="pre">(git_dag.parameters.ParamsMisc)</span></code></a></p></li>
 <li><p><a class="reference internal" href="#git_dag.parameters.Params.public" title="git_dag.parameters.Params.public"><code class="xref py py-obj docutils literal notranslate"><span class="pre">public</span> <span class="pre">(git_dag.parameters.ParamsPublic)</span></code></a></p></li>
 <li><p><a class="reference internal" href="#git_dag.parameters.Params.standalone_cluster" title="git_dag.parameters.Params.standalone_cluster"><code class="xref py py-obj docutils literal notranslate"><span class="pre">standalone_cluster</span> <span class="pre">(git_dag.parameters.ParamsStandaloneCluster)</span></code></a></p></li>
 </ul>
@@ -1529,6 +1574,11 @@ suppressed by specifying <code class="docutils literal notranslate"><span class=
 <dl class="py attribute pydantic_field">
 <dt class="sig sig-object py" id="git_dag.parameters.Params.links">
 <em class="property"><span class="pre">field</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">links</span></span><em class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><a class="reference internal" href="#git_dag.parameters.ParamsLinks" title="git_dag.parameters.ParamsLinks"><span class="pre">ParamsLinks</span></a></em><em class="property"> <span class="pre">[Optional]</span></em><a class="headerlink" href="#git_dag.parameters.Params.links" title="Link to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="py attribute pydantic_field">
+<dt class="sig sig-object py" id="git_dag.parameters.Params.misc">
+<em class="property"><span class="pre">field</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">misc</span></span><em class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="pre">ParamsMisc</span></em><em class="property"> <span class="pre">[Optional]</span></em><a class="headerlink" href="#git_dag.parameters.Params.misc" title="Link to this definition">¶</a></dt>
 <dd></dd></dl>
 
 <dl class="py attribute pydantic_field">
@@ -1646,6 +1696,24 @@ suppressed by specifying <code class="docutils literal notranslate"><span class=
 <span class="w">         </span><span class="nt">&quot;default&quot;</span><span class="p">:</span><span class="w"> </span><span class="kc">null</span><span class="p">,</span>
 <span class="w">         </span><span class="nt">&quot;title&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;Marked Commits&quot;</span>
 <span class="w">      </span><span class="p">},</span>
+<span class="w">      </span><span class="nt">&quot;annotations&quot;</span><span class="p">:</span><span class="w"> </span><span class="p">{</span>
+<span class="w">         </span><span class="nt">&quot;anyOf&quot;</span><span class="p">:</span><span class="w"> </span><span class="p">[</span>
+<span class="w">            </span><span class="p">{</span>
+<span class="w">               </span><span class="nt">&quot;items&quot;</span><span class="p">:</span><span class="w"> </span><span class="p">{</span>
+<span class="w">                  </span><span class="nt">&quot;items&quot;</span><span class="p">:</span><span class="w"> </span><span class="p">{</span>
+<span class="w">                     </span><span class="nt">&quot;type&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;string&quot;</span>
+<span class="w">                  </span><span class="p">},</span>
+<span class="w">                  </span><span class="nt">&quot;type&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;array&quot;</span>
+<span class="w">               </span><span class="p">},</span>
+<span class="w">               </span><span class="nt">&quot;type&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;array&quot;</span>
+<span class="w">            </span><span class="p">},</span>
+<span class="w">            </span><span class="p">{</span>
+<span class="w">               </span><span class="nt">&quot;type&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;null&quot;</span>
+<span class="w">            </span><span class="p">}</span>
+<span class="w">         </span><span class="p">],</span>
+<span class="w">         </span><span class="nt">&quot;default&quot;</span><span class="p">:</span><span class="w"> </span><span class="kc">null</span><span class="p">,</span>
+<span class="w">         </span><span class="nt">&quot;title&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;Annotations&quot;</span>
+<span class="w">      </span><span class="p">},</span>
 <span class="w">      </span><span class="nt">&quot;max_numb_commits&quot;</span><span class="p">:</span><span class="w"> </span><span class="p">{</span>
 <span class="w">         </span><span class="nt">&quot;default&quot;</span><span class="p">:</span><span class="w"> </span><span class="mi">1000</span><span class="p">,</span>
 <span class="w">         </span><span class="nt">&quot;title&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;Max Numb Commits&quot;</span><span class="p">,</span>
@@ -1739,6 +1807,7 @@ suppressed by specifying <code class="docutils literal notranslate"><span class=
 </dd>
 <dt class="field-even">Fields<span class="colon">:</span></dt>
 <dd class="field-even"><ul class="simple">
+<li><p><a class="reference internal" href="#git_dag.parameters.ParamsPublic.annotations" title="git_dag.parameters.ParamsPublic.annotations"><code class="xref py py-obj docutils literal notranslate"><span class="pre">annotations</span> <span class="pre">(list[list[str]]</span> <span class="pre">|</span> <span class="pre">None)</span></code></a></p></li>
 <li><p><a class="reference internal" href="#git_dag.parameters.ParamsPublic.commit_message_as_label" title="git_dag.parameters.ParamsPublic.commit_message_as_label"><code class="xref py py-obj docutils literal notranslate"><span class="pre">commit_message_as_label</span> <span class="pre">(int)</span></code></a></p></li>
 <li><p><a class="reference internal" href="#git_dag.parameters.ParamsPublic.dag_backend" title="git_dag.parameters.ParamsPublic.dag_backend"><code class="xref py py-obj docutils literal notranslate"><span class="pre">dag_backend</span> <span class="pre">(str)</span></code></a></p></li>
 <li><p><a class="reference internal" href="#git_dag.parameters.ParamsPublic.file" title="git_dag.parameters.ParamsPublic.file"><code class="xref py py-obj docutils literal notranslate"><span class="pre">file</span> <span class="pre">(str</span> <span class="pre">|</span> <span class="pre">pathlib.Path)</span></code></a></p></li>
@@ -1768,6 +1837,18 @@ suppressed by specifying <code class="docutils literal notranslate"><span class=
 <dt class="field-odd">Validators<span class="colon">:</span></dt>
 <dd class="field-odd"><p></p></dd>
 </dl>
+<dl class="py attribute pydantic_field">
+<dt class="sig sig-object py" id="git_dag.parameters.ParamsPublic.annotations">
+<em class="property"><span class="pre">field</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">annotations</span></span><em class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="pre">list</span><span class="p"><span class="pre">[</span></span><span class="pre">list</span><span class="p"><span class="pre">[</span></span><span class="pre">str</span><span class="p"><span class="pre">]</span></span><span class="p"><span class="pre">]</span></span><span class="w"> </span><span class="p"><span class="pre">|</span></span><span class="w"> </span><span class="pre">None</span></em><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">None</span></em><a class="headerlink" href="#git_dag.parameters.ParamsPublic.annotations" title="Link to this definition">¶</a></dt>
+<dd><dl class="field-list simple">
+<dt class="field-odd">Validated by<span class="colon">:</span></dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><code class="xref py py-obj docutils literal notranslate"><span class="pre">set_defaults_values</span></code></p></li>
+</ul>
+</dd>
+</dl>
+</dd></dl>
+
 <dl class="py attribute pydantic_field">
 <dt class="sig sig-object py" id="git_dag.parameters.ParamsPublic.commit_message_as_label">
 <em class="property"><span class="pre">field</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">commit_message_as_label</span></span><em class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="pre">int</span></em><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">0</span></em><a class="headerlink" href="#git_dag.parameters.ParamsPublic.commit_message_as_label" title="Link to this definition">¶</a></dt>
@@ -2453,6 +2534,11 @@ suppressed by specifying <code class="docutils literal notranslate"><span class=
 <span class="w">         </span><span class="nt">&quot;default&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;white&quot;</span><span class="p">,</span>
 <span class="w">         </span><span class="nt">&quot;title&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;Notes&quot;</span><span class="p">,</span>
 <span class="w">         </span><span class="nt">&quot;type&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;string&quot;</span>
+<span class="w">      </span><span class="p">},</span>
+<span class="w">      </span><span class="nt">&quot;annotations&quot;</span><span class="p">:</span><span class="w"> </span><span class="p">{</span>
+<span class="w">         </span><span class="nt">&quot;default&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;aquamarine3&quot;</span><span class="p">,</span>
+<span class="w">         </span><span class="nt">&quot;title&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;Annotations&quot;</span><span class="p">,</span>
+<span class="w">         </span><span class="nt">&quot;type&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;string&quot;</span>
 <span class="w">      </span><span class="p">}</span>
 <span class="w">   </span><span class="p">},</span>
 <span class="w">   </span><span class="nt">&quot;additionalProperties&quot;</span><span class="p">:</span><span class="w"> </span><span class="kc">false</span>
@@ -2467,6 +2553,7 @@ suppressed by specifying <code class="docutils literal notranslate"><span class=
 </dd>
 <dt class="field-even">Fields<span class="colon">:</span></dt>
 <dd class="field-even"><ul class="simple">
+<li><p><a class="reference internal" href="#git_dag.parameters.ParamsDagNodeColors.annotations" title="git_dag.parameters.ParamsDagNodeColors.annotations"><code class="xref py py-obj docutils literal notranslate"><span class="pre">annotations</span> <span class="pre">(str)</span></code></a></p></li>
 <li><p><a class="reference internal" href="#git_dag.parameters.ParamsDagNodeColors.blob" title="git_dag.parameters.ParamsDagNodeColors.blob"><code class="xref py py-obj docutils literal notranslate"><span class="pre">blob</span> <span class="pre">(str)</span></code></a></p></li>
 <li><p><a class="reference internal" href="#git_dag.parameters.ParamsDagNodeColors.commit" title="git_dag.parameters.ParamsDagNodeColors.commit"><code class="xref py py-obj docutils literal notranslate"><span class="pre">commit</span> <span class="pre">(str)</span></code></a></p></li>
 <li><p><a class="reference internal" href="#git_dag.parameters.ParamsDagNodeColors.commit_unreachable" title="git_dag.parameters.ParamsDagNodeColors.commit_unreachable"><code class="xref py py-obj docutils literal notranslate"><span class="pre">commit_unreachable</span> <span class="pre">(str)</span></code></a></p></li>
@@ -2486,6 +2573,18 @@ suppressed by specifying <code class="docutils literal notranslate"><span class=
 <dt class="field-odd">Validators<span class="colon">:</span></dt>
 <dd class="field-odd"><p></p></dd>
 </dl>
+<dl class="py attribute pydantic_field">
+<dt class="sig sig-object py" id="git_dag.parameters.ParamsDagNodeColors.annotations">
+<em class="property"><span class="pre">field</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">annotations</span></span><em class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="pre">str</span></em><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">'aquamarine3'</span></em><a class="headerlink" href="#git_dag.parameters.ParamsDagNodeColors.annotations" title="Link to this definition">¶</a></dt>
+<dd><dl class="field-list simple">
+<dt class="field-odd">Validated by<span class="colon">:</span></dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><code class="xref py py-obj docutils literal notranslate"><span class="pre">set_defaults_values</span></code></p></li>
+</ul>
+</dd>
+</dl>
+</dd></dl>
+
 <dl class="py attribute pydantic_field">
 <dt class="sig sig-object py" id="git_dag.parameters.ParamsDagNodeColors.blob">
 <em class="property"><span class="pre">field</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">blob</span></span><em class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="pre">str</span></em><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">'gray'</span></em><a class="headerlink" href="#git_dag.parameters.ParamsDagNodeColors.blob" title="Link to this definition">¶</a></dt>
@@ -2968,6 +3067,7 @@ suppressed by specifying <code class="docutils literal notranslate"><span class=
 <li><a class="reference internal" href="#git_dag.parameters.Params.dag_node"><code class="docutils literal notranslate"><span class="pre">Params.dag_node</span></code></a></li>
 <li><a class="reference internal" href="#git_dag.parameters.Params.dag_node_colors"><code class="docutils literal notranslate"><span class="pre">Params.dag_node_colors</span></code></a></li>
 <li><a class="reference internal" href="#git_dag.parameters.Params.links"><code class="docutils literal notranslate"><span class="pre">Params.links</span></code></a></li>
+<li><a class="reference internal" href="#git_dag.parameters.Params.misc"><code class="docutils literal notranslate"><span class="pre">Params.misc</span></code></a></li>
 <li><a class="reference internal" href="#git_dag.parameters.Params.public"><code class="docutils literal notranslate"><span class="pre">Params.public</span></code></a></li>
 <li><a class="reference internal" href="#git_dag.parameters.Params.standalone_cluster"><code class="docutils literal notranslate"><span class="pre">Params.standalone_cluster</span></code></a></li>
 <li><a class="reference internal" href="#git_dag.parameters.Params.set_ignore_config_file"><code class="docutils literal notranslate"><span class="pre">Params.set_ignore_config_file()</span></code></a></li>
@@ -2975,6 +3075,7 @@ suppressed by specifying <code class="docutils literal notranslate"><span class=
 </ul>
 </li>
 <li><a class="reference internal" href="#git_dag.parameters.ParamsPublic"><code class="docutils literal notranslate"><span class="pre">ParamsPublic</span></code></a><ul>
+<li><a class="reference internal" href="#git_dag.parameters.ParamsPublic.annotations"><code class="docutils literal notranslate"><span class="pre">ParamsPublic.annotations</span></code></a></li>
 <li><a class="reference internal" href="#git_dag.parameters.ParamsPublic.commit_message_as_label"><code class="docutils literal notranslate"><span class="pre">ParamsPublic.commit_message_as_label</span></code></a></li>
 <li><a class="reference internal" href="#git_dag.parameters.ParamsPublic.dag_backend"><code class="docutils literal notranslate"><span class="pre">ParamsPublic.dag_backend</span></code></a></li>
 <li><a class="reference internal" href="#git_dag.parameters.ParamsPublic.file"><code class="docutils literal notranslate"><span class="pre">ParamsPublic.file</span></code></a></li>
@@ -3025,6 +3126,7 @@ suppressed by specifying <code class="docutils literal notranslate"><span class=
 </ul>
 </li>
 <li><a class="reference internal" href="#git_dag.parameters.ParamsDagNodeColors"><code class="docutils literal notranslate"><span class="pre">ParamsDagNodeColors</span></code></a><ul>
+<li><a class="reference internal" href="#git_dag.parameters.ParamsDagNodeColors.annotations"><code class="docutils literal notranslate"><span class="pre">ParamsDagNodeColors.annotations</span></code></a></li>
 <li><a class="reference internal" href="#git_dag.parameters.ParamsDagNodeColors.blob"><code class="docutils literal notranslate"><span class="pre">ParamsDagNodeColors.blob</span></code></a></li>
 <li><a class="reference internal" href="#git_dag.parameters.ParamsDagNodeColors.commit"><code class="docutils literal notranslate"><span class="pre">ParamsDagNodeColors.commit</span></code></a></li>
 <li><a class="reference internal" href="#git_dag.parameters.ParamsDagNodeColors.commit_unreachable"><code class="docutils literal notranslate"><span class="pre">ParamsDagNodeColors.commit_unreachable</span></code></a></li>
@@ -3064,7 +3166,7 @@ suppressed by specifying <code class="docutils literal notranslate"><span class=
       
     </aside>
   </div>
-</div><script src="_static/documentation_options.js?v=53d3b0ea"></script>
+</div><script src="_static/documentation_options.js?v=fa794dd3"></script>
     <script src="_static/doctools.js?v=9bcbadda"></script>
     <script src="_static/sphinx_highlight.js?v=dc90522c"></script>
     <script src="_static/scripts/furo.js?v=5fa4622c"></script>

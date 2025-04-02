@@ -332,7 +332,7 @@
 <span class="kn">from</span> <span class="nn">typing</span> <span class="kn">import</span> <span class="n">Any</span><span class="p">,</span> <span class="n">Literal</span><span class="p">,</span> <span class="n">Optional</span>
 
 <span class="kn">from</span> <span class="nn">git_dag.constants</span> <span class="kn">import</span> <span class="n">CMD_TAGS_INFO</span><span class="p">,</span> <span class="n">SHA_PATTERN</span><span class="p">,</span> <span class="n">TAG_FORMAT_FIELDS</span><span class="p">,</span> <span class="n">DictStrStr</span>
-<span class="kn">from</span> <span class="nn">git_dag.parameters</span> <span class="kn">import</span> <span class="n">Params</span><span class="p">,</span> <span class="n">ParamsPublic</span>
+<span class="kn">from</span> <span class="nn">git_dag.parameters</span> <span class="kn">import</span> <span class="n">Params</span><span class="p">,</span> <span class="n">ParamsPublic</span><span class="p">,</span> <span class="n">context_ignore_config_file</span>
 <span class="kn">from</span> <span class="nn">git_dag.utils</span> <span class="kn">import</span> <span class="n">escape_decode</span>
 
 <span class="n">logging</span><span class="o">.</span><span class="n">basicConfig</span><span class="p">(</span><span class="n">level</span><span class="o">=</span><span class="n">logging</span><span class="o">.</span><span class="n">WARNING</span><span class="p">)</span>
@@ -384,9 +384,10 @@
             <span class="n">output</span><span class="p">,</span> <span class="n">error</span> <span class="o">=</span> <span class="n">process</span><span class="o">.</span><span class="n">communicate</span><span class="p">()</span>
             <span class="c1"># some git commands output messages to stderr even when there is no error</span>
             <span class="k">if</span> <span class="n">error</span><span class="p">:</span>
-                <span class="k">if</span> <span class="n">expected_stderr</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span><span class="p">:</span>
-                    <span class="k">if</span> <span class="ow">not</span> <span class="n">expected_stderr</span> <span class="ow">in</span> <span class="n">error</span><span class="o">.</span><span class="n">decode</span><span class="p">(</span><span class="s2">&quot;utf-8&quot;</span><span class="p">):</span>
-                        <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span><span class="n">error</span><span class="p">)</span>  <span class="c1"># pragma: no cover</span>
+                <span class="k">if</span> <span class="n">expected_stderr</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>
+                    <span class="k">raise</span> <span class="ne">RuntimeError</span><span class="p">(</span><span class="n">error</span><span class="p">)</span>
+                <span class="k">if</span> <span class="ow">not</span> <span class="n">expected_stderr</span> <span class="ow">in</span> <span class="n">error</span><span class="o">.</span><span class="n">decode</span><span class="p">(</span><span class="s2">&quot;utf-8&quot;</span><span class="p">):</span>
+                    <span class="k">raise</span> <span class="ne">RuntimeError</span><span class="p">(</span><span class="n">error</span><span class="p">)</span>
             <span class="k">return</span> <span class="n">output</span><span class="o">.</span><span class="n">decode</span><span class="p">(</span><span class="n">encoding</span><span class="p">,</span> <span class="n">errors</span><span class="o">=</span><span class="s2">&quot;replace&quot;</span><span class="p">)</span><span class="o">.</span><span class="n">strip</span><span class="p">()</span></div>
 </div>
 
@@ -409,10 +410,12 @@
         <span class="n">path</span><span class="p">:</span> <span class="nb">str</span> <span class="o">|</span> <span class="n">Path</span> <span class="o">=</span> <span class="s2">&quot;.&quot;</span><span class="p">,</span>  <span class="c1"># assumed to exist</span>
         <span class="n">author</span><span class="p">:</span> <span class="nb">str</span> <span class="o">=</span> <span class="s2">&quot;First Last &lt;first.last@mail.com&gt;&quot;</span><span class="p">,</span>
         <span class="n">committer</span><span class="p">:</span> <span class="nb">str</span> <span class="o">=</span> <span class="s2">&quot;Nom Prenom &lt;nom.prenom@mail.com&gt;&quot;</span><span class="p">,</span>
+        <span class="n">date</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="nb">str</span><span class="p">]</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span>
     <span class="p">)</span> <span class="o">-&gt;</span> <span class="kc">None</span><span class="p">:</span>
 <span class="w">        </span><span class="sd">&quot;&quot;&quot;Initialize instance.&quot;&quot;&quot;</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">author</span> <span class="o">=</span> <span class="n">author</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">committer</span> <span class="o">=</span> <span class="n">committer</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">date</span> <span class="o">=</span> <span class="n">date</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">env</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">_get_env</span><span class="p">()</span>
 
         <span class="nb">super</span><span class="p">()</span><span class="o">.</span><span class="fm">__init__</span><span class="p">(</span><span class="n">path</span><span class="p">)</span>
@@ -440,6 +443,10 @@
             <span class="n">env</span><span class="p">[</span><span class="s2">&quot;GIT_COMMITTER_EMAIL&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="n">match</span><span class="o">.</span><span class="n">group</span><span class="p">(</span><span class="s2">&quot;email&quot;</span><span class="p">)</span>
         <span class="k">else</span><span class="p">:</span>
             <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span><span class="s2">&quot;Committer not matched.&quot;</span><span class="p">)</span>  <span class="c1"># pragma: no cover</span>
+
+        <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">date</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span><span class="p">:</span>
+            <span class="n">env</span><span class="p">[</span><span class="s2">&quot;GIT_AUTHOR_DATE&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">date</span>
+            <span class="n">env</span><span class="p">[</span><span class="s2">&quot;GIT_COMMITTER_DATE&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">date</span>
 
         <span class="k">return</span> <span class="n">env</span>
 
@@ -595,7 +602,8 @@
 <span class="sd">        Note</span>
 <span class="sd">        -----</span>
 <span class="sd">        This command doesn&#39;t mutate a repository but appears under</span>
-<span class="sd">        :class:`GitCommandMutate` as it is meant to be used only in the unit tests.</span>
+<span class="sd">        :class:`GitCommandMutate` as it is meant to be used only in the unit tests and</span>
+<span class="sd">        docs examples.</span>
 
 <span class="sd">        &quot;&quot;&quot;</span>
         <span class="c1"># note that git clone sends to stderr (so I suppress it using -q)</span>
@@ -750,7 +758,7 @@
 <a class="viewcode-back" href="../../.autosummary/git_dag.git_commands.GitCommand.html#git_dag.git_commands.GitCommand.rev_parse_descriptors">[docs]</a>
     <span class="k">def</span> <span class="nf">rev_parse_descriptors</span><span class="p">(</span>
         <span class="bp">self</span><span class="p">,</span> <span class="n">descriptors</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="nb">list</span><span class="p">[</span><span class="nb">str</span><span class="p">]]</span>
-    <span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Optional</span><span class="p">[</span><span class="nb">set</span><span class="p">[</span><span class="nb">str</span><span class="p">]]:</span>
+    <span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Optional</span><span class="p">[</span><span class="nb">list</span><span class="p">[</span><span class="nb">str</span><span class="p">]]:</span>
 <span class="w">        </span><span class="sd">&quot;&quot;&quot;Return a set of SHA corresponding to a list of descriptors.</span>
 
 <span class="sd">        Note</span>
@@ -762,9 +770,7 @@
             <span class="k">return</span> <span class="kc">None</span>
 
         <span class="k">try</span><span class="p">:</span>
-            <span class="k">return</span> <span class="nb">set</span><span class="p">(</span>
-                <span class="bp">self</span><span class="o">.</span><span class="n">_run</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;rev-parse </span><span class="si">{</span><span class="s1">&#39; &#39;</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="n">descriptors</span><span class="p">)</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span><span class="o">.</span><span class="n">strip</span><span class="p">()</span><span class="o">.</span><span class="n">split</span><span class="p">(</span><span class="s2">&quot;</span><span class="se">\n</span><span class="s2">&quot;</span><span class="p">)</span>
-            <span class="p">)</span>
+            <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">_run</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;rev-parse </span><span class="si">{</span><span class="s1">&#39; &#39;</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="n">descriptors</span><span class="p">)</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span><span class="o">.</span><span class="n">strip</span><span class="p">()</span><span class="o">.</span><span class="n">split</span><span class="p">(</span><span class="s2">&quot;</span><span class="se">\n</span><span class="s2">&quot;</span><span class="p">)</span>
         <span class="k">except</span> <span class="n">subprocess</span><span class="o">.</span><span class="n">CalledProcessError</span> <span class="k">as</span> <span class="n">e</span><span class="p">:</span>
             <span class="n">LOG</span><span class="o">.</span><span class="n">warning</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;</span><span class="si">{</span><span class="n">e</span><span class="si">}</span><span class="s2"> (</span><span class="si">{</span><span class="n">e</span><span class="o">.</span><span class="n">stderr</span><span class="si">}</span><span class="s2">)&quot;</span><span class="p">)</span>
 
@@ -773,7 +779,7 @@
 
 <div class="viewcode-block" id="GitCommand.rev_list_range">
 <a class="viewcode-back" href="../../.autosummary/git_dag.git_commands.GitCommand.html#git_dag.git_commands.GitCommand.rev_list_range">[docs]</a>
-    <span class="k">def</span> <span class="nf">rev_list_range</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">range_expr</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="nb">str</span><span class="p">])</span> <span class="o">-&gt;</span> <span class="n">Optional</span><span class="p">[</span><span class="nb">set</span><span class="p">[</span><span class="nb">str</span><span class="p">]]:</span>
+    <span class="k">def</span> <span class="nf">rev_list_range</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">range_expr</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="nb">str</span><span class="p">])</span> <span class="o">-&gt;</span> <span class="n">Optional</span><span class="p">[</span><span class="nb">list</span><span class="p">[</span><span class="nb">str</span><span class="p">]]:</span>
 <span class="w">        </span><span class="sd">&quot;&quot;&quot;Return set of commit SHA in the range defined by ``range_expr``.</span>
 
 <span class="sd">        Note</span>
@@ -786,7 +792,7 @@
 
         <span class="k">try</span><span class="p">:</span>
             <span class="n">out</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">_run</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;rev-list </span><span class="si">{</span><span class="n">range_expr</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span><span class="o">.</span><span class="n">strip</span><span class="p">()</span><span class="o">.</span><span class="n">split</span><span class="p">(</span><span class="s2">&quot;</span><span class="se">\n</span><span class="s2">&quot;</span><span class="p">)</span>
-            <span class="k">return</span> <span class="kc">None</span> <span class="k">if</span> <span class="nb">len</span><span class="p">(</span><span class="n">out</span><span class="p">)</span> <span class="o">==</span> <span class="mi">1</span> <span class="ow">and</span> <span class="ow">not</span> <span class="n">out</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span> <span class="k">else</span> <span class="nb">set</span><span class="p">(</span><span class="n">out</span><span class="p">)</span>
+            <span class="k">return</span> <span class="kc">None</span> <span class="k">if</span> <span class="nb">len</span><span class="p">(</span><span class="n">out</span><span class="p">)</span> <span class="o">==</span> <span class="mi">1</span> <span class="ow">and</span> <span class="ow">not</span> <span class="n">out</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span> <span class="k">else</span> <span class="n">out</span>
         <span class="k">except</span> <span class="n">subprocess</span><span class="o">.</span><span class="n">CalledProcessError</span> <span class="k">as</span> <span class="n">e</span><span class="p">:</span>
             <span class="n">LOG</span><span class="o">.</span><span class="n">warning</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;</span><span class="si">{</span><span class="n">e</span><span class="si">}</span><span class="s2"> (</span><span class="si">{</span><span class="n">e</span><span class="o">.</span><span class="n">stderr</span><span class="si">}</span><span class="s2">)&quot;</span><span class="p">)</span>
 
@@ -965,20 +971,22 @@
         <span class="n">repo_path</span><span class="p">:</span> <span class="n">Path</span> <span class="o">|</span> <span class="nb">str</span><span class="p">,</span>  <span class="c1"># assumed to exist</span>
         <span class="n">tar_file_name</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="n">Path</span> <span class="o">|</span> <span class="nb">str</span><span class="p">]</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span>
         <span class="o">**</span><span class="n">kwargs</span><span class="p">:</span> <span class="nb">dict</span><span class="p">[</span><span class="nb">str</span><span class="p">,</span> <span class="n">Any</span><span class="p">],</span>
-    <span class="p">)</span> <span class="o">-&gt;</span> <span class="kc">None</span><span class="p">:</span>
+    <span class="p">)</span> <span class="o">-&gt;</span> <span class="n">GitCommandMutate</span><span class="p">:</span>
 <span class="w">        </span><span class="sd">&quot;&quot;&quot;Git repository creation displatch.&quot;&quot;&quot;</span>
         <span class="k">match</span> <span class="n">label</span><span class="p">:</span>
             <span class="k">case</span> <span class="s2">&quot;default&quot;</span><span class="p">:</span>
-                <span class="bp">cls</span><span class="o">.</span><span class="n">repository_default</span><span class="p">(</span><span class="n">repo_path</span><span class="p">)</span>
+                <span class="n">git</span> <span class="o">=</span> <span class="bp">cls</span><span class="o">.</span><span class="n">repository_default</span><span class="p">(</span><span class="n">repo_path</span><span class="p">)</span>
             <span class="k">case</span> <span class="s2">&quot;default-with-notes&quot;</span><span class="p">:</span>
-                <span class="bp">cls</span><span class="o">.</span><span class="n">repository_default_with_notes</span><span class="p">(</span><span class="n">repo_path</span><span class="p">)</span>
+                <span class="n">git</span> <span class="o">=</span> <span class="bp">cls</span><span class="o">.</span><span class="n">repository_default_with_notes</span><span class="p">(</span><span class="n">repo_path</span><span class="p">)</span>
             <span class="k">case</span> <span class="s2">&quot;empty&quot;</span><span class="p">:</span>
-                <span class="bp">cls</span><span class="o">.</span><span class="n">repository_empty</span><span class="p">(</span><span class="n">repo_path</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">)</span>
+                <span class="n">git</span> <span class="o">=</span> <span class="bp">cls</span><span class="o">.</span><span class="n">repository_empty</span><span class="p">(</span><span class="n">repo_path</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">)</span>
             <span class="k">case</span><span class="w"> </span><span class="k">_</span><span class="p">:</span>
                 <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;Unknown repository label: </span><span class="si">{</span><span class="n">label</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
 
         <span class="k">if</span> <span class="n">tar_file_name</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span><span class="p">:</span>
-            <span class="bp">cls</span><span class="o">.</span><span class="n">tar</span><span class="p">(</span><span class="n">repo_path</span><span class="p">,</span> <span class="n">tar_file_name</span><span class="p">)</span></div>
+            <span class="bp">cls</span><span class="o">.</span><span class="n">tar</span><span class="p">(</span><span class="n">repo_path</span><span class="p">,</span> <span class="n">tar_file_name</span><span class="p">)</span>
+
+        <span class="k">return</span> <span class="n">git</span></div>
 
 
 <div class="viewcode-block" id="TestGitRepository.tar">
@@ -1005,21 +1013,23 @@
     <span class="k">def</span> <span class="nf">repository_empty</span><span class="p">(</span>
         <span class="n">path</span><span class="p">:</span> <span class="n">Path</span> <span class="o">|</span> <span class="nb">str</span><span class="p">,</span>
         <span class="n">files</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="n">DictStrStr</span><span class="p">]</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span>
-    <span class="p">)</span> <span class="o">-&gt;</span> <span class="kc">None</span><span class="p">:</span>
+    <span class="p">)</span> <span class="o">-&gt;</span> <span class="n">GitCommandMutate</span><span class="p">:</span>
 <span class="w">        </span><span class="sd">&quot;&quot;&quot;Empty repository (possibly with files added to the index).&quot;&quot;&quot;</span>
         <span class="n">git</span> <span class="o">=</span> <span class="n">GitCommandMutate</span><span class="p">(</span><span class="n">path</span><span class="p">)</span>
         <span class="n">git</span><span class="o">.</span><span class="n">init</span><span class="p">()</span>
 
         <span class="k">if</span> <span class="n">files</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span><span class="p">:</span>
-            <span class="n">git</span><span class="o">.</span><span class="n">add</span><span class="p">(</span><span class="n">files</span><span class="p">)</span></div>
+            <span class="n">git</span><span class="o">.</span><span class="n">add</span><span class="p">(</span><span class="n">files</span><span class="p">)</span>
+
+        <span class="k">return</span> <span class="n">git</span></div>
 
 
 <div class="viewcode-block" id="TestGitRepository.repository_default">
 <a class="viewcode-back" href="../../.autosummary/git_dag.git_commands.TestGitRepository.html#git_dag.git_commands.TestGitRepository.repository_default">[docs]</a>
     <span class="nd">@staticmethod</span>
-    <span class="k">def</span> <span class="nf">repository_default</span><span class="p">(</span><span class="n">path</span><span class="p">:</span> <span class="n">Path</span> <span class="o">|</span> <span class="nb">str</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="kc">None</span><span class="p">:</span>
+    <span class="k">def</span> <span class="nf">repository_default</span><span class="p">(</span><span class="n">path</span><span class="p">:</span> <span class="n">Path</span> <span class="o">|</span> <span class="nb">str</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">GitCommandMutate</span><span class="p">:</span>
 <span class="w">        </span><span class="sd">&quot;&quot;&quot;Default repository.&quot;&quot;&quot;</span>
-        <span class="n">git</span> <span class="o">=</span> <span class="n">GitCommandMutate</span><span class="p">(</span><span class="n">path</span><span class="p">)</span>
+        <span class="n">git</span> <span class="o">=</span> <span class="n">GitCommandMutate</span><span class="p">(</span><span class="n">path</span><span class="p">,</span> <span class="n">date</span><span class="o">=</span><span class="s2">&quot;01/01/25 09:00 +0100&quot;</span><span class="p">)</span>
         <span class="n">git</span><span class="o">.</span><span class="n">init</span><span class="p">()</span>
         <span class="n">git</span><span class="o">.</span><span class="n">cm</span><span class="p">(</span><span class="s2">&quot;A</span><span class="se">\n\n</span><span class="s2">Body:</span><span class="se">\n</span><span class="s2"> * First line</span><span class="se">\n</span><span class="s2"> * Second line</span><span class="se">\n</span><span class="s2"> * Third line&quot;</span><span class="p">)</span>
         <span class="n">git</span><span class="o">.</span><span class="n">br</span><span class="p">(</span><span class="s2">&quot;topic&quot;</span><span class="p">,</span> <span class="n">create</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
@@ -1058,19 +1068,32 @@
         <span class="n">git</span><span class="o">.</span><span class="n">stash</span><span class="p">({</span><span class="s2">&quot;file&quot;</span><span class="p">:</span> <span class="s2">&quot;stash:first&quot;</span><span class="p">})</span>
         <span class="n">git</span><span class="o">.</span><span class="n">stash</span><span class="p">({</span><span class="s2">&quot;file&quot;</span><span class="p">:</span> <span class="s2">&quot;stash:second&quot;</span><span class="p">},</span> <span class="n">title</span><span class="o">=</span><span class="s2">&quot;second&quot;</span><span class="p">)</span>
         <span class="n">git</span><span class="o">.</span><span class="n">stash</span><span class="p">({</span><span class="s2">&quot;file&quot;</span><span class="p">:</span> <span class="s2">&quot;stash:third&quot;</span><span class="p">},</span> <span class="n">title</span><span class="o">=</span><span class="s2">&quot;third&quot;</span><span class="p">)</span>
-        <span class="n">git</span><span class="o">.</span><span class="n">config</span><span class="p">(</span><span class="s2">&quot;gc.auto 0&quot;</span><span class="p">)</span></div>
+
+        <span class="c1"># add two standalone blobs and a standalone tree</span>
+        <span class="n">prefix</span> <span class="o">=</span> <span class="n">git</span><span class="o">.</span><span class="n">command_prefix</span>
+        <span class="n">git</span><span class="o">.</span><span class="n">run_general</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;echo &#39;test content 1&#39; | </span><span class="si">{</span><span class="n">prefix</span><span class="si">}</span><span class="s2"> hash-object -w --stdin&quot;</span><span class="p">)</span>
+        <span class="n">git</span><span class="o">.</span><span class="n">run_general</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;echo &#39;test content 2&#39; | </span><span class="si">{</span><span class="n">prefix</span><span class="si">}</span><span class="s2"> hash-object -w --stdin&quot;</span><span class="p">)</span>
+
+        <span class="n">sha</span> <span class="o">=</span> <span class="s2">&quot;74689c87fb53b6d666de95efea667d99ba2fa52a&quot;</span>
+        <span class="n">git</span><span class="o">.</span><span class="n">run_general</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;</span><span class="si">{</span><span class="n">prefix</span><span class="si">}</span><span class="s2"> update-index --add --cacheinfo 100644 </span><span class="si">{</span><span class="n">sha</span><span class="si">}</span><span class="s2"> tmp.txt&quot;</span><span class="p">)</span>
+        <span class="n">git</span><span class="o">.</span><span class="n">run_general</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;</span><span class="si">{</span><span class="n">prefix</span><span class="si">}</span><span class="s2"> write-tree&quot;</span><span class="p">)</span>
+
+        <span class="n">git</span><span class="o">.</span><span class="n">config</span><span class="p">(</span><span class="s2">&quot;gc.auto 0&quot;</span><span class="p">)</span>
+
+        <span class="k">return</span> <span class="n">git</span></div>
 
 
 <div class="viewcode-block" id="TestGitRepository.repository_default_with_notes">
 <a class="viewcode-back" href="../../.autosummary/git_dag.git_commands.TestGitRepository.html#git_dag.git_commands.TestGitRepository.repository_default_with_notes">[docs]</a>
     <span class="nd">@classmethod</span>
-    <span class="k">def</span> <span class="nf">repository_default_with_notes</span><span class="p">(</span><span class="bp">cls</span><span class="p">,</span> <span class="n">path</span><span class="p">:</span> <span class="n">Path</span> <span class="o">|</span> <span class="nb">str</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="kc">None</span><span class="p">:</span>
+    <span class="k">def</span> <span class="nf">repository_default_with_notes</span><span class="p">(</span><span class="bp">cls</span><span class="p">,</span> <span class="n">path</span><span class="p">:</span> <span class="n">Path</span> <span class="o">|</span> <span class="nb">str</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">GitCommandMutate</span><span class="p">:</span>
 <span class="w">        </span><span class="sd">&quot;&quot;&quot;Default repository with git notes.&quot;&quot;&quot;</span>
-        <span class="bp">cls</span><span class="o">.</span><span class="n">repository_default</span><span class="p">(</span><span class="n">path</span><span class="p">)</span>
-        <span class="n">git</span> <span class="o">=</span> <span class="n">GitCommandMutate</span><span class="p">(</span><span class="n">path</span><span class="p">)</span>
+        <span class="n">git</span> <span class="o">=</span> <span class="bp">cls</span><span class="o">.</span><span class="n">repository_default</span><span class="p">(</span><span class="n">path</span><span class="p">)</span>
 
         <span class="n">git</span><span class="o">.</span><span class="n">note</span><span class="p">(</span><span class="s2">&quot;Add a note&quot;</span><span class="p">)</span>
-        <span class="n">git</span><span class="o">.</span><span class="n">note</span><span class="p">(</span><span class="s2">&quot;Add a another note&quot;</span><span class="p">,</span> <span class="s2">&quot;main&quot;</span><span class="p">)</span></div>
+        <span class="n">git</span><span class="o">.</span><span class="n">note</span><span class="p">(</span><span class="s2">&quot;Add a another note&quot;</span><span class="p">,</span> <span class="s2">&quot;main&quot;</span><span class="p">)</span>
+
+        <span class="k">return</span> <span class="n">git</span></div>
 </div>
 
 
@@ -1098,24 +1121,35 @@
     <span class="n">TestGitRepository</span><span class="o">.</span><span class="n">create</span><span class="p">(</span><span class="s2">&quot;default&quot;</span><span class="p">,</span> <span class="n">path</span><span class="p">)</span>
 
     <span class="n">repo</span> <span class="o">=</span> <span class="n">GitRepository</span><span class="p">(</span><span class="n">path</span><span class="p">,</span> <span class="n">parse_trees</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
-    <span class="n">params</span> <span class="o">=</span> <span class="n">Params</span><span class="p">(</span>
-        <span class="n">public</span><span class="o">=</span><span class="n">ParamsPublic</span><span class="p">(</span>
-            <span class="n">show_unreachable_commits</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span>
-            <span class="n">show_local_branches</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span>
-            <span class="n">show_remote_branches</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span>
-            <span class="n">show_trees</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span>
-            <span class="n">show_blobs</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span>
-            <span class="n">show_tags</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span>
-            <span class="n">show_deleted_tags</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span>
-            <span class="n">show_stash</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span>
-            <span class="n">show_head</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span>
-            <span class="nb">format</span><span class="o">=</span><span class="s2">&quot;gv&quot;</span><span class="p">,</span>
-            <span class="n">file</span><span class="o">=</span><span class="n">path</span> <span class="o">/</span> <span class="s2">&quot;../default_repo.gv&quot;</span><span class="p">,</span>
+    <span class="k">with</span> <span class="n">context_ignore_config_file</span><span class="p">():</span>
+        <span class="n">params</span> <span class="o">=</span> <span class="n">Params</span><span class="p">(</span>
+            <span class="n">public</span><span class="o">=</span><span class="n">ParamsPublic</span><span class="p">(</span>
+                <span class="n">show_unreachable_commits</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span>
+                <span class="n">show_local_branches</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span>
+                <span class="n">show_remote_branches</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span>
+                <span class="n">show_trees</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span>
+                <span class="n">show_trees_standalone</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span>
+                <span class="n">show_blobs</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span>
+                <span class="n">show_blobs_standalone</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span>
+                <span class="n">show_tags</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span>
+                <span class="n">show_deleted_tags</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span>
+                <span class="n">show_stash</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span>
+                <span class="n">show_head</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span>
+                <span class="n">max_numb_commits</span><span class="o">=</span><span class="mi">0</span><span class="p">,</span>
+                <span class="n">annotations</span><span class="o">=</span><span class="p">[</span>
+                    <span class="p">[</span><span class="s2">&quot;4499ee63&quot;</span><span class="p">,</span> <span class="s2">&quot;just a tooltip&quot;</span><span class="p">],</span>
+                    <span class="p">[</span><span class="s2">&quot;0.3&quot;</span><span class="p">,</span> <span class="s2">&quot;additional info&quot;</span><span class="p">],</span>
+                    <span class="p">[</span><span class="s2">&quot;0.5&quot;</span><span class="p">],</span>  <span class="c1"># this will not be displayed</span>
+                    <span class="p">[</span><span class="s2">&quot;HEAD&quot;</span><span class="p">],</span>
+                    <span class="p">[</span><span class="s2">&quot;main^&quot;</span><span class="p">,</span> <span class="s2">&quot;a clarification&quot;</span><span class="p">],</span>
+                <span class="p">],</span>
+                <span class="nb">format</span><span class="o">=</span><span class="s2">&quot;gv&quot;</span><span class="p">,</span>
+                <span class="n">file</span><span class="o">=</span><span class="n">path</span> <span class="o">/</span> <span class="s2">&quot;../default_repo.gv&quot;</span><span class="p">,</span>
+            <span class="p">)</span>
         <span class="p">)</span>
-    <span class="p">)</span>
     <span class="n">repo</span><span class="o">.</span><span class="n">show</span><span class="p">(</span><span class="n">params</span><span class="p">)</span>
 
-    <span class="n">TestGitRepository</span><span class="o">.</span><span class="n">tar</span><span class="p">(</span><span class="n">path</span><span class="p">,</span> <span class="n">path</span> <span class="o">/</span> <span class="s2">&quot;../default_repo.tar.gz&quot;</span><span class="p">)</span>
+    <span class="c1"># TestGitRepository.tar(path, path / &quot;../default_repo.tar.gz&quot;)</span>
 
     <span class="k">with</span> <span class="nb">open</span><span class="p">(</span><span class="n">path</span> <span class="o">/</span> <span class="s2">&quot;../default_repo.repr&quot;</span><span class="p">,</span> <span class="s2">&quot;w&quot;</span><span class="p">,</span> <span class="n">encoding</span><span class="o">=</span><span class="s2">&quot;utf-8&quot;</span><span class="p">)</span> <span class="k">as</span> <span class="n">h</span><span class="p">:</span>
         <span class="n">h</span><span class="o">.</span><span class="n">write</span><span class="p">(</span><span class="nb">repr</span><span class="p">(</span><span class="n">repo</span><span class="p">))</span>
@@ -1158,7 +1192,7 @@
       
     </aside>
   </div>
-</div><script src="../../_static/documentation_options.js?v=53d3b0ea"></script>
+</div><script src="../../_static/documentation_options.js?v=fa794dd3"></script>
     <script src="../../_static/doctools.js?v=9bcbadda"></script>
     <script src="../../_static/sphinx_highlight.js?v=dc90522c"></script>
     <script src="../../_static/scripts/furo.js?v=5fa4622c"></script>

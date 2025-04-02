@@ -84,14 +84,14 @@
 <span class="line-any" title="Any Types on this line: 
 Explicit (x1)">        self._dag: Any = None</span>
 <span class="line-precise" title="No Anys on this line!">        self.nodes: list[dict[str, Optional[str]]] = []</span>
-<span class="line-precise" title="Any Types on this line: 
-Omitted Generics (x3)">        self.edges: set[tuple[str, str]] = set()</span>
+<span class="line-precise" title="No Anys on this line!">        self.edges: list[tuple[str, str]] = []</span>
+<span class="line-precise" title="No Anys on this line!">        self.edges_custom: list[tuple[str, str, DictStrStr]] = []</span>
 <span class="line-precise" title="No Anys on this line!">        self.standalone_trees: list[dict[str, Optional[str]]] = []</span>
 <span class="line-precise" title="No Anys on this line!">        self.standalone_blobs: list[dict[str, Optional[str]]] = []</span>
 <span class="line-precise" title="No Anys on this line!">        self.standalone_cluster = standalone_cluster</span>
 <span class="line-empty" title="No Anys on this line!"></span>
 <span class="line-empty" title="No Anys on this line!">    @abstractmethod</span>
-<span class="line-precise" title="No Anys on this line!">    def edge(self, node1_name: str, node2_name: str) -&gt; None:</span>
+<span class="line-precise" title="No Anys on this line!">    def edge(self, node1_name: str, node2_name: str, **attrs: str) -&gt; None:</span>
 <span class="line-empty" title="No Anys on this line!">        """Add an edge."""</span>
 <span class="line-empty" title="No Anys on this line!"></span>
 <span class="line-empty" title="No Anys on this line!">    @abstractmethod</span>
@@ -100,11 +100,10 @@ Omitted Generics (x3)">        self.edges: set[tuple[str, str]] = set()</span>
 <span class="line-empty" title="No Anys on this line!">        name: str,</span>
 <span class="line-empty" title="No Anys on this line!">        label: str,</span>
 <span class="line-empty" title="No Anys on this line!">        color: str,</span>
-<span class="line-empty" title="No Anys on this line!">        fillcolor: str,</span>
-<span class="line-precise" title="No Anys on this line!">        shape: Optional[str] = None,</span>
 <span class="line-precise" title="No Anys on this line!">        tooltip: Optional[str] = None,</span>
 <span class="line-precise" title="No Anys on this line!">        URL: Optional[str] = None,</span>
 <span class="line-precise" title="No Anys on this line!">        standalone_kind: Optional[Literal["tree", "blob"]] = None,</span>
+<span class="line-empty" title="No Anys on this line!">        **attrs: str,</span>
 <span class="line-empty" title="No Anys on this line!">    ) -&gt; None:</span>
 <span class="line-empty" title="No Anys on this line!">        """Add a node."""</span>
 <span class="line-empty" title="No Anys on this line!"></span>

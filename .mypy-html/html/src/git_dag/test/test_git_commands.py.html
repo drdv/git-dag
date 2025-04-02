@@ -86,6 +86,17 @@
 <span id="L76" class="lineno"><a class="lineno" href="#L76">76</a></span>
 <span id="L77" class="lineno"><a class="lineno" href="#L77">77</a></span>
 <span id="L78" class="lineno"><a class="lineno" href="#L78">78</a></span>
+<span id="L79" class="lineno"><a class="lineno" href="#L79">79</a></span>
+<span id="L80" class="lineno"><a class="lineno" href="#L80">80</a></span>
+<span id="L81" class="lineno"><a class="lineno" href="#L81">81</a></span>
+<span id="L82" class="lineno"><a class="lineno" href="#L82">82</a></span>
+<span id="L83" class="lineno"><a class="lineno" href="#L83">83</a></span>
+<span id="L84" class="lineno"><a class="lineno" href="#L84">84</a></span>
+<span id="L85" class="lineno"><a class="lineno" href="#L85">85</a></span>
+<span id="L86" class="lineno"><a class="lineno" href="#L86">86</a></span>
+<span id="L87" class="lineno"><a class="lineno" href="#L87">87</a></span>
+<span id="L88" class="lineno"><a class="lineno" href="#L88">88</a></span>
+<span id="L89" class="lineno"><a class="lineno" href="#L89">89</a></span>
 </pre></td>
 <td class="table-code"><pre><span class="line-empty" title="No Anys on this line!">"""Test ``git_commands.py``."""</span>
 <span class="line-empty" title="No Anys on this line!"></span>
@@ -177,7 +188,22 @@ Explicit (x1)">    TestGitRepository.create(</span>
 <span class="line-precise" title="No Anys on this line!">    assert not (path / "default_repo").exists()</span>
 <span class="line-precise" title="No Anys on this line!">    assert (path / "default_repo.gv").exists()</span>
 <span class="line-precise" title="No Anys on this line!">    assert (path / "default_repo.repr").exists()</span>
-<span class="line-precise" title="No Anys on this line!">    assert (path / "default_repo.tar.gz").exists()</span>
+<span class="line-empty" title="No Anys on this line!"></span>
+<span class="line-empty" title="No Anys on this line!"></span>
+<span class="line-precise" title="No Anys on this line!">def test_run_general(tmp_path: Path) -&gt; None:</span>
+<span class="line-precise" title="No Anys on this line!">    git = GitCommandMutate(tmp_path)</span>
+<span class="line-empty" title="No Anys on this line!"></span>
+<span class="line-precise" title="No Anys on this line!">    git.run_general("crazy-command-run", expected_stderr="crazy-command-run")</span>
+<span class="line-empty" title="No Anys on this line!"></span>
+<span class="line-precise" title="Any Types on this line: 
+Omitted Generics (x6)
+Explicit (x5)">    with pytest.raises(RuntimeError):</span>
+<span class="line-precise" title="No Anys on this line!">        git.run_general("crazy-command-run")</span>
+<span class="line-empty" title="No Anys on this line!"></span>
+<span class="line-precise" title="Any Types on this line: 
+Omitted Generics (x6)
+Explicit (x5)">    with pytest.raises(RuntimeError):</span>
+<span class="line-precise" title="No Anys on this line!">        git.run_general("crazy-command-run", expected_stderr="not matchd")</span>
 </pre></td>
 </tr></tbody>
 </table>

@@ -701,6 +701,40 @@
 <span id="L691" class="lineno"><a class="lineno" href="#L691">691</a></span>
 <span id="L692" class="lineno"><a class="lineno" href="#L692">692</a></span>
 <span id="L693" class="lineno"><a class="lineno" href="#L693">693</a></span>
+<span id="L694" class="lineno"><a class="lineno" href="#L694">694</a></span>
+<span id="L695" class="lineno"><a class="lineno" href="#L695">695</a></span>
+<span id="L696" class="lineno"><a class="lineno" href="#L696">696</a></span>
+<span id="L697" class="lineno"><a class="lineno" href="#L697">697</a></span>
+<span id="L698" class="lineno"><a class="lineno" href="#L698">698</a></span>
+<span id="L699" class="lineno"><a class="lineno" href="#L699">699</a></span>
+<span id="L700" class="lineno"><a class="lineno" href="#L700">700</a></span>
+<span id="L701" class="lineno"><a class="lineno" href="#L701">701</a></span>
+<span id="L702" class="lineno"><a class="lineno" href="#L702">702</a></span>
+<span id="L703" class="lineno"><a class="lineno" href="#L703">703</a></span>
+<span id="L704" class="lineno"><a class="lineno" href="#L704">704</a></span>
+<span id="L705" class="lineno"><a class="lineno" href="#L705">705</a></span>
+<span id="L706" class="lineno"><a class="lineno" href="#L706">706</a></span>
+<span id="L707" class="lineno"><a class="lineno" href="#L707">707</a></span>
+<span id="L708" class="lineno"><a class="lineno" href="#L708">708</a></span>
+<span id="L709" class="lineno"><a class="lineno" href="#L709">709</a></span>
+<span id="L710" class="lineno"><a class="lineno" href="#L710">710</a></span>
+<span id="L711" class="lineno"><a class="lineno" href="#L711">711</a></span>
+<span id="L712" class="lineno"><a class="lineno" href="#L712">712</a></span>
+<span id="L713" class="lineno"><a class="lineno" href="#L713">713</a></span>
+<span id="L714" class="lineno"><a class="lineno" href="#L714">714</a></span>
+<span id="L715" class="lineno"><a class="lineno" href="#L715">715</a></span>
+<span id="L716" class="lineno"><a class="lineno" href="#L716">716</a></span>
+<span id="L717" class="lineno"><a class="lineno" href="#L717">717</a></span>
+<span id="L718" class="lineno"><a class="lineno" href="#L718">718</a></span>
+<span id="L719" class="lineno"><a class="lineno" href="#L719">719</a></span>
+<span id="L720" class="lineno"><a class="lineno" href="#L720">720</a></span>
+<span id="L721" class="lineno"><a class="lineno" href="#L721">721</a></span>
+<span id="L722" class="lineno"><a class="lineno" href="#L722">722</a></span>
+<span id="L723" class="lineno"><a class="lineno" href="#L723">723</a></span>
+<span id="L724" class="lineno"><a class="lineno" href="#L724">724</a></span>
+<span id="L725" class="lineno"><a class="lineno" href="#L725">725</a></span>
+<span id="L726" class="lineno"><a class="lineno" href="#L726">726</a></span>
+<span id="L727" class="lineno"><a class="lineno" href="#L727">727</a></span>
 </pre></td>
 <td class="table-code"><pre><span class="line-empty" title="No Anys on this line!">"""Git commands related functionality.</span>
 <span class="line-empty" title="No Anys on this line!"></span>
@@ -721,7 +755,7 @@
 <span class="line-precise" title="No Anys on this line!">from typing import Any, Literal, Optional</span>
 <span class="line-empty" title="No Anys on this line!"></span>
 <span class="line-precise" title="No Anys on this line!">from git_dag.constants import CMD_TAGS_INFO, SHA_PATTERN, TAG_FORMAT_FIELDS, DictStrStr</span>
-<span class="line-precise" title="No Anys on this line!">from git_dag.parameters import Params, ParamsPublic</span>
+<span class="line-precise" title="No Anys on this line!">from git_dag.parameters import Params, ParamsPublic, context_ignore_config_file</span>
 <span class="line-precise" title="No Anys on this line!">from git_dag.utils import escape_decode</span>
 <span class="line-empty" title="No Anys on this line!"></span>
 <span class="line-precise" title="No Anys on this line!">logging.basicConfig(level=logging.WARNING)</span>
@@ -771,9 +805,10 @@ Explicit (x13)">        with subprocess.Popen(</span>
 <span class="line-precise" title="No Anys on this line!">            output, error = process.communicate()</span>
 <span class="line-empty" title="No Anys on this line!">            # some git commands output messages to stderr even when there is no error</span>
 <span class="line-precise" title="No Anys on this line!">            if error:</span>
-<span class="line-precise" title="No Anys on this line!">                if expected_stderr is not None:</span>
-<span class="line-precise" title="No Anys on this line!">                    if not expected_stderr in error.decode("utf-8"):</span>
-<span class="line-precise" title="No Anys on this line!">                        raise ValueError(error)  # pragma: no cover</span>
+<span class="line-precise" title="No Anys on this line!">                if expected_stderr is None:</span>
+<span class="line-precise" title="No Anys on this line!">                    raise RuntimeError(error)</span>
+<span class="line-precise" title="No Anys on this line!">                if not expected_stderr in error.decode("utf-8"):</span>
+<span class="line-precise" title="No Anys on this line!">                    raise RuntimeError(error)</span>
 <span class="line-precise" title="No Anys on this line!">            return output.decode(encoding, errors="replace").strip()</span>
 <span class="line-empty" title="No Anys on this line!"></span>
 <span class="line-empty" title="No Anys on this line!"></span>
@@ -792,10 +827,12 @@ Explicit (x13)">        with subprocess.Popen(</span>
 <span class="line-precise" title="No Anys on this line!">        path: str | Path = ".",  # assumed to exist</span>
 <span class="line-precise" title="No Anys on this line!">        author: str = "First Last &lt;first.last@mail.com&gt;",</span>
 <span class="line-precise" title="No Anys on this line!">        committer: str = "Nom Prenom &lt;nom.prenom@mail.com&gt;",</span>
+<span class="line-precise" title="No Anys on this line!">        date: Optional[str] = None,</span>
 <span class="line-empty" title="No Anys on this line!">    ) -&gt; None:</span>
 <span class="line-empty" title="No Anys on this line!">        """Initialize instance."""</span>
 <span class="line-precise" title="No Anys on this line!">        self.author = author</span>
 <span class="line-precise" title="No Anys on this line!">        self.committer = committer</span>
+<span class="line-precise" title="No Anys on this line!">        self.date = date</span>
 <span class="line-precise" title="No Anys on this line!">        self.env = self._get_env()</span>
 <span class="line-empty" title="No Anys on this line!"></span>
 <span class="line-precise" title="No Anys on this line!">        super().__init__(path)</span>
@@ -820,6 +857,10 @@ Explicit (x13)">        with subprocess.Popen(</span>
 <span class="line-precise" title="No Anys on this line!">            env["GIT_COMMITTER_EMAIL"] = match.group("email")</span>
 <span class="line-empty" title="No Anys on this line!">        else:</span>
 <span class="line-precise" title="No Anys on this line!">            raise ValueError("Committer not matched.")  # pragma: no cover</span>
+<span class="line-empty" title="No Anys on this line!"></span>
+<span class="line-precise" title="No Anys on this line!">        if self.date is not None:</span>
+<span class="line-precise" title="No Anys on this line!">            env["GIT_AUTHOR_DATE"] = self.date</span>
+<span class="line-precise" title="No Anys on this line!">            env["GIT_COMMITTER_DATE"] = self.date</span>
 <span class="line-empty" title="No Anys on this line!"></span>
 <span class="line-precise" title="No Anys on this line!">        return env</span>
 <span class="line-empty" title="No Anys on this line!"></span>
@@ -954,7 +995,8 @@ Explicit (x1)">            with open(Path(self.path) / filename, "w", encoding="
 <span class="line-empty" title="No Anys on this line!">        Note</span>
 <span class="line-empty" title="No Anys on this line!">        -----</span>
 <span class="line-empty" title="No Anys on this line!">        This command doesn't mutate a repository but appears under</span>
-<span class="line-empty" title="No Anys on this line!">        :class:`GitCommandMutate` as it is meant to be used only in the unit tests.</span>
+<span class="line-empty" title="No Anys on this line!">        :class:`GitCommandMutate` as it is meant to be used only in the unit tests and</span>
+<span class="line-empty" title="No Anys on this line!">        docs examples.</span>
 <span class="line-empty" title="No Anys on this line!"></span>
 <span class="line-empty" title="No Anys on this line!">        """</span>
 <span class="line-empty" title="No Anys on this line!">        # note that git clone sends to stderr (so I suppress it using -q)</span>
@@ -1080,7 +1122,7 @@ Explicit (x1)">            raise RuntimeError(f"{e} ({e.stderr})") from e</span>
 <span class="line-empty" title="No Anys on this line!"></span>
 <span class="line-precise" title="No Anys on this line!">    def rev_parse_descriptors(</span>
 <span class="line-empty" title="No Anys on this line!">        self, descriptors: Optional[list[str]]</span>
-<span class="line-empty" title="No Anys on this line!">    ) -&gt; Optional[set[str]]:</span>
+<span class="line-empty" title="No Anys on this line!">    ) -&gt; Optional[list[str]]:</span>
 <span class="line-empty" title="No Anys on this line!">        """Return a set of SHA corresponding to a list of descriptors.</span>
 <span class="line-empty" title="No Anys on this line!"></span>
 <span class="line-empty" title="No Anys on this line!">        Note</span>
@@ -1092,17 +1134,14 @@ Explicit (x1)">            raise RuntimeError(f"{e} ({e.stderr})") from e</span>
 <span class="line-precise" title="No Anys on this line!">            return None</span>
 <span class="line-empty" title="No Anys on this line!"></span>
 <span class="line-empty" title="No Anys on this line!">        try:</span>
-<span class="line-precise" title="Any Types on this line: 
-Omitted Generics (x3)">            return set(</span>
-<span class="line-precise" title="No Anys on this line!">                self._run(f"rev-parse {' '.join(descriptors)}").strip().split("\n")</span>
-<span class="line-empty" title="No Anys on this line!">            )</span>
+<span class="line-precise" title="No Anys on this line!">            return self._run(f"rev-parse {' '.join(descriptors)}").strip().split("\n")</span>
 <span class="line-precise" title="No Anys on this line!">        except subprocess.CalledProcessError as e:</span>
 <span class="line-any" title="Any Types on this line: 
 Explicit (x1)">            LOG.warning(f"{e} ({e.stderr})")</span>
 <span class="line-empty" title="No Anys on this line!"></span>
 <span class="line-precise" title="No Anys on this line!">        return None</span>
 <span class="line-empty" title="No Anys on this line!"></span>
-<span class="line-precise" title="No Anys on this line!">    def rev_list_range(self, range_expr: Optional[str]) -&gt; Optional[set[str]]:</span>
+<span class="line-precise" title="No Anys on this line!">    def rev_list_range(self, range_expr: Optional[str]) -&gt; Optional[list[str]]:</span>
 <span class="line-empty" title="No Anys on this line!">        """Return set of commit SHA in the range defined by ``range_expr``.</span>
 <span class="line-empty" title="No Anys on this line!"></span>
 <span class="line-empty" title="No Anys on this line!">        Note</span>
@@ -1115,8 +1154,7 @@ Explicit (x1)">            LOG.warning(f"{e} ({e.stderr})")</span>
 <span class="line-empty" title="No Anys on this line!"></span>
 <span class="line-empty" title="No Anys on this line!">        try:</span>
 <span class="line-precise" title="No Anys on this line!">            out = self._run(f"rev-list {range_expr}").strip().split("\n")</span>
-<span class="line-precise" title="Any Types on this line: 
-Omitted Generics (x3)">            return None if len(out) == 1 and not out[0] else set(out)</span>
+<span class="line-precise" title="No Anys on this line!">            return None if len(out) == 1 and not out[0] else out</span>
 <span class="line-precise" title="No Anys on this line!">        except subprocess.CalledProcessError as e:</span>
 <span class="line-any" title="Any Types on this line: 
 Explicit (x1)">            LOG.warning(f"{e} ({e.stderr})")</span>
@@ -1280,21 +1318,23 @@ Explicit (x1)">    def create(</span>
 <span class="line-empty" title="No Anys on this line!">        repo_path: Path | str,  # assumed to exist</span>
 <span class="line-precise" title="No Anys on this line!">        tar_file_name: Optional[Path | str] = None,</span>
 <span class="line-empty" title="No Anys on this line!">        **kwargs: dict[str, Any],</span>
-<span class="line-empty" title="No Anys on this line!">    ) -&gt; None:</span>
+<span class="line-empty" title="No Anys on this line!">    ) -&gt; GitCommandMutate:</span>
 <span class="line-empty" title="No Anys on this line!">        """Git repository creation displatch."""</span>
 <span class="line-precise" title="No Anys on this line!">        match label:</span>
 <span class="line-precise" title="No Anys on this line!">            case "default":</span>
-<span class="line-precise" title="No Anys on this line!">                cls.repository_default(repo_path)</span>
+<span class="line-precise" title="No Anys on this line!">                git = cls.repository_default(repo_path)</span>
 <span class="line-precise" title="No Anys on this line!">            case "default-with-notes":</span>
-<span class="line-precise" title="No Anys on this line!">                cls.repository_default_with_notes(repo_path)</span>
+<span class="line-precise" title="No Anys on this line!">                git = cls.repository_default_with_notes(repo_path)</span>
 <span class="line-precise" title="No Anys on this line!">            case "empty":</span>
 <span class="line-imprecise" title="Any Types on this line: 
-Explicit (x1)">                cls.repository_empty(repo_path, **kwargs)</span>
+Explicit (x1)">                git = cls.repository_empty(repo_path, **kwargs)</span>
 <span class="line-empty" title="No Anys on this line!">            case _:</span>
 <span class="line-unanalyzed" title="No Anys on this line!">                raise ValueError(f"Unknown repository label: {label}")</span>
 <span class="line-empty" title="No Anys on this line!"></span>
 <span class="line-precise" title="No Anys on this line!">        if tar_file_name is not None:</span>
 <span class="line-precise" title="No Anys on this line!">            cls.tar(repo_path, tar_file_name)</span>
+<span class="line-empty" title="No Anys on this line!"></span>
+<span class="line-precise" title="No Anys on this line!">        return git</span>
 <span class="line-empty" title="No Anys on this line!"></span>
 <span class="line-empty" title="No Anys on this line!">    @staticmethod</span>
 <span class="line-precise" title="No Anys on this line!">    def tar(src_path: Path | str, tar_file_name: Path | str) -&gt; None:</span>
@@ -1312,7 +1352,7 @@ Explicit (x1)">                cls.repository_empty(repo_path, **kwargs)</span>
 <span class="line-precise" title="No Anys on this line!">    def repository_empty(</span>
 <span class="line-empty" title="No Anys on this line!">        path: Path | str,</span>
 <span class="line-precise" title="No Anys on this line!">        files: Optional[DictStrStr] = None,</span>
-<span class="line-empty" title="No Anys on this line!">    ) -&gt; None:</span>
+<span class="line-empty" title="No Anys on this line!">    ) -&gt; GitCommandMutate:</span>
 <span class="line-empty" title="No Anys on this line!">        """Empty repository (possibly with files added to the index)."""</span>
 <span class="line-precise" title="No Anys on this line!">        git = GitCommandMutate(path)</span>
 <span class="line-precise" title="No Anys on this line!">        git.init()</span>
@@ -1320,10 +1360,12 @@ Explicit (x1)">                cls.repository_empty(repo_path, **kwargs)</span>
 <span class="line-precise" title="No Anys on this line!">        if files is not None:</span>
 <span class="line-precise" title="No Anys on this line!">            git.add(files)</span>
 <span class="line-empty" title="No Anys on this line!"></span>
+<span class="line-precise" title="No Anys on this line!">        return git</span>
+<span class="line-empty" title="No Anys on this line!"></span>
 <span class="line-empty" title="No Anys on this line!">    @staticmethod</span>
-<span class="line-precise" title="No Anys on this line!">    def repository_default(path: Path | str) -&gt; None:</span>
+<span class="line-precise" title="No Anys on this line!">    def repository_default(path: Path | str) -&gt; GitCommandMutate:</span>
 <span class="line-empty" title="No Anys on this line!">        """Default repository."""</span>
-<span class="line-precise" title="No Anys on this line!">        git = GitCommandMutate(path)</span>
+<span class="line-precise" title="No Anys on this line!">        git = GitCommandMutate(path, date="01/01/25 09:00 +0100")</span>
 <span class="line-precise" title="No Anys on this line!">        git.init()</span>
 <span class="line-precise" title="No Anys on this line!">        git.cm("A\n\nBody:\n * First line\n * Second line\n * Third line")</span>
 <span class="line-precise" title="No Anys on this line!">        git.br("topic", create=True)</span>
@@ -1362,16 +1404,29 @@ Explicit (x1)">                cls.repository_empty(repo_path, **kwargs)</span>
 <span class="line-precise" title="No Anys on this line!">        git.stash({"file": "stash:first"})</span>
 <span class="line-precise" title="No Anys on this line!">        git.stash({"file": "stash:second"}, title="second")</span>
 <span class="line-precise" title="No Anys on this line!">        git.stash({"file": "stash:third"}, title="third")</span>
+<span class="line-empty" title="No Anys on this line!"></span>
+<span class="line-empty" title="No Anys on this line!">        # add two standalone blobs and a standalone tree</span>
+<span class="line-precise" title="No Anys on this line!">        prefix = git.command_prefix</span>
+<span class="line-precise" title="No Anys on this line!">        git.run_general(f"echo 'test content 1' | {prefix} hash-object -w --stdin")</span>
+<span class="line-precise" title="No Anys on this line!">        git.run_general(f"echo 'test content 2' | {prefix} hash-object -w --stdin")</span>
+<span class="line-empty" title="No Anys on this line!"></span>
+<span class="line-precise" title="No Anys on this line!">        sha = "74689c87fb53b6d666de95efea667d99ba2fa52a"</span>
+<span class="line-precise" title="No Anys on this line!">        git.run_general(f"{prefix} update-index --add --cacheinfo 100644 {sha} tmp.txt")</span>
+<span class="line-precise" title="No Anys on this line!">        git.run_general(f"{prefix} write-tree")</span>
+<span class="line-empty" title="No Anys on this line!"></span>
 <span class="line-precise" title="No Anys on this line!">        git.config("gc.auto 0")</span>
 <span class="line-empty" title="No Anys on this line!"></span>
+<span class="line-precise" title="No Anys on this line!">        return git</span>
+<span class="line-empty" title="No Anys on this line!"></span>
 <span class="line-empty" title="No Anys on this line!">    @classmethod</span>
-<span class="line-precise" title="No Anys on this line!">    def repository_default_with_notes(cls, path: Path | str) -&gt; None:</span>
+<span class="line-precise" title="No Anys on this line!">    def repository_default_with_notes(cls, path: Path | str) -&gt; GitCommandMutate:</span>
 <span class="line-empty" title="No Anys on this line!">        """Default repository with git notes."""</span>
-<span class="line-precise" title="No Anys on this line!">        cls.repository_default(path)</span>
-<span class="line-precise" title="No Anys on this line!">        git = GitCommandMutate(path)</span>
+<span class="line-precise" title="No Anys on this line!">        git = cls.repository_default(path)</span>
 <span class="line-empty" title="No Anys on this line!"></span>
 <span class="line-precise" title="No Anys on this line!">        git.note("Add a note")</span>
 <span class="line-precise" title="No Anys on this line!">        git.note("Add a another note", "main")</span>
+<span class="line-empty" title="No Anys on this line!"></span>
+<span class="line-precise" title="No Anys on this line!">        return git</span>
 <span class="line-empty" title="No Anys on this line!"></span>
 <span class="line-empty" title="No Anys on this line!"></span>
 <span class="line-precise" title="No Anys on this line!">def create_test_repo_and_reference_dot_file(</span>
@@ -1396,25 +1451,36 @@ Explicit (x1)">                cls.repository_empty(repo_path, **kwargs)</span>
 Explicit (x1)">    TestGitRepository.create("default", path)</span>
 <span class="line-empty" title="No Anys on this line!"></span>
 <span class="line-precise" title="No Anys on this line!">    repo = GitRepository(path, parse_trees=True)</span>
-<span class="line-precise" title="No Anys on this line!">    params = Params(</span>
-<span class="line-precise" title="No Anys on this line!">        public=ParamsPublic(</span>
-<span class="line-precise" title="No Anys on this line!">            show_unreachable_commits=True,</span>
-<span class="line-precise" title="No Anys on this line!">            show_local_branches=True,</span>
-<span class="line-precise" title="No Anys on this line!">            show_remote_branches=True,</span>
-<span class="line-precise" title="No Anys on this line!">            show_trees=True,</span>
-<span class="line-precise" title="No Anys on this line!">            show_blobs=True,</span>
-<span class="line-precise" title="No Anys on this line!">            show_tags=True,</span>
-<span class="line-precise" title="No Anys on this line!">            show_deleted_tags=True,</span>
-<span class="line-precise" title="No Anys on this line!">            show_stash=True,</span>
-<span class="line-precise" title="No Anys on this line!">            show_head=True,</span>
-<span class="line-precise" title="No Anys on this line!">            format="gv",</span>
-<span class="line-precise" title="No Anys on this line!">            file=path / "../default_repo.gv",</span>
+<span class="line-precise" title="No Anys on this line!">    with context_ignore_config_file():</span>
+<span class="line-precise" title="No Anys on this line!">        params = Params(</span>
+<span class="line-precise" title="No Anys on this line!">            public=ParamsPublic(</span>
+<span class="line-precise" title="No Anys on this line!">                show_unreachable_commits=True,</span>
+<span class="line-precise" title="No Anys on this line!">                show_local_branches=True,</span>
+<span class="line-precise" title="No Anys on this line!">                show_remote_branches=True,</span>
+<span class="line-precise" title="No Anys on this line!">                show_trees=True,</span>
+<span class="line-precise" title="No Anys on this line!">                show_trees_standalone=True,</span>
+<span class="line-precise" title="No Anys on this line!">                show_blobs=True,</span>
+<span class="line-precise" title="No Anys on this line!">                show_blobs_standalone=True,</span>
+<span class="line-precise" title="No Anys on this line!">                show_tags=True,</span>
+<span class="line-precise" title="No Anys on this line!">                show_deleted_tags=True,</span>
+<span class="line-precise" title="No Anys on this line!">                show_stash=True,</span>
+<span class="line-precise" title="No Anys on this line!">                show_head=True,</span>
+<span class="line-precise" title="No Anys on this line!">                max_numb_commits=0,</span>
+<span class="line-empty" title="No Anys on this line!">                annotations=[</span>
+<span class="line-precise" title="No Anys on this line!">                    ["4499ee63", "just a tooltip"],</span>
+<span class="line-precise" title="No Anys on this line!">                    ["0.3", "additional info"],</span>
+<span class="line-precise" title="No Anys on this line!">                    ["0.5"],  # this will not be displayed</span>
+<span class="line-precise" title="No Anys on this line!">                    ["HEAD"],</span>
+<span class="line-precise" title="No Anys on this line!">                    ["main^", "a clarification"],</span>
+<span class="line-empty" title="No Anys on this line!">                ],</span>
+<span class="line-precise" title="No Anys on this line!">                format="gv",</span>
+<span class="line-precise" title="No Anys on this line!">                file=path / "../default_repo.gv",</span>
+<span class="line-empty" title="No Anys on this line!">            )</span>
 <span class="line-empty" title="No Anys on this line!">        )</span>
-<span class="line-empty" title="No Anys on this line!">    )</span>
 <span class="line-any" title="Any Types on this line: 
 Explicit (x2)">    repo.show(params)</span>
 <span class="line-empty" title="No Anys on this line!"></span>
-<span class="line-precise" title="No Anys on this line!">    TestGitRepository.tar(path, path / "../default_repo.tar.gz")</span>
+<span class="line-empty" title="No Anys on this line!">    # TestGitRepository.tar(path, path / "../default_repo.tar.gz")</span>
 <span class="line-empty" title="No Anys on this line!"></span>
 <span class="line-precise" title="Any Types on this line: 
 Unimported (x7)

@@ -346,6 +346,20 @@
 <span id="L336" class="lineno"><a class="lineno" href="#L336">336</a></span>
 <span id="L337" class="lineno"><a class="lineno" href="#L337">337</a></span>
 <span id="L338" class="lineno"><a class="lineno" href="#L338">338</a></span>
+<span id="L339" class="lineno"><a class="lineno" href="#L339">339</a></span>
+<span id="L340" class="lineno"><a class="lineno" href="#L340">340</a></span>
+<span id="L341" class="lineno"><a class="lineno" href="#L341">341</a></span>
+<span id="L342" class="lineno"><a class="lineno" href="#L342">342</a></span>
+<span id="L343" class="lineno"><a class="lineno" href="#L343">343</a></span>
+<span id="L344" class="lineno"><a class="lineno" href="#L344">344</a></span>
+<span id="L345" class="lineno"><a class="lineno" href="#L345">345</a></span>
+<span id="L346" class="lineno"><a class="lineno" href="#L346">346</a></span>
+<span id="L347" class="lineno"><a class="lineno" href="#L347">347</a></span>
+<span id="L348" class="lineno"><a class="lineno" href="#L348">348</a></span>
+<span id="L349" class="lineno"><a class="lineno" href="#L349">349</a></span>
+<span id="L350" class="lineno"><a class="lineno" href="#L350">350</a></span>
+<span id="L351" class="lineno"><a class="lineno" href="#L351">351</a></span>
+<span id="L352" class="lineno"><a class="lineno" href="#L352">352</a></span>
 </pre></td>
 <td class="table-code"><pre><span class="line-empty" title="No Anys on this line!">"""Parameters."""</span>
 <span class="line-empty" title="No Anys on this line!"></span>
@@ -575,10 +589,22 @@ Omitted Generics (x1)">        return self</span>
 <span class="line-precise" title="No Anys on this line!">    remote_branches: str = "firebrick"</span>
 <span class="line-precise" title="No Anys on this line!">    stash: str = "skyblue"</span>
 <span class="line-precise" title="No Anys on this line!">    notes: str = "white"</span>
+<span class="line-precise" title="No Anys on this line!">    annotations: str = "aquamarine3"</span>
 <span class="line-empty" title="No Anys on this line!"></span>
 <span class="line-empty" title="No Anys on this line!">    @staticmethod</span>
 <span class="line-precise" title="No Anys on this line!">    def section_in_config() -&gt; str:</span>
 <span class="line-precise" title="No Anys on this line!">        return "dag_node_colors"</span>
+<span class="line-empty" title="No Anys on this line!"></span>
+<span class="line-empty" title="No Anys on this line!"></span>
+<span class="line-precise" title="No Anys on this line!">class ParamsMisc(ParamsBase):</span>
+<span class="line-empty" title="No Anys on this line!">    """Misc parameters."""</span>
+<span class="line-empty" title="No Anys on this line!"></span>
+<span class="line-precise" title="No Anys on this line!">    annotations_symbol: str = "&amp;#9758;"</span>
+<span class="line-precise" title="No Anys on this line!">    annotations_shape: str = "cds"</span>
+<span class="line-empty" title="No Anys on this line!"></span>
+<span class="line-empty" title="No Anys on this line!">    @staticmethod</span>
+<span class="line-precise" title="No Anys on this line!">    def section_in_config() -&gt; str:</span>
+<span class="line-precise" title="No Anys on this line!">        return "misc"</span>
 <span class="line-empty" title="No Anys on this line!"></span>
 <span class="line-empty" title="No Anys on this line!"></span>
 <span class="line-precise" title="No Anys on this line!">class ParamsPublic(ParamsBase):</span>
@@ -593,6 +619,7 @@ Omitted Generics (x1)">        return self</span>
 <span class="line-precise" title="No Anys on this line!">    range_expr: Optional[str] = None</span>
 <span class="line-precise" title="No Anys on this line!">    init_refs: Optional[list[str]] = None</span>
 <span class="line-precise" title="No Anys on this line!">    marked_commits: Optional[list[str]] = None</span>
+<span class="line-precise" title="No Anys on this line!">    annotations: Optional[list[list[str]]] = None</span>
 <span class="line-empty" title="No Anys on this line!"></span>
 <span class="line-precise" title="No Anys on this line!">    max_numb_commits: int = 1000</span>
 <span class="line-precise" title="No Anys on this line!">    commit_message_as_label: int = 0</span>
@@ -698,6 +725,9 @@ Omitted Generics (x5)">    standalone_cluster: ParamsStandaloneCluster = Field(<
 <span class="line-precise" title="Any Types on this line: 
 Explicit (x7)
 Omitted Generics (x5)">    links: ParamsLinks = Field(default_factory=ParamsLinks)</span>
+<span class="line-precise" title="Any Types on this line: 
+Explicit (x7)
+Omitted Generics (x5)">    misc: ParamsMisc = Field(default_factory=ParamsMisc)</span>
 <span class="line-empty" title="No Anys on this line!"></span>
 <span class="line-empty" title="No Anys on this line!">    @staticmethod</span>
 <span class="line-precise" title="No Anys on this line!">    def set_ignore_config_file(value: bool) -&gt; None:</span>
