@@ -266,6 +266,7 @@
 </ul>
 </li>
 <li class="toctree-l2 has-children"><a class="reference internal" href=".autosummary/git_dag.interfaces.graphviz.html">git_dag.interfaces.graphviz</a><input class="toctree-checkbox" id="toctree-checkbox-10" name="toctree-checkbox-10" role="switch" type="checkbox"/><label for="toctree-checkbox-10"><div class="visually-hidden">Toggle navigation of git_dag.interfaces.graphviz</div><i class="icon"><svg><use href="#svg-arrow-right"></use></svg></i></label><ul>
+<li class="toctree-l3"><a class="reference internal" href=".autosummary/git_dag.interfaces.graphviz.handle_none.html">git_dag.interfaces.graphviz.handle_none</a></li>
 <li class="toctree-l3"><a class="reference internal" href=".autosummary/git_dag.interfaces.graphviz.DagGraphviz.html">git_dag.interfaces.graphviz.DagGraphviz</a></li>
 </ul>
 </li>
@@ -1212,9 +1213,9 @@ suppressed by specifying <code class="docutils literal notranslate"><span class=
 <span class="w">               </span><span class="nt">&quot;title&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;Commit Unreachable&quot;</span><span class="p">,</span>
 <span class="w">               </span><span class="nt">&quot;type&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;string&quot;</span>
 <span class="w">            </span><span class="p">},</span>
-<span class="w">            </span><span class="nt">&quot;marked_commit&quot;</span><span class="p">:</span><span class="w"> </span><span class="p">{</span>
+<span class="w">            </span><span class="nt">&quot;commit_in_range&quot;</span><span class="p">:</span><span class="w"> </span><span class="p">{</span>
 <span class="w">               </span><span class="nt">&quot;default&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;red&quot;</span><span class="p">,</span>
-<span class="w">               </span><span class="nt">&quot;title&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;Marked Commit&quot;</span><span class="p">,</span>
+<span class="w">               </span><span class="nt">&quot;title&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;Commit In Range&quot;</span><span class="p">,</span>
 <span class="w">               </span><span class="nt">&quot;type&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;string&quot;</span>
 <span class="w">            </span><span class="p">},</span>
 <span class="w">            </span><span class="nt">&quot;tree&quot;</span><span class="p">:</span><span class="w"> </span><span class="p">{</span>
@@ -1323,6 +1324,11 @@ suppressed by specifying <code class="docutils literal notranslate"><span class=
 <span class="w">               </span><span class="nt">&quot;default&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;cds&quot;</span><span class="p">,</span>
 <span class="w">               </span><span class="nt">&quot;title&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;Annotations Shape&quot;</span><span class="p">,</span>
 <span class="w">               </span><span class="nt">&quot;type&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;string&quot;</span>
+<span class="w">            </span><span class="p">},</span>
+<span class="w">            </span><span class="nt">&quot;annotations_truncate&quot;</span><span class="p">:</span><span class="w"> </span><span class="p">{</span>
+<span class="w">               </span><span class="nt">&quot;default&quot;</span><span class="p">:</span><span class="w"> </span><span class="mi">20</span><span class="p">,</span>
+<span class="w">               </span><span class="nt">&quot;title&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;Annotations Truncate&quot;</span><span class="p">,</span>
+<span class="w">               </span><span class="nt">&quot;type&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;integer&quot;</span>
 <span class="w">            </span><span class="p">}</span>
 <span class="w">         </span><span class="p">},</span>
 <span class="w">         </span><span class="nt">&quot;title&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;ParamsMisc&quot;</span><span class="p">,</span>
@@ -1391,21 +1397,6 @@ suppressed by specifying <code class="docutils literal notranslate"><span class=
 <span class="w">               </span><span class="p">],</span>
 <span class="w">               </span><span class="nt">&quot;default&quot;</span><span class="p">:</span><span class="w"> </span><span class="kc">null</span><span class="p">,</span>
 <span class="w">               </span><span class="nt">&quot;title&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;Init Refs&quot;</span>
-<span class="w">            </span><span class="p">},</span>
-<span class="w">            </span><span class="nt">&quot;marked_commits&quot;</span><span class="p">:</span><span class="w"> </span><span class="p">{</span>
-<span class="w">               </span><span class="nt">&quot;anyOf&quot;</span><span class="p">:</span><span class="w"> </span><span class="p">[</span>
-<span class="w">                  </span><span class="p">{</span>
-<span class="w">                     </span><span class="nt">&quot;items&quot;</span><span class="p">:</span><span class="w"> </span><span class="p">{</span>
-<span class="w">                        </span><span class="nt">&quot;type&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;string&quot;</span>
-<span class="w">                     </span><span class="p">},</span>
-<span class="w">                     </span><span class="nt">&quot;type&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;array&quot;</span>
-<span class="w">                  </span><span class="p">},</span>
-<span class="w">                  </span><span class="p">{</span>
-<span class="w">                     </span><span class="nt">&quot;type&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;null&quot;</span>
-<span class="w">                  </span><span class="p">}</span>
-<span class="w">               </span><span class="p">],</span>
-<span class="w">               </span><span class="nt">&quot;default&quot;</span><span class="p">:</span><span class="w"> </span><span class="kc">null</span><span class="p">,</span>
-<span class="w">               </span><span class="nt">&quot;title&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;Marked Commits&quot;</span>
 <span class="w">            </span><span class="p">},</span>
 <span class="w">            </span><span class="nt">&quot;annotations&quot;</span><span class="p">:</span><span class="w"> </span><span class="p">{</span>
 <span class="w">               </span><span class="nt">&quot;anyOf&quot;</span><span class="p">:</span><span class="w"> </span><span class="p">[</span>
@@ -1681,21 +1672,6 @@ suppressed by specifying <code class="docutils literal notranslate"><span class=
 <span class="w">         </span><span class="nt">&quot;default&quot;</span><span class="p">:</span><span class="w"> </span><span class="kc">null</span><span class="p">,</span>
 <span class="w">         </span><span class="nt">&quot;title&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;Init Refs&quot;</span>
 <span class="w">      </span><span class="p">},</span>
-<span class="w">      </span><span class="nt">&quot;marked_commits&quot;</span><span class="p">:</span><span class="w"> </span><span class="p">{</span>
-<span class="w">         </span><span class="nt">&quot;anyOf&quot;</span><span class="p">:</span><span class="w"> </span><span class="p">[</span>
-<span class="w">            </span><span class="p">{</span>
-<span class="w">               </span><span class="nt">&quot;items&quot;</span><span class="p">:</span><span class="w"> </span><span class="p">{</span>
-<span class="w">                  </span><span class="nt">&quot;type&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;string&quot;</span>
-<span class="w">               </span><span class="p">},</span>
-<span class="w">               </span><span class="nt">&quot;type&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;array&quot;</span>
-<span class="w">            </span><span class="p">},</span>
-<span class="w">            </span><span class="p">{</span>
-<span class="w">               </span><span class="nt">&quot;type&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;null&quot;</span>
-<span class="w">            </span><span class="p">}</span>
-<span class="w">         </span><span class="p">],</span>
-<span class="w">         </span><span class="nt">&quot;default&quot;</span><span class="p">:</span><span class="w"> </span><span class="kc">null</span><span class="p">,</span>
-<span class="w">         </span><span class="nt">&quot;title&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;Marked Commits&quot;</span>
-<span class="w">      </span><span class="p">},</span>
 <span class="w">      </span><span class="nt">&quot;annotations&quot;</span><span class="p">:</span><span class="w"> </span><span class="p">{</span>
 <span class="w">         </span><span class="nt">&quot;anyOf&quot;</span><span class="p">:</span><span class="w"> </span><span class="p">[</span>
 <span class="w">            </span><span class="p">{</span>
@@ -1815,7 +1791,6 @@ suppressed by specifying <code class="docutils literal notranslate"><span class=
 <li><p><a class="reference internal" href="#git_dag.parameters.ParamsPublic.html_embed_svg" title="git_dag.parameters.ParamsPublic.html_embed_svg"><code class="xref py py-obj docutils literal notranslate"><span class="pre">html_embed_svg</span> <span class="pre">(bool)</span></code></a></p></li>
 <li><p><a class="reference internal" href="#git_dag.parameters.ParamsPublic.init_refs" title="git_dag.parameters.ParamsPublic.init_refs"><code class="xref py py-obj docutils literal notranslate"><span class="pre">init_refs</span> <span class="pre">(list[str]</span> <span class="pre">|</span> <span class="pre">None)</span></code></a></p></li>
 <li><p><a class="reference internal" href="#git_dag.parameters.ParamsPublic.log_level" title="git_dag.parameters.ParamsPublic.log_level"><code class="xref py py-obj docutils literal notranslate"><span class="pre">log_level</span> <span class="pre">(str)</span></code></a></p></li>
-<li><p><a class="reference internal" href="#git_dag.parameters.ParamsPublic.marked_commits" title="git_dag.parameters.ParamsPublic.marked_commits"><code class="xref py py-obj docutils literal notranslate"><span class="pre">marked_commits</span> <span class="pre">(list[str]</span> <span class="pre">|</span> <span class="pre">None)</span></code></a></p></li>
 <li><p><a class="reference internal" href="#git_dag.parameters.ParamsPublic.max_numb_commits" title="git_dag.parameters.ParamsPublic.max_numb_commits"><code class="xref py py-obj docutils literal notranslate"><span class="pre">max_numb_commits</span> <span class="pre">(int)</span></code></a></p></li>
 <li><p><a class="reference internal" href="#git_dag.parameters.ParamsPublic.path" title="git_dag.parameters.ParamsPublic.path"><code class="xref py py-obj docutils literal notranslate"><span class="pre">path</span> <span class="pre">(str)</span></code></a></p></li>
 <li><p><a class="reference internal" href="#git_dag.parameters.ParamsPublic.range_expr" title="git_dag.parameters.ParamsPublic.range_expr"><code class="xref py py-obj docutils literal notranslate"><span class="pre">range_expr</span> <span class="pre">(str</span> <span class="pre">|</span> <span class="pre">None)</span></code></a></p></li>
@@ -1924,18 +1899,6 @@ suppressed by specifying <code class="docutils literal notranslate"><span class=
 <dl class="py attribute pydantic_field">
 <dt class="sig sig-object py" id="git_dag.parameters.ParamsPublic.log_level">
 <em class="property"><span class="pre">field</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">log_level</span></span><em class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="pre">str</span></em><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">'WARNING'</span></em><a class="headerlink" href="#git_dag.parameters.ParamsPublic.log_level" title="Link to this definition">¶</a></dt>
-<dd><dl class="field-list simple">
-<dt class="field-odd">Validated by<span class="colon">:</span></dt>
-<dd class="field-odd"><ul class="simple">
-<li><p><code class="xref py py-obj docutils literal notranslate"><span class="pre">set_defaults_values</span></code></p></li>
-</ul>
-</dd>
-</dl>
-</dd></dl>
-
-<dl class="py attribute pydantic_field">
-<dt class="sig sig-object py" id="git_dag.parameters.ParamsPublic.marked_commits">
-<em class="property"><span class="pre">field</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">marked_commits</span></span><em class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="pre">list</span><span class="p"><span class="pre">[</span></span><span class="pre">str</span><span class="p"><span class="pre">]</span></span><span class="w"> </span><span class="p"><span class="pre">|</span></span><span class="w"> </span><span class="pre">None</span></em><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">None</span></em><a class="headerlink" href="#git_dag.parameters.ParamsPublic.marked_commits" title="Link to this definition">¶</a></dt>
 <dd><dl class="field-list simple">
 <dt class="field-odd">Validated by<span class="colon">:</span></dt>
 <dd class="field-odd"><ul class="simple">
@@ -2475,9 +2438,9 @@ suppressed by specifying <code class="docutils literal notranslate"><span class=
 <span class="w">         </span><span class="nt">&quot;title&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;Commit Unreachable&quot;</span><span class="p">,</span>
 <span class="w">         </span><span class="nt">&quot;type&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;string&quot;</span>
 <span class="w">      </span><span class="p">},</span>
-<span class="w">      </span><span class="nt">&quot;marked_commit&quot;</span><span class="p">:</span><span class="w"> </span><span class="p">{</span>
+<span class="w">      </span><span class="nt">&quot;commit_in_range&quot;</span><span class="p">:</span><span class="w"> </span><span class="p">{</span>
 <span class="w">         </span><span class="nt">&quot;default&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;red&quot;</span><span class="p">,</span>
-<span class="w">         </span><span class="nt">&quot;title&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;Marked Commit&quot;</span><span class="p">,</span>
+<span class="w">         </span><span class="nt">&quot;title&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;Commit In Range&quot;</span><span class="p">,</span>
 <span class="w">         </span><span class="nt">&quot;type&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;string&quot;</span>
 <span class="w">      </span><span class="p">},</span>
 <span class="w">      </span><span class="nt">&quot;tree&quot;</span><span class="p">:</span><span class="w"> </span><span class="p">{</span>
@@ -2556,10 +2519,10 @@ suppressed by specifying <code class="docutils literal notranslate"><span class=
 <li><p><a class="reference internal" href="#git_dag.parameters.ParamsDagNodeColors.annotations" title="git_dag.parameters.ParamsDagNodeColors.annotations"><code class="xref py py-obj docutils literal notranslate"><span class="pre">annotations</span> <span class="pre">(str)</span></code></a></p></li>
 <li><p><a class="reference internal" href="#git_dag.parameters.ParamsDagNodeColors.blob" title="git_dag.parameters.ParamsDagNodeColors.blob"><code class="xref py py-obj docutils literal notranslate"><span class="pre">blob</span> <span class="pre">(str)</span></code></a></p></li>
 <li><p><a class="reference internal" href="#git_dag.parameters.ParamsDagNodeColors.commit" title="git_dag.parameters.ParamsDagNodeColors.commit"><code class="xref py py-obj docutils literal notranslate"><span class="pre">commit</span> <span class="pre">(str)</span></code></a></p></li>
+<li><p><a class="reference internal" href="#git_dag.parameters.ParamsDagNodeColors.commit_in_range" title="git_dag.parameters.ParamsDagNodeColors.commit_in_range"><code class="xref py py-obj docutils literal notranslate"><span class="pre">commit_in_range</span> <span class="pre">(str)</span></code></a></p></li>
 <li><p><a class="reference internal" href="#git_dag.parameters.ParamsDagNodeColors.commit_unreachable" title="git_dag.parameters.ParamsDagNodeColors.commit_unreachable"><code class="xref py py-obj docutils literal notranslate"><span class="pre">commit_unreachable</span> <span class="pre">(str)</span></code></a></p></li>
 <li><p><a class="reference internal" href="#git_dag.parameters.ParamsDagNodeColors.head" title="git_dag.parameters.ParamsDagNodeColors.head"><code class="xref py py-obj docutils literal notranslate"><span class="pre">head</span> <span class="pre">(str)</span></code></a></p></li>
 <li><p><a class="reference internal" href="#git_dag.parameters.ParamsDagNodeColors.local_branches" title="git_dag.parameters.ParamsDagNodeColors.local_branches"><code class="xref py py-obj docutils literal notranslate"><span class="pre">local_branches</span> <span class="pre">(str)</span></code></a></p></li>
-<li><p><a class="reference internal" href="#git_dag.parameters.ParamsDagNodeColors.marked_commit" title="git_dag.parameters.ParamsDagNodeColors.marked_commit"><code class="xref py py-obj docutils literal notranslate"><span class="pre">marked_commit</span> <span class="pre">(str)</span></code></a></p></li>
 <li><p><a class="reference internal" href="#git_dag.parameters.ParamsDagNodeColors.notes" title="git_dag.parameters.ParamsDagNodeColors.notes"><code class="xref py py-obj docutils literal notranslate"><span class="pre">notes</span> <span class="pre">(str)</span></code></a></p></li>
 <li><p><a class="reference internal" href="#git_dag.parameters.ParamsDagNodeColors.remote_branches" title="git_dag.parameters.ParamsDagNodeColors.remote_branches"><code class="xref py py-obj docutils literal notranslate"><span class="pre">remote_branches</span> <span class="pre">(str)</span></code></a></p></li>
 <li><p><a class="reference internal" href="#git_dag.parameters.ParamsDagNodeColors.stash" title="git_dag.parameters.ParamsDagNodeColors.stash"><code class="xref py py-obj docutils literal notranslate"><span class="pre">stash</span> <span class="pre">(str)</span></code></a></p></li>
@@ -2610,6 +2573,18 @@ suppressed by specifying <code class="docutils literal notranslate"><span class=
 </dd></dl>
 
 <dl class="py attribute pydantic_field">
+<dt class="sig sig-object py" id="git_dag.parameters.ParamsDagNodeColors.commit_in_range">
+<em class="property"><span class="pre">field</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">commit_in_range</span></span><em class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="pre">str</span></em><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">'red'</span></em><a class="headerlink" href="#git_dag.parameters.ParamsDagNodeColors.commit_in_range" title="Link to this definition">¶</a></dt>
+<dd><dl class="field-list simple">
+<dt class="field-odd">Validated by<span class="colon">:</span></dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><code class="xref py py-obj docutils literal notranslate"><span class="pre">set_defaults_values</span></code></p></li>
+</ul>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py attribute pydantic_field">
 <dt class="sig sig-object py" id="git_dag.parameters.ParamsDagNodeColors.commit_unreachable">
 <em class="property"><span class="pre">field</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">commit_unreachable</span></span><em class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="pre">str</span></em><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">'darkorange'</span></em><a class="headerlink" href="#git_dag.parameters.ParamsDagNodeColors.commit_unreachable" title="Link to this definition">¶</a></dt>
 <dd><dl class="field-list simple">
@@ -2636,18 +2611,6 @@ suppressed by specifying <code class="docutils literal notranslate"><span class=
 <dl class="py attribute pydantic_field">
 <dt class="sig sig-object py" id="git_dag.parameters.ParamsDagNodeColors.local_branches">
 <em class="property"><span class="pre">field</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">local_branches</span></span><em class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="pre">str</span></em><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">'forestgreen'</span></em><a class="headerlink" href="#git_dag.parameters.ParamsDagNodeColors.local_branches" title="Link to this definition">¶</a></dt>
-<dd><dl class="field-list simple">
-<dt class="field-odd">Validated by<span class="colon">:</span></dt>
-<dd class="field-odd"><ul class="simple">
-<li><p><code class="xref py py-obj docutils literal notranslate"><span class="pre">set_defaults_values</span></code></p></li>
-</ul>
-</dd>
-</dl>
-</dd></dl>
-
-<dl class="py attribute pydantic_field">
-<dt class="sig sig-object py" id="git_dag.parameters.ParamsDagNodeColors.marked_commit">
-<em class="property"><span class="pre">field</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">marked_commit</span></span><em class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="pre">str</span></em><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">'red'</span></em><a class="headerlink" href="#git_dag.parameters.ParamsDagNodeColors.marked_commit" title="Link to this definition">¶</a></dt>
 <dd><dl class="field-list simple">
 <dt class="field-odd">Validated by<span class="colon">:</span></dt>
 <dd class="field-odd"><ul class="simple">
@@ -3083,7 +3046,6 @@ suppressed by specifying <code class="docutils literal notranslate"><span class=
 <li><a class="reference internal" href="#git_dag.parameters.ParamsPublic.html_embed_svg"><code class="docutils literal notranslate"><span class="pre">ParamsPublic.html_embed_svg</span></code></a></li>
 <li><a class="reference internal" href="#git_dag.parameters.ParamsPublic.init_refs"><code class="docutils literal notranslate"><span class="pre">ParamsPublic.init_refs</span></code></a></li>
 <li><a class="reference internal" href="#git_dag.parameters.ParamsPublic.log_level"><code class="docutils literal notranslate"><span class="pre">ParamsPublic.log_level</span></code></a></li>
-<li><a class="reference internal" href="#git_dag.parameters.ParamsPublic.marked_commits"><code class="docutils literal notranslate"><span class="pre">ParamsPublic.marked_commits</span></code></a></li>
 <li><a class="reference internal" href="#git_dag.parameters.ParamsPublic.max_numb_commits"><code class="docutils literal notranslate"><span class="pre">ParamsPublic.max_numb_commits</span></code></a></li>
 <li><a class="reference internal" href="#git_dag.parameters.ParamsPublic.path"><code class="docutils literal notranslate"><span class="pre">ParamsPublic.path</span></code></a></li>
 <li><a class="reference internal" href="#git_dag.parameters.ParamsPublic.range_expr"><code class="docutils literal notranslate"><span class="pre">ParamsPublic.range_expr</span></code></a></li>
@@ -3129,10 +3091,10 @@ suppressed by specifying <code class="docutils literal notranslate"><span class=
 <li><a class="reference internal" href="#git_dag.parameters.ParamsDagNodeColors.annotations"><code class="docutils literal notranslate"><span class="pre">ParamsDagNodeColors.annotations</span></code></a></li>
 <li><a class="reference internal" href="#git_dag.parameters.ParamsDagNodeColors.blob"><code class="docutils literal notranslate"><span class="pre">ParamsDagNodeColors.blob</span></code></a></li>
 <li><a class="reference internal" href="#git_dag.parameters.ParamsDagNodeColors.commit"><code class="docutils literal notranslate"><span class="pre">ParamsDagNodeColors.commit</span></code></a></li>
+<li><a class="reference internal" href="#git_dag.parameters.ParamsDagNodeColors.commit_in_range"><code class="docutils literal notranslate"><span class="pre">ParamsDagNodeColors.commit_in_range</span></code></a></li>
 <li><a class="reference internal" href="#git_dag.parameters.ParamsDagNodeColors.commit_unreachable"><code class="docutils literal notranslate"><span class="pre">ParamsDagNodeColors.commit_unreachable</span></code></a></li>
 <li><a class="reference internal" href="#git_dag.parameters.ParamsDagNodeColors.head"><code class="docutils literal notranslate"><span class="pre">ParamsDagNodeColors.head</span></code></a></li>
 <li><a class="reference internal" href="#git_dag.parameters.ParamsDagNodeColors.local_branches"><code class="docutils literal notranslate"><span class="pre">ParamsDagNodeColors.local_branches</span></code></a></li>
-<li><a class="reference internal" href="#git_dag.parameters.ParamsDagNodeColors.marked_commit"><code class="docutils literal notranslate"><span class="pre">ParamsDagNodeColors.marked_commit</span></code></a></li>
 <li><a class="reference internal" href="#git_dag.parameters.ParamsDagNodeColors.notes"><code class="docutils literal notranslate"><span class="pre">ParamsDagNodeColors.notes</span></code></a></li>
 <li><a class="reference internal" href="#git_dag.parameters.ParamsDagNodeColors.remote_branches"><code class="docutils literal notranslate"><span class="pre">ParamsDagNodeColors.remote_branches</span></code></a></li>
 <li><a class="reference internal" href="#git_dag.parameters.ParamsDagNodeColors.stash"><code class="docutils literal notranslate"><span class="pre">ParamsDagNodeColors.stash</span></code></a></li>
@@ -3166,7 +3128,7 @@ suppressed by specifying <code class="docutils literal notranslate"><span class=
       
     </aside>
   </div>
-</div><script src="_static/documentation_options.js?v=6d9f5d67"></script>
+</div><script src="_static/documentation_options.js?v=edfc8696"></script>
     <script src="_static/doctools.js?v=9bcbadda"></script>
     <script src="_static/sphinx_highlight.js?v=dc90522c"></script>
     <script src="_static/scripts/furo.js?v=5fa4622c"></script>

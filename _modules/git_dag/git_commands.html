@@ -265,6 +265,7 @@
 </ul>
 </li>
 <li class="toctree-l2 has-children"><a class="reference internal" href="../../.autosummary/git_dag.interfaces.graphviz.html">git_dag.interfaces.graphviz</a><input class="toctree-checkbox" id="toctree-checkbox-10" name="toctree-checkbox-10" role="switch" type="checkbox"/><label for="toctree-checkbox-10"><div class="visually-hidden">Toggle navigation of git_dag.interfaces.graphviz</div><i class="icon"><svg><use href="#svg-arrow-right"></use></svg></i></label><ul>
+<li class="toctree-l3"><a class="reference internal" href="../../.autosummary/git_dag.interfaces.graphviz.handle_none.html">git_dag.interfaces.graphviz.handle_none</a></li>
 <li class="toctree-l3"><a class="reference internal" href="../../.autosummary/git_dag.interfaces.graphviz.DagGraphviz.html">git_dag.interfaces.graphviz.DagGraphviz</a></li>
 </ul>
 </li>
@@ -812,8 +813,9 @@
         <span class="k">if</span> <span class="n">descriptors</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>
             <span class="k">return</span> <span class="kc">None</span>
 
+        <span class="n">args</span> <span class="o">=</span> <span class="s2">&quot; &quot;</span><span class="o">.</span><span class="n">join</span><span class="p">([</span><span class="sa">f</span><span class="s2">&quot;&#39;</span><span class="si">{</span><span class="n">descriptor</span><span class="si">}</span><span class="s2">&#39;&quot;</span> <span class="k">for</span> <span class="n">descriptor</span> <span class="ow">in</span> <span class="n">descriptors</span><span class="p">])</span>
         <span class="k">try</span><span class="p">:</span>
-            <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">_run</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;rev-parse </span><span class="si">{</span><span class="s1">&#39; &#39;</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="n">descriptors</span><span class="p">)</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span><span class="o">.</span><span class="n">strip</span><span class="p">()</span><span class="o">.</span><span class="n">split</span><span class="p">(</span><span class="s2">&quot;</span><span class="se">\n</span><span class="s2">&quot;</span><span class="p">)</span>
+            <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">_run</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;rev-parse </span><span class="si">{</span><span class="n">args</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span><span class="o">.</span><span class="n">strip</span><span class="p">()</span><span class="o">.</span><span class="n">split</span><span class="p">(</span><span class="s2">&quot;</span><span class="se">\n</span><span class="s2">&quot;</span><span class="p">)</span>
         <span class="k">except</span> <span class="n">CalledProcessCustomError</span> <span class="k">as</span> <span class="n">e</span><span class="p">:</span>
             <span class="n">LOG</span><span class="o">.</span><span class="n">warning</span><span class="p">(</span><span class="n">e</span><span class="p">)</span>
 
@@ -1235,7 +1237,7 @@
       
     </aside>
   </div>
-</div><script src="../../_static/documentation_options.js?v=6d9f5d67"></script>
+</div><script src="../../_static/documentation_options.js?v=edfc8696"></script>
     <script src="../../_static/doctools.js?v=9bcbadda"></script>
     <script src="../../_static/sphinx_highlight.js?v=dc90522c"></script>
     <script src="../../_static/scripts/furo.js?v=5fa4622c"></script>

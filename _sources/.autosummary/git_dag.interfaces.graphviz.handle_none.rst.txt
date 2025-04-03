@@ -1,0 +1,6 @@
+git\_dag.interfaces.graphviz.handle\_none
+=========================================
+
+.. currentmodule:: git_dag.interfaces.graphviz
+
+.. autofunction:: handle_none

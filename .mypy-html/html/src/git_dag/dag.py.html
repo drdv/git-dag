@@ -520,8 +520,6 @@
 <span id="L510" class="lineno"><a class="lineno" href="#L510">510</a></span>
 <span id="L511" class="lineno"><a class="lineno" href="#L511">511</a></span>
 <span id="L512" class="lineno"><a class="lineno" href="#L512">512</a></span>
-<span id="L513" class="lineno"><a class="lineno" href="#L513">513</a></span>
-<span id="L514" class="lineno"><a class="lineno" href="#L514">514</a></span>
 </pre></td>
 <td class="table-code"><pre><span class="line-empty" title="No Anys on this line!">"""DAG visualization.</span>
 <span class="line-empty" title="No Anys on this line!"></span>
@@ -566,7 +564,6 @@
 Explicit (x1)">    dag: Any</span>
 <span class="line-precise" title="No Anys on this line!">    included_nodes_id: set[str]</span>
 <span class="line-precise" title="No Anys on this line!">    tooltip_names: DictStrStr</span>
-<span class="line-precise" title="No Anys on this line!">    marked_commits: Optional[list[str]]</span>
 <span class="line-precise" title="No Anys on this line!">    in_range_commits: Optional[list[str]]</span>
 <span class="line-empty" title="No Anys on this line!"></span>
 <span class="line-precise" title="No Anys on this line!">    def _is_object_to_include(self, sha: str) -&gt; bool: ...  # pragma: no cover</span>
@@ -607,7 +604,6 @@ Explicit (x3)">        self.dag.edge("GIT-NOTES-LABEL", sha)</span>
 <span class="line-precise" title="No Anys on this line!">        if self._is_object_to_include(sha) and unreachable_switch:</span>
 <span class="line-precise" title="No Anys on this line!">            self.included_nodes_id.add(sha)</span>
 <span class="line-precise" title="No Anys on this line!">            color_label = "commit" if item.is_reachable else "commit_unreachable"</span>
-<span class="line-precise" title="No Anys on this line!">            is_marked = self.marked_commits is not None and sha in self.marked_commits</span>
 <span class="line-precise" title="No Anys on this line!">            is_in_range = (</span>
 <span class="line-precise" title="No Anys on this line!">                self.in_range_commits is not None and sha in self.in_range_commits</span>
 <span class="line-empty" title="No Anys on this line!">            )</span>
@@ -625,8 +621,8 @@ Explicit (x3)">            self.dag.node(</span>
 <span class="line-precise" title="No Anys on this line!">                name=sha,</span>
 <span class="line-precise" title="No Anys on this line!">                label=label,</span>
 <span class="line-empty" title="No Anys on this line!">                color=(</span>
-<span class="line-precise" title="No Anys on this line!">                    self.params.dag_node_colors.marked_commit</span>
-<span class="line-precise" title="No Anys on this line!">                    if is_marked or is_in_range</span>
+<span class="line-precise" title="No Anys on this line!">                    self.params.dag_node_colors.commit_in_range</span>
+<span class="line-precise" title="No Anys on this line!">                    if is_in_range</span>
 <span class="line-any" title="Any Types on this line: 
 Explicit (x1)">                    else color</span>
 <span class="line-empty" title="No Anys on this line!">                ),</span>
@@ -918,11 +914,12 @@ Explicit (x3)">                        self.dag.edge(node_name, sha)</span>
 <span class="line-precise" title="No Anys on this line!">                    shape = None</span>
 <span class="line-empty" title="No Anys on this line!"></span>
 <span class="line-precise" title="No Anys on this line!">                if sha in self.included_nodes_id and tooltip is not None:</span>
-<span class="line-precise" title="No Anys on this line!">                    name = f"annotation-{descriptor}"</span>
+<span class="line-empty" title="No Anys on this line!">                    # colon in node name not supported by graphviz</span>
+<span class="line-precise" title="No Anys on this line!">                    name = f"annotation-{descriptor.replace(":", "=")}"</span>
 <span class="line-any" title="Any Types on this line: 
 Explicit (x3)">                    self.dag.node(</span>
 <span class="line-precise" title="No Anys on this line!">                        name=name,</span>
-<span class="line-precise" title="No Anys on this line!">                        label=label,</span>
+<span class="line-precise" title="No Anys on this line!">                        label=label[: self.params.misc.annotations_truncate],</span>
 <span class="line-precise" title="No Anys on this line!">                        color=self.params.dag_node_colors.annotations,</span>
 <span class="line-precise" title="No Anys on this line!">                        fillcolor=self.params.dag_node_colors.annotations,</span>
 <span class="line-precise" title="No Anys on this line!">                        tooltip=tooltip,</span>
@@ -947,7 +944,6 @@ Omitted Generics (x6)">@dataclass</span>
 <span class="line-precise" title="No Anys on this line!">    repository: GitRepository</span>
 <span class="line-precise" title="No Anys on this line!">    params: Params</span>
 <span class="line-precise" title="No Anys on this line!">    objects_sha_to_include: Optional[set[str]] = None</span>
-<span class="line-precise" title="No Anys on this line!">    marked_commits: Optional[list[str]] = None</span>
 <span class="line-precise" title="No Anys on this line!">    in_range_commits: Optional[list[str]] = None</span>
 <span class="line-empty" title="No Anys on this line!"></span>
 <span class="line-precise" title="No Anys on this line!">    def __post_init__(self) -&gt; None:</span>

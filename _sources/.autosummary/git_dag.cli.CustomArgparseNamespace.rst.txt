@@ -45,7 +45,6 @@ git\_dag.cli.CustomArgparseNamespace
       ~CustomArgparseNamespace.show_blobs_standalone
       ~CustomArgparseNamespace.show_head
       ~CustomArgparseNamespace.show_prs_heads
-      ~CustomArgparseNamespace.marked_commits
       ~CustomArgparseNamespace.range
       ~CustomArgparseNamespace.commit_message_as_label
       ~CustomArgparseNamespace.xdg_open

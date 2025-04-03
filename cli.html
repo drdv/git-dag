@@ -266,6 +266,7 @@
 </ul>
 </li>
 <li class="toctree-l2 has-children"><a class="reference internal" href=".autosummary/git_dag.interfaces.graphviz.html">git_dag.interfaces.graphviz</a><input class="toctree-checkbox" id="toctree-checkbox-10" name="toctree-checkbox-10" role="switch" type="checkbox"/><label for="toctree-checkbox-10"><div class="visually-hidden">Toggle navigation of git_dag.interfaces.graphviz</div><i class="icon"><svg><use href="#svg-arrow-right"></use></svg></i></label><ul>
+<li class="toctree-l3"><a class="reference internal" href=".autosummary/git_dag.interfaces.graphviz.handle_none.html">git_dag.interfaces.graphviz.handle_none</a></li>
 <li class="toctree-l3"><a class="reference internal" href=".autosummary/git_dag.interfaces.graphviz.DagGraphviz.html">git_dag.interfaces.graphviz.DagGraphviz</a></li>
 </ul>
 </li>
@@ -326,7 +327,6 @@
 <div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">usage</span><span class="p">:</span> <span class="n">git</span><span class="o">-</span><span class="n">dag</span> <span class="p">[</span><span class="o">-</span><span class="n">h</span><span class="p">]</span> <span class="p">[</span><span class="o">--</span><span class="n">config</span><span class="o">-</span><span class="n">create</span><span class="p">]</span> <span class="p">[</span><span class="o">--</span><span class="n">config</span><span class="o">-</span><span class="n">ignore</span><span class="p">]</span> <span class="p">[</span><span class="o">-</span><span class="n">p</span> <span class="n">PATH</span><span class="p">]</span> <span class="p">[</span><span class="o">-</span><span class="n">f</span> <span class="n">FILE</span><span class="p">]</span>
                <span class="p">[</span><span class="o">-</span><span class="n">b</span> <span class="p">{</span><span class="n">graphviz</span><span class="p">}]</span> <span class="p">[</span><span class="o">--</span><span class="nb">format</span> <span class="n">FORMAT</span><span class="p">]</span>
                <span class="p">[</span><span class="o">-</span><span class="n">i</span> <span class="n">INIT_REFS</span> <span class="p">[</span><span class="n">INIT_REFS</span> <span class="o">...</span><span class="p">]]</span> <span class="p">[</span><span class="o">-</span><span class="n">R</span> <span class="n">RANGE_EXPR</span><span class="p">]</span>
-               <span class="p">[</span><span class="o">--</span><span class="n">marked</span><span class="o">-</span><span class="n">commits</span> <span class="n">MARKED_COMMITS</span> <span class="p">[</span><span class="n">MARKED_COMMITS</span> <span class="o">...</span><span class="p">]]</span>
                <span class="p">[</span><span class="o">-</span><span class="n">n</span> <span class="n">MAX_NUMB_COMMITS</span><span class="p">]</span> <span class="p">[</span><span class="o">-</span><span class="n">u</span><span class="p">]</span> <span class="p">[</span><span class="o">-</span><span class="n">t</span><span class="p">]</span> <span class="p">[</span><span class="o">-</span><span class="n">D</span><span class="p">]</span> <span class="p">[</span><span class="o">-</span><span class="n">l</span><span class="p">]</span> <span class="p">[</span><span class="o">-</span><span class="n">r</span><span class="p">]</span> <span class="p">[</span><span class="o">-</span><span class="n">s</span><span class="p">]</span> <span class="p">[</span><span class="o">-</span><span class="n">H</span><span class="p">]</span>
                <span class="p">[</span><span class="o">-</span><span class="n">a</span> <span class="n">ANNOTATIONS</span> <span class="p">[</span><span class="n">ANNOTATIONS</span> <span class="o">...</span><span class="p">]]</span> <span class="p">[</span><span class="o">--</span><span class="n">pr</span><span class="p">]</span> <span class="p">[</span><span class="o">-</span><span class="n">T</span><span class="p">]</span>
                <span class="p">[</span><span class="o">--</span><span class="n">trees</span><span class="o">-</span><span class="n">standalone</span><span class="p">]</span> <span class="p">[</span><span class="o">-</span><span class="n">B</span><span class="p">]</span> <span class="p">[</span><span class="o">--</span><span class="n">blobs</span><span class="o">-</span><span class="n">standalone</span><span class="p">]</span>
@@ -361,9 +361,6 @@
 </dd>
 <dt><kbd>-R</kbd></dt>
 <dd><p>A range expression (e.g, main..feature).</p>
-</dd>
-<dt><kbd>--marked-commits</kbd></dt>
-<dd><p>A list of descriptors of commist to display in different color. (e.g., HEAD, main, truncated SHA)</p>
 </dd>
 <dt><kbd>-n, --max-numb-commits</kbd></dt>
 <dd><p>Max number of commits to display. If set to 0 and the -i flag is not specified, no limitations are considered whatsoever. If set to n &gt; 0, only n commits reachable from the initial references are displayed (in the absence of user-defined initial references, the output of <cite>git rev-list –all –objects –no-object-names</cite> is used (note that it might not include some unreachable commits.</p>
@@ -492,7 +489,7 @@
       
     </aside>
   </div>
-</div><script src="_static/documentation_options.js?v=6d9f5d67"></script>
+</div><script src="_static/documentation_options.js?v=edfc8696"></script>
     <script src="_static/doctools.js?v=9bcbadda"></script>
     <script src="_static/sphinx_highlight.js?v=dc90522c"></script>
     <script src="_static/scripts/furo.js?v=5fa4622c"></script>

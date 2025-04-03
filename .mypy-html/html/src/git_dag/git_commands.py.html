@@ -772,6 +772,7 @@
 <span id="L762" class="lineno"><a class="lineno" href="#L762">762</a></span>
 <span id="L763" class="lineno"><a class="lineno" href="#L763">763</a></span>
 <span id="L764" class="lineno"><a class="lineno" href="#L764">764</a></span>
+<span id="L765" class="lineno"><a class="lineno" href="#L765">765</a></span>
 </pre></td>
 <td class="table-code"><pre><span class="line-empty" title="No Anys on this line!">"""Git commands related functionality.</span>
 <span class="line-empty" title="No Anys on this line!"></span>
@@ -1207,8 +1208,9 @@ Explicit (x1)">            with open(Path(self.path) / filename, "w", encoding="
 <span class="line-precise" title="No Anys on this line!">        if descriptors is None:</span>
 <span class="line-precise" title="No Anys on this line!">            return None</span>
 <span class="line-empty" title="No Anys on this line!"></span>
+<span class="line-precise" title="No Anys on this line!">        args = " ".join([f"'{descriptor}'" for descriptor in descriptors])</span>
 <span class="line-empty" title="No Anys on this line!">        try:</span>
-<span class="line-precise" title="No Anys on this line!">            return self._run(f"rev-parse {' '.join(descriptors)}").strip().split("\n")</span>
+<span class="line-precise" title="No Anys on this line!">            return self._run(f"rev-parse {args}").strip().split("\n")</span>
 <span class="line-precise" title="No Anys on this line!">        except CalledProcessCustomError as e:</span>
 <span class="line-precise" title="No Anys on this line!">            LOG.warning(e)</span>
 <span class="line-empty" title="No Anys on this line!"></span>

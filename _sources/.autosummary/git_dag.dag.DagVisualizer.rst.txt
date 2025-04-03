@@ -27,7 +27,6 @@ git\_dag.dag.DagVisualizer
    .. autosummary::
    
       ~DagVisualizer.in_range_commits
-      ~DagVisualizer.marked_commits
       ~DagVisualizer.objects_sha_to_include
       ~DagVisualizer.repository
       ~DagVisualizer.params

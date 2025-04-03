@@ -67,7 +67,7 @@
             <a id="nextFileLink" class="nav" href="z_787fe04b21323c8e_utils_py.html">&#xbb; next</a>
             &nbsp; &nbsp; &nbsp;
             <a class="nav" href="https://coverage.readthedocs.io/en/7.8.0">coverage.py v7.8.0</a>,
-            created at 2025-04-03 12:25 +0200
+            created at 2025-04-03 23:23 +0200
         </p>
         <aside class="hidden">
             <button type="button" class="button_next_chunk" data-shortcut="j"></button>
@@ -275,7 +275,7 @@
     <p class="pln"><span class="n"><a id="t191" href="#t191">191</a></span><span class="t">&nbsp;</span><span class="r"></span></p>
     <p class="run"><span class="n"><a id="t192" href="#t192">192</a></span><span class="t">    <span class="nam">commit</span><span class="op">:</span> <span class="nam">str</span> <span class="op">=</span> <span class="str">"gold3"</span>&nbsp;</span><span class="r"></span></p>
     <p class="run"><span class="n"><a id="t193" href="#t193">193</a></span><span class="t">    <span class="nam">commit_unreachable</span><span class="op">:</span> <span class="nam">str</span> <span class="op">=</span> <span class="str">"darkorange"</span>&nbsp;</span><span class="r"></span></p>
-    <p class="run"><span class="n"><a id="t194" href="#t194">194</a></span><span class="t">    <span class="nam">marked_commit</span><span class="op">:</span> <span class="nam">str</span> <span class="op">=</span> <span class="str">"red"</span>&nbsp;</span><span class="r"></span></p>
+    <p class="run"><span class="n"><a id="t194" href="#t194">194</a></span><span class="t">    <span class="nam">commit_in_range</span><span class="op">:</span> <span class="nam">str</span> <span class="op">=</span> <span class="str">"red"</span>&nbsp;</span><span class="r"></span></p>
     <p class="run"><span class="n"><a id="t195" href="#t195">195</a></span><span class="t">    <span class="nam">tree</span><span class="op">:</span> <span class="nam">str</span> <span class="op">=</span> <span class="str">"deepskyblue4"</span>&nbsp;</span><span class="r"></span></p>
     <p class="run"><span class="n"><a id="t196" href="#t196">196</a></span><span class="t">    <span class="nam">the_empty_tree</span><span class="op">:</span> <span class="nam">str</span> <span class="op">=</span> <span class="str">"darkturquoise"</span>&nbsp;</span><span class="r"></span></p>
     <p class="run"><span class="n"><a id="t197" href="#t197">197</a></span><span class="t">    <span class="nam">blob</span><span class="op">:</span> <span class="nam">str</span> <span class="op">=</span> <span class="str">"gray"</span>&nbsp;</span><span class="r"></span></p>
@@ -299,24 +299,24 @@
     <p class="pln"><span class="n"><a id="t215" href="#t215">215</a></span><span class="t">&nbsp;</span><span class="r"></span></p>
     <p class="run"><span class="n"><a id="t216" href="#t216">216</a></span><span class="t">    <span class="nam">annotations_symbol</span><span class="op">:</span> <span class="nam">str</span> <span class="op">=</span> <span class="str">"&amp;#9758;"</span>&nbsp;</span><span class="r"></span></p>
     <p class="run"><span class="n"><a id="t217" href="#t217">217</a></span><span class="t">    <span class="nam">annotations_shape</span><span class="op">:</span> <span class="nam">str</span> <span class="op">=</span> <span class="str">"cds"</span>&nbsp;</span><span class="r"></span></p>
-    <p class="pln"><span class="n"><a id="t218" href="#t218">218</a></span><span class="t">&nbsp;</span><span class="r"></span></p>
-    <p class="run"><span class="n"><a id="t219" href="#t219">219</a></span><span class="t">    <span class="op">@</span><span class="nam">staticmethod</span>&nbsp;</span><span class="r"></span></p>
-    <p class="run"><span class="n"><a id="t220" href="#t220">220</a></span><span class="t">    <span class="key">def</span> <span class="nam">section_in_config</span><span class="op">(</span><span class="op">)</span> <span class="op">-></span> <span class="nam">str</span><span class="op">:</span>&nbsp;</span><span class="r"></span></p>
-    <p class="mis show_mis"><span class="n"><a id="t221" href="#t221">221</a></span><span class="t">        <span class="key">return</span> <span class="str">"misc"</span>&nbsp;</span><span class="r"></span></p>
-    <p class="pln"><span class="n"><a id="t222" href="#t222">222</a></span><span class="t">&nbsp;</span><span class="r"></span></p>
+    <p class="run"><span class="n"><a id="t218" href="#t218">218</a></span><span class="t">    <span class="nam">annotations_truncate</span><span class="op">:</span> <span class="nam">int</span> <span class="op">=</span> <span class="num">20</span>&nbsp;</span><span class="r"></span></p>
+    <p class="pln"><span class="n"><a id="t219" href="#t219">219</a></span><span class="t">&nbsp;</span><span class="r"></span></p>
+    <p class="run"><span class="n"><a id="t220" href="#t220">220</a></span><span class="t">    <span class="op">@</span><span class="nam">staticmethod</span>&nbsp;</span><span class="r"></span></p>
+    <p class="run"><span class="n"><a id="t221" href="#t221">221</a></span><span class="t">    <span class="key">def</span> <span class="nam">section_in_config</span><span class="op">(</span><span class="op">)</span> <span class="op">-></span> <span class="nam">str</span><span class="op">:</span>&nbsp;</span><span class="r"></span></p>
+    <p class="mis show_mis"><span class="n"><a id="t222" href="#t222">222</a></span><span class="t">        <span class="key">return</span> <span class="str">"misc"</span>&nbsp;</span><span class="r"></span></p>
     <p class="pln"><span class="n"><a id="t223" href="#t223">223</a></span><span class="t">&nbsp;</span><span class="r"></span></p>
-    <p class="run"><span class="n"><a id="t224" href="#t224">224</a></span><span class="t"><span class="key">class</span> <span class="nam">ParamsPublic</span><span class="op">(</span><span class="nam">ParamsBase</span><span class="op">)</span><span class="op">:</span>&nbsp;</span><span class="r"></span></p>
-    <p class="pln"><span class="n"><a id="t225" href="#t225">225</a></span><span class="t">    <span class="str">"""Parameters exposed as command-line arguments."""</span>&nbsp;</span><span class="r"></span></p>
-    <p class="pln"><span class="n"><a id="t226" href="#t226">226</a></span><span class="t">&nbsp;</span><span class="r"></span></p>
-    <p class="run"><span class="n"><a id="t227" href="#t227">227</a></span><span class="t">    <span class="nam">path</span><span class="op">:</span> <span class="nam">str</span> <span class="op">=</span> <span class="str">"."</span>&nbsp;</span><span class="r"></span></p>
-    <p class="run"><span class="n"><a id="t228" href="#t228">228</a></span><span class="t">    <span class="nam">file</span><span class="op">:</span> <span class="nam">str</span> <span class="op">|</span> <span class="nam">Path</span> <span class="op">=</span> <span class="str">"git-dag.gv"</span>&nbsp;</span><span class="r"></span></p>
-    <p class="run"><span class="n"><a id="t229" href="#t229">229</a></span><span class="t">    <span class="nam">format</span><span class="op">:</span> <span class="nam">str</span> <span class="op">=</span> <span class="str">"svg"</span>&nbsp;</span><span class="r"></span></p>
-    <p class="run"><span class="n"><a id="t230" href="#t230">230</a></span><span class="t">    <span class="nam">dag_backend</span><span class="op">:</span> <span class="nam">str</span> <span class="op">=</span> <span class="str">"graphviz"</span>&nbsp;</span><span class="r"></span></p>
-    <p class="run"><span class="n"><a id="t231" href="#t231">231</a></span><span class="t">    <span class="nam">log_level</span><span class="op">:</span> <span class="nam">str</span> <span class="op">=</span> <span class="str">"WARNING"</span>&nbsp;</span><span class="r"></span></p>
-    <p class="pln"><span class="n"><a id="t232" href="#t232">232</a></span><span class="t">&nbsp;</span><span class="r"></span></p>
-    <p class="run"><span class="n"><a id="t233" href="#t233">233</a></span><span class="t">    <span class="nam">range_expr</span><span class="op">:</span> <span class="nam">Optional</span><span class="op">[</span><span class="nam">str</span><span class="op">]</span> <span class="op">=</span> <span class="key">None</span>&nbsp;</span><span class="r"></span></p>
-    <p class="run"><span class="n"><a id="t234" href="#t234">234</a></span><span class="t">    <span class="nam">init_refs</span><span class="op">:</span> <span class="nam">Optional</span><span class="op">[</span><span class="nam">list</span><span class="op">[</span><span class="nam">str</span><span class="op">]</span><span class="op">]</span> <span class="op">=</span> <span class="key">None</span>&nbsp;</span><span class="r"></span></p>
-    <p class="run"><span class="n"><a id="t235" href="#t235">235</a></span><span class="t">    <span class="nam">marked_commits</span><span class="op">:</span> <span class="nam">Optional</span><span class="op">[</span><span class="nam">list</span><span class="op">[</span><span class="nam">str</span><span class="op">]</span><span class="op">]</span> <span class="op">=</span> <span class="key">None</span>&nbsp;</span><span class="r"></span></p>
+    <p class="pln"><span class="n"><a id="t224" href="#t224">224</a></span><span class="t">&nbsp;</span><span class="r"></span></p>
+    <p class="run"><span class="n"><a id="t225" href="#t225">225</a></span><span class="t"><span class="key">class</span> <span class="nam">ParamsPublic</span><span class="op">(</span><span class="nam">ParamsBase</span><span class="op">)</span><span class="op">:</span>&nbsp;</span><span class="r"></span></p>
+    <p class="pln"><span class="n"><a id="t226" href="#t226">226</a></span><span class="t">    <span class="str">"""Parameters exposed as command-line arguments."""</span>&nbsp;</span><span class="r"></span></p>
+    <p class="pln"><span class="n"><a id="t227" href="#t227">227</a></span><span class="t">&nbsp;</span><span class="r"></span></p>
+    <p class="run"><span class="n"><a id="t228" href="#t228">228</a></span><span class="t">    <span class="nam">path</span><span class="op">:</span> <span class="nam">str</span> <span class="op">=</span> <span class="str">"."</span>&nbsp;</span><span class="r"></span></p>
+    <p class="run"><span class="n"><a id="t229" href="#t229">229</a></span><span class="t">    <span class="nam">file</span><span class="op">:</span> <span class="nam">str</span> <span class="op">|</span> <span class="nam">Path</span> <span class="op">=</span> <span class="str">"git-dag.gv"</span>&nbsp;</span><span class="r"></span></p>
+    <p class="run"><span class="n"><a id="t230" href="#t230">230</a></span><span class="t">    <span class="nam">format</span><span class="op">:</span> <span class="nam">str</span> <span class="op">=</span> <span class="str">"svg"</span>&nbsp;</span><span class="r"></span></p>
+    <p class="run"><span class="n"><a id="t231" href="#t231">231</a></span><span class="t">    <span class="nam">dag_backend</span><span class="op">:</span> <span class="nam">str</span> <span class="op">=</span> <span class="str">"graphviz"</span>&nbsp;</span><span class="r"></span></p>
+    <p class="run"><span class="n"><a id="t232" href="#t232">232</a></span><span class="t">    <span class="nam">log_level</span><span class="op">:</span> <span class="nam">str</span> <span class="op">=</span> <span class="str">"WARNING"</span>&nbsp;</span><span class="r"></span></p>
+    <p class="pln"><span class="n"><a id="t233" href="#t233">233</a></span><span class="t">&nbsp;</span><span class="r"></span></p>
+    <p class="run"><span class="n"><a id="t234" href="#t234">234</a></span><span class="t">    <span class="nam">range_expr</span><span class="op">:</span> <span class="nam">Optional</span><span class="op">[</span><span class="nam">str</span><span class="op">]</span> <span class="op">=</span> <span class="key">None</span>&nbsp;</span><span class="r"></span></p>
+    <p class="run"><span class="n"><a id="t235" href="#t235">235</a></span><span class="t">    <span class="nam">init_refs</span><span class="op">:</span> <span class="nam">Optional</span><span class="op">[</span><span class="nam">list</span><span class="op">[</span><span class="nam">str</span><span class="op">]</span><span class="op">]</span> <span class="op">=</span> <span class="key">None</span>&nbsp;</span><span class="r"></span></p>
     <p class="run"><span class="n"><a id="t236" href="#t236">236</a></span><span class="t">    <span class="nam">annotations</span><span class="op">:</span> <span class="nam">Optional</span><span class="op">[</span><span class="nam">list</span><span class="op">[</span><span class="nam">list</span><span class="op">[</span><span class="nam">str</span><span class="op">]</span><span class="op">]</span><span class="op">]</span> <span class="op">=</span> <span class="key">None</span>&nbsp;</span><span class="r"></span></p>
     <p class="pln"><span class="n"><a id="t237" href="#t237">237</a></span><span class="t">&nbsp;</span><span class="r"></span></p>
     <p class="run"><span class="n"><a id="t238" href="#t238">238</a></span><span class="t">    <span class="nam">max_numb_commits</span><span class="op">:</span> <span class="nam">int</span> <span class="op">=</span> <span class="num">1000</span>&nbsp;</span><span class="r"></span></p>
@@ -443,7 +443,7 @@
             <a class="nav" href="z_787fe04b21323c8e_utils_py.html">&#xbb; next</a>
             &nbsp; &nbsp; &nbsp;
             <a class="nav" href="https://coverage.readthedocs.io/en/7.8.0">coverage.py v7.8.0</a>,
-            created at 2025-04-03 12:25 +0200
+            created at 2025-04-03 23:23 +0200
         </p>
     </div>
 </footer>
