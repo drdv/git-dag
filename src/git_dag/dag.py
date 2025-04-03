@@ -352,10 +352,11 @@ class HeadHandlerMixin:
                     shape = None
 
                 if sha in self.included_nodes_id and tooltip is not None:
-                    name = f"annotation-{descriptor}"
+                    # colon in node name not supported by graphviz
+                    name = f"annotation-{descriptor.replace(":", "=")}"
                     self.dag.node(
                         name=name,
-                        label=label,
+                        label=label[: self.params.misc.annotations_truncate],
                         color=self.params.dag_node_colors.annotations,
                         fillcolor=self.params.dag_node_colors.annotations,
                         tooltip=tooltip,

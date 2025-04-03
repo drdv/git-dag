@@ -215,6 +215,7 @@ class ParamsMisc(ParamsBase):
 
     annotations_symbol: str = "&#9758;"
     annotations_shape: str = "cds"
+    annotations_truncate: int = 20
 
     @staticmethod
     def section_in_config() -> str:
