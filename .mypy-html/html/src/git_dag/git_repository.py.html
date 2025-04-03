@@ -710,6 +710,7 @@
 <span id="L700" class="lineno"><a class="lineno" href="#L700">700</a></span>
 <span id="L701" class="lineno"><a class="lineno" href="#L701">701</a></span>
 <span id="L702" class="lineno"><a class="lineno" href="#L702">702</a></span>
+<span id="L703" class="lineno"><a class="lineno" href="#L703">703</a></span>
 </pre></td>
 <td class="table-code"><pre><span class="line-empty" title="No Anys on this line!">"""Git repository parsing functionality."""</span>
 <span class="line-empty" title="No Anys on this line!"></span>
@@ -718,7 +719,6 @@
 <span class="line-precise" title="No Anys on this line!">import logging</span>
 <span class="line-precise" title="No Anys on this line!">import multiprocessing</span>
 <span class="line-precise" title="No Anys on this line!">import re</span>
-<span class="line-precise" title="No Anys on this line!">import subprocess</span>
 <span class="line-precise" title="No Anys on this line!">from functools import wraps</span>
 <span class="line-precise" title="No Anys on this line!">from operator import itemgetter</span>
 <span class="line-precise" title="No Anys on this line!">from pathlib import Path</span>
@@ -726,6 +726,8 @@
 <span class="line-precise" title="No Anys on this line!">from typing import Annotated, Any, Callable, Optional, Type, cast</span>
 <span class="line-empty" title="No Anys on this line!"></span>
 <span class="line-precise" title="No Anys on this line!">from pydantic import BeforeValidator, TypeAdapter</span>
+<span class="line-empty" title="No Anys on this line!"></span>
+<span class="line-precise" title="No Anys on this line!">from git_dag.exceptions import CalledProcessCustomError</span>
 <span class="line-empty" title="No Anys on this line!"></span>
 <span class="line-precise" title="No Anys on this line!">from .constants import GIT_EMPTY_TREE_OBJECT_SHA, SHA_PATTERN, DictStrStr</span>
 <span class="line-precise" title="No Anys on this line!">from .dag import DagVisualizer</span>
@@ -1254,7 +1256,7 @@ Omitted Generics (x6)">    @time_it</span>
 <span class="line-empty" title="No Anys on this line!">        """Post-process HEAD."""</span>
 <span class="line-empty" title="No Anys on this line!">        try:</span>
 <span class="line-precise" title="No Anys on this line!">            head_commit_sha = self.inspector.git.get_local_head_commit_sha()</span>
-<span class="line-precise" title="No Anys on this line!">        except subprocess.CalledProcessError:</span>
+<span class="line-precise" title="No Anys on this line!">        except CalledProcessCustomError:</span>
 <span class="line-precise" title="No Anys on this line!">            LOG.warning("No Head")</span>
 <span class="line-precise" title="No Anys on this line!">            return GitHead()</span>
 <span class="line-empty" title="No Anys on this line!"></span>

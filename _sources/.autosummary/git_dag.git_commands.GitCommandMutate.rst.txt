@@ -24,6 +24,7 @@ git\_dag.git\_commands.GitCommandMutate
       ~GitCommandMutate.get_env
       ~GitCommandMutate.init
       ~GitCommandMutate.mg
+      ~GitCommandMutate.mg_multiple
       ~GitCommandMutate.note
       ~GitCommandMutate.run_general
       ~GitCommandMutate.stash

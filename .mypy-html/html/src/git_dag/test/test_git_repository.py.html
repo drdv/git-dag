@@ -278,6 +278,7 @@
 <span id="L268" class="lineno"><a class="lineno" href="#L268">268</a></span>
 <span id="L269" class="lineno"><a class="lineno" href="#L269">269</a></span>
 <span id="L270" class="lineno"><a class="lineno" href="#L270">270</a></span>
+<span id="L271" class="lineno"><a class="lineno" href="#L271">271</a></span>
 </pre></td>
 <td class="table-code"><pre><span class="line-empty" title="No Anys on this line!">"""Test git_repository.py."""</span>
 <span class="line-empty" title="No Anys on this line!"></span>
@@ -289,6 +290,7 @@
 <span class="line-precise" title="No Anys on this line!">import pytest</span>
 <span class="line-empty" title="No Anys on this line!"></span>
 <span class="line-precise" title="No Anys on this line!">from git_dag.constants import GIT_EMPTY_TREE_OBJECT_SHA</span>
+<span class="line-precise" title="No Anys on this line!">from git_dag.exceptions import CalledProcessCustomError</span>
 <span class="line-precise" title="No Anys on this line!">from git_dag.git_commands import GitCommandMutate</span>
 <span class="line-precise" title="No Anys on this line!">from git_dag.git_objects import GitBlob, GitTree</span>
 <span class="line-precise" title="No Anys on this line!">from git_dag.git_repository import GitRepository</span>
@@ -313,7 +315,7 @@ Explicit (x5)">    with pytest.raises(</span>
 <span class="line-precise" title="Any Types on this line: 
 Omitted Generics (x6)
 Explicit (x5)">    with pytest.raises(</span>
-<span class="line-precise" title="No Anys on this line!">        RuntimeError,</span>
+<span class="line-precise" title="No Anys on this line!">        CalledProcessCustomError,</span>
 <span class="line-precise" title="No Anys on this line!">        match="not a git repository",</span>
 <span class="line-empty" title="No Anys on this line!">    ):</span>
 <span class="line-precise" title="No Anys on this line!">        GitRepository(repo_path)</span>

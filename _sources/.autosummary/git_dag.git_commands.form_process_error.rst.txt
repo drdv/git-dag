@@ -1,6 +1,0 @@
-git\_dag.git\_commands.form\_process\_error
-===========================================
-
-.. currentmodule:: git_dag.git_commands
-
-.. autofunction:: form_process_error

@@ -744,6 +744,34 @@
 <span id="L734" class="lineno"><a class="lineno" href="#L734">734</a></span>
 <span id="L735" class="lineno"><a class="lineno" href="#L735">735</a></span>
 <span id="L736" class="lineno"><a class="lineno" href="#L736">736</a></span>
+<span id="L737" class="lineno"><a class="lineno" href="#L737">737</a></span>
+<span id="L738" class="lineno"><a class="lineno" href="#L738">738</a></span>
+<span id="L739" class="lineno"><a class="lineno" href="#L739">739</a></span>
+<span id="L740" class="lineno"><a class="lineno" href="#L740">740</a></span>
+<span id="L741" class="lineno"><a class="lineno" href="#L741">741</a></span>
+<span id="L742" class="lineno"><a class="lineno" href="#L742">742</a></span>
+<span id="L743" class="lineno"><a class="lineno" href="#L743">743</a></span>
+<span id="L744" class="lineno"><a class="lineno" href="#L744">744</a></span>
+<span id="L745" class="lineno"><a class="lineno" href="#L745">745</a></span>
+<span id="L746" class="lineno"><a class="lineno" href="#L746">746</a></span>
+<span id="L747" class="lineno"><a class="lineno" href="#L747">747</a></span>
+<span id="L748" class="lineno"><a class="lineno" href="#L748">748</a></span>
+<span id="L749" class="lineno"><a class="lineno" href="#L749">749</a></span>
+<span id="L750" class="lineno"><a class="lineno" href="#L750">750</a></span>
+<span id="L751" class="lineno"><a class="lineno" href="#L751">751</a></span>
+<span id="L752" class="lineno"><a class="lineno" href="#L752">752</a></span>
+<span id="L753" class="lineno"><a class="lineno" href="#L753">753</a></span>
+<span id="L754" class="lineno"><a class="lineno" href="#L754">754</a></span>
+<span id="L755" class="lineno"><a class="lineno" href="#L755">755</a></span>
+<span id="L756" class="lineno"><a class="lineno" href="#L756">756</a></span>
+<span id="L757" class="lineno"><a class="lineno" href="#L757">757</a></span>
+<span id="L758" class="lineno"><a class="lineno" href="#L758">758</a></span>
+<span id="L759" class="lineno"><a class="lineno" href="#L759">759</a></span>
+<span id="L760" class="lineno"><a class="lineno" href="#L760">760</a></span>
+<span id="L761" class="lineno"><a class="lineno" href="#L761">761</a></span>
+<span id="L762" class="lineno"><a class="lineno" href="#L762">762</a></span>
+<span id="L763" class="lineno"><a class="lineno" href="#L763">763</a></span>
+<span id="L764" class="lineno"><a class="lineno" href="#L764">764</a></span>
 </pre></td>
 <td class="table-code"><pre><span class="line-empty" title="No Anys on this line!">"""Git commands related functionality.</span>
 <span class="line-empty" title="No Anys on this line!"></span>
@@ -764,22 +792,12 @@
 <span class="line-precise" title="No Anys on this line!">from typing import Any, Literal, Optional</span>
 <span class="line-empty" title="No Anys on this line!"></span>
 <span class="line-precise" title="No Anys on this line!">from git_dag.constants import CMD_TAGS_INFO, SHA_PATTERN, TAG_FORMAT_FIELDS, DictStrStr</span>
+<span class="line-precise" title="No Anys on this line!">from git_dag.exceptions import CalledProcessCustomError</span>
 <span class="line-precise" title="No Anys on this line!">from git_dag.parameters import Params, ParamsPublic, context_ignore_config_file</span>
 <span class="line-precise" title="No Anys on this line!">from git_dag.utils import escape_decode</span>
 <span class="line-empty" title="No Anys on this line!"></span>
 <span class="line-precise" title="No Anys on this line!">logging.basicConfig(level=logging.WARNING)</span>
 <span class="line-precise" title="No Anys on this line!">LOG = logging.getLogger(__name__)</span>
-<span class="line-empty" title="No Anys on this line!"></span>
-<span class="line-empty" title="No Anys on this line!"></span>
-<span class="line-precise" title="No Anys on this line!">def form_process_error(error: subprocess.CalledProcessError) -&gt; str:</span>
-<span class="line-empty" title="No Anys on this line!">    """Format error."""</span>
-<span class="line-empty" title="No Anys on this line!">    return (</span>
-<span class="line-any" title="Any Types on this line: 
-Explicit (x1)">        f"\ncommand: {' '.join(error.cmd)}\n"</span>
-<span class="line-precise" title="No Anys on this line!">        f"   code: {error.returncode}\n"</span>
-<span class="line-any" title="Any Types on this line: 
-Explicit (x1)">        f"  error: {error.stderr}"</span>
-<span class="line-empty" title="No Anys on this line!">    )</span>
 <span class="line-empty" title="No Anys on this line!"></span>
 <span class="line-empty" title="No Anys on this line!"></span>
 <span class="line-precise" title="No Anys on this line!">class GitCommandBase:</span>
@@ -797,14 +815,17 @@ Explicit (x1)">        f"  error: {error.stderr}"</span>
 <span class="line-precise" title="No Anys on this line!">        encoding: str = "utf-8",</span>
 <span class="line-empty" title="No Anys on this line!">    ) -&gt; str:</span>
 <span class="line-empty" title="No Anys on this line!">        """Run a git command."""</span>
+<span class="line-empty" title="No Anys on this line!">        try:</span>
 <span class="line-precise" title="Any Types on this line: 
-Explicit (x13)">        return subprocess.run(</span>
-<span class="line-precise" title="No Anys on this line!">            shlex.split(f"{self.command_prefix} {command}"),</span>
-<span class="line-precise" title="No Anys on this line!">            stdout=subprocess.PIPE,</span>
-<span class="line-precise" title="No Anys on this line!">            stderr=subprocess.PIPE,</span>
-<span class="line-precise" title="No Anys on this line!">            check=True,</span>
-<span class="line-precise" title="No Anys on this line!">            env=env,</span>
-<span class="line-precise" title="No Anys on this line!">        ).stdout.decode(encoding, errors="replace")</span>
+Explicit (x13)">            return subprocess.run(</span>
+<span class="line-precise" title="No Anys on this line!">                shlex.split(f"{self.command_prefix} {command}"),</span>
+<span class="line-precise" title="No Anys on this line!">                stdout=subprocess.PIPE,</span>
+<span class="line-precise" title="No Anys on this line!">                stderr=subprocess.PIPE,</span>
+<span class="line-precise" title="No Anys on this line!">                check=True,</span>
+<span class="line-precise" title="No Anys on this line!">                env=env,</span>
+<span class="line-precise" title="No Anys on this line!">            ).stdout.decode(encoding, errors="replace")</span>
+<span class="line-precise" title="No Anys on this line!">        except subprocess.CalledProcessError as e:</span>
+<span class="line-precise" title="No Anys on this line!">            raise CalledProcessCustomError(e) from e</span>
 <span class="line-empty" title="No Anys on this line!"></span>
 <span class="line-empty" title="No Anys on this line!">    @staticmethod</span>
 <span class="line-precise" title="No Anys on this line!">    def run_general(</span>
@@ -857,9 +878,9 @@ Explicit (x13)">        with subprocess.Popen(</span>
 <span class="line-empty" title="No Anys on this line!"></span>
 <span class="line-precise" title="No Anys on this line!">        super().__init__(path)</span>
 <span class="line-empty" title="No Anys on this line!"></span>
-<span class="line-precise" title="No Anys on this line!">    def init(self) -&gt; None:</span>
+<span class="line-precise" title="No Anys on this line!">    def init(self, branch: str = "main") -&gt; None:</span>
 <span class="line-empty" title="No Anys on this line!">        """Initialise a git repository."""</span>
-<span class="line-precise" title="No Anys on this line!">        self._run("init -b main")</span>
+<span class="line-precise" title="No Anys on this line!">        self._run(f"init -b {branch}")</span>
 <span class="line-empty" title="No Anys on this line!"></span>
 <span class="line-precise" title="No Anys on this line!">    def get_env(self) -&gt; DictStrStr:</span>
 <span class="line-empty" title="No Anys on this line!">        """Return environment with author and committer to pass to commands."""</span>
@@ -924,7 +945,13 @@ Omitted Generics (x5)">        elif isinstance(messages, (list, tuple)):</span>
 <span class="line-empty" title="No Anys on this line!">        else:</span>
 <span class="line-unanalyzed" title="No Anys on this line!">            raise ValueError("Unsupported message type.")</span>
 <span class="line-empty" title="No Anys on this line!"></span>
-<span class="line-precise" title="No Anys on this line!">    def br(self, branch: str, create: bool = False, delete: bool = False) -&gt; None:</span>
+<span class="line-precise" title="No Anys on this line!">    def br(</span>
+<span class="line-empty" title="No Anys on this line!">        self,</span>
+<span class="line-empty" title="No Anys on this line!">        branch: str,</span>
+<span class="line-precise" title="No Anys on this line!">        create: bool = False,</span>
+<span class="line-precise" title="No Anys on this line!">        orphan: bool = False,</span>
+<span class="line-precise" title="No Anys on this line!">        delete: bool = False,</span>
+<span class="line-empty" title="No Anys on this line!">    ) -&gt; None:</span>
 <span class="line-empty" title="No Anys on this line!">        """Create/switch/delete branch."""</span>
 <span class="line-precise" title="No Anys on this line!">        if create and delete:</span>
 <span class="line-precise" title="No Anys on this line!">            raise ValueError("At most one of create and delete can be True.")</span>
@@ -932,11 +959,42 @@ Omitted Generics (x5)">        elif isinstance(messages, (list, tuple)):</span>
 <span class="line-precise" title="No Anys on this line!">        if delete:</span>
 <span class="line-precise" title="No Anys on this line!">            self._run(f"branch -D {branch}")</span>
 <span class="line-empty" title="No Anys on this line!">        else:</span>
-<span class="line-precise" title="No Anys on this line!">            self._run(f"switch {'-c' if create else ''} {branch}")</span>
+<span class="line-precise" title="No Anys on this line!">            create_switch = ""</span>
+<span class="line-precise" title="No Anys on this line!">            if create:</span>
+<span class="line-precise" title="No Anys on this line!">                create_switch = "--orphan" if orphan else "-c"</span>
 <span class="line-empty" title="No Anys on this line!"></span>
-<span class="line-precise" title="No Anys on this line!">    def mg(self, branch: str, message: str = "m", strategy: str = "theirs") -&gt; None:</span>
+<span class="line-precise" title="No Anys on this line!">            self._run(f"switch {create_switch} {branch}")</span>
+<span class="line-empty" title="No Anys on this line!"></span>
+<span class="line-precise" title="No Anys on this line!">    def mg(</span>
+<span class="line-empty" title="No Anys on this line!">        self,</span>
+<span class="line-empty" title="No Anys on this line!">        branch: str,</span>
+<span class="line-precise" title="No Anys on this line!">        message: str = "m",</span>
+<span class="line-precise" title="No Anys on this line!">        strategy: str = "theirs",</span>
+<span class="line-precise" title="No Anys on this line!">        unrelated: bool = False,</span>
+<span class="line-empty" title="No Anys on this line!">    ) -&gt; None:</span>
 <span class="line-empty" title="No Anys on this line!">        """Merge."""</span>
-<span class="line-precise" title="No Anys on this line!">        self._run(f'merge -X {strategy} {branch} -m "{message}"', env=self.env)</span>
+<span class="line-precise" title="No Anys on this line!">        if unrelated:</span>
+<span class="line-precise" title="No Anys on this line!">            flags = "--allow-unrelated-histories"</span>
+<span class="line-empty" title="No Anys on this line!">        else:</span>
+<span class="line-precise" title="No Anys on this line!">            flags = f"-X {strategy}"</span>
+<span class="line-precise" title="No Anys on this line!">        self._run(f'merge {flags} {branch} -m "{message}"', env=self.env)</span>
+<span class="line-empty" title="No Anys on this line!"></span>
+<span class="line-precise" title="No Anys on this line!">    def mg_multiple(self, branches: list[str], message: str = "m") -&gt; None:</span>
+<span class="line-empty" title="No Anys on this line!">        """Merge multiple (possibly orphan) branches without conflicts."""</span>
+<span class="line-empty" title="No Anys on this line!">        try:</span>
+<span class="line-precise" title="No Anys on this line!">            self._run(</span>
+<span class="line-precise" title="No Anys on this line!">                f'merge --allow-unrelated-histories {' '.join(branches)} -m "{message}"',</span>
+<span class="line-precise" title="No Anys on this line!">                env=self.env,</span>
+<span class="line-empty" title="No Anys on this line!">            )</span>
+<span class="line-precise" title="No Anys on this line!">        except CalledProcessCustomError as e:</span>
+<span class="line-empty" title="No Anys on this line!">            if (</span>
+<span class="line-precise" title="No Anys on this line!">                "Automatic merge failed; fix conflicts and then commit the result"</span>
+<span class="line-any" title="Any Types on this line: 
+Explicit (x3)">                in e.output.decode("utf-8")</span>
+<span class="line-empty" title="No Anys on this line!">            ):</span>
+<span class="line-precise" title="No Anys on this line!">                self.cm(message)</span>
+<span class="line-empty" title="No Anys on this line!">            else:</span>
+<span class="line-empty" title="No Anys on this line!">                raise</span>
 <span class="line-empty" title="No Anys on this line!"></span>
 <span class="line-precise" title="No Anys on this line!">    def stash(</span>
 <span class="line-empty" title="No Anys on this line!">        self,</span>
@@ -1042,10 +1100,7 @@ Explicit (x1)">            with open(Path(self.path) / filename, "w", encoding="
 <span class="line-precise" title="No Anys on this line!">            "cat-file --batch-all-objects --unordered "</span>
 <span class="line-empty" title="No Anys on this line!">            '--batch-check="%(objectname) %(objecttype)"'</span>
 <span class="line-empty" title="No Anys on this line!">        )</span>
-<span class="line-empty" title="No Anys on this line!">        try:</span>
-<span class="line-precise" title="No Anys on this line!">            objects = self._run(CMD).strip().split("\n")</span>
-<span class="line-precise" title="No Anys on this line!">        except subprocess.CalledProcessError as e:</span>
-<span class="line-precise" title="No Anys on this line!">            raise RuntimeError(form_process_error(e)) from e</span>
+<span class="line-precise" title="No Anys on this line!">        objects = self._run(CMD).strip().split("\n")</span>
 <span class="line-empty" title="No Anys on this line!"></span>
 <span class="line-precise" title="No Anys on this line!">        if len(objects) == 1 and not objects[0]:</span>
 <span class="line-precise" title="No Anys on this line!">            LOG.warning("No objects")</span>
@@ -1093,7 +1148,7 @@ Explicit (x1)">            with open(Path(self.path) / filename, "w", encoding="
 <span class="line-precise" title="No Anys on this line!">                cmd_output = self._run(cmd).strip().split("\n")</span>
 <span class="line-empty" title="No Anys on this line!">                # drop refs/remotes</span>
 <span class="line-precise" title="No Anys on this line!">                symb_refs[f"{remote}/HEAD"] = "/".join(cmd_output[0].split("/")[2:])</span>
-<span class="line-precise" title="No Anys on this line!">            except subprocess.CalledProcessError:</span>
+<span class="line-precise" title="No Anys on this line!">            except CalledProcessCustomError:</span>
 <span class="line-precise" title="No Anys on this line!">                LOG.warning(f"HEAD not defined for {remote}.")</span>
 <span class="line-precise" title="No Anys on this line!">        return symb_refs</span>
 <span class="line-empty" title="No Anys on this line!"></span>
@@ -1101,8 +1156,8 @@ Explicit (x1)">            with open(Path(self.path) / filename, "w", encoding="
 <span class="line-empty" title="No Anys on this line!">        """Return heads of pull-requests."""</span>
 <span class="line-empty" title="No Anys on this line!">        try:</span>
 <span class="line-precise" title="No Anys on this line!">            cmd_output = self._run("ls-remote").strip().split("\n")</span>
-<span class="line-precise" title="No Anys on this line!">        except subprocess.CalledProcessError as e:</span>
-<span class="line-precise" title="No Anys on this line!">            LOG.warning(form_process_error(e))</span>
+<span class="line-precise" title="No Anys on this line!">        except CalledProcessCustomError as e:</span>
+<span class="line-precise" title="No Anys on this line!">            LOG.warning(e)</span>
 <span class="line-empty" title="No Anys on this line!">            return {}</span>
 <span class="line-empty" title="No Anys on this line!"></span>
 <span class="line-precise" title="No Anys on this line!">        out = {}</span>
@@ -1119,7 +1174,7 @@ Explicit (x1)">            with open(Path(self.path) / filename, "w", encoding="
 <span class="line-empty" title="No Anys on this line!"></span>
 <span class="line-empty" title="No Anys on this line!">        try:</span>
 <span class="line-precise" title="No Anys on this line!">            cmd_output = self._run("show-ref").strip().split("\n")</span>
-<span class="line-precise" title="No Anys on this line!">        except subprocess.CalledProcessError:</span>
+<span class="line-precise" title="No Anys on this line!">        except CalledProcessCustomError:</span>
 <span class="line-precise" title="No Anys on this line!">            LOG.warning("No refs")</span>
 <span class="line-precise" title="No Anys on this line!">            return refs</span>
 <span class="line-empty" title="No Anys on this line!"></span>
@@ -1154,8 +1209,8 @@ Explicit (x1)">            with open(Path(self.path) / filename, "w", encoding="
 <span class="line-empty" title="No Anys on this line!"></span>
 <span class="line-empty" title="No Anys on this line!">        try:</span>
 <span class="line-precise" title="No Anys on this line!">            return self._run(f"rev-parse {' '.join(descriptors)}").strip().split("\n")</span>
-<span class="line-precise" title="No Anys on this line!">        except subprocess.CalledProcessError as e:</span>
-<span class="line-precise" title="No Anys on this line!">            LOG.warning(form_process_error(e))</span>
+<span class="line-precise" title="No Anys on this line!">        except CalledProcessCustomError as e:</span>
+<span class="line-precise" title="No Anys on this line!">            LOG.warning(e)</span>
 <span class="line-empty" title="No Anys on this line!"></span>
 <span class="line-precise" title="No Anys on this line!">        return None</span>
 <span class="line-empty" title="No Anys on this line!"></span>
@@ -1173,8 +1228,8 @@ Explicit (x1)">            with open(Path(self.path) / filename, "w", encoding="
 <span class="line-empty" title="No Anys on this line!">        try:</span>
 <span class="line-precise" title="No Anys on this line!">            out = self._run(f"rev-list {range_expr}").strip().split("\n")</span>
 <span class="line-precise" title="No Anys on this line!">            return None if len(out) == 1 and not out[0] else out</span>
-<span class="line-precise" title="No Anys on this line!">        except subprocess.CalledProcessError as e:</span>
-<span class="line-precise" title="No Anys on this line!">            LOG.warning(form_process_error(e))</span>
+<span class="line-precise" title="No Anys on this line!">        except CalledProcessCustomError as e:</span>
+<span class="line-precise" title="No Anys on this line!">            LOG.warning(e)</span>
 <span class="line-empty" title="No Anys on this line!"></span>
 <span class="line-precise" title="No Anys on this line!">        return None</span>
 <span class="line-empty" title="No Anys on this line!"></span>
@@ -1188,7 +1243,7 @@ Explicit (x1)">            with open(Path(self.path) / filename, "w", encoding="
 <span class="line-empty" title="No Anys on this line!">        try:</span>
 <span class="line-precise" title="No Anys on this line!">            cmd = f"rev-parse --symbolic-full-name {local_branch_sha}@{{upstream}}"</span>
 <span class="line-precise" title="No Anys on this line!">            return self._run(cmd).strip()</span>
-<span class="line-precise" title="No Anys on this line!">        except subprocess.CalledProcessError:</span>
+<span class="line-precise" title="No Anys on this line!">        except CalledProcessCustomError:</span>
 <span class="line-precise" title="No Anys on this line!">            return None</span>
 <span class="line-empty" title="No Anys on this line!"></span>
 <span class="line-precise" title="No Anys on this line!">    def get_stash_info(self) -&gt; Optional[list[str]]:</span>
@@ -1319,7 +1374,7 @@ Omitted Generics (x2)">                tags["lightweight"][raw_tag.pop("refname"
 <span class="line-precise" title="No Anys on this line!">        notes_ref = self._run("notes get-ref").strip().split("\n")[0]</span>
 <span class="line-empty" title="No Anys on this line!">        try:</span>
 <span class="line-precise" title="No Anys on this line!">            notes_dag_root = self._run(f"rev-list {notes_ref}").strip().split("\n")[0]</span>
-<span class="line-precise" title="No Anys on this line!">        except subprocess.CalledProcessError:</span>
+<span class="line-precise" title="No Anys on this line!">        except CalledProcessCustomError:</span>
 <span class="line-precise" title="No Anys on this line!">            return None  # there are no git notes</span>
 <span class="line-precise" title="No Anys on this line!">        return {"ref": notes_ref, "root": notes_dag_root}</span>
 <span class="line-empty" title="No Anys on this line!"></span>
