@@ -243,5 +243,5 @@ if __name__ == "__main__":
 
     SRG, GIT = start_new_repo(SRG.step_number)
     repo_example2()
-    example2_rebase_server(SHOW_ARGS + ["--marked-commits", "998d091e", "ec2bc09c"])
+    example2_rebase_server(SHOW_ARGS)
     example2_rebase_client(SHOW_ARGS)

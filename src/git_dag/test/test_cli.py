@@ -63,7 +63,6 @@ def test_cli_main_config_create(tmp_path: Path) -> None:
     "arg,field,value",
     [
         ("--init-refs", "init_refs", ["main", "topic"]),
-        ("--marked-commits", "marked_commits", ["main", "topic"]),
         ("-R", "range_expr", "main..topic"),
         ("-p", "path", "/some/path"),
         ("-f", "file", "/some/path/git-dag.gv"),

@@ -126,8 +126,7 @@ on a feature branch ``server``. A bit later Marina, adds related client-side
 functionality on a ``client`` branch. Then both of them continue working on their
 implementations. Meanwhile, ``main`` has evolved and Elena decides to rebase ``server``
 on it (lets assume that she resolved a conflict in the ``C3`` commit). The result is
-depicted in the second tab below. The original ``C3`` commit and its version after the
-rebase (``ec2bc09c``) have been marked to emphasize that there was a conflict.
+depicted in the second tab below.
 
 At that point Marina wants to sync her ``client`` branch with the updated ``server``
 branch, but she doesn't want to resolve the same conflict with ``C3`` (after all, it has
