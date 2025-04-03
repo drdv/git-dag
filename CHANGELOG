@@ -2,6 +2,7 @@
 
 * 0.1.5    UNRELEASED
 
++ Customize subprocess.CalledProcessError (#108)
 
 * 0.1.4    2025-04-02
 
