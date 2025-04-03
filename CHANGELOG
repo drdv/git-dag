@@ -2,7 +2,12 @@
 
 * 0.1.5    UNRELEASED
 
++ Remove option to mark commits (#113)
 + Customize subprocess.CalledProcessError (#108)
+
+** Bugfixes
+
++ Fix rev_parse_descriptors and graphviz nodes sorting (#111)
 
 * 0.1.4    2025-04-02
 

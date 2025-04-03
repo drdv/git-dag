@@ -9,6 +9,11 @@ from ..constants import DictStrStr
 from .dag_base import DagBase
 
 
+def handle_none(x: Optional[str] = None) -> str:
+    """Handle None values when sorting."""
+    return "" if x is None else x
+
+
 class DagGraphviz(DagBase):
     """Graphviz interface."""
 
@@ -77,10 +82,12 @@ class DagGraphviz(DagBase):
                     )
 
                     sorted_standalone_trees = sorted(
-                        self.standalone_trees, key=lambda x: (x["label"], x["tooltip"])
+                        self.standalone_trees,
+                        key=lambda x: (x["label"], handle_none(x["tooltip"])),
                     )
                     sorted_standalone_blobs = sorted(
-                        self.standalone_blobs, key=lambda x: (x["label"], x["tooltip"])
+                        self.standalone_blobs,
+                        key=lambda x: (x["label"], handle_none(x["tooltip"])),
                     )
 
                     tree_names = [t["name"] for t in sorted_standalone_trees]
@@ -106,7 +113,9 @@ class DagGraphviz(DagBase):
         )
 
         # node order influences DAG
-        for node in sorted(self.nodes, key=lambda x: (x["label"], x["tooltip"])):
+        for node in sorted(
+            self.nodes, key=lambda x: (x["label"], handle_none(x["tooltip"]))
+        ):
             self._dag.node(**node)
         self._dag.edges(sorted(self.edges))
         for node1, node2, attrs in self.edges_custom:
