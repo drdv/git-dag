@@ -668,9 +668,6 @@ class GitRepository:
             repository=self,
             params=params,
             objects_sha_to_include=objects_sha_to_include,
-            marked_commits=(
-                self.inspector.git.rev_parse_descriptors(params.public.marked_commits)
-            ),
             in_range_commits=(
                 self.inspector.git.rev_list_range(params.public.range_expr)
             ),

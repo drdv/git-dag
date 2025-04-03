@@ -40,7 +40,6 @@ class MixinProtocol(Protocol):
     dag: Any
     included_nodes_id: set[str]
     tooltip_names: DictStrStr
-    marked_commits: Optional[list[str]]
     in_range_commits: Optional[list[str]]
 
     def _is_object_to_include(self, sha: str) -> bool: ...  # pragma: no cover
@@ -79,7 +78,6 @@ class CommitHandlerMixin:
         if self._is_object_to_include(sha) and unreachable_switch:
             self.included_nodes_id.add(sha)
             color_label = "commit" if item.is_reachable else "commit_unreachable"
-            is_marked = self.marked_commits is not None and sha in self.marked_commits
             is_in_range = (
                 self.in_range_commits is not None and sha in self.in_range_commits
             )
@@ -94,8 +92,8 @@ class CommitHandlerMixin:
                 name=sha,
                 label=label,
                 color=(
-                    self.params.dag_node_colors.marked_commit
-                    if is_marked or is_in_range
+                    self.params.dag_node_colors.commit_in_range
+                    if is_in_range
                     else color
                 ),
                 fillcolor=color,
@@ -352,10 +350,11 @@ class HeadHandlerMixin:
                     shape = None
 
                 if sha in self.included_nodes_id and tooltip is not None:
-                    name = f"annotation-{descriptor}"
+                    # colon in node name not supported by graphviz
+                    name = f"annotation-{descriptor.replace(":", "=")}"
                     self.dag.node(
                         name=name,
-                        label=label,
+                        label=label[: self.params.misc.annotations_truncate],
                         color=self.params.dag_node_colors.annotations,
                         fillcolor=self.params.dag_node_colors.annotations,
                         tooltip=tooltip,
@@ -378,7 +377,6 @@ class DagVisualizer(
     repository: GitRepository
     params: Params
     objects_sha_to_include: Optional[set[str]] = None
-    marked_commits: Optional[list[str]] = None
     in_range_commits: Optional[list[str]] = None
 
     def __post_init__(self) -> None:

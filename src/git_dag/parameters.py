@@ -191,7 +191,7 @@ class ParamsDagNodeColors(ParamsBase):
 
     commit: str = "gold3"
     commit_unreachable: str = "darkorange"
-    marked_commit: str = "red"
+    commit_in_range: str = "red"
     tree: str = "deepskyblue4"
     the_empty_tree: str = "darkturquoise"
     blob: str = "gray"
@@ -215,6 +215,7 @@ class ParamsMisc(ParamsBase):
 
     annotations_symbol: str = "&#9758;"
     annotations_shape: str = "cds"
+    annotations_truncate: int = 20
 
     @staticmethod
     def section_in_config() -> str:
@@ -232,7 +233,6 @@ class ParamsPublic(ParamsBase):
 
     range_expr: Optional[str] = None
     init_refs: Optional[list[str]] = None
-    marked_commits: Optional[list[str]] = None
     annotations: Optional[list[list[str]]] = None
 
     max_numb_commits: int = 1000

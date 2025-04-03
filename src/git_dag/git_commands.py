@@ -424,8 +424,9 @@ class GitCommand(GitCommandBase):
         if descriptors is None:
             return None
 
+        args = " ".join([f"'{descriptor}'" for descriptor in descriptors])
         try:
-            return self._run(f"rev-parse {' '.join(descriptors)}").strip().split("\n")
+            return self._run(f"rev-parse {args}").strip().split("\n")
         except CalledProcessCustomError as e:
             LOG.warning(e)
 
