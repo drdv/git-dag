@@ -8,6 +8,7 @@ from pathlib import Path
 import pytest
 
 from git_dag.constants import GIT_EMPTY_TREE_OBJECT_SHA
+from git_dag.exceptions import CalledProcessCustomError
 from git_dag.git_commands import GitCommandMutate
 from git_dag.git_objects import GitBlob, GitTree
 from git_dag.git_repository import GitRepository
@@ -28,7 +29,7 @@ def test_missing_path(tmp_path: Path) -> None:
 def test_not_a_git_repository(tmp_path: Path) -> None:
     repo_path = tmp_path
     with pytest.raises(
-        RuntimeError,
+        CalledProcessCustomError,
         match="not a git repository",
     ):
         GitRepository(repo_path)

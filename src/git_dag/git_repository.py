@@ -5,7 +5,6 @@ from __future__ import annotations
 import logging
 import multiprocessing
 import re
-import subprocess
 from functools import wraps
 from operator import itemgetter
 from pathlib import Path
@@ -13,6 +12,8 @@ from time import time
 from typing import Annotated, Any, Callable, Optional, Type, cast
 
 from pydantic import BeforeValidator, TypeAdapter
+
+from git_dag.exceptions import CalledProcessCustomError
 
 from .constants import GIT_EMPTY_TREE_OBJECT_SHA, SHA_PATTERN, DictStrStr
 from .dag import DagVisualizer
@@ -509,7 +510,7 @@ class GitRepository:
         """Post-process HEAD."""
         try:
             head_commit_sha = self.inspector.git.get_local_head_commit_sha()
-        except subprocess.CalledProcessError:
+        except CalledProcessCustomError:
             LOG.warning("No Head")
             return GitHead()
 

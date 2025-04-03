@@ -17,20 +17,12 @@ from pathlib import Path
 from typing import Any, Literal, Optional
 
 from git_dag.constants import CMD_TAGS_INFO, SHA_PATTERN, TAG_FORMAT_FIELDS, DictStrStr
+from git_dag.exceptions import CalledProcessCustomError
 from git_dag.parameters import Params, ParamsPublic, context_ignore_config_file
 from git_dag.utils import escape_decode
 
 logging.basicConfig(level=logging.WARNING)
 LOG = logging.getLogger(__name__)
-
-
-def form_process_error(error: subprocess.CalledProcessError) -> str:
-    """Format error."""
-    return (
-        f"\ncommand: {' '.join(error.cmd)}\n"
-        f"   code: {error.returncode}\n"
-        f"  error: {error.stderr}"
-    )
 
 
 class GitCommandBase:
@@ -48,13 +40,16 @@ class GitCommandBase:
         encoding: str = "utf-8",
     ) -> str:
         """Run a git command."""
-        return subprocess.run(
-            shlex.split(f"{self.command_prefix} {command}"),
-            stdout=subprocess.PIPE,
-            stderr=subprocess.PIPE,
-            check=True,
-            env=env,
-        ).stdout.decode(encoding, errors="replace")
+        try:
+            return subprocess.run(
+                shlex.split(f"{self.command_prefix} {command}"),
+                stdout=subprocess.PIPE,
+                stderr=subprocess.PIPE,
+                check=True,
+                env=env,
+            ).stdout.decode(encoding, errors="replace")
+        except subprocess.CalledProcessError as e:
+            raise CalledProcessCustomError(e) from e
 
     @staticmethod
     def run_general(
@@ -106,9 +101,9 @@ class GitCommandMutate(GitCommandBase):
 
         super().__init__(path)
 
-    def init(self) -> None:
+    def init(self, branch: str = "main") -> None:
         """Initialise a git repository."""
-        self._run("init -b main")
+        self._run(f"init -b {branch}")
 
     def get_env(self) -> DictStrStr:
         """Return environment with author and committer to pass to commands."""
@@ -170,7 +165,13 @@ class GitCommandMutate(GitCommandBase):
         else:
             raise ValueError("Unsupported message type.")
 
-    def br(self, branch: str, create: bool = False, delete: bool = False) -> None:
+    def br(
+        self,
+        branch: str,
+        create: bool = False,
+        orphan: bool = False,
+        delete: bool = False,
+    ) -> None:
         """Create/switch/delete branch."""
         if create and delete:
             raise ValueError("At most one of create and delete can be True.")
@@ -178,11 +179,41 @@ class GitCommandMutate(GitCommandBase):
         if delete:
             self._run(f"branch -D {branch}")
         else:
-            self._run(f"switch {'-c' if create else ''} {branch}")
+            create_switch = ""
+            if create:
+                create_switch = "--orphan" if orphan else "-c"
 
-    def mg(self, branch: str, message: str = "m", strategy: str = "theirs") -> None:
+            self._run(f"switch {create_switch} {branch}")
+
+    def mg(
+        self,
+        branch: str,
+        message: str = "m",
+        strategy: str = "theirs",
+        unrelated: bool = False,
+    ) -> None:
         """Merge."""
-        self._run(f'merge -X {strategy} {branch} -m "{message}"', env=self.env)
+        if unrelated:
+            flags = "--allow-unrelated-histories"
+        else:
+            flags = f"-X {strategy}"
+        self._run(f'merge {flags} {branch} -m "{message}"', env=self.env)
+
+    def mg_multiple(self, branches: list[str], message: str = "m") -> None:
+        """Merge multiple (possibly orphan) branches without conflicts."""
+        try:
+            self._run(
+                f'merge --allow-unrelated-histories {' '.join(branches)} -m "{message}"',
+                env=self.env,
+            )
+        except CalledProcessCustomError as e:
+            if (
+                "Automatic merge failed; fix conflicts and then commit the result"
+                in e.output.decode("utf-8")
+            ):
+                self.cm(message)
+            else:
+                raise
 
     def stash(
         self,
@@ -286,10 +317,7 @@ class GitCommand(GitCommandBase):
             "cat-file --batch-all-objects --unordered "
             '--batch-check="%(objectname) %(objecttype)"'
         )
-        try:
-            objects = self._run(CMD).strip().split("\n")
-        except subprocess.CalledProcessError as e:
-            raise RuntimeError(form_process_error(e)) from e
+        objects = self._run(CMD).strip().split("\n")
 
         if len(objects) == 1 and not objects[0]:
             LOG.warning("No objects")
@@ -337,7 +365,7 @@ class GitCommand(GitCommandBase):
                 cmd_output = self._run(cmd).strip().split("\n")
                 # drop refs/remotes
                 symb_refs[f"{remote}/HEAD"] = "/".join(cmd_output[0].split("/")[2:])
-            except subprocess.CalledProcessError:
+            except CalledProcessCustomError:
                 LOG.warning(f"HEAD not defined for {remote}.")
         return symb_refs
 
@@ -345,8 +373,8 @@ class GitCommand(GitCommandBase):
         """Return heads of pull-requests."""
         try:
             cmd_output = self._run("ls-remote").strip().split("\n")
-        except subprocess.CalledProcessError as e:
-            LOG.warning(form_process_error(e))
+        except CalledProcessCustomError as e:
+            LOG.warning(e)
             return {}
 
         out = {}
@@ -363,7 +391,7 @@ class GitCommand(GitCommandBase):
 
         try:
             cmd_output = self._run("show-ref").strip().split("\n")
-        except subprocess.CalledProcessError:
+        except CalledProcessCustomError:
             LOG.warning("No refs")
             return refs
 
@@ -398,8 +426,8 @@ class GitCommand(GitCommandBase):
 
         try:
             return self._run(f"rev-parse {' '.join(descriptors)}").strip().split("\n")
-        except subprocess.CalledProcessError as e:
-            LOG.warning(form_process_error(e))
+        except CalledProcessCustomError as e:
+            LOG.warning(e)
 
         return None
 
@@ -417,8 +445,8 @@ class GitCommand(GitCommandBase):
         try:
             out = self._run(f"rev-list {range_expr}").strip().split("\n")
             return None if len(out) == 1 and not out[0] else out
-        except subprocess.CalledProcessError as e:
-            LOG.warning(form_process_error(e))
+        except CalledProcessCustomError as e:
+            LOG.warning(e)
 
         return None
 
@@ -432,7 +460,7 @@ class GitCommand(GitCommandBase):
         try:
             cmd = f"rev-parse --symbolic-full-name {local_branch_sha}@{{upstream}}"
             return self._run(cmd).strip()
-        except subprocess.CalledProcessError:
+        except CalledProcessCustomError:
             return None
 
     def get_stash_info(self) -> Optional[list[str]]:
@@ -550,7 +578,7 @@ class GitCommand(GitCommandBase):
         notes_ref = self._run("notes get-ref").strip().split("\n")[0]
         try:
             notes_dag_root = self._run(f"rev-list {notes_ref}").strip().split("\n")[0]
-        except subprocess.CalledProcessError:
+        except CalledProcessCustomError:
             return None  # there are no git notes
         return {"ref": notes_ref, "root": notes_dag_root}
 
