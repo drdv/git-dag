@@ -1,4 +1,12 @@
-"""Parameters."""
+"""Parameters.
+
+Note
+-----
+``ParamsDagGlobal``, ``ParamsDagNode`` and ``ParamsDagEdge`` are directly passed to the
+backend (FIXME: currently all parameters assume graphviz) and allow extra arguments --
+``model_config = ConfigDict(extra="allow")``.
+
+"""
 
 import logging
 from abc import abstractmethod
@@ -85,20 +93,15 @@ class ParamsBase(BaseModel):
         negligible and this simplifies the code. FIXME: maybe rework things later ...
 
         """
-        fields_not_defined_by_user = {
-            key: value
-            for key, value in self.model_dump().items()
-            if key not in self.model_dump(exclude_unset=True)
-        }
-
         if not self.ignore_config_file and CONFIG_FILE.is_file():
             with open(CONFIG_FILE, "r", encoding="utf-8") as h:
                 params_from_config_file = yaml.safe_load(h)
 
             if self.section_in_config() in params_from_config_file:
                 section_params = params_from_config_file[self.section_in_config()]
+                fields_defined_by_user = self.model_dump(exclude_unset=True)
                 for key, value in section_params.items():
-                    if key in fields_not_defined_by_user:
+                    if key not in fields_defined_by_user:
                         setattr(self, key, value)
 
         return self
@@ -152,6 +155,8 @@ class ParamsStandaloneCluster(ParamsBase):
 class ParamsDagGlobal(ParamsBase):
     """Global DAG parameters."""
 
+    model_config = ConfigDict(extra="allow")
+
     rankdir: Literal["LR", "RL", "TB", "BT"] = "TB"
     dpi: str = "None"
     bgcolor: str = "white"  # bgcolor "transparent" is inconsistent accross browsers
@@ -163,6 +168,8 @@ class ParamsDagGlobal(ParamsBase):
 
 class ParamsDagNode(ParamsBase):
     """DAG node parameters."""
+
+    model_config = ConfigDict(extra="allow")
 
     shape: str = "box"
     style: str = "filled"
@@ -177,6 +184,8 @@ class ParamsDagNode(ParamsBase):
 
 class ParamsDagEdge(ParamsBase):
     """DAG edge parameters."""
+
+    model_config = ConfigDict(extra="allow")
 
     arrowsize: str = "0.5"
     color: str = "gray10"
