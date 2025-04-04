@@ -324,7 +324,7 @@ class HeadHandlerMixin:
     def _add_annotations(self: MixinProtocol) -> None:
         if self.params.public.annotations is not None:
             for annotation in self.params.public.annotations:
-                descriptor = annotation[0]
+                descriptor = annotation[0].strip()
                 shas = self.repository.inspector.git.rev_parse_descriptors([descriptor])
 
                 if shas is None:

@@ -141,8 +141,9 @@ docs-examples-generate: TMP_EXAMPLES_DIR := /tmp/git-dag-examples
 docs-examples-generate:
 	$(call generate_example_data,git_internals)
 	$(call generate_example_data,rebase_onto)
+	$(call generate_example_data,revisions_and_ranges)
 
-## Generate SVG files for the docs
+## Generate SVG files for the docs (not used at the moment)
 # Unless --dry-run is passed to mktemp, a tmp directory is created even without
 # executing the target (due to the way make works)
 .PHONY: docs-svg
