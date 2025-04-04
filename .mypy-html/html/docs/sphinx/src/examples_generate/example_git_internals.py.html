@@ -361,8 +361,6 @@
 <span id="L351" class="lineno"><a class="lineno" href="#L351">351</a></span>
 <span id="L352" class="lineno"><a class="lineno" href="#L352">352</a></span>
 <span id="L353" class="lineno"><a class="lineno" href="#L353">353</a></span>
-<span id="L354" class="lineno"><a class="lineno" href="#L354">354</a></span>
-<span id="L355" class="lineno"><a class="lineno" href="#L355">355</a></span>
 </pre></td>
 <td class="table-code"><pre><span class="line-empty" title="No Anys on this line!">"""Example from https://git-scm.com/book/en/v2/Git-Internals-Git-Objects"""</span>
 <span class="line-empty" title="No Anys on this line!"></span>
@@ -697,7 +695,7 @@
 <span class="line-empty" title="No Anys on this line!"></span>
 <span class="line-precise" title="No Anys on this line!">if __name__ == "__main__":</span>
 <span class="line-precise" title="No Anys on this line!">    SRG = StepResultsGenerator(example_name=EXAMPLE_NAME)</span>
-<span class="line-precise" title="No Anys on this line!">    GIT = GitCommandMutate(SRG.tmp_dir, date="01/01/25 09:00 +0100")</span>
+<span class="line-precise" title="No Anys on this line!">    GIT = GitCommandMutate(SRG.repo_dir, date="01/01/25 09:00 +0100")</span>
 <span class="line-precise" title="No Anys on this line!">    GIT.init()</span>
 <span class="line-empty" title="No Anys on this line!"></span>
 <span class="line-precise" title="No Anys on this line!">    step_create_blob()</span>
@@ -717,8 +715,6 @@
 <span class="line-precise" title="No Anys on this line!">        show_args=["-H", "-l", "-t", "-u"],</span>
 <span class="line-precise" title="No Anys on this line!">        increment_step_number=False,</span>
 <span class="line-empty" title="No Anys on this line!">    )</span>
-<span class="line-empty" title="No Anys on this line!"></span>
-<span class="line-precise" title="No Anys on this line!">    print(f"Temporary directory created: {SRG.tmp_dir}")</span>
 </pre></td>
 </tr></tbody>
 </table>

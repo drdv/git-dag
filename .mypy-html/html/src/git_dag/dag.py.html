@@ -887,7 +887,7 @@ Explicit (x3)">                        self.dag.edge(node_name, sha)</span>
 <span class="line-precise" title="No Anys on this line!">    def _add_annotations(self: MixinProtocol) -&gt; None:</span>
 <span class="line-precise" title="No Anys on this line!">        if self.params.public.annotations is not None:</span>
 <span class="line-precise" title="No Anys on this line!">            for annotation in self.params.public.annotations:</span>
-<span class="line-precise" title="No Anys on this line!">                descriptor = annotation[0]</span>
+<span class="line-precise" title="No Anys on this line!">                descriptor = annotation[0].strip()</span>
 <span class="line-precise" title="No Anys on this line!">                shas = self.repository.inspector.git.rev_parse_descriptors([descriptor])</span>
 <span class="line-empty" title="No Anys on this line!"></span>
 <span class="line-precise" title="No Anys on this line!">                if shas is None:</span>

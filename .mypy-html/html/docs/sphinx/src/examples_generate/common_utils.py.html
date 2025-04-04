@@ -108,7 +108,6 @@
 <span id="L98" class="lineno"><a class="lineno" href="#L98">98</a></span>
 <span id="L99" class="lineno"><a class="lineno" href="#L99">99</a></span>
 <span id="L100" class="lineno"><a class="lineno" href="#L100">100</a></span>
-<span id="L101" class="lineno"><a class="lineno" href="#L101">101</a></span>
 </pre></td>
 <td class="table-code"><pre><span class="line-empty" title="No Anys on this line!">"""Common utils for example generation."""</span>
 <span class="line-empty" title="No Anys on this line!"></span>
@@ -133,11 +132,11 @@
 <span class="line-precise" title="No Anys on this line!">    def __init__(self, example_name: str, step_number: int = 1) -&gt; None:</span>
 <span class="line-precise" title="No Anys on this line!">        self.example_name = example_name</span>
 <span class="line-empty" title="No Anys on this line!"></span>
-<span class="line-precise" title="No Anys on this line!">        self.tmp_dir = f"/tmp/git-dag-examples/{self.example_name}"</span>
-<span class="line-precise" title="No Anys on this line!">        shutil.rmtree(self.tmp_dir, ignore_errors=True)</span>
-<span class="line-precise" title="No Anys on this line!">        Path(self.tmp_dir).mkdir(parents=True)</span>
+<span class="line-precise" title="No Anys on this line!">        self.repo_dir = f"/tmp/git-dag-examples/{self.example_name}"</span>
+<span class="line-precise" title="No Anys on this line!">        shutil.rmtree(self.repo_dir, ignore_errors=True)</span>
+<span class="line-precise" title="No Anys on this line!">        Path(self.repo_dir).mkdir(parents=True)</span>
 <span class="line-empty" title="No Anys on this line!"></span>
-<span class="line-precise" title="No Anys on this line!">        self.out_dir = Path(f"{self.tmp_dir}-out")</span>
+<span class="line-precise" title="No Anys on this line!">        self.out_dir = Path(f"{self.repo_dir}-out")</span>
 <span class="line-precise" title="No Anys on this line!">        self.out_dir.mkdir(exist_ok=True)</span>
 <span class="line-empty" title="No Anys on this line!"></span>
 <span class="line-precise" title="No Anys on this line!">        self.step_number = step_number</span>
@@ -165,7 +164,6 @@
 <span class="line-empty" title="No Anys on this line!"></span>
 <span class="line-precise" title="No Anys on this line!">    def _store_svg(self, name: str, show_args: list[str]) -&gt; None:</span>
 <span class="line-empty" title="No Anys on this line!">        """Store SVG."""</span>
-<span class="line-empty" title="No Anys on this line!"></span>
 <span class="line-precise" title="No Anys on this line!">        with context_ignore_config_file():</span>
 <span class="line-precise" title="No Anys on this line!">            params = Params(</span>
 <span class="line-precise" title="No Anys on this line!">                public=ParamsPublic(</span>
@@ -177,7 +175,7 @@ Explicit (x2)">                    **get_user_defined_cla(show_args),</span>
 <span class="line-empty" title="No Anys on this line!">            )</span>
 <span class="line-empty" title="No Anys on this line!"></span>
 <span class="line-any" title="Any Types on this line: 
-Explicit (x2)">        GitRepository(self.tmp_dir, parse_trees=True).show(params)</span>
+Explicit (x2)">        GitRepository(self.repo_dir, parse_trees=True).show(params)</span>
 <span class="line-empty" title="No Anys on this line!"></span>
 <span class="line-precise" title="No Anys on this line!">        self._store_args(name, show_args)</span>
 <span class="line-precise" title="Any Types on this line: 
