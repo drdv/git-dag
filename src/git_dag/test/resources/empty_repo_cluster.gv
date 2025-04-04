@@ -1,10 +1,10 @@
 digraph {
 	graph [bgcolor=white dpi=None rankdir=TB]
-	node [height=0.02 margin="0.01,0.01" shape=box style=filled width=0.02]
+	node [fontname=Courier height=0.02 margin="0.01,0.01" shape=box style=filled width=0.02]
 	edge [arrowsize=0.5 color=gray10]
 	subgraph cluster_standalone {
 		edge [style=invis]
-		color=lightgrey label="Standalone\nTrees & Blobs"
+		color=lightgrey fontname=Courier label="Standalone\nTrees & Blobs"
 		"node" [style=invis]
 	}
 }

@@ -8,7 +8,7 @@ from typing import ClassVar, Optional, cast
 
 from pydantic import BaseModel, ConfigDict, Field, computed_field
 
-from .constants import SHA_LIMIT, DictStrStr
+from .constants import DictStrStr
 
 GitCommitRawDataType = dict[str, str | list[str]]
 """
@@ -280,4 +280,4 @@ class GitHead(BaseModel):
         # type narrowing to make mypy happy
         assert (self.commit is not None) and (self.branch is not None)
 
-        return f"{self.commit.sha[:SHA_LIMIT]} ({self.branch.name})"
+        return f"{self.commit.sha} ({self.branch.name})"

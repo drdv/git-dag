@@ -76,11 +76,7 @@ class DagGraphviz(DagBase):
                     name="cluster_standalone",
                     edge_attr={"style": "invis"},
                 ) as c:
-                    c.attr(
-                        label=cluster_params["label"],
-                        color=cluster_params["color"],
-                    )
-
+                    c.attr(**cluster_params)
                     sorted_standalone_trees = sorted(
                         self.standalone_trees,
                         key=lambda x: (x["label"], handle_none(x["tooltip"])),

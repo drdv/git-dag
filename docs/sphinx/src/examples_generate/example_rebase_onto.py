@@ -55,7 +55,7 @@ def example1_rebase(show_args: Optional[list[str]] = None) -> None:
 
 def example1_rebase_onto1(show_args: Optional[list[str]] = None) -> None:
     GIT.run_general(
-        f"{GIT.command_prefix} rebase --onto c95114ce bc9b888f feature",
+        f"{GIT.command_prefix} rebase --onto c95114c bc9b888 feature",
         env=GIT.env,
         expected_stderr="Successfully rebased and updated",
     )
@@ -66,7 +66,7 @@ def example1_rebase_onto1(show_args: Optional[list[str]] = None) -> None:
             """
             .. code-block:: bash
 
-                git rebase --onto c95114ce bc9b888f feature
+                git rebase --onto c95114c bc9b888 feature
             """
         ),
     )
@@ -74,7 +74,7 @@ def example1_rebase_onto1(show_args: Optional[list[str]] = None) -> None:
 
 def example1_rebase_onto2(show_args: Optional[list[str]] = None) -> None:
     GIT.run_general(
-        f"{GIT.command_prefix} rebase --onto c95114ce 4878ceed feature",
+        f"{GIT.command_prefix} rebase --onto c95114c 4878cee feature",
         env=GIT.env,
         expected_stderr="Successfully rebased and updated",
     )
@@ -85,7 +85,7 @@ def example1_rebase_onto2(show_args: Optional[list[str]] = None) -> None:
             """
             .. code-block:: bash
 
-                git rebase --onto c95114ce 4878ceed feature
+                git rebase --onto c95114c 4878cee feature
             """
         ),
     )
@@ -93,7 +93,7 @@ def example1_rebase_onto2(show_args: Optional[list[str]] = None) -> None:
 
 def example1_rebase_onto3(show_args: Optional[list[str]] = None) -> None:
     GIT.run_general(
-        f"{GIT.command_prefix} rebase --onto c95114ce 4878ceed 09fb3c2b",
+        f"{GIT.command_prefix} rebase --onto c95114c 4878cee 09fb3c2",
         env=GIT.env,
         expected_stderr="Successfully rebased and updated",
     )
@@ -104,7 +104,7 @@ def example1_rebase_onto3(show_args: Optional[list[str]] = None) -> None:
             """
             .. code-block:: bash
 
-                git rebase --onto c95114ce 4878ceed 09fb3c2b
+                git rebase --onto c95114c 4878cee 09fb3c2
             """
         ),
     )
@@ -187,7 +187,7 @@ def example2_rebase_server(show_args: Optional[list[str]] = None) -> None:
 def example2_rebase_client(show_args: Optional[list[str]] = None) -> None:
     GIT.br("client")
     GIT.run_general(
-        f"{GIT.command_prefix} rebase --onto server 998d091e client",
+        f"{GIT.command_prefix} rebase --onto server 998d091 client",
         env=GIT.env,
         expected_stderr="Successfully rebased and updated",
     )
@@ -198,7 +198,7 @@ def example2_rebase_client(show_args: Optional[list[str]] = None) -> None:
             """
             .. code-block:: bash
 
-                git rebase --onto server 998d091e client
+                git rebase --onto server 998d091 client
             """
         ),
     )
@@ -224,15 +224,15 @@ if __name__ == "__main__":
     example1_rebase()
 
     SRG, GIT = start_new_repo(SRG.step_number)
-    repo_example1(SHOW_ARGS + ["-R", "bc9b888f..feature"])
+    repo_example1(SHOW_ARGS + ["-R", "bc9b888..feature"])
     example1_rebase_onto1()
 
     SRG, GIT = start_new_repo(SRG.step_number)
-    repo_example1(SHOW_ARGS + ["-R", "4878ceed..feature"])
+    repo_example1(SHOW_ARGS + ["-R", "4878cee..feature"])
     example1_rebase_onto2()
 
     SRG, GIT = start_new_repo(SRG.step_number)
-    repo_example1(SHOW_ARGS + ["-R", "4878ceed..09fb3c2b"])
+    repo_example1(SHOW_ARGS + ["-R", "4878cee..09fb3c2"])
     example1_rebase_onto3()
     example1_move_feature_after_rebase_onto3()
     example1_switch_feature()

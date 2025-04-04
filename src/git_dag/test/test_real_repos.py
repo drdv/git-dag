@@ -7,12 +7,7 @@ from pathlib import Path
 import pytest
 
 from git_dag.git_repository import GitRepository
-from git_dag.parameters import (
-    Params,
-    ParamsDagGlobal,
-    ParamsPublic,
-    context_ignore_config_file,
-)
+from git_dag.parameters import Params, ParamsPublic, context_ignore_config_file
 
 TEST_DIR = Path(__file__).parent
 
@@ -49,8 +44,7 @@ def test_real_repository(repo_name: Path) -> None:
                 show_head=True,
                 format="gv",
                 file=gv_file,
-            ),
-            dag_global=ParamsDagGlobal(bgcolor="transparent"),
+            )
         )
     GitRepository(repo_path, parse_trees=False).show(params)
 

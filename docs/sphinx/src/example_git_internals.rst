@@ -38,7 +38,7 @@ store:
 .. include:: .static/examples/git_internals/03_step_create_blob_from_modified_file_args.rst
 .. include:: .static/examples/git_internals/03_step_create_blob_from_modified_file_html.rst
 
-Note that, the ``83baae61`` and ``1f7a7a47`` blobs do not contain information related to
+Note that, the ``83baae6`` and ``1f7a7a4`` blobs do not contain information related to
 the name of the file (``test.txt``) whose data they store.
 
 Git tree
@@ -55,7 +55,7 @@ Trees as well are identified using the SHA-1 hash of the data they contain.
 .. include:: .static/examples/git_internals/04_step_create_tree_from_cached_blob_args.rst
 .. include:: .static/examples/git_internals/04_step_create_tree_from_cached_blob_html.rst
 
-The tooltip of the ``83baae61`` blob is now the actual name of the file whose data it
+The tooltip of the ``83baae6`` blob is now the actual name of the file whose data it
 stores (the name has been retrieved from the containing tree object).
 
 In a similar way we can create another tree that contains the second version of
@@ -72,8 +72,8 @@ Next we create a tree that contains another tree:
 .. include:: .static/examples/git_internals/06_step_create_tree_with_tree_html.rst
 
 Similar to a blob, a tree does not include information about its own name. However, if
-contained in another tree, its name can be retrieved (see the tooltip of ``d8329fc1``
-and compare it with the tooltips of ``3c4e9cd7`` and ``0155eb42``).
+contained in another tree, its name can be retrieved (see the tooltip of ``d8329fc``
+and compare it with the tooltips of ``3c4e9cd`` and ``0155eb4``).
 
 Git commit
 ~~~~~~~~~~~

@@ -148,7 +148,7 @@ def step_create_tree_from_cached_blob_and_file() -> None:
 
 
 def step_create_tree_with_tree() -> None:
-    GIT.run_general(f"{GIT.command_prefix} read-tree --prefix=bak d8329fc1")
+    GIT.run_general(f"{GIT.command_prefix} read-tree --prefix=bak d8329fc")
     GIT.run_general(f"{GIT.command_prefix} write-tree")
 
     SRG.results(
@@ -159,7 +159,7 @@ def step_create_tree_with_tree() -> None:
             .. code-block:: bash
                 :caption: Create a tree containing another tree
 
-                git read-tree --prefix=bak d8329fc1
+                git read-tree --prefix=bak d8329fc
                 git write-tree
 
             .. code-block:: console
@@ -173,17 +173,17 @@ def step_create_tree_with_tree() -> None:
 
 def step_add_commits() -> DictStrStr:
     commit1 = GIT.run_general(
-        f"echo 'First commit' | {GIT.command_prefix} commit-tree d8329f",
+        f"echo 'First commit' | {GIT.command_prefix} commit-tree d8329fc",
         env=GIT.get_env(),
     )
 
     commit2 = GIT.run_general(
-        f"echo 'Second commit' | {GIT.command_prefix} commit-tree 0155eb -p {commit1}",
+        f"echo 'Second commit' | {GIT.command_prefix} commit-tree 0155eb4 -p {commit1}",
         env=GIT.get_env(),
     )
 
     commit3 = GIT.run_general(
-        f"echo 'Third commit' | {GIT.command_prefix} commit-tree 3c4e9c -p {commit2}",
+        f"echo 'Third commit' | {GIT.command_prefix} commit-tree 3c4e9cd -p {commit2}",
         env=GIT.get_env(),
     )
 
@@ -208,9 +208,9 @@ def step_add_commits() -> DictStrStr:
                 GIT_COMMITTER_NAME="Nom Prenom"
                 GIT_COMMITTER_EMAIL="nom.prenom@mail.com"
 
-                SHA_FIRST_COMMIT=$(echo 'First commit' | git commit-tree d8329f)
-                SHA_SECOND_COMMIT=$(echo 'Second commit' | git commit-tree 0155eb -p $SHA_FIRST_COMMIT)
-                SHA_THIRD_COMMIT=$(echo 'Third commit' | git commit-tree 3c4e9c -p $SHA_SECOND_COMMIT)
+                SHA_FIRST_COMMIT=$(echo 'First commit' | git commit-tree d8329fc)
+                SHA_SECOND_COMMIT=$(echo 'Second commit' | git commit-tree 0155eb4 -p $SHA_FIRST_COMMIT)
+                SHA_THIRD_COMMIT=$(echo 'Third commit' | git commit-tree 3c4e9cd -p $SHA_SECOND_COMMIT)
 
                 echo $SHA_FIRST_COMMIT
                 echo $SHA_SECOND_COMMIT
