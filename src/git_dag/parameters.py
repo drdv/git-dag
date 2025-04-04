@@ -146,6 +146,7 @@ class ParamsStandaloneCluster(ParamsBase):
 
     color: str = "lightgrey"
     label: str = r"Standalone\nTrees & Blobs"
+    fontname: str = "Courier"
 
     @staticmethod
     def section_in_config() -> str:
@@ -176,6 +177,7 @@ class ParamsDagNode(ParamsBase):
     margin: str = "0.01,0.01"
     width: str = "0.02"
     height: str = "0.02"
+    fontname: str = "Courier"
 
     @staticmethod
     def section_in_config() -> str:
@@ -225,6 +227,7 @@ class ParamsMisc(ParamsBase):
     annotations_symbol: str = "&#9758;"
     annotations_shape: str = "cds"
     annotations_truncate: int = 20
+    sha_truncate: int = 7
 
     @staticmethod
     def section_in_config() -> str:

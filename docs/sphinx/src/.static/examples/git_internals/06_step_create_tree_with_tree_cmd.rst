@@ -2,7 +2,7 @@
 .. code-block:: bash
     :caption: Create a tree containing another tree
 
-    git read-tree --prefix=bak d8329fc1
+    git read-tree --prefix=bak d8329fc
     git write-tree
 
 .. code-block:: console

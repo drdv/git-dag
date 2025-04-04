@@ -2,6 +2,9 @@
 
 * 0.1.5    UNRELEASED
 
++ Change default values for parameters
+  + Add SHA_LIMIT to misc parameters (#118)
+  + Use a monospace font (#117)
 + Allow extra params for DAG nodes and edges (#114)
 + Remove option to mark commits (#113)
 + Customize subprocess.CalledProcessError (#108)

@@ -18,7 +18,6 @@ from typing import TYPE_CHECKING, Any, Optional, Protocol
 from .constants import (
     GIT_EMPTY_TREE_OBJECT_SHA,
     HTML_EMBED_SVG,
-    SHA_LIMIT,
     DagBackends,
     DictStrStr,
 )
@@ -85,7 +84,7 @@ class CommitHandlerMixin:
             if self.params.public.commit_message_as_label > 0:
                 label = item.message[: self.params.public.commit_message_as_label]
             else:
-                label = sha[:SHA_LIMIT]
+                label = sha[: self.params.misc.sha_truncate]
 
             color = getattr(self.params.dag_node_colors, color_label)
             self.dag.node(
@@ -135,7 +134,7 @@ class TreeBlobHandlerMixin:
         color = getattr(self.params.dag_node_colors, color_label)
         self.dag.node(
             name=sha,
-            label=sha[:SHA_LIMIT],
+            label=sha[: self.params.misc.sha_truncate],
             color=color,
             fillcolor=color,
             shape="folder",
@@ -155,7 +154,7 @@ class TreeBlobHandlerMixin:
         self.included_nodes_id.add(sha)
         self.dag.node(
             name=sha,
-            label=sha[:SHA_LIMIT],
+            label=sha[: self.params.misc.sha_truncate],
             color=self.params.dag_node_colors.blob,
             fillcolor=self.params.dag_node_colors.blob,
             shape="note",

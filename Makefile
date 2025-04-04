@@ -99,10 +99,10 @@ test-run:
 ##@
 
 ## Clone integration test data
-get-integr-test-data: clone-integr-test-references clone-integr-test-repos
+integr-test-get-data: integr-test-clone-references integr-test-clone-repos
 
 ## Clone repos for integration test
-clone-integr-test-repos:
+integr-test-clone-repos:
 	mkdir -p $(INTEGR_TEST_DIR)/${REPO_DIR}
 	-$(call clone_repo, $(GITHUB_DRDV)/git, ${REPO_DIR}/git)
 	-$(call clone_repo, $(GITHUB_DRDV)/magit, ${REPO_DIR}/magit)
@@ -111,13 +111,13 @@ clone-integr-test-repos:
 
 ## Clone references for integration test
 # I don't want to add them as a submodule
-clone-integr-test-references:
+integr-test-clone-references:
 	mkdir -p $(INTEGR_TEST_DIR)/${REF_DIR}
 	-$(call clone_repo, $(GITHUB_DRDV)/git-dag-integration-tests, ${REF_DIR})
 
 ## Generate DAG for integration test repositories
-process-integr-test-repos: FIND_FLAGS := -mindepth 1 -maxdepth 1 -type d
-process-integr-test-repos:
+integr-test-process-repos: FIND_FLAGS := -mindepth 1 -maxdepth 1 -type d
+integr-test-process-repos:
 	@rm -rf $(INTEGR_TEST_DIR)/${OUT_DIR}
 	@mkdir -p $(INTEGR_TEST_DIR)/${OUT_DIR}
 	@for repo in $(notdir $(shell find $(INTEGR_TEST_DIR)/${REPO_DIR} $(FIND_FLAGS))); do \

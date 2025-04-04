@@ -41,9 +41,6 @@ CMD_TAGS_INFO: Final[str] = (
 #: Empty git tree object.
 GIT_EMPTY_TREE_OBJECT_SHA: Final[str] = "4b825dc642cb6eb9a060e54bf8d69288fbee4904"
 
-#: Nuber of SHA characters to display in labels.
-SHA_LIMIT: Final[int] = 8
-
 #: HTML template to embed SVG
 HTML_EMBED_SVG: Final[
     str

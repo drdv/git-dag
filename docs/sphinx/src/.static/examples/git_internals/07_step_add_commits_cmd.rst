@@ -7,9 +7,9 @@
     GIT_COMMITTER_NAME="Nom Prenom"
     GIT_COMMITTER_EMAIL="nom.prenom@mail.com"
 
-    SHA_FIRST_COMMIT=$(echo 'First commit' | git commit-tree d8329f)
-    SHA_SECOND_COMMIT=$(echo 'Second commit' | git commit-tree 0155eb -p $SHA_FIRST_COMMIT)
-    SHA_THIRD_COMMIT=$(echo 'Third commit' | git commit-tree 3c4e9c -p $SHA_SECOND_COMMIT)
+    SHA_FIRST_COMMIT=$(echo 'First commit' | git commit-tree d8329fc)
+    SHA_SECOND_COMMIT=$(echo 'Second commit' | git commit-tree 0155eb4 -p $SHA_FIRST_COMMIT)
+    SHA_THIRD_COMMIT=$(echo 'Third commit' | git commit-tree 3c4e9cd -p $SHA_SECOND_COMMIT)
 
     echo $SHA_FIRST_COMMIT
     echo $SHA_SECOND_COMMIT
