@@ -224,7 +224,6 @@
 <li class="toctree-l3"><a class="reference internal" href=".autosummary/git_dag.constants.TAG_FORMAT_FIELDS.html">git_dag.constants.TAG_FORMAT_FIELDS</a></li>
 <li class="toctree-l3"><a class="reference internal" href=".autosummary/git_dag.constants.CMD_TAGS_INFO.html">git_dag.constants.CMD_TAGS_INFO</a></li>
 <li class="toctree-l3"><a class="reference internal" href=".autosummary/git_dag.constants.GIT_EMPTY_TREE_OBJECT_SHA.html">git_dag.constants.GIT_EMPTY_TREE_OBJECT_SHA</a></li>
-<li class="toctree-l3"><a class="reference internal" href=".autosummary/git_dag.constants.SHA_LIMIT.html">git_dag.constants.SHA_LIMIT</a></li>
 <li class="toctree-l3"><a class="reference internal" href=".autosummary/git_dag.constants.HTML_EMBED_SVG.html">git_dag.constants.HTML_EMBED_SVG</a></li>
 <li class="toctree-l3"><a class="reference internal" href=".autosummary/git_dag.constants.CONFIG_FILE.html">git_dag.constants.CONFIG_FILE</a></li>
 <li class="toctree-l3"><a class="reference internal" href=".autosummary/git_dag.constants.DagBackends.html">git_dag.constants.DagBackends</a></li>
@@ -1194,6 +1193,11 @@ suppressed by specifying <code class="docutils literal notranslate"><span class=
 <span class="w">               </span><span class="nt">&quot;default&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;0.02&quot;</span><span class="p">,</span>
 <span class="w">               </span><span class="nt">&quot;title&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;Height&quot;</span><span class="p">,</span>
 <span class="w">               </span><span class="nt">&quot;type&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;string&quot;</span>
+<span class="w">            </span><span class="p">},</span>
+<span class="w">            </span><span class="nt">&quot;fontname&quot;</span><span class="p">:</span><span class="w"> </span><span class="p">{</span>
+<span class="w">               </span><span class="nt">&quot;default&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;Courier&quot;</span><span class="p">,</span>
+<span class="w">               </span><span class="nt">&quot;title&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;Fontname&quot;</span><span class="p">,</span>
+<span class="w">               </span><span class="nt">&quot;type&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;string&quot;</span>
 <span class="w">            </span><span class="p">}</span>
 <span class="w">         </span><span class="p">},</span>
 <span class="w">         </span><span class="nt">&quot;title&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;ParamsDagNode&quot;</span><span class="p">,</span>
@@ -1328,6 +1332,11 @@ suppressed by specifying <code class="docutils literal notranslate"><span class=
 <span class="w">            </span><span class="nt">&quot;annotations_truncate&quot;</span><span class="p">:</span><span class="w"> </span><span class="p">{</span>
 <span class="w">               </span><span class="nt">&quot;default&quot;</span><span class="p">:</span><span class="w"> </span><span class="mi">20</span><span class="p">,</span>
 <span class="w">               </span><span class="nt">&quot;title&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;Annotations Truncate&quot;</span><span class="p">,</span>
+<span class="w">               </span><span class="nt">&quot;type&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;integer&quot;</span>
+<span class="w">            </span><span class="p">},</span>
+<span class="w">            </span><span class="nt">&quot;sha_truncate&quot;</span><span class="p">:</span><span class="w"> </span><span class="p">{</span>
+<span class="w">               </span><span class="nt">&quot;default&quot;</span><span class="p">:</span><span class="w"> </span><span class="mi">7</span><span class="p">,</span>
+<span class="w">               </span><span class="nt">&quot;title&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;Sha Truncate&quot;</span><span class="p">,</span>
 <span class="w">               </span><span class="nt">&quot;type&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;integer&quot;</span>
 <span class="w">            </span><span class="p">}</span>
 <span class="w">         </span><span class="p">},</span>
@@ -1512,6 +1521,11 @@ suppressed by specifying <code class="docutils literal notranslate"><span class=
 <span class="w">            </span><span class="nt">&quot;label&quot;</span><span class="p">:</span><span class="w"> </span><span class="p">{</span>
 <span class="w">               </span><span class="nt">&quot;default&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;Standalone\\nTrees &amp; Blobs&quot;</span><span class="p">,</span>
 <span class="w">               </span><span class="nt">&quot;title&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;Label&quot;</span><span class="p">,</span>
+<span class="w">               </span><span class="nt">&quot;type&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;string&quot;</span>
+<span class="w">            </span><span class="p">},</span>
+<span class="w">            </span><span class="nt">&quot;fontname&quot;</span><span class="p">:</span><span class="w"> </span><span class="p">{</span>
+<span class="w">               </span><span class="nt">&quot;default&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;Courier&quot;</span><span class="p">,</span>
+<span class="w">               </span><span class="nt">&quot;title&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;Fontname&quot;</span><span class="p">,</span>
 <span class="w">               </span><span class="nt">&quot;type&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;string&quot;</span>
 <span class="w">            </span><span class="p">}</span>
 <span class="w">         </span><span class="p">},</span>
@@ -2246,6 +2260,11 @@ suppressed by specifying <code class="docutils literal notranslate"><span class=
 <span class="w">         </span><span class="nt">&quot;default&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;0.02&quot;</span><span class="p">,</span>
 <span class="w">         </span><span class="nt">&quot;title&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;Height&quot;</span><span class="p">,</span>
 <span class="w">         </span><span class="nt">&quot;type&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;string&quot;</span>
+<span class="w">      </span><span class="p">},</span>
+<span class="w">      </span><span class="nt">&quot;fontname&quot;</span><span class="p">:</span><span class="w"> </span><span class="p">{</span>
+<span class="w">         </span><span class="nt">&quot;default&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;Courier&quot;</span><span class="p">,</span>
+<span class="w">         </span><span class="nt">&quot;title&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;Fontname&quot;</span><span class="p">,</span>
+<span class="w">         </span><span class="nt">&quot;type&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;string&quot;</span>
 <span class="w">      </span><span class="p">}</span>
 <span class="w">   </span><span class="p">},</span>
 <span class="w">   </span><span class="nt">&quot;additionalProperties&quot;</span><span class="p">:</span><span class="w"> </span><span class="kc">true</span>
@@ -2260,6 +2279,7 @@ suppressed by specifying <code class="docutils literal notranslate"><span class=
 </dd>
 <dt class="field-even">Fields<span class="colon">:</span></dt>
 <dd class="field-even"><ul class="simple">
+<li><p><a class="reference internal" href="#git_dag.parameters.ParamsDagNode.fontname" title="git_dag.parameters.ParamsDagNode.fontname"><code class="xref py py-obj docutils literal notranslate"><span class="pre">fontname</span> <span class="pre">(str)</span></code></a></p></li>
 <li><p><a class="reference internal" href="#git_dag.parameters.ParamsDagNode.height" title="git_dag.parameters.ParamsDagNode.height"><code class="xref py py-obj docutils literal notranslate"><span class="pre">height</span> <span class="pre">(str)</span></code></a></p></li>
 <li><p><a class="reference internal" href="#git_dag.parameters.ParamsDagNode.margin" title="git_dag.parameters.ParamsDagNode.margin"><code class="xref py py-obj docutils literal notranslate"><span class="pre">margin</span> <span class="pre">(str)</span></code></a></p></li>
 <li><p><a class="reference internal" href="#git_dag.parameters.ParamsDagNode.shape" title="git_dag.parameters.ParamsDagNode.shape"><code class="xref py py-obj docutils literal notranslate"><span class="pre">shape</span> <span class="pre">(str)</span></code></a></p></li>
@@ -2270,6 +2290,18 @@ suppressed by specifying <code class="docutils literal notranslate"><span class=
 <dt class="field-odd">Validators<span class="colon">:</span></dt>
 <dd class="field-odd"><p></p></dd>
 </dl>
+<dl class="py attribute pydantic_field">
+<dt class="sig sig-object py" id="git_dag.parameters.ParamsDagNode.fontname">
+<em class="property"><span class="pre">field</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">fontname</span></span><em class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="pre">str</span></em><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">'Courier'</span></em><a class="headerlink" href="#git_dag.parameters.ParamsDagNode.fontname" title="Link to this definition">¶</a></dt>
+<dd><dl class="field-list simple">
+<dt class="field-odd">Validated by<span class="colon">:</span></dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><code class="xref py py-obj docutils literal notranslate"><span class="pre">set_defaults_values</span></code></p></li>
+</ul>
+</dd>
+</dl>
+</dd></dl>
+
 <dl class="py attribute pydantic_field">
 <dt class="sig sig-object py" id="git_dag.parameters.ParamsDagNode.height">
 <em class="property"><span class="pre">field</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">height</span></span><em class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="pre">str</span></em><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">'0.02'</span></em><a class="headerlink" href="#git_dag.parameters.ParamsDagNode.height" title="Link to this definition">¶</a></dt>
@@ -2747,6 +2779,11 @@ suppressed by specifying <code class="docutils literal notranslate"><span class=
 <span class="w">         </span><span class="nt">&quot;default&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;Standalone\\nTrees &amp; Blobs&quot;</span><span class="p">,</span>
 <span class="w">         </span><span class="nt">&quot;title&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;Label&quot;</span><span class="p">,</span>
 <span class="w">         </span><span class="nt">&quot;type&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;string&quot;</span>
+<span class="w">      </span><span class="p">},</span>
+<span class="w">      </span><span class="nt">&quot;fontname&quot;</span><span class="p">:</span><span class="w"> </span><span class="p">{</span>
+<span class="w">         </span><span class="nt">&quot;default&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;Courier&quot;</span><span class="p">,</span>
+<span class="w">         </span><span class="nt">&quot;title&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;Fontname&quot;</span><span class="p">,</span>
+<span class="w">         </span><span class="nt">&quot;type&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;string&quot;</span>
 <span class="w">      </span><span class="p">}</span>
 <span class="w">   </span><span class="p">},</span>
 <span class="w">   </span><span class="nt">&quot;additionalProperties&quot;</span><span class="p">:</span><span class="w"> </span><span class="kc">false</span>
@@ -2762,6 +2799,7 @@ suppressed by specifying <code class="docutils literal notranslate"><span class=
 <dt class="field-even">Fields<span class="colon">:</span></dt>
 <dd class="field-even"><ul class="simple">
 <li><p><a class="reference internal" href="#git_dag.parameters.ParamsStandaloneCluster.color" title="git_dag.parameters.ParamsStandaloneCluster.color"><code class="xref py py-obj docutils literal notranslate"><span class="pre">color</span> <span class="pre">(str)</span></code></a></p></li>
+<li><p><a class="reference internal" href="#git_dag.parameters.ParamsStandaloneCluster.fontname" title="git_dag.parameters.ParamsStandaloneCluster.fontname"><code class="xref py py-obj docutils literal notranslate"><span class="pre">fontname</span> <span class="pre">(str)</span></code></a></p></li>
 <li><p><a class="reference internal" href="#git_dag.parameters.ParamsStandaloneCluster.label" title="git_dag.parameters.ParamsStandaloneCluster.label"><code class="xref py py-obj docutils literal notranslate"><span class="pre">label</span> <span class="pre">(str)</span></code></a></p></li>
 </ul>
 </dd>
@@ -2771,6 +2809,18 @@ suppressed by specifying <code class="docutils literal notranslate"><span class=
 <dl class="py attribute pydantic_field">
 <dt class="sig sig-object py" id="git_dag.parameters.ParamsStandaloneCluster.color">
 <em class="property"><span class="pre">field</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">color</span></span><em class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="pre">str</span></em><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">'lightgrey'</span></em><a class="headerlink" href="#git_dag.parameters.ParamsStandaloneCluster.color" title="Link to this definition">¶</a></dt>
+<dd><dl class="field-list simple">
+<dt class="field-odd">Validated by<span class="colon">:</span></dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><code class="xref py py-obj docutils literal notranslate"><span class="pre">set_defaults_values</span></code></p></li>
+</ul>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py attribute pydantic_field">
+<dt class="sig sig-object py" id="git_dag.parameters.ParamsStandaloneCluster.fontname">
+<em class="property"><span class="pre">field</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">fontname</span></span><em class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="pre">str</span></em><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">'Courier'</span></em><a class="headerlink" href="#git_dag.parameters.ParamsStandaloneCluster.fontname" title="Link to this definition">¶</a></dt>
 <dd><dl class="field-list simple">
 <dt class="field-odd">Validated by<span class="colon">:</span></dt>
 <dd class="field-odd"><ul class="simple">
@@ -3073,6 +3123,7 @@ suppressed by specifying <code class="docutils literal notranslate"><span class=
 </ul>
 </li>
 <li><a class="reference internal" href="#git_dag.parameters.ParamsDagNode"><code class="docutils literal notranslate"><span class="pre">ParamsDagNode</span></code></a><ul>
+<li><a class="reference internal" href="#git_dag.parameters.ParamsDagNode.fontname"><code class="docutils literal notranslate"><span class="pre">ParamsDagNode.fontname</span></code></a></li>
 <li><a class="reference internal" href="#git_dag.parameters.ParamsDagNode.height"><code class="docutils literal notranslate"><span class="pre">ParamsDagNode.height</span></code></a></li>
 <li><a class="reference internal" href="#git_dag.parameters.ParamsDagNode.margin"><code class="docutils literal notranslate"><span class="pre">ParamsDagNode.margin</span></code></a></li>
 <li><a class="reference internal" href="#git_dag.parameters.ParamsDagNode.shape"><code class="docutils literal notranslate"><span class="pre">ParamsDagNode.shape</span></code></a></li>
@@ -3108,6 +3159,7 @@ suppressed by specifying <code class="docutils literal notranslate"><span class=
 </li>
 <li><a class="reference internal" href="#git_dag.parameters.ParamsStandaloneCluster"><code class="docutils literal notranslate"><span class="pre">ParamsStandaloneCluster</span></code></a><ul>
 <li><a class="reference internal" href="#git_dag.parameters.ParamsStandaloneCluster.color"><code class="docutils literal notranslate"><span class="pre">ParamsStandaloneCluster.color</span></code></a></li>
+<li><a class="reference internal" href="#git_dag.parameters.ParamsStandaloneCluster.fontname"><code class="docutils literal notranslate"><span class="pre">ParamsStandaloneCluster.fontname</span></code></a></li>
 <li><a class="reference internal" href="#git_dag.parameters.ParamsStandaloneCluster.label"><code class="docutils literal notranslate"><span class="pre">ParamsStandaloneCluster.label</span></code></a></li>
 <li><a class="reference internal" href="#git_dag.parameters.ParamsStandaloneCluster.section_in_config"><code class="docutils literal notranslate"><span class="pre">ParamsStandaloneCluster.section_in_config()</span></code></a></li>
 </ul>
@@ -3128,7 +3180,7 @@ suppressed by specifying <code class="docutils literal notranslate"><span class=
       
     </aside>
   </div>
-</div><script src="_static/documentation_options.js?v=05ebf88e"></script>
+</div><script src="_static/documentation_options.js?v=cf6b96cc"></script>
     <script src="_static/doctools.js?v=9bcbadda"></script>
     <script src="_static/sphinx_highlight.js?v=dc90522c"></script>
     <script src="_static/scripts/furo.js?v=5fa4622c"></script>

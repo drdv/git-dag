@@ -519,7 +519,6 @@
 <span id="L509" class="lineno"><a class="lineno" href="#L509">509</a></span>
 <span id="L510" class="lineno"><a class="lineno" href="#L510">510</a></span>
 <span id="L511" class="lineno"><a class="lineno" href="#L511">511</a></span>
-<span id="L512" class="lineno"><a class="lineno" href="#L512">512</a></span>
 </pre></td>
 <td class="table-code"><pre><span class="line-empty" title="No Anys on this line!">"""DAG visualization.</span>
 <span class="line-empty" title="No Anys on this line!"></span>
@@ -541,7 +540,6 @@
 <span class="line-precise" title="No Anys on this line!">from .constants import (</span>
 <span class="line-empty" title="No Anys on this line!">    GIT_EMPTY_TREE_OBJECT_SHA,</span>
 <span class="line-empty" title="No Anys on this line!">    HTML_EMBED_SVG,</span>
-<span class="line-empty" title="No Anys on this line!">    SHA_LIMIT,</span>
 <span class="line-empty" title="No Anys on this line!">    DagBackends,</span>
 <span class="line-empty" title="No Anys on this line!">    DictStrStr,</span>
 <span class="line-empty" title="No Anys on this line!">)</span>
@@ -611,7 +609,7 @@ Explicit (x3)">        self.dag.edge("GIT-NOTES-LABEL", sha)</span>
 <span class="line-precise" title="No Anys on this line!">            if self.params.public.commit_message_as_label &gt; 0:</span>
 <span class="line-precise" title="No Anys on this line!">                label = item.message[: self.params.public.commit_message_as_label]</span>
 <span class="line-empty" title="No Anys on this line!">            else:</span>
-<span class="line-precise" title="No Anys on this line!">                label = sha[:SHA_LIMIT]</span>
+<span class="line-precise" title="No Anys on this line!">                label = sha[: self.params.misc.sha_truncate]</span>
 <span class="line-empty" title="No Anys on this line!"></span>
 <span class="line-any" title="Any Types on this line: 
 Explicit (x14)
@@ -672,7 +670,7 @@ Omitted Generics (x2)">        color = getattr(self.params.dag_node_colors, colo
 <span class="line-any" title="Any Types on this line: 
 Explicit (x3)">        self.dag.node(</span>
 <span class="line-precise" title="No Anys on this line!">            name=sha,</span>
-<span class="line-precise" title="No Anys on this line!">            label=sha[:SHA_LIMIT],</span>
+<span class="line-precise" title="No Anys on this line!">            label=sha[: self.params.misc.sha_truncate],</span>
 <span class="line-any" title="Any Types on this line: 
 Explicit (x1)">            color=color,</span>
 <span class="line-any" title="Any Types on this line: 
@@ -697,7 +695,7 @@ Explicit (x3)">                        self.dag.edge(sha, child.sha)</span>
 <span class="line-any" title="Any Types on this line: 
 Explicit (x3)">        self.dag.node(</span>
 <span class="line-precise" title="No Anys on this line!">            name=sha,</span>
-<span class="line-precise" title="No Anys on this line!">            label=sha[:SHA_LIMIT],</span>
+<span class="line-precise" title="No Anys on this line!">            label=sha[: self.params.misc.sha_truncate],</span>
 <span class="line-precise" title="No Anys on this line!">            color=self.params.dag_node_colors.blob,</span>
 <span class="line-precise" title="No Anys on this line!">            fillcolor=self.params.dag_node_colors.blob,</span>
 <span class="line-precise" title="No Anys on this line!">            shape="note",</span>

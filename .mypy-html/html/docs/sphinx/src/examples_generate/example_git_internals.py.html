@@ -514,7 +514,7 @@
 <span class="line-empty" title="No Anys on this line!"></span>
 <span class="line-empty" title="No Anys on this line!"></span>
 <span class="line-precise" title="No Anys on this line!">def step_create_tree_with_tree() -&gt; None:</span>
-<span class="line-precise" title="No Anys on this line!">    GIT.run_general(f"{GIT.command_prefix} read-tree --prefix=bak d8329fc1")</span>
+<span class="line-precise" title="No Anys on this line!">    GIT.run_general(f"{GIT.command_prefix} read-tree --prefix=bak d8329fc")</span>
 <span class="line-precise" title="No Anys on this line!">    GIT.run_general(f"{GIT.command_prefix} write-tree")</span>
 <span class="line-empty" title="No Anys on this line!"></span>
 <span class="line-precise" title="No Anys on this line!">    SRG.results(</span>
@@ -525,7 +525,7 @@
 <span class="line-empty" title="No Anys on this line!">            .. code-block:: bash</span>
 <span class="line-empty" title="No Anys on this line!">                :caption: Create a tree containing another tree</span>
 <span class="line-empty" title="No Anys on this line!"></span>
-<span class="line-empty" title="No Anys on this line!">                git read-tree --prefix=bak d8329fc1</span>
+<span class="line-empty" title="No Anys on this line!">                git read-tree --prefix=bak d8329fc</span>
 <span class="line-empty" title="No Anys on this line!">                git write-tree</span>
 <span class="line-empty" title="No Anys on this line!"></span>
 <span class="line-empty" title="No Anys on this line!">            .. code-block:: console</span>
@@ -539,17 +539,17 @@
 <span class="line-empty" title="No Anys on this line!"></span>
 <span class="line-precise" title="No Anys on this line!">def step_add_commits() -&gt; DictStrStr:</span>
 <span class="line-precise" title="No Anys on this line!">    commit1 = GIT.run_general(</span>
-<span class="line-precise" title="No Anys on this line!">        f"echo 'First commit' | {GIT.command_prefix} commit-tree d8329f",</span>
+<span class="line-precise" title="No Anys on this line!">        f"echo 'First commit' | {GIT.command_prefix} commit-tree d8329fc",</span>
 <span class="line-precise" title="No Anys on this line!">        env=GIT.get_env(),</span>
 <span class="line-empty" title="No Anys on this line!">    )</span>
 <span class="line-empty" title="No Anys on this line!"></span>
 <span class="line-precise" title="No Anys on this line!">    commit2 = GIT.run_general(</span>
-<span class="line-precise" title="No Anys on this line!">        f"echo 'Second commit' | {GIT.command_prefix} commit-tree 0155eb -p {commit1}",</span>
+<span class="line-precise" title="No Anys on this line!">        f"echo 'Second commit' | {GIT.command_prefix} commit-tree 0155eb4 -p {commit1}",</span>
 <span class="line-precise" title="No Anys on this line!">        env=GIT.get_env(),</span>
 <span class="line-empty" title="No Anys on this line!">    )</span>
 <span class="line-empty" title="No Anys on this line!"></span>
 <span class="line-precise" title="No Anys on this line!">    commit3 = GIT.run_general(</span>
-<span class="line-precise" title="No Anys on this line!">        f"echo 'Third commit' | {GIT.command_prefix} commit-tree 3c4e9c -p {commit2}",</span>
+<span class="line-precise" title="No Anys on this line!">        f"echo 'Third commit' | {GIT.command_prefix} commit-tree 3c4e9cd -p {commit2}",</span>
 <span class="line-precise" title="No Anys on this line!">        env=GIT.get_env(),</span>
 <span class="line-empty" title="No Anys on this line!">    )</span>
 <span class="line-empty" title="No Anys on this line!"></span>
@@ -574,9 +574,9 @@
 <span class="line-empty" title="No Anys on this line!">                GIT_COMMITTER_NAME="Nom Prenom"</span>
 <span class="line-empty" title="No Anys on this line!">                GIT_COMMITTER_EMAIL="nom.prenom@mail.com"</span>
 <span class="line-empty" title="No Anys on this line!"></span>
-<span class="line-empty" title="No Anys on this line!">                SHA_FIRST_COMMIT=$(echo 'First commit' | git commit-tree d8329f)</span>
-<span class="line-empty" title="No Anys on this line!">                SHA_SECOND_COMMIT=$(echo 'Second commit' | git commit-tree 0155eb -p $SHA_FIRST_COMMIT)</span>
-<span class="line-empty" title="No Anys on this line!">                SHA_THIRD_COMMIT=$(echo 'Third commit' | git commit-tree 3c4e9c -p $SHA_SECOND_COMMIT)</span>
+<span class="line-empty" title="No Anys on this line!">                SHA_FIRST_COMMIT=$(echo 'First commit' | git commit-tree d8329fc)</span>
+<span class="line-empty" title="No Anys on this line!">                SHA_SECOND_COMMIT=$(echo 'Second commit' | git commit-tree 0155eb4 -p $SHA_FIRST_COMMIT)</span>
+<span class="line-empty" title="No Anys on this line!">                SHA_THIRD_COMMIT=$(echo 'Third commit' | git commit-tree 3c4e9cd -p $SHA_SECOND_COMMIT)</span>
 <span class="line-empty" title="No Anys on this line!"></span>
 <span class="line-empty" title="No Anys on this line!">                echo $SHA_FIRST_COMMIT</span>
 <span class="line-empty" title="No Anys on this line!">                echo $SHA_SECOND_COMMIT</span>

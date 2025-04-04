@@ -302,7 +302,7 @@
 <span class="line-empty" title="No Anys on this line!"></span>
 <span class="line-precise" title="No Anys on this line!">from pydantic import BaseModel, ConfigDict, Field, computed_field</span>
 <span class="line-empty" title="No Anys on this line!"></span>
-<span class="line-precise" title="No Anys on this line!">from .constants import SHA_LIMIT, DictStrStr</span>
+<span class="line-precise" title="No Anys on this line!">from .constants import DictStrStr</span>
 <span class="line-empty" title="No Anys on this line!"></span>
 <span class="line-precise" title="No Anys on this line!">GitCommitRawDataType = dict[str, str | list[str]]</span>
 <span class="line-empty" title="No Anys on this line!">"""</span>
@@ -580,7 +580,7 @@ Omitted Generics (x5)">    raw_data: GitTreeRawDataType = Field(repr=False)</spa
 <span class="line-empty" title="No Anys on this line!">        # type narrowing to make mypy happy</span>
 <span class="line-precise" title="No Anys on this line!">        assert (self.commit is not None) and (self.branch is not None)</span>
 <span class="line-empty" title="No Anys on this line!"></span>
-<span class="line-precise" title="No Anys on this line!">        return f"{self.commit.sha[:SHA_LIMIT]} ({self.branch.name})"</span>
+<span class="line-precise" title="No Anys on this line!">        return f"{self.commit.sha} ({self.branch.name})"</span>
 </pre></td>
 </tr></tbody>
 </table>

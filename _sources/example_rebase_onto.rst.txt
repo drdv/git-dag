@@ -30,9 +30,9 @@ commits in the range ``main..feature`` are applied starting from the tip of ``ma
 can be seen in the "After" tab, commits ``C``, ``D`` and ``E`` have been recreated
 (compare their tooltips), that is:
 
-+ ``C``: ``4878ceed`` → ``9d41ef92``
-+ ``D``: ``63e7edbc`` → ``5deeea58``
-+ ``E``: ``09fb3c2b`` → ``5ede5cd2``.
++ ``C``: ``4878cee`` → ``9d41ef9``
++ ``D``: ``63e7edb`` → ``5deeea5``
++ ``E``: ``09fb3c2`` → ``5ede5cd``.
 
 Of course, the original three commits are still available in the repository however they
 are unreachable from any branch (or tag) and, normally, would be garbage-collected
@@ -52,9 +52,9 @@ eventually (note that they are displayed with a different color [1]_).
 .. -----------------------------------------------------------------------
 
 The range in the second case, is the same as in the first case even though it is defined
-using ``bc9b888f..feature`` (note that ``bc9b888f`` is the `merge-base
+using ``bc9b888..feature`` (note that ``bc9b888`` is the `merge-base
 <https://git-scm.com/docs/git-merge-base>`_ of ``main`` and ``feature``). The difference
-here is that we rebase not on the tip of ``main`` but on commit ``c95114ce``.
+here is that we rebase not on the tip of ``main`` but on commit ``c95114c``.
 
 .. tab:: Before (2)
 
@@ -69,7 +69,7 @@ here is that we rebase not on the tip of ``main`` but on commit ``c95114ce``.
 
 .. -----------------------------------------------------------------------
 
-In case 3 we rebase again on top of ``c95114ce`` but this time the range has one commit
+In case 3 we rebase again on top of ``c95114c`` but this time the range has one commit
 less (we dropped commit ``C``).
 
 .. tab:: Before (3)
@@ -89,7 +89,7 @@ Finally, in case 4, we use the last commit on the ``feature`` branch (instead of
 ``feature`` branch itself) to define the range. After the rebase, the HEAD is detached
 [2]_ (i.e., the ``feature`` branch didn't move). This could be considered as a useful
 trick -- we perform the rebase, then move ``feature`` to point to the updated ``E``
-commit ``283df083`` if we are happy with the results (see the last two tabs) [3]_.
+commit ``283df08`` if we are happy with the results (see the last two tabs) [3]_.
 
 .. tab:: Before (4)
 
@@ -121,7 +121,7 @@ In the second example we reuse the repository from section "More Interesting Reb
 `Git Branching - Rebasing <https://git-scm.com/book/en/v2/Git-Branching-Rebasing>`_,
 however we perform a different sequence of operations.
 
-Suppose that, to add some server-side functionality, Elena commits ``998d091e`` (``C3``)
+Suppose that, to add some server-side functionality, Elena commits ``998d091`` (``C3``)
 on a feature branch ``server``. A bit later Marina, adds related client-side
 functionality on a ``client`` branch. Then both of them continue working on their
 implementations. Meanwhile, ``main`` has evolved and Elena decides to rebase ``server``
@@ -131,8 +131,8 @@ depicted in the second tab below.
 At that point Marina wants to sync her ``client`` branch with the updated ``server``
 branch, but she doesn't want to resolve the same conflict with ``C3`` (after all, it has
 already been resolved by Elena). So she uses the ``--onto`` flag of ``git rebase`` as
-shown in the third tab below. Note that the range ``998d091e..client`` doesn't include
-``998d091e`` -- in effect, she only rebases her own work (commits ``C8`` and ``C9``).
+shown in the third tab below. Note that the range ``998d091..client`` doesn't include
+``998d091`` -- in effect, she only rebases her own work (commits ``C8`` and ``C9``).
 
 .. tab:: Initial repo
 

@@ -224,7 +224,6 @@
 <li class="toctree-l3"><a class="reference internal" href=".autosummary/git_dag.constants.TAG_FORMAT_FIELDS.html">git_dag.constants.TAG_FORMAT_FIELDS</a></li>
 <li class="toctree-l3"><a class="reference internal" href=".autosummary/git_dag.constants.CMD_TAGS_INFO.html">git_dag.constants.CMD_TAGS_INFO</a></li>
 <li class="toctree-l3"><a class="reference internal" href=".autosummary/git_dag.constants.GIT_EMPTY_TREE_OBJECT_SHA.html">git_dag.constants.GIT_EMPTY_TREE_OBJECT_SHA</a></li>
-<li class="toctree-l3"><a class="reference internal" href=".autosummary/git_dag.constants.SHA_LIMIT.html">git_dag.constants.SHA_LIMIT</a></li>
 <li class="toctree-l3"><a class="reference internal" href=".autosummary/git_dag.constants.HTML_EMBED_SVG.html">git_dag.constants.HTML_EMBED_SVG</a></li>
 <li class="toctree-l3"><a class="reference internal" href=".autosummary/git_dag.constants.CONFIG_FILE.html">git_dag.constants.CONFIG_FILE</a></li>
 <li class="toctree-l3"><a class="reference internal" href=".autosummary/git_dag.constants.DagBackends.html">git_dag.constants.DagBackends</a></li>
@@ -345,9 +344,9 @@ commits in the range <code class="docutils literal notranslate"><span class="pre
 can be seen in the “After” tab, commits <code class="docutils literal notranslate"><span class="pre">C</span></code>, <code class="docutils literal notranslate"><span class="pre">D</span></code> and <code class="docutils literal notranslate"><span class="pre">E</span></code> have been recreated
 (compare their tooltips), that is:</p>
 <ul class="simple">
-<li><p><code class="docutils literal notranslate"><span class="pre">C</span></code>: <code class="docutils literal notranslate"><span class="pre">4878ceed</span></code> → <code class="docutils literal notranslate"><span class="pre">9d41ef92</span></code></p></li>
-<li><p><code class="docutils literal notranslate"><span class="pre">D</span></code>: <code class="docutils literal notranslate"><span class="pre">63e7edbc</span></code> → <code class="docutils literal notranslate"><span class="pre">5deeea58</span></code></p></li>
-<li><p><code class="docutils literal notranslate"><span class="pre">E</span></code>: <code class="docutils literal notranslate"><span class="pre">09fb3c2b</span></code> → <code class="docutils literal notranslate"><span class="pre">5ede5cd2</span></code>.</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">C</span></code>: <code class="docutils literal notranslate"><span class="pre">4878cee</span></code> → <code class="docutils literal notranslate"><span class="pre">9d41ef9</span></code></p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">D</span></code>: <code class="docutils literal notranslate"><span class="pre">63e7edb</span></code> → <code class="docutils literal notranslate"><span class="pre">5deeea5</span></code></p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">E</span></code>: <code class="docutils literal notranslate"><span class="pre">09fb3c2</span></code> → <code class="docutils literal notranslate"><span class="pre">5ede5cd</span></code>.</p></li>
 </ul>
 <p>Of course, the original three commits are still available in the repository however they
 are unreachable from any branch (or tag) and, normally, would be garbage-collected
@@ -380,13 +379,13 @@ eventually (note that they are displayed with a different color <a class="footno
 </object></div>
 </div>
 <p>The range in the second case, is the same as in the first case even though it is defined
-using <code class="docutils literal notranslate"><span class="pre">bc9b888f..feature</span></code> (note that <code class="docutils literal notranslate"><span class="pre">bc9b888f</span></code> is the <a class="reference external" href="https://git-scm.com/docs/git-merge-base">merge-base</a> of <code class="docutils literal notranslate"><span class="pre">main</span></code> and <code class="docutils literal notranslate"><span class="pre">feature</span></code>). The difference
-here is that we rebase not on the tip of <code class="docutils literal notranslate"><span class="pre">main</span></code> but on commit <code class="docutils literal notranslate"><span class="pre">c95114ce</span></code>.</p>
+using <code class="docutils literal notranslate"><span class="pre">bc9b888..feature</span></code> (note that <code class="docutils literal notranslate"><span class="pre">bc9b888</span></code> is the <a class="reference external" href="https://git-scm.com/docs/git-merge-base">merge-base</a> of <code class="docutils literal notranslate"><span class="pre">main</span></code> and <code class="docutils literal notranslate"><span class="pre">feature</span></code>). The difference
+here is that we rebase not on the tip of <code class="docutils literal notranslate"><span class="pre">main</span></code> but on commit <code class="docutils literal notranslate"><span class="pre">c95114c</span></code>.</p>
 <div class="tab-set docutils container">
 <input checked="True" class="tab-input" id="tab-set--1-input--1" name="tab-set--1" type="radio"><label class="tab-label" for="tab-set--1-input--1">Before (2)</label><div class="tab-content docutils container">
 <div class="literal-block-wrapper docutils container" id="id9">
 <div class="code-block-caption"><span class="caption-text">Visualize DAG</span><a class="headerlink" href="#id9" title="Link to this code">¶</a></div>
-<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>git<span class="w"> </span>dag<span class="w"> </span>-l<span class="w"> </span>-H<span class="w"> </span>-u<span class="w"> </span>-R<span class="w"> </span>bc9b888f..feature
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>git<span class="w"> </span>dag<span class="w"> </span>-l<span class="w"> </span>-H<span class="w"> </span>-u<span class="w"> </span>-R<span class="w"> </span>bc9b888..feature
 </pre></div>
 </div>
 </div>
@@ -395,7 +394,7 @@ here is that we rebase not on the tip of <code class="docutils literal notransla
         type="image/svg+xml">
 </object></div>
 <input class="tab-input" id="tab-set--1-input--2" name="tab-set--1" type="radio"><label class="tab-label" for="tab-set--1-input--2">After (2)</label><div class="tab-content docutils container">
-<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>git<span class="w"> </span>rebase<span class="w"> </span>--onto<span class="w"> </span>c95114ce<span class="w"> </span>bc9b888f<span class="w"> </span>feature
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>git<span class="w"> </span>rebase<span class="w"> </span>--onto<span class="w"> </span>c95114c<span class="w"> </span>bc9b888<span class="w"> </span>feature
 </pre></div>
 </div>
 <div class="literal-block-wrapper docutils container" id="id10">
@@ -409,13 +408,13 @@ here is that we rebase not on the tip of <code class="docutils literal notransla
         type="image/svg+xml">
 </object></div>
 </div>
-<p>In case 3 we rebase again on top of <code class="docutils literal notranslate"><span class="pre">c95114ce</span></code> but this time the range has one commit
+<p>In case 3 we rebase again on top of <code class="docutils literal notranslate"><span class="pre">c95114c</span></code> but this time the range has one commit
 less (we dropped commit <code class="docutils literal notranslate"><span class="pre">C</span></code>).</p>
 <div class="tab-set docutils container">
 <input checked="True" class="tab-input" id="tab-set--2-input--1" name="tab-set--2" type="radio"><label class="tab-label" for="tab-set--2-input--1">Before (3)</label><div class="tab-content docutils container">
 <div class="literal-block-wrapper docutils container" id="id11">
 <div class="code-block-caption"><span class="caption-text">Visualize DAG</span><a class="headerlink" href="#id11" title="Link to this code">¶</a></div>
-<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>git<span class="w"> </span>dag<span class="w"> </span>-l<span class="w"> </span>-H<span class="w"> </span>-u<span class="w"> </span>-R<span class="w"> </span>4878ceed..feature
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>git<span class="w"> </span>dag<span class="w"> </span>-l<span class="w"> </span>-H<span class="w"> </span>-u<span class="w"> </span>-R<span class="w"> </span>4878cee..feature
 </pre></div>
 </div>
 </div>
@@ -424,7 +423,7 @@ less (we dropped commit <code class="docutils literal notranslate"><span class="
         type="image/svg+xml">
 </object></div>
 <input class="tab-input" id="tab-set--2-input--2" name="tab-set--2" type="radio"><label class="tab-label" for="tab-set--2-input--2">After (3)</label><div class="tab-content docutils container">
-<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>git<span class="w"> </span>rebase<span class="w"> </span>--onto<span class="w"> </span>c95114ce<span class="w"> </span>4878ceed<span class="w"> </span>feature
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>git<span class="w"> </span>rebase<span class="w"> </span>--onto<span class="w"> </span>c95114c<span class="w"> </span>4878cee<span class="w"> </span>feature
 </pre></div>
 </div>
 <div class="literal-block-wrapper docutils container" id="id12">
@@ -442,12 +441,12 @@ less (we dropped commit <code class="docutils literal notranslate"><span class="
 <code class="docutils literal notranslate"><span class="pre">feature</span></code> branch itself) to define the range. After the rebase, the HEAD is detached
 <a class="footnote-reference brackets" href="#id5" id="id2" role="doc-noteref"><span class="fn-bracket">[</span>2<span class="fn-bracket">]</span></a> (i.e., the <code class="docutils literal notranslate"><span class="pre">feature</span></code> branch didn’t move). This could be considered as a useful
 trick – we perform the rebase, then move <code class="docutils literal notranslate"><span class="pre">feature</span></code> to point to the updated <code class="docutils literal notranslate"><span class="pre">E</span></code>
-commit <code class="docutils literal notranslate"><span class="pre">283df083</span></code> if we are happy with the results (see the last two tabs) <a class="footnote-reference brackets" href="#id6" id="id3" role="doc-noteref"><span class="fn-bracket">[</span>3<span class="fn-bracket">]</span></a>.</p>
+commit <code class="docutils literal notranslate"><span class="pre">283df08</span></code> if we are happy with the results (see the last two tabs) <a class="footnote-reference brackets" href="#id6" id="id3" role="doc-noteref"><span class="fn-bracket">[</span>3<span class="fn-bracket">]</span></a>.</p>
 <div class="tab-set docutils container">
 <input checked="True" class="tab-input" id="tab-set--3-input--1" name="tab-set--3" type="radio"><label class="tab-label" for="tab-set--3-input--1">Before (4)</label><div class="tab-content docutils container">
 <div class="literal-block-wrapper docutils container" id="id13">
 <div class="code-block-caption"><span class="caption-text">Visualize DAG</span><a class="headerlink" href="#id13" title="Link to this code">¶</a></div>
-<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>git<span class="w"> </span>dag<span class="w"> </span>-l<span class="w"> </span>-H<span class="w"> </span>-u<span class="w"> </span>-R<span class="w"> </span>4878ceed..09fb3c2b
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>git<span class="w"> </span>dag<span class="w"> </span>-l<span class="w"> </span>-H<span class="w"> </span>-u<span class="w"> </span>-R<span class="w"> </span>4878cee..09fb3c2
 </pre></div>
 </div>
 </div>
@@ -456,7 +455,7 @@ commit <code class="docutils literal notranslate"><span class="pre">283df083</sp
         type="image/svg+xml">
 </object></div>
 <input class="tab-input" id="tab-set--3-input--2" name="tab-set--3" type="radio"><label class="tab-label" for="tab-set--3-input--2">After rebase (4)</label><div class="tab-content docutils container">
-<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>git<span class="w"> </span>rebase<span class="w"> </span>--onto<span class="w"> </span>c95114ce<span class="w"> </span>4878ceed<span class="w"> </span>09fb3c2b
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>git<span class="w"> </span>rebase<span class="w"> </span>--onto<span class="w"> </span>c95114c<span class="w"> </span>4878cee<span class="w"> </span>09fb3c2
 </pre></div>
 </div>
 <div class="literal-block-wrapper docutils container" id="id14">
@@ -505,7 +504,7 @@ commit <code class="docutils literal notranslate"><span class="pre">283df083</sp
 <p>In the second example we reuse the repository from section “More Interesting Rebases” in
 <a class="reference external" href="https://git-scm.com/book/en/v2/Git-Branching-Rebasing">Git Branching - Rebasing</a>,
 however we perform a different sequence of operations.</p>
-<p>Suppose that, to add some server-side functionality, Elena commits <code class="docutils literal notranslate"><span class="pre">998d091e</span></code> (<code class="docutils literal notranslate"><span class="pre">C3</span></code>)
+<p>Suppose that, to add some server-side functionality, Elena commits <code class="docutils literal notranslate"><span class="pre">998d091</span></code> (<code class="docutils literal notranslate"><span class="pre">C3</span></code>)
 on a feature branch <code class="docutils literal notranslate"><span class="pre">server</span></code>. A bit later Marina, adds related client-side
 functionality on a <code class="docutils literal notranslate"><span class="pre">client</span></code> branch. Then both of them continue working on their
 implementations. Meanwhile, <code class="docutils literal notranslate"><span class="pre">main</span></code> has evolved and Elena decides to rebase <code class="docutils literal notranslate"><span class="pre">server</span></code>
@@ -514,8 +513,8 @@ depicted in the second tab below.</p>
 <p>At that point Marina wants to sync her <code class="docutils literal notranslate"><span class="pre">client</span></code> branch with the updated <code class="docutils literal notranslate"><span class="pre">server</span></code>
 branch, but she doesn’t want to resolve the same conflict with <code class="docutils literal notranslate"><span class="pre">C3</span></code> (after all, it has
 already been resolved by Elena). So she uses the <code class="docutils literal notranslate"><span class="pre">--onto</span></code> flag of <code class="docutils literal notranslate"><span class="pre">git</span> <span class="pre">rebase</span></code> as
-shown in the third tab below. Note that the range <code class="docutils literal notranslate"><span class="pre">998d091e..client</span></code> doesn’t include
-<code class="docutils literal notranslate"><span class="pre">998d091e</span></code> – in effect, she only rebases her own work (commits <code class="docutils literal notranslate"><span class="pre">C8</span></code> and <code class="docutils literal notranslate"><span class="pre">C9</span></code>).</p>
+shown in the third tab below. Note that the range <code class="docutils literal notranslate"><span class="pre">998d091..client</span></code> doesn’t include
+<code class="docutils literal notranslate"><span class="pre">998d091</span></code> – in effect, she only rebases her own work (commits <code class="docutils literal notranslate"><span class="pre">C8</span></code> and <code class="docutils literal notranslate"><span class="pre">C9</span></code>).</p>
 <div class="tab-set docutils container">
 <input checked="True" class="tab-input" id="tab-set--4-input--1" name="tab-set--4" type="radio"><label class="tab-label" for="tab-set--4-input--1">Initial repo</label><div class="tab-content docutils container">
 <div class="literal-block-wrapper docutils container" id="id17">
@@ -543,7 +542,7 @@ shown in the third tab below. Note that the range <code class="docutils literal 
         type="image/svg+xml">
 </object></div>
 <input class="tab-input" id="tab-set--4-input--3" name="tab-set--4" type="radio"><label class="tab-label" for="tab-set--4-input--3">Rebase client on server</label><div class="tab-content docutils container">
-<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>git<span class="w"> </span>rebase<span class="w"> </span>--onto<span class="w"> </span>server<span class="w"> </span>998d091e<span class="w"> </span>client
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>git<span class="w"> </span>rebase<span class="w"> </span>--onto<span class="w"> </span>server<span class="w"> </span>998d091<span class="w"> </span>client
 </pre></div>
 </div>
 <div class="literal-block-wrapper docutils container" id="id19">
@@ -646,7 +645,7 @@ simply create a branch (say <code class="docutils literal notranslate"><span cla
       
     </aside>
   </div>
-</div><script src="_static/documentation_options.js?v=05ebf88e"></script>
+</div><script src="_static/documentation_options.js?v=cf6b96cc"></script>
     <script src="_static/doctools.js?v=9bcbadda"></script>
     <script src="_static/sphinx_highlight.js?v=dc90522c"></script>
     <script src="_static/scripts/furo.js?v=5fa4622c"></script>

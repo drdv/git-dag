@@ -1,6 +1,0 @@
-git\_dag.constants.SHA\_LIMIT
-=============================
-
-.. currentmodule:: git_dag.constants
-
-.. autodata:: SHA_LIMIT

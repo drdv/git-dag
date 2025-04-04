@@ -224,7 +224,6 @@
 <li class="toctree-l3"><a class="reference internal" href=".autosummary/git_dag.constants.TAG_FORMAT_FIELDS.html">git_dag.constants.TAG_FORMAT_FIELDS</a></li>
 <li class="toctree-l3"><a class="reference internal" href=".autosummary/git_dag.constants.CMD_TAGS_INFO.html">git_dag.constants.CMD_TAGS_INFO</a></li>
 <li class="toctree-l3"><a class="reference internal" href=".autosummary/git_dag.constants.GIT_EMPTY_TREE_OBJECT_SHA.html">git_dag.constants.GIT_EMPTY_TREE_OBJECT_SHA</a></li>
-<li class="toctree-l3"><a class="reference internal" href=".autosummary/git_dag.constants.SHA_LIMIT.html">git_dag.constants.SHA_LIMIT</a></li>
 <li class="toctree-l3"><a class="reference internal" href=".autosummary/git_dag.constants.HTML_EMBED_SVG.html">git_dag.constants.HTML_EMBED_SVG</a></li>
 <li class="toctree-l3"><a class="reference internal" href=".autosummary/git_dag.constants.CONFIG_FILE.html">git_dag.constants.CONFIG_FILE</a></li>
 <li class="toctree-l3"><a class="reference internal" href=".autosummary/git_dag.constants.DagBackends.html">git_dag.constants.DagBackends</a></li>
@@ -403,7 +402,7 @@ git<span class="w"> </span>hash-object<span class="w"> </span>-w<span class="w">
 <object class="svg-object"
         data="_static/examples/git_internals/03_step_create_blob_from_modified_file.gv.svg"
         type="image/svg+xml">
-</object><p>Note that, the <code class="docutils literal notranslate"><span class="pre">83baae61</span></code> and <code class="docutils literal notranslate"><span class="pre">1f7a7a47</span></code> blobs do not contain information related to
+</object><p>Note that, the <code class="docutils literal notranslate"><span class="pre">83baae6</span></code> and <code class="docutils literal notranslate"><span class="pre">1f7a7a4</span></code> blobs do not contain information related to
 the name of the file (<code class="docutils literal notranslate"><span class="pre">test.txt</span></code>) whose data they store.</p>
 </section>
 <section id="git-tree">
@@ -434,7 +433,7 @@ git<span class="w"> </span>write-tree
 <object class="svg-object"
         data="_static/examples/git_internals/04_step_create_tree_from_cached_blob.gv.svg"
         type="image/svg+xml">
-</object><p>The tooltip of the <code class="docutils literal notranslate"><span class="pre">83baae61</span></code> blob is now the actual name of the file whose data it
+</object><p>The tooltip of the <code class="docutils literal notranslate"><span class="pre">83baae6</span></code> blob is now the actual name of the file whose data it
 stores (the name has been retrieved from the containing tree object).</p>
 <p>In a similar way we can create another tree that contains the second version of
 <code class="docutils literal notranslate"><span class="pre">test.txt</span></code> and a new file as well.</p>
@@ -465,7 +464,7 @@ git<span class="w"> </span>write-tree
 </object><p>Next we create a tree that contains another tree:</p>
 <div class="literal-block-wrapper docutils container" id="id19">
 <div class="code-block-caption"><span class="caption-text">Create a tree containing another tree</span><a class="headerlink" href="#id19" title="Link to this code">¶</a></div>
-<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>git<span class="w"> </span>read-tree<span class="w"> </span>--prefix<span class="o">=</span>bak<span class="w"> </span>d8329fc1
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>git<span class="w"> </span>read-tree<span class="w"> </span>--prefix<span class="o">=</span>bak<span class="w"> </span>d8329fc
 git<span class="w"> </span>write-tree
 </pre></div>
 </div>
@@ -486,8 +485,8 @@ git<span class="w"> </span>write-tree
         data="_static/examples/git_internals/06_step_create_tree_with_tree.gv.svg"
         type="image/svg+xml">
 </object><p>Similar to a blob, a tree does not include information about its own name. However, if
-contained in another tree, its name can be retrieved (see the tooltip of <code class="docutils literal notranslate"><span class="pre">d8329fc1</span></code>
-and compare it with the tooltips of <code class="docutils literal notranslate"><span class="pre">3c4e9cd7</span></code> and <code class="docutils literal notranslate"><span class="pre">0155eb42</span></code>).</p>
+contained in another tree, its name can be retrieved (see the tooltip of <code class="docutils literal notranslate"><span class="pre">d8329fc</span></code>
+and compare it with the tooltips of <code class="docutils literal notranslate"><span class="pre">3c4e9cd</span></code> and <code class="docutils literal notranslate"><span class="pre">0155eb4</span></code>).</p>
 </section>
 <section id="git-commit">
 <h2>Git commit<a class="headerlink" href="#git-commit" title="Link to this heading">¶</a></h2>
@@ -501,9 +500,9 @@ associated tree (which of course may contain sub-trees).</p>
 <span class="nv">GIT_COMMITTER_NAME</span><span class="o">=</span><span class="s2">&quot;Nom Prenom&quot;</span>
 <span class="nv">GIT_COMMITTER_EMAIL</span><span class="o">=</span><span class="s2">&quot;nom.prenom@mail.com&quot;</span>
 
-<span class="nv">SHA_FIRST_COMMIT</span><span class="o">=</span><span class="k">$(</span><span class="nb">echo</span><span class="w"> </span><span class="s1">&#39;First commit&#39;</span><span class="w"> </span><span class="p">|</span><span class="w"> </span>git<span class="w"> </span>commit-tree<span class="w"> </span>d8329f<span class="k">)</span>
-<span class="nv">SHA_SECOND_COMMIT</span><span class="o">=</span><span class="k">$(</span><span class="nb">echo</span><span class="w"> </span><span class="s1">&#39;Second commit&#39;</span><span class="w"> </span><span class="p">|</span><span class="w"> </span>git<span class="w"> </span>commit-tree<span class="w"> </span>0155eb<span class="w"> </span>-p<span class="w"> </span><span class="nv">$SHA_FIRST_COMMIT</span><span class="k">)</span>
-<span class="nv">SHA_THIRD_COMMIT</span><span class="o">=</span><span class="k">$(</span><span class="nb">echo</span><span class="w"> </span><span class="s1">&#39;Third commit&#39;</span><span class="w"> </span><span class="p">|</span><span class="w"> </span>git<span class="w"> </span>commit-tree<span class="w"> </span>3c4e9c<span class="w"> </span>-p<span class="w"> </span><span class="nv">$SHA_SECOND_COMMIT</span><span class="k">)</span>
+<span class="nv">SHA_FIRST_COMMIT</span><span class="o">=</span><span class="k">$(</span><span class="nb">echo</span><span class="w"> </span><span class="s1">&#39;First commit&#39;</span><span class="w"> </span><span class="p">|</span><span class="w"> </span>git<span class="w"> </span>commit-tree<span class="w"> </span>d8329fc<span class="k">)</span>
+<span class="nv">SHA_SECOND_COMMIT</span><span class="o">=</span><span class="k">$(</span><span class="nb">echo</span><span class="w"> </span><span class="s1">&#39;Second commit&#39;</span><span class="w"> </span><span class="p">|</span><span class="w"> </span>git<span class="w"> </span>commit-tree<span class="w"> </span>0155eb4<span class="w"> </span>-p<span class="w"> </span><span class="nv">$SHA_FIRST_COMMIT</span><span class="k">)</span>
+<span class="nv">SHA_THIRD_COMMIT</span><span class="o">=</span><span class="k">$(</span><span class="nb">echo</span><span class="w"> </span><span class="s1">&#39;Third commit&#39;</span><span class="w"> </span><span class="p">|</span><span class="w"> </span>git<span class="w"> </span>commit-tree<span class="w"> </span>3c4e9cd<span class="w"> </span>-p<span class="w"> </span><span class="nv">$SHA_SECOND_COMMIT</span><span class="k">)</span>
 
 <span class="nb">echo</span><span class="w"> </span><span class="nv">$SHA_FIRST_COMMIT</span>
 <span class="nb">echo</span><span class="w"> </span><span class="nv">$SHA_SECOND_COMMIT</span>
@@ -733,7 +732,7 @@ tag or the reflog.</p>
       
     </aside>
   </div>
-</div><script src="_static/documentation_options.js?v=05ebf88e"></script>
+</div><script src="_static/documentation_options.js?v=cf6b96cc"></script>
     <script src="_static/doctools.js?v=9bcbadda"></script>
     <script src="_static/sphinx_highlight.js?v=dc90522c"></script>
     <script src="_static/scripts/furo.js?v=5fa4622c"></script>
