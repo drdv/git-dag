@@ -1,7 +1,11 @@
 # -*- mode: org -*-
 
-* 0.1.5    UNRELEASED
+* 0.1.6    UNRELEASED
 
+
+* 0.1.5    2025-04-04
+
++ Add examples for revisions and ranges (#106)
 + Change default values for parameters
   + Add SHA_LIMIT to misc parameters (#118)
   + Use a monospace font (#117)

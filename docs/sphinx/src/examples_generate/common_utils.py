@@ -21,11 +21,11 @@ class StepResultsGenerator:
     def __init__(self, example_name: str, step_number: int = 1) -> None:
         self.example_name = example_name
 
-        self.tmp_dir = f"/tmp/git-dag-examples/{self.example_name}"
-        shutil.rmtree(self.tmp_dir, ignore_errors=True)
-        Path(self.tmp_dir).mkdir(parents=True)
+        self.repo_dir = f"/tmp/git-dag-examples/{self.example_name}"
+        shutil.rmtree(self.repo_dir, ignore_errors=True)
+        Path(self.repo_dir).mkdir(parents=True)
 
-        self.out_dir = Path(f"{self.tmp_dir}-out")
+        self.out_dir = Path(f"{self.repo_dir}-out")
         self.out_dir.mkdir(exist_ok=True)
 
         self.step_number = step_number
@@ -53,7 +53,6 @@ class StepResultsGenerator:
 
     def _store_svg(self, name: str, show_args: list[str]) -> None:
         """Store SVG."""
-
         with context_ignore_config_file():
             params = Params(
                 public=ParamsPublic(
@@ -63,7 +62,7 @@ class StepResultsGenerator:
                 dag_global=ParamsDagGlobal(rankdir=self.rankdir),  # type: ignore[arg-type]
             )
 
-        GitRepository(self.tmp_dir, parse_trees=True).show(params)
+        GitRepository(self.repo_dir, parse_trees=True).show(params)
 
         self._store_args(name, show_args)
         with open(self.out_dir / f"{name}_html.rst", "w", encoding="utf-8") as h:
