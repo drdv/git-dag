@@ -8,11 +8,20 @@ After :doc:`installing <install>` ``git-dag``, one can create a configuration fi
 
     git dag --config-create
 
-By default there are 8 sections. The most useful one is ``public:`` which contains most
-:doc:`command-line <cli>` arguments. There is no need to keep all parameters in the
-config file (any of them can be deleted). The default values of missing parameters are
-defined in the :mod:`git_dag.parameters` module. Command-line arguments take precedence
-over parameters in the config file.
+Parameters are organized in sections:
+
++ ``public`` contains most :doc:`command-line <cli>` arguments
++ ``dag_node_colors``: node colors
++ ``dag_global`` global attributes of the DAG
++ ``dag_node``: node attributes
++ ``dag_edge``: edge attributes
+
+The user can define arbitrary parameters in the latter three section, which are passed
+to the graph backend (currently only graphviz is supported).
+
+There is no need to keep all parameters in the config file (any of them can be deleted).
+The default values of missing parameters are defined in the :mod:`git_dag.parameters`
+module. Command-line arguments take precedence over parameters in the config file.
 
 Generate a DAG
 ~~~~~~~~~~~~~~~

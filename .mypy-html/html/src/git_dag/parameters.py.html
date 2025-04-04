@@ -360,8 +360,25 @@
 <span id="L350" class="lineno"><a class="lineno" href="#L350">350</a></span>
 <span id="L351" class="lineno"><a class="lineno" href="#L351">351</a></span>
 <span id="L352" class="lineno"><a class="lineno" href="#L352">352</a></span>
+<span id="L353" class="lineno"><a class="lineno" href="#L353">353</a></span>
+<span id="L354" class="lineno"><a class="lineno" href="#L354">354</a></span>
+<span id="L355" class="lineno"><a class="lineno" href="#L355">355</a></span>
+<span id="L356" class="lineno"><a class="lineno" href="#L356">356</a></span>
+<span id="L357" class="lineno"><a class="lineno" href="#L357">357</a></span>
+<span id="L358" class="lineno"><a class="lineno" href="#L358">358</a></span>
+<span id="L359" class="lineno"><a class="lineno" href="#L359">359</a></span>
+<span id="L360" class="lineno"><a class="lineno" href="#L360">360</a></span>
+<span id="L361" class="lineno"><a class="lineno" href="#L361">361</a></span>
 </pre></td>
-<td class="table-code"><pre><span class="line-empty" title="No Anys on this line!">"""Parameters."""</span>
+<td class="table-code"><pre><span class="line-empty" title="No Anys on this line!">"""Parameters.</span>
+<span class="line-empty" title="No Anys on this line!"></span>
+<span class="line-empty" title="No Anys on this line!">Note</span>
+<span class="line-empty" title="No Anys on this line!">-----</span>
+<span class="line-empty" title="No Anys on this line!">``ParamsDagGlobal``, ``ParamsDagNode`` and ``ParamsDagEdge`` are directly passed to the</span>
+<span class="line-empty" title="No Anys on this line!">backend (FIXME: currently all parameters assume graphviz) and allow extra arguments --</span>
+<span class="line-empty" title="No Anys on this line!">``model_config = ConfigDict(extra="allow")``.</span>
+<span class="line-empty" title="No Anys on this line!"></span>
+<span class="line-empty" title="No Anys on this line!">"""</span>
 <span class="line-empty" title="No Anys on this line!"></span>
 <span class="line-precise" title="No Anys on this line!">import logging</span>
 <span class="line-precise" title="No Anys on this line!">from abc import abstractmethod</span>
@@ -453,18 +470,6 @@ Omitted Generics (x2)">    def set_defaults_values(self) -&gt; Self:</span>
 <span class="line-empty" title="No Anys on this line!"></span>
 <span class="line-empty" title="No Anys on this line!">        """</span>
 <span class="line-imprecise" title="Any Types on this line: 
-Explicit (x1)">        fields_not_defined_by_user = {</span>
-<span class="line-any" title="Any Types on this line: 
-Explicit (x1)">            key: value</span>
-<span class="line-any" title="Any Types on this line: 
-Explicit (x8)
-Omitted Generics (x1)">            for key, value in self.model_dump().items()</span>
-<span class="line-imprecise" title="Any Types on this line: 
-Explicit (x5)
-Omitted Generics (x1)">            if key not in self.model_dump(exclude_unset=True)</span>
-<span class="line-empty" title="No Anys on this line!">        }</span>
-<span class="line-empty" title="No Anys on this line!"></span>
-<span class="line-imprecise" title="Any Types on this line: 
 Omitted Generics (x1)">        if not self.ignore_config_file and CONFIG_FILE.is_file():</span>
 <span class="line-precise" title="Any Types on this line: 
 Unimported (x7)
@@ -478,10 +483,13 @@ Explicit (x1)">            if self.section_in_config() in params_from_config_fil
 <span class="line-any" title="Any Types on this line: 
 Explicit (x3)
 Omitted Generics (x1)">                section_params = params_from_config_file[self.section_in_config()]</span>
+<span class="line-imprecise" title="Any Types on this line: 
+Explicit (x6)
+Omitted Generics (x1)">                fields_defined_by_user = self.model_dump(exclude_unset=True)</span>
 <span class="line-any" title="Any Types on this line: 
 Explicit (x5)">                for key, value in section_params.items():</span>
 <span class="line-any" title="Any Types on this line: 
-Explicit (x2)">                    if key in fields_not_defined_by_user:</span>
+Explicit (x2)">                    if key not in fields_defined_by_user:</span>
 <span class="line-any" title="Any Types on this line: 
 Explicit (x3)
 Omitted Generics (x1)">                        setattr(self, key, value)</span>
@@ -538,6 +546,8 @@ Omitted Generics (x1)">        return self</span>
 <span class="line-precise" title="No Anys on this line!">class ParamsDagGlobal(ParamsBase):</span>
 <span class="line-empty" title="No Anys on this line!">    """Global DAG parameters."""</span>
 <span class="line-empty" title="No Anys on this line!"></span>
+<span class="line-precise" title="No Anys on this line!">    model_config = ConfigDict(extra="allow")</span>
+<span class="line-empty" title="No Anys on this line!"></span>
 <span class="line-precise" title="No Anys on this line!">    rankdir: Literal["LR", "RL", "TB", "BT"] = "TB"</span>
 <span class="line-precise" title="No Anys on this line!">    dpi: str = "None"</span>
 <span class="line-precise" title="No Anys on this line!">    bgcolor: str = "white"  # bgcolor "transparent" is inconsistent accross browsers</span>
@@ -549,6 +559,8 @@ Omitted Generics (x1)">        return self</span>
 <span class="line-empty" title="No Anys on this line!"></span>
 <span class="line-precise" title="No Anys on this line!">class ParamsDagNode(ParamsBase):</span>
 <span class="line-empty" title="No Anys on this line!">    """DAG node parameters."""</span>
+<span class="line-empty" title="No Anys on this line!"></span>
+<span class="line-precise" title="No Anys on this line!">    model_config = ConfigDict(extra="allow")</span>
 <span class="line-empty" title="No Anys on this line!"></span>
 <span class="line-precise" title="No Anys on this line!">    shape: str = "box"</span>
 <span class="line-precise" title="No Anys on this line!">    style: str = "filled"</span>
@@ -563,6 +575,8 @@ Omitted Generics (x1)">        return self</span>
 <span class="line-empty" title="No Anys on this line!"></span>
 <span class="line-precise" title="No Anys on this line!">class ParamsDagEdge(ParamsBase):</span>
 <span class="line-empty" title="No Anys on this line!">    """DAG edge parameters."""</span>
+<span class="line-empty" title="No Anys on this line!"></span>
+<span class="line-precise" title="No Anys on this line!">    model_config = ConfigDict(extra="allow")</span>
 <span class="line-empty" title="No Anys on this line!"></span>
 <span class="line-precise" title="No Anys on this line!">    arrowsize: str = "0.5"</span>
 <span class="line-precise" title="No Anys on this line!">    color: str = "gray10"</span>

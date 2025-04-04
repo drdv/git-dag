@@ -329,11 +329,19 @@
 </pre></div>
 </div>
 </div>
-<p>By default there are 8 sections. The most useful one is <code class="docutils literal notranslate"><span class="pre">public:</span></code> which contains most
-<a class="reference internal" href="cli.html"><span class="doc">command-line</span></a> arguments. There is no need to keep all parameters in the
-config file (any of them can be deleted). The default values of missing parameters are
-defined in the <a class="reference internal" href=".autosummary/git_dag.parameters.html#module-git_dag.parameters" title="git_dag.parameters"><code class="xref py py-mod docutils literal notranslate"><span class="pre">git_dag.parameters</span></code></a> module. Command-line arguments take precedence
-over parameters in the config file.</p>
+<p>Parameters are organized in sections:</p>
+<ul class="simple">
+<li><p><code class="docutils literal notranslate"><span class="pre">public</span></code> contains most <a class="reference internal" href="cli.html"><span class="doc">command-line</span></a> arguments</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">dag_node_colors</span></code>: node colors</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">dag_global</span></code> global attributes of the DAG</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">dag_node</span></code>: node attributes</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">dag_edge</span></code>: edge attributes</p></li>
+</ul>
+<p>The user can define arbitrary parameters in the latter three section, which are passed
+to the graph backend (currently only graphviz is supported).</p>
+<p>There is no need to keep all parameters in the config file (any of them can be deleted).
+The default values of missing parameters are defined in the <a class="reference internal" href=".autosummary/git_dag.parameters.html#module-git_dag.parameters" title="git_dag.parameters"><code class="xref py py-mod docutils literal notranslate"><span class="pre">git_dag.parameters</span></code></a>
+module. Command-line arguments take precedence over parameters in the config file.</p>
 <section id="generate-a-dag">
 <h2>Generate a DAG<a class="headerlink" href="#generate-a-dag" title="Link to this heading">¶</a></h2>
 <p>Assuming that we are in a folder with a git repository, running</p>
@@ -431,7 +439,7 @@ environment variable, or if not set, it is <code class="docutils literal notrans
       
     </aside>
   </div>
-</div><script src="_static/documentation_options.js?v=edfc8696"></script>
+</div><script src="_static/documentation_options.js?v=05ebf88e"></script>
     <script src="_static/doctools.js?v=9bcbadda"></script>
     <script src="_static/sphinx_highlight.js?v=dc90522c"></script>
     <script src="_static/scripts/furo.js?v=5fa4622c"></script>
