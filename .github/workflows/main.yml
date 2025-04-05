@@ -16,6 +16,9 @@ jobs:
     steps:
       - name: set up git repository
         uses: actions/checkout@v4
+        with:
+          # fetches entire history (for setuptools_scm to generate a correct version)
+          fetch-depth: 0
 
       - name: generate docs
         env:
