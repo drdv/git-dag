@@ -45,7 +45,7 @@ Setting ``-n 0`` would include all commits (even unreachable ones if ``-u`` is p
 well). Trees and blobs can be displayed using ``-T`` and ``-B`` (this is recommended
 only for small repositories).
 
-See the :doc:`examples <examples>`.
+See the :doc:`examples <examples>` section.
 
 .. [1] The name of the configuration file is taken from the ``GIT_DAG_CONFIG_FILE``
        environment variable, or if not set, it is ``~/.git-dag.yml`` by default.

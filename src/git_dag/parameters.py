@@ -6,6 +6,11 @@ Note
 backend (FIXME: currently all parameters assume graphviz) and allow extra arguments --
 ``model_config = ConfigDict(extra="allow")``.
 
+Warning
+--------
+Pydantic objects defined in this module are documented `here
+<../pydantic_models.html#parameters>`_.
+
 """
 
 import logging

@@ -114,6 +114,13 @@ def example_ranges() -> None:
     SRG.results(inspect.stack()[0][3], show_args=["-m 1", "-R B..C"], rankdir="BT")
     SRG.results(inspect.stack()[0][3], show_args=["-m 1", "-R B...C"], rankdir="BT")
     SRG.results(inspect.stack()[0][3], show_args=["-m 1", "-R C^@"], rankdir="BT")
+    SRG.results(inspect.stack()[0][3], show_args=["-m 1", "-R D..A"], rankdir="BT")
+    SRG.results(
+        inspect.stack()[0][3],
+        show_args=["-m 1", "-R D..A --ancestry-path=F"],
+        show_args_shell=["-m 1", "-R 'D..A --ancestry-path=F'"],
+        rankdir="BT",
+    )
 
 
 SRG = start_new_repo()

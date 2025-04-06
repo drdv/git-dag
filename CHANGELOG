@@ -2,6 +2,8 @@
 
 * 0.1.6    UNRELEASED
 
++ Add --ancestry-path to examples (#124)
+
 ** Bugfixes
 
 + Fix incorrect version in docs (#122)

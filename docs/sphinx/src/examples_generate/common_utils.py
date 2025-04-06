@@ -38,8 +38,17 @@ class StepResultsGenerator:
         commands: Optional[str] = None,
         rankdir: Optional[str] = None,
         increment_step_number: bool = True,
+        show_args_shell: Optional[list[str]] = None,
     ) -> None:
-        """Store all results."""
+        """Store all results.
+
+        Warning
+        --------
+        Sometimes the repr of ``show_args`` should be different from the actual
+        ``show_args`` we pass to argparse because we need to account for our shell (I
+        assume bash). To do this we can use the ``show_args_shell`` argument.
+
+        """
         if rankdir is not None:
             self.rankdir = rankdir
 
@@ -48,6 +57,10 @@ class StepResultsGenerator:
             self.step_number += 1
 
         self._store_svg(name, show_args)
+        self._store_args(
+            name,
+            show_args if show_args_shell is None else show_args_shell,
+        )
         if commands is not None:
             self._store_commands(name, commands)
 
@@ -63,8 +76,6 @@ class StepResultsGenerator:
             )
 
         GitRepository(self.repo_dir, parse_trees=True).show(params)
-
-        self._store_args(name, show_args)
         with open(self.out_dir / f"{name}_html.rst", "w", encoding="utf-8") as h:
             h.write(
                 dedent(

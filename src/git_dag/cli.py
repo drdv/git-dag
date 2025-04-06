@@ -114,7 +114,10 @@ def get_cla_parser() -> argparse.ArgumentParser:
     parser.add_argument(
         "-R",
         dest="range_expr",
-        help="A range expression (e.g, main..feature).",
+        help=(
+            "A range expression (e.g, main..feature). It is passed directly to "
+            "git rev-list, so any of its flags can be passed as well."
+        ),
     )
 
     parser.add_argument(
