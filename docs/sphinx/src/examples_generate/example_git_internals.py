@@ -331,7 +331,7 @@ def step_add_lightweight_tag(commits: DictStrStr) -> None:
 
 if __name__ == "__main__":
     SRG = StepResultsGenerator(example_name=EXAMPLE_NAME)
-    GIT = GitCommandMutate(SRG.repo_dir, date="01/01/25 09:00 +0100")
+    GIT = GitCommandMutate(SRG.example_dir, date="01/01/25 09:00 +0100")
     GIT.init()
 
     step_create_blob()

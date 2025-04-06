@@ -208,7 +208,7 @@ def start_new_repo(
     step_number: int = 1,
 ) -> tuple[StepResultsGenerator, GitCommandMutate]:
     srg = StepResultsGenerator(example_name=EXAMPLE_NAME, step_number=step_number)
-    git = GitCommandMutate(srg.repo_dir, date="01/01/25 09:00 +0100")
+    git = GitCommandMutate(srg.example_dir, date="01/01/25 09:00 +0100")
     git.init()
 
     return srg, git

@@ -21,11 +21,11 @@ class StepResultsGenerator:
     def __init__(self, example_name: str, step_number: int = 1) -> None:
         self.example_name = example_name
 
-        self.repo_dir = f"/tmp/git-dag-examples/{self.example_name}"
-        shutil.rmtree(self.repo_dir, ignore_errors=True)
-        Path(self.repo_dir).mkdir(parents=True)
+        self.example_dir = f"/tmp/git-dag-examples/{self.example_name}"
+        shutil.rmtree(self.example_dir, ignore_errors=True)
+        Path(self.example_dir).mkdir(parents=True)
 
-        self.out_dir = Path(f"{self.repo_dir}-out")
+        self.out_dir = Path(f"{self.example_dir}-out")
         self.out_dir.mkdir(exist_ok=True)
 
         self.step_number = step_number
@@ -36,6 +36,7 @@ class StepResultsGenerator:
         name: str,
         show_args: list[str],
         commands: Optional[str] = None,
+        repo_dir: Optional[str | Path] = None,
         rankdir: Optional[str] = None,
         increment_step_number: bool = True,
         show_args_shell: Optional[list[str]] = None,
@@ -56,7 +57,11 @@ class StepResultsGenerator:
             name = f"{self.step_number:02}_{name}"
             self.step_number += 1
 
-        self._store_svg(name, show_args)
+        self._store_svg(
+            name,
+            show_args,
+            self.example_dir if repo_dir is None else repo_dir,
+        )
         self._store_args(
             name,
             show_args if show_args_shell is None else show_args_shell,
@@ -64,7 +69,7 @@ class StepResultsGenerator:
         if commands is not None:
             self._store_commands(name, commands)
 
-    def _store_svg(self, name: str, show_args: list[str]) -> None:
+    def _store_svg(self, name: str, show_args: list[str], repo_dir: str | Path) -> None:
         """Store SVG."""
         with context_ignore_config_file():
             params = Params(
@@ -75,7 +80,7 @@ class StepResultsGenerator:
                 dag_global=ParamsDagGlobal(rankdir=self.rankdir),  # type: ignore[arg-type]
             )
 
-        GitRepository(self.repo_dir, parse_trees=True).show(params)
+        GitRepository(repo_dir, parse_trees=True).show(params)
         with open(self.out_dir / f"{name}_html.rst", "w", encoding="utf-8") as h:
             h.write(
                 dedent(
