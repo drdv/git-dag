@@ -1,0 +1,80 @@
+git\_dag.git\_objects.GitObjectKind
+===================================
+
+.. currentmodule:: git_dag.git_objects
+
+.. autoclass:: GitObjectKind
+   :members:
+   :show-inheritance:
+   :inherited-members:
+   :special-members: __call__, __add__, __mul__
+
+   
+   
+   .. rubric:: Methods
+
+   .. autosummary::
+      :nosignatures:
+   
+      ~GitObjectKind.encode
+      ~GitObjectKind.replace
+      ~GitObjectKind.split
+      ~GitObjectKind.rsplit
+      ~GitObjectKind.join
+      ~GitObjectKind.capitalize
+      ~GitObjectKind.casefold
+      ~GitObjectKind.title
+      ~GitObjectKind.center
+      ~GitObjectKind.count
+      ~GitObjectKind.expandtabs
+      ~GitObjectKind.find
+      ~GitObjectKind.partition
+      ~GitObjectKind.index
+      ~GitObjectKind.ljust
+      ~GitObjectKind.lower
+      ~GitObjectKind.lstrip
+      ~GitObjectKind.rfind
+      ~GitObjectKind.rindex
+      ~GitObjectKind.rjust
+      ~GitObjectKind.rstrip
+      ~GitObjectKind.rpartition
+      ~GitObjectKind.splitlines
+      ~GitObjectKind.strip
+      ~GitObjectKind.swapcase
+      ~GitObjectKind.translate
+      ~GitObjectKind.upper
+      ~GitObjectKind.startswith
+      ~GitObjectKind.endswith
+      ~GitObjectKind.removeprefix
+      ~GitObjectKind.removesuffix
+      ~GitObjectKind.isascii
+      ~GitObjectKind.islower
+      ~GitObjectKind.isupper
+      ~GitObjectKind.istitle
+      ~GitObjectKind.isspace
+      ~GitObjectKind.isdecimal
+      ~GitObjectKind.isdigit
+      ~GitObjectKind.isnumeric
+      ~GitObjectKind.isalpha
+      ~GitObjectKind.isalnum
+      ~GitObjectKind.isidentifier
+      ~GitObjectKind.isprintable
+      ~GitObjectKind.zfill
+      ~GitObjectKind.format
+      ~GitObjectKind.format_map
+      ~GitObjectKind.maketrans
+   
+   
+
+   
+   
+   .. rubric:: Attributes
+
+   .. autosummary::
+   
+      ~GitObjectKind.blob
+      ~GitObjectKind.tree
+      ~GitObjectKind.commit
+      ~GitObjectKind.tag
+   
+   

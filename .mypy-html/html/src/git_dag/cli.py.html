@@ -338,6 +338,9 @@
 <span id="L328" class="lineno"><a class="lineno" href="#L328">328</a></span>
 <span id="L329" class="lineno"><a class="lineno" href="#L329">329</a></span>
 <span id="L330" class="lineno"><a class="lineno" href="#L330">330</a></span>
+<span id="L331" class="lineno"><a class="lineno" href="#L331">331</a></span>
+<span id="L332" class="lineno"><a class="lineno" href="#L332">332</a></span>
+<span id="L333" class="lineno"><a class="lineno" href="#L333">333</a></span>
 </pre></td>
 <td class="table-code"><pre><span class="line-empty" title="No Anys on this line!">#!/usr/bin/env python</span>
 <span class="line-empty" title="No Anys on this line!"># PYTHON_ARGCOMPLETE_OK</span>
@@ -464,7 +467,10 @@ Explicit (x3)">    parser.add_argument(</span>
 Explicit (x3)">    parser.add_argument(</span>
 <span class="line-precise" title="No Anys on this line!">        "-R",</span>
 <span class="line-precise" title="No Anys on this line!">        dest="range_expr",</span>
-<span class="line-precise" title="No Anys on this line!">        help="A range expression (e.g, main..feature).",</span>
+<span class="line-empty" title="No Anys on this line!">        help=(</span>
+<span class="line-precise" title="No Anys on this line!">            "A range expression (e.g, main..feature). It is passed directly to "</span>
+<span class="line-empty" title="No Anys on this line!">            "git rev-list, so any of its flags can be passed as well."</span>
+<span class="line-empty" title="No Anys on this line!">        ),</span>
 <span class="line-empty" title="No Anys on this line!">    )</span>
 <span class="line-empty" title="No Anys on this line!"></span>
 <span class="line-precise" title="Any Types on this line: 

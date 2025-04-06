@@ -1,0 +1,6 @@
+git\_dag.git\_objects.GitTreeRawDataType
+========================================
+
+.. currentmodule:: git_dag.git_objects
+
+.. autodata:: GitTreeRawDataType

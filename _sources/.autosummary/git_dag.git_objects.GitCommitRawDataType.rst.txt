@@ -1,0 +1,6 @@
+git\_dag.git\_objects.GitCommitRawDataType
+==========================================
+
+.. currentmodule:: git_dag.git_objects
+
+.. autodata:: GitCommitRawDataType

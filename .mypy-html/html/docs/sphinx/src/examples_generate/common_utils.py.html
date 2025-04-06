@@ -108,6 +108,17 @@
 <span id="L98" class="lineno"><a class="lineno" href="#L98">98</a></span>
 <span id="L99" class="lineno"><a class="lineno" href="#L99">99</a></span>
 <span id="L100" class="lineno"><a class="lineno" href="#L100">100</a></span>
+<span id="L101" class="lineno"><a class="lineno" href="#L101">101</a></span>
+<span id="L102" class="lineno"><a class="lineno" href="#L102">102</a></span>
+<span id="L103" class="lineno"><a class="lineno" href="#L103">103</a></span>
+<span id="L104" class="lineno"><a class="lineno" href="#L104">104</a></span>
+<span id="L105" class="lineno"><a class="lineno" href="#L105">105</a></span>
+<span id="L106" class="lineno"><a class="lineno" href="#L106">106</a></span>
+<span id="L107" class="lineno"><a class="lineno" href="#L107">107</a></span>
+<span id="L108" class="lineno"><a class="lineno" href="#L108">108</a></span>
+<span id="L109" class="lineno"><a class="lineno" href="#L109">109</a></span>
+<span id="L110" class="lineno"><a class="lineno" href="#L110">110</a></span>
+<span id="L111" class="lineno"><a class="lineno" href="#L111">111</a></span>
 </pre></td>
 <td class="table-code"><pre><span class="line-empty" title="No Anys on this line!">"""Common utils for example generation."""</span>
 <span class="line-empty" title="No Anys on this line!"></span>
@@ -149,8 +160,17 @@
 <span class="line-precise" title="No Anys on this line!">        commands: Optional[str] = None,</span>
 <span class="line-precise" title="No Anys on this line!">        rankdir: Optional[str] = None,</span>
 <span class="line-precise" title="No Anys on this line!">        increment_step_number: bool = True,</span>
+<span class="line-precise" title="No Anys on this line!">        show_args_shell: Optional[list[str]] = None,</span>
 <span class="line-empty" title="No Anys on this line!">    ) -&gt; None:</span>
-<span class="line-empty" title="No Anys on this line!">        """Store all results."""</span>
+<span class="line-empty" title="No Anys on this line!">        """Store all results.</span>
+<span class="line-empty" title="No Anys on this line!"></span>
+<span class="line-empty" title="No Anys on this line!">        Warning</span>
+<span class="line-empty" title="No Anys on this line!">        --------</span>
+<span class="line-empty" title="No Anys on this line!">        Sometimes the repr of ``show_args`` should be different from the actual</span>
+<span class="line-empty" title="No Anys on this line!">        ``show_args`` we pass to argparse because we need to account for our shell (I</span>
+<span class="line-empty" title="No Anys on this line!">        assume bash). To do this we can use the ``show_args_shell`` argument.</span>
+<span class="line-empty" title="No Anys on this line!"></span>
+<span class="line-empty" title="No Anys on this line!">        """</span>
 <span class="line-precise" title="No Anys on this line!">        if rankdir is not None:</span>
 <span class="line-precise" title="No Anys on this line!">            self.rankdir = rankdir</span>
 <span class="line-empty" title="No Anys on this line!"></span>
@@ -159,6 +179,10 @@
 <span class="line-precise" title="No Anys on this line!">            self.step_number += 1</span>
 <span class="line-empty" title="No Anys on this line!"></span>
 <span class="line-precise" title="No Anys on this line!">        self._store_svg(name, show_args)</span>
+<span class="line-precise" title="No Anys on this line!">        self._store_args(</span>
+<span class="line-precise" title="No Anys on this line!">            name,</span>
+<span class="line-precise" title="No Anys on this line!">            show_args if show_args_shell is None else show_args_shell,</span>
+<span class="line-empty" title="No Anys on this line!">        )</span>
 <span class="line-precise" title="No Anys on this line!">        if commands is not None:</span>
 <span class="line-precise" title="No Anys on this line!">            self._store_commands(name, commands)</span>
 <span class="line-empty" title="No Anys on this line!"></span>
@@ -176,8 +200,6 @@ Explicit (x2)">                    **get_user_defined_cla(show_args),</span>
 <span class="line-empty" title="No Anys on this line!"></span>
 <span class="line-any" title="Any Types on this line: 
 Explicit (x2)">        GitRepository(self.repo_dir, parse_trees=True).show(params)</span>
-<span class="line-empty" title="No Anys on this line!"></span>
-<span class="line-precise" title="No Anys on this line!">        self._store_args(name, show_args)</span>
 <span class="line-precise" title="Any Types on this line: 
 Unimported (x7)
 Explicit (x1)">        with open(self.out_dir / f"{name}_html.rst", "w", encoding="utf-8") as h:</span>

@@ -1,0 +1,41 @@
+﻿git\_dag.git\_objects
+=====================
+
+.. automodule:: git_dag.git_objects
+
+   
+   
+   .. rubric:: Module attributes
+
+   .. autosummary::
+      :toctree:
+   
+      GitCommitRawDataType
+      GitTreeRawDataType
+      GitTagRawDataType
+   
+   
+
+   
+   
+   
+
+   
+   
+   .. rubric:: Classes
+
+   .. autosummary::
+      :toctree:
+      :template: custom-class-template.rst
+      :nosignatures:
+   
+      GitObjectKind
+   
+   
+
+   
+   
+   
+
+
+
