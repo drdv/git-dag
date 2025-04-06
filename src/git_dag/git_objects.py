@@ -1,4 +1,11 @@
-"""Pydantic models of git objects."""
+"""Pydantic models of git objects.
+
+Warning
+--------
+Pydantic objects defined in this module are documented `here
+<../pydantic_models.html#git-objects>`_.
+
+"""
 
 from __future__ import annotations
 

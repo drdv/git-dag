@@ -21,8 +21,6 @@ The code is available at `git-dag <https://github.com/drdv/git-dag>`_. It can be
 to generate the DAG of a git repository (either from the command-line or from python).
 To get started, see the :doc:`quickstart <quickstart>` guide.
 
-The code is under development ...
-
 .. toctree::
    :hidden:
 

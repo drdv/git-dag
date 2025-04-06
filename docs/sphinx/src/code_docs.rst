@@ -13,6 +13,7 @@ Code
    dag
    git_commands
    git_repository
+   git_objects
    parameters
    interfaces.dag_base
    interfaces.graphviz

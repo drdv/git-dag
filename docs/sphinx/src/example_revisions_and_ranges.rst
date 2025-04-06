@@ -39,12 +39,12 @@ There are other ways to specify revisions. Some of them are shown in the last ta
    .. include:: .static/examples/revisions_and_ranges/02_example_revisions_args.rst
    .. include:: .static/examples/revisions_and_ranges/02_example_revisions_html.rst
 
-.. tab:: Annotations
+.. tab:: With annotations
 
    .. include:: .static/examples/revisions_and_ranges/03_example_revisions_args.rst
    .. include:: .static/examples/revisions_and_ranges/03_example_revisions_html.rst
 
-.. tab:: More annotations
+.. tab:: With more annotations
 
    .. include:: .static/examples/revisions_and_ranges/04_example_revisions_args.rst
    .. include:: .static/examples/revisions_and_ranges/04_example_revisions_html.rst
@@ -67,6 +67,12 @@ Below we give examples with four ways to define such a set:
 + ``<rev1>...<rev2>``: commits reachable from either ``<rev1>`` or ``<rev2>`` but not from both
 + ``<rev>^@``: all (direct/indirect) parents of ``<rev>``.
 
+In addition, the last two tabs depict the effect of using ``--ancestry-path`` in
+combination with a range [1]_. For example, range ``D..A`` includes all reachable
+commits from ``A`` that are not reachable from ``D`` (i.e., ``{A, B, C, E, F, I, J}``),
+while passing as well ``--ancestry-path=F``, filters-out commit ``E`` from that set,
+because ``E`` cannot be reached from ``F`` and ``F`` cannot be reached from ``E``.
+
 .. tab:: ``<rev1> <rev2>``
 
    .. include:: .static/examples/revisions_and_ranges/05_example_ranges_args.rst
@@ -86,3 +92,33 @@ Below we give examples with four ways to define such a set:
 
    .. include:: .static/examples/revisions_and_ranges/08_example_ranges_args.rst
    .. include:: .static/examples/revisions_and_ranges/08_example_ranges_html.rst
+
+.. tab:: ``D..A``
+
+   .. include:: .static/examples/revisions_and_ranges/09_example_ranges_args.rst
+   .. include:: .static/examples/revisions_and_ranges/09_example_ranges_html.rst
+
+.. tab:: ``D..A --ancestry-path=F``
+
+   .. include:: .static/examples/revisions_and_ranges/10_example_ranges_args.rst
+   .. include:: .static/examples/revisions_and_ranges/10_example_ranges_html.rst
+
+
+A ``diff`` particularity
+~~~~~~~~~~~~~~~~~~~~~~~~~
+
+It is worth pointing out that in the context of the ``git diff`` command,
+``<rev1>..<rev2>`` and ``<rev1>...<rev2>`` do not represent ranges:
+
+.. epigraph::
+
+   However, diff is about comparing two endpoints, not ranges, and the range
+   notations ... do not mean a range
+
+   -- `man git-diff <https://git-scm.com/docs/git-diff>`_
+
+A nice summary of using the range notation with ``git log`` and ``git diff`` can be
+found `here <https://stackoverflow.com/a/46345364>`_.
+
+.. [1] Note that the argument of the ``-R`` flag is passed verbatim to ``git rev-list``
+       (arguments that include spaces should be quoted).
