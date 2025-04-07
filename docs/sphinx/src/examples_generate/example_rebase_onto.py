@@ -18,6 +18,9 @@ EXAMPLE_NAME = "_".join(Path(__file__).stem.split("_")[1:])
 
 SHOW_ARGS = ["-l", "-H", "-u"]
 
+ELENA_CREDENTIALS = {"name": "Elena Coder", "mail": "elena.coder@mail.com"}
+MARINA_CREDENTIALS = {"name": "Marina Coder", "mail": "marina.coder@mail.com"}
+
 
 def repo_example1(show_args: Optional[list[str]] = None) -> None:
     # pylint: disable=possibly-used-before-assignment
@@ -151,11 +154,11 @@ def example1_switch_feature(show_args: Optional[list[str]] = None) -> None:
 def repo_example2(show_args: Optional[list[str]] = None) -> None:
     GIT.cm(["C1", "C2"])
     GIT.br("server", create=True)
-    GIT.cm(["C3"])
+    GIT.cm(["C3"], author_info=ELENA_CREDENTIALS)
     GIT.br("client", create=True)
-    GIT.cm(["C8", "C9"])
+    GIT.cm(["C8", "C9"], author_info=MARINA_CREDENTIALS)
     GIT.br("server")
-    GIT.cm(["C4", "C10"])
+    GIT.cm(["C4", "C10"], author_info=ELENA_CREDENTIALS)
     GIT.br("main")
     GIT.cm(["C5", "C6"])
     GIT.br("server")
@@ -188,7 +191,7 @@ def example2_rebase_server(show_args: Optional[list[str]] = None) -> None:
 def example2_rebase_client(show_args: Optional[list[str]] = None) -> None:
     GIT.br("client")
     GIT.run_general(
-        f"{GIT.command_prefix} rebase --onto server 7c2fd5d client",
+        f"{GIT.command_prefix} rebase --onto server 103ff1e client",
         env=GIT.env,
         expected_stderr="Successfully rebased and updated",
     )
@@ -199,7 +202,7 @@ def example2_rebase_client(show_args: Optional[list[str]] = None) -> None:
             """
             .. code-block:: bash
 
-                git rebase --onto server 7c2fd5d client
+                git rebase --onto server 103ff1e client
             """
         ),
     )

@@ -123,7 +123,7 @@ In the second example we reuse the repository from section "More Interesting Reb
 `Git Branching - Rebasing <https://git-scm.com/book/en/v2/Git-Branching-Rebasing>`_,
 however we perform a different sequence of operations.
 
-Suppose that, to add some server-side functionality, Elena commits ``7c2fd5d`` (``C3``)
+Suppose that, to add some server-side functionality, Elena commits ``103ff1e`` (``C3``)
 on a feature branch ``server``. A bit later Marina, adds related client-side
 functionality on a ``client`` branch. Then both of them continue working on their
 implementations. Meanwhile, ``main`` has evolved and Elena decides to rebase ``server``
@@ -133,8 +133,8 @@ depicted in the second tab below.
 At that point Marina wants to sync her ``client`` branch with the updated ``server``
 branch, but she doesn't want to resolve the same conflict with ``C3`` (after all, it has
 already been resolved by Elena). So she uses the ``--onto`` flag of ``git rebase`` as
-shown in the third tab below. Note that the range ``7c2fd5d..client`` doesn't include
-``7c2fd5d`` -- in effect, she only rebases her own work (commits ``C8`` and ``C9``).
+shown in the third tab below. Note that the range ``103ff1e..client`` doesn't include
+``103ff1e`` -- in effect, she only rebases her own work (commits ``C8`` and ``C9``).
 
 .. tab:: Initial repo
 

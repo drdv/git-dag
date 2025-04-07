@@ -151,7 +151,12 @@ class GitCommandMutate(GitCommandBase):
                 h.write(contents)
             self._run(f"add {filename}")
 
-    def cm(self, messages: str | list[str], files: Optional[DictStrStr] = None) -> None:
+    def cm(
+        self,
+        messages: str | list[str],
+        files: Optional[DictStrStr] = None,
+        author_info: Optional[DictStrStr] = None,
+    ) -> None:
         """Add commit(s).
 
         If ``files`` is not specified an empty commit is created.
@@ -179,12 +184,18 @@ class GitCommandMutate(GitCommandBase):
             if files is not None:
                 self.add(files)
 
-            self._run(f'commit --allow-empty -m "{messages}"', env=self.env)
+            self._run(
+                f'commit --allow-empty -m "{messages}"',
+                env=update_author_info(self.env),
+            )
         elif isinstance(messages, (list, tuple)):
             if files is not None:
                 raise ValueError("Cannot add files with multiple commits.")
             for msg in messages:
-                self._run(f'commit --allow-empty -m "{msg}"', env=self.env)
+                self._run(
+                    f'commit --allow-empty -m "{msg}"',
+                    env=update_author_info(self.env),
+                )
         else:
             raise ValueError("Unsupported message type.")
 
