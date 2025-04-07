@@ -2,6 +2,9 @@
 
 * 0.1.6    UNRELEASED
 
++ Add fetch & merge or rebase example (#127)
+  + Display commit SHA in tooltip if showing its message (#126)
+  + Maintain different committer names in some examples (#128)
 + Add --ancestry-path to examples (#124)
 
 ** Bugfixes
