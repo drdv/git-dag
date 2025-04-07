@@ -21,9 +21,9 @@ class StepResultsGenerator:
     def __init__(self, example_name: str, step_number: int = 1) -> None:
         self.example_name = example_name
 
-        self.example_dir = f"/tmp/git-dag-examples/{self.example_name}"
+        self.example_dir = Path("/tmp/git-dag-examples") / self.example_name
         shutil.rmtree(self.example_dir, ignore_errors=True)
-        Path(self.example_dir).mkdir(parents=True)
+        self.example_dir.mkdir(parents=True)
 
         self.out_dir = Path(f"{self.example_dir}-out")
         self.out_dir.mkdir(exist_ok=True)
