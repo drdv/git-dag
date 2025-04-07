@@ -14,6 +14,9 @@ class DagBackends(Enum):
     GRAPHVIZ = 1  #: https://github.com/xflr6/graphviz
 
 
+#: A standard commit date to use
+COMMIT_DATE = "01/01/25 09:00 +0100"
+
 #: Regex patterx for SHA-1 hash.
 SHA_PATTERN: Final[str] = "(?P<sha>[0-9a-f]{40})"
 

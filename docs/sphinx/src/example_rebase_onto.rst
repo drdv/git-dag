@@ -12,9 +12,9 @@ The basic format of the command is:
 
    git rebase --onto <new-base> <range-start> <range-end>
 
-The range of commits to rebase onto the ``<new-base>`` is formed using
-``<range-start>..<range-end>`` (the former is excluded from the range, while the latter
-is included).
+The :doc:`range <example_revisions_and_ranges>` of commits to rebase onto the
+``<new-base>`` is formed using ``<range-start>..<range-end>`` (the former is excluded
+from the range, while the latter is included).
 
 Example 1
 ~~~~~~~~~~
@@ -30,12 +30,12 @@ commits in the range ``main..feature`` are applied starting from the tip of ``ma
 can be seen in the "After" tab, commits ``C``, ``D`` and ``E`` have been recreated
 (compare their tooltips), that is:
 
-+ ``C``: ``4878cee`` → ``9d41ef9``
-+ ``D``: ``63e7edb`` → ``5deeea5``
-+ ``E``: ``09fb3c2`` → ``5ede5cd``.
++ ``C``: ``f8ed6cd`` → ``bd093d7``
++ ``D``: ``30168f0`` → ``8bb9c6c``
++ ``E``: ``7d655dc`` → ``d56f7af``.
 
-Of course, the original three commits are still available in the repository however they
-are unreachable from any branch (or tag) and, normally, would be garbage-collected
+Of course, the original three commits are still available in the repository, however,
+they are unreachable from any branch (or tag) and, normally, would be garbage-collected
 eventually (note that they are displayed with a different color [1]_).
 
 .. tab:: Before (1)
@@ -52,9 +52,10 @@ eventually (note that they are displayed with a different color [1]_).
 .. -----------------------------------------------------------------------
 
 The range in the second case, is the same as in the first case even though it is defined
-using ``bc9b888..feature`` (note that ``bc9b888`` is the `merge-base
+using ``b5c0976..feature`` (``b5c0976`` is the `merge-base
 <https://git-scm.com/docs/git-merge-base>`_ of ``main`` and ``feature``). The difference
-here is that we rebase not on the tip of ``main`` but on commit ``c95114c``.
+here is that we rebase not on the tip of ``main`` but on ``main~1`` (i.e., commit
+``1202fea``).
 
 .. tab:: Before (2)
 
@@ -69,7 +70,7 @@ here is that we rebase not on the tip of ``main`` but on commit ``c95114c``.
 
 .. -----------------------------------------------------------------------
 
-In case 3 we rebase again on top of ``c95114c`` but this time the range has one commit
+In case 3 we rebase again on top of ``main~1`` but this time the range has one commit
 less (we dropped commit ``C``).
 
 .. tab:: Before (3)
@@ -88,8 +89,9 @@ less (we dropped commit ``C``).
 Finally, in case 4, we use the last commit on the ``feature`` branch (instead of the
 ``feature`` branch itself) to define the range. After the rebase, the HEAD is detached
 [2]_ (i.e., the ``feature`` branch didn't move). This could be considered as a useful
-trick -- we perform the rebase, then move ``feature`` to point to the updated ``E``
-commit ``283df08`` if we are happy with the results (see the last two tabs) [3]_.
+trick -- we perform the rebase, then move ``feature`` to point to HEAD (i.e., to the
+updated ``E`` commit ``ce51afe``) if we are happy with the results (see the last two
+tabs) [3]_.
 
 .. tab:: Before (4)
 
@@ -121,7 +123,7 @@ In the second example we reuse the repository from section "More Interesting Reb
 `Git Branching - Rebasing <https://git-scm.com/book/en/v2/Git-Branching-Rebasing>`_,
 however we perform a different sequence of operations.
 
-Suppose that, to add some server-side functionality, Elena commits ``998d091`` (``C3``)
+Suppose that, to add some server-side functionality, Elena commits ``7c2fd5d`` (``C3``)
 on a feature branch ``server``. A bit later Marina, adds related client-side
 functionality on a ``client`` branch. Then both of them continue working on their
 implementations. Meanwhile, ``main`` has evolved and Elena decides to rebase ``server``
@@ -131,8 +133,8 @@ depicted in the second tab below.
 At that point Marina wants to sync her ``client`` branch with the updated ``server``
 branch, but she doesn't want to resolve the same conflict with ``C3`` (after all, it has
 already been resolved by Elena). So she uses the ``--onto`` flag of ``git rebase`` as
-shown in the third tab below. Note that the range ``998d091..client`` doesn't include
-``998d091`` -- in effect, she only rebases her own work (commits ``C8`` and ``C9``).
+shown in the third tab below. Note that the range ``7c2fd5d..client`` doesn't include
+``7c2fd5d`` -- in effect, she only rebases her own work (commits ``C8`` and ``C9``).
 
 .. tab:: Initial repo
 

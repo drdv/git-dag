@@ -2,4 +2,4 @@
 .. code-block:: bash
     :caption: Visualize DAG
 
-    git dag -l -H -u -R 4878cee..09fb3c2
+    git dag -l -H -u -R f8ed6cd..feature~0

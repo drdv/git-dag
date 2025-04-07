@@ -16,10 +16,16 @@ import time
 from pathlib import Path
 from typing import Any, Literal, Optional
 
-from git_dag.constants import CMD_TAGS_INFO, SHA_PATTERN, TAG_FORMAT_FIELDS, DictStrStr
+from git_dag.constants import (
+    CMD_TAGS_INFO,
+    COMMIT_DATE,
+    SHA_PATTERN,
+    TAG_FORMAT_FIELDS,
+    DictStrStr,
+)
 from git_dag.exceptions import CalledProcessCustomError
 from git_dag.parameters import Params, ParamsPublic, context_ignore_config_file
-from git_dag.utils import escape_decode
+from git_dag.utils import escape_decode, increase_date
 
 logging.basicConfig(level=logging.WARNING)
 LOG = logging.getLogger(__name__)
@@ -92,12 +98,13 @@ class GitCommandMutate(GitCommandBase):
         author: str = "First Last <first.last@mail.com>",
         committer: str = "Nom Prenom <nom.prenom@mail.com>",
         date: Optional[str] = None,
+        evolving_date: bool = False,
     ) -> None:
         """Initialize instance."""
         self.author = author
         self.committer = committer
         self.date = date
-        self.env = self.get_env()
+        self.evolving_date = evolving_date
 
         super().__init__(path)
 
@@ -105,7 +112,8 @@ class GitCommandMutate(GitCommandBase):
         """Initialise a git repository."""
         self._run(f"init -b {branch} {'--bare' if bare else ''}")
 
-    def get_env(self) -> DictStrStr:
+    @property
+    def env(self) -> DictStrStr:
         """Return environment with author and committer to pass to commands."""
         env = {}
         match = re.search("(?P<name>.*) (?P<email><.*>)", self.author)
@@ -125,6 +133,8 @@ class GitCommandMutate(GitCommandBase):
         if self.date is not None:
             env["GIT_AUTHOR_DATE"] = self.date
             env["GIT_COMMITTER_DATE"] = self.date
+
+            self.date = increase_date(self.date) if self.evolving_date else self.date
 
         return env
 
@@ -701,7 +711,7 @@ class TestGitRepository:
     @staticmethod
     def repository_default(path: Path | str) -> GitCommandMutate:
         """Default repository."""
-        git = GitCommandMutate(path, date="01/01/25 09:00 +0100")
+        git = GitCommandMutate(path, date=COMMIT_DATE)
         git.init()
         git.cm("A\n\nBody:\n * First line\n * Second line\n * Third line")
         git.br("topic", create=True)

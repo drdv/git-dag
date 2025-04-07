@@ -8,6 +8,7 @@ from pathlib import Path
 from textwrap import dedent
 from typing import Optional
 
+from git_dag.constants import COMMIT_DATE
 from git_dag.git_commands import GitCommandMutate
 
 sys.path.append(str(Path(__file__).parent))
@@ -55,7 +56,7 @@ def example1_rebase(show_args: Optional[list[str]] = None) -> None:
 
 def example1_rebase_onto1(show_args: Optional[list[str]] = None) -> None:
     GIT.run_general(
-        f"{GIT.command_prefix} rebase --onto c95114c bc9b888 feature",
+        f"{GIT.command_prefix} rebase --onto main~1 b5c0976 feature",
         env=GIT.env,
         expected_stderr="Successfully rebased and updated",
     )
@@ -66,7 +67,7 @@ def example1_rebase_onto1(show_args: Optional[list[str]] = None) -> None:
             """
             .. code-block:: bash
 
-                git rebase --onto c95114c bc9b888 feature
+                git rebase --onto main~1 b5c0976 feature
             """
         ),
     )
@@ -74,7 +75,7 @@ def example1_rebase_onto1(show_args: Optional[list[str]] = None) -> None:
 
 def example1_rebase_onto2(show_args: Optional[list[str]] = None) -> None:
     GIT.run_general(
-        f"{GIT.command_prefix} rebase --onto c95114c 4878cee feature",
+        f"{GIT.command_prefix} rebase --onto main~1 f8ed6cd feature",
         env=GIT.env,
         expected_stderr="Successfully rebased and updated",
     )
@@ -85,7 +86,7 @@ def example1_rebase_onto2(show_args: Optional[list[str]] = None) -> None:
             """
             .. code-block:: bash
 
-                git rebase --onto c95114c 4878cee feature
+                git rebase --onto main~1 f8ed6cd feature
             """
         ),
     )
@@ -93,7 +94,7 @@ def example1_rebase_onto2(show_args: Optional[list[str]] = None) -> None:
 
 def example1_rebase_onto3(show_args: Optional[list[str]] = None) -> None:
     GIT.run_general(
-        f"{GIT.command_prefix} rebase --onto c95114c 4878cee 09fb3c2",
+        f"{GIT.command_prefix} rebase --onto main~1 f8ed6cd feature~0",
         env=GIT.env,
         expected_stderr="Successfully rebased and updated",
     )
@@ -104,7 +105,7 @@ def example1_rebase_onto3(show_args: Optional[list[str]] = None) -> None:
             """
             .. code-block:: bash
 
-                git rebase --onto c95114c 4878cee 09fb3c2
+                git rebase --onto main~1 f8ed6cd feature~0
             """
         ),
     )
@@ -113,7 +114,7 @@ def example1_rebase_onto3(show_args: Optional[list[str]] = None) -> None:
 def example1_move_feature_after_rebase_onto3(
     show_args: Optional[list[str]] = None,
 ) -> None:
-    GIT.run_general(f"{GIT.command_prefix} branch -f feature 283df08", env=GIT.env)
+    GIT.run_general(f"{GIT.command_prefix} branch -f feature HEAD", env=GIT.env)
     SRG.results(
         inspect.stack()[0][3],
         show_args=SHOW_ARGS if show_args is None else show_args,
@@ -121,8 +122,8 @@ def example1_move_feature_after_rebase_onto3(
             """
             .. code-block:: bash
 
-                git branch -f feature 283df08
-                # alternative: git update-ref -m "reflog MSG" refs/heads/feature 283df08
+                git branch -f feature HEAD
+                # alternative: git update-ref -m "reflog MSG" refs/heads/feature HEAD
             """
         ),
     )
@@ -187,7 +188,7 @@ def example2_rebase_server(show_args: Optional[list[str]] = None) -> None:
 def example2_rebase_client(show_args: Optional[list[str]] = None) -> None:
     GIT.br("client")
     GIT.run_general(
-        f"{GIT.command_prefix} rebase --onto server 998d091 client",
+        f"{GIT.command_prefix} rebase --onto server 7c2fd5d client",
         env=GIT.env,
         expected_stderr="Successfully rebased and updated",
     )
@@ -198,7 +199,7 @@ def example2_rebase_client(show_args: Optional[list[str]] = None) -> None:
             """
             .. code-block:: bash
 
-                git rebase --onto server 998d091 client
+                git rebase --onto server 7c2fd5d client
             """
         ),
     )
@@ -208,7 +209,7 @@ def start_new_repo(
     step_number: int = 1,
 ) -> tuple[StepResultsGenerator, GitCommandMutate]:
     srg = StepResultsGenerator(example_name=EXAMPLE_NAME, step_number=step_number)
-    git = GitCommandMutate(srg.example_dir, date="01/01/25 09:00 +0100")
+    git = GitCommandMutate(srg.example_dir, date=COMMIT_DATE, evolving_date=True)
     git.init()
 
     return srg, git
@@ -223,15 +224,15 @@ if __name__ == "__main__":
     example1_rebase()
 
     SRG, GIT = start_new_repo(SRG.step_number)
-    repo_example1(SHOW_ARGS + ["-R", "bc9b888..feature"])
+    repo_example1(SHOW_ARGS + ["-R", "b5c0976..feature"])
     example1_rebase_onto1()
 
     SRG, GIT = start_new_repo(SRG.step_number)
-    repo_example1(SHOW_ARGS + ["-R", "4878cee..feature"])
+    repo_example1(SHOW_ARGS + ["-R", "f8ed6cd..feature"])
     example1_rebase_onto2()
 
     SRG, GIT = start_new_repo(SRG.step_number)
-    repo_example1(SHOW_ARGS + ["-R", "4878cee..09fb3c2"])
+    repo_example1(SHOW_ARGS + ["-R", "f8ed6cd..feature~0"])
     example1_rebase_onto3()
     example1_move_feature_after_rebase_onto3()
     example1_switch_feature()

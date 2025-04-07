@@ -2,7 +2,7 @@
 
 import codecs
 import re
-from datetime import datetime
+from datetime import datetime, timedelta
 
 
 def escape_decode(text: str) -> str:

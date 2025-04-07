@@ -7,6 +7,10 @@
     GIT_COMMITTER_NAME="Nom Prenom"
     GIT_COMMITTER_EMAIL="nom.prenom@mail.com"
 
+    # by fixing the author and committer dates as well, we have reproducible commit hashes
+    GIT_AUTHOR_DATE="01/01/25 09:00 +0100"
+    GIT_COMMITTER_DATE="01/01/25 09:00 +0100"
+
     SHA_FIRST_COMMIT=$(echo 'First commit' | git commit-tree d8329fc)
     SHA_SECOND_COMMIT=$(echo 'Second commit' | git commit-tree 0155eb4 -p $SHA_FIRST_COMMIT)
     SHA_THIRD_COMMIT=$(echo 'Third commit' | git commit-tree 3c4e9cd -p $SHA_SECOND_COMMIT)
