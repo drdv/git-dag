@@ -12,6 +12,7 @@ import inspect
 import sys
 from pathlib import Path
 
+from git_dag.constants import COMMIT_DATE
 from git_dag.git_commands import GitCommandMutate
 
 sys.path.append(str(Path(__file__).parent))
@@ -55,7 +56,7 @@ def start_new_repo(step_number: int = 1) -> StepResultsGenerator:
 
 
 def example_revisions() -> None:
-    git = GitCommandMutate(SRG.repo_dir, date="01/01/25 09:00 +0100")
+    git = GitCommandMutate(SRG.example_dir, date=COMMIT_DATE)
     repo_jon_loeliger(git)
 
     SRG.results(inspect.stack()[0][3], show_args=["-m 1"], rankdir="BT")
@@ -107,7 +108,7 @@ def example_revisions() -> None:
 
 
 def example_ranges() -> None:
-    git = GitCommandMutate(SRG.repo_dir, date="01/01/25 09:00 +0100")
+    git = GitCommandMutate(SRG.example_dir, date=COMMIT_DATE)
     repo_jon_loeliger(git)
 
     SRG.results(inspect.stack()[0][3], show_args=["-m 1", "-R D F"], rankdir="BT")

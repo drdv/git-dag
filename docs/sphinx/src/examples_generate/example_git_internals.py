@@ -7,7 +7,7 @@ import sys
 from pathlib import Path
 from textwrap import dedent
 
-from git_dag.constants import DictStrStr
+from git_dag.constants import COMMIT_DATE, DictStrStr
 from git_dag.git_commands import GitCommandMutate
 
 sys.path.append(str(Path(__file__).parent))
@@ -174,17 +174,17 @@ def step_create_tree_with_tree() -> None:
 def step_add_commits() -> DictStrStr:
     commit1 = GIT.run_general(
         f"echo 'First commit' | {GIT.command_prefix} commit-tree d8329fc",
-        env=GIT.get_env(),
+        env=GIT.env,
     )
 
     commit2 = GIT.run_general(
         f"echo 'Second commit' | {GIT.command_prefix} commit-tree 0155eb4 -p {commit1}",
-        env=GIT.get_env(),
+        env=GIT.env,
     )
 
     commit3 = GIT.run_general(
         f"echo 'Third commit' | {GIT.command_prefix} commit-tree 3c4e9cd -p {commit2}",
-        env=GIT.get_env(),
+        env=GIT.env,
     )
 
     SRG.results(
@@ -207,6 +207,10 @@ def step_add_commits() -> DictStrStr:
                 GIT_AUTHOR_EMAIL="first.last.mail.com"
                 GIT_COMMITTER_NAME="Nom Prenom"
                 GIT_COMMITTER_EMAIL="nom.prenom@mail.com"
+
+                # by fixing the author and committer dates as well, we have reproducible commit hashes
+                GIT_AUTHOR_DATE="{COMMIT_DATE}"
+                GIT_COMMITTER_DATE="{COMMIT_DATE}"
 
                 SHA_FIRST_COMMIT=$(echo 'First commit' | git commit-tree d8329fc)
                 SHA_SECOND_COMMIT=$(echo 'Second commit' | git commit-tree 0155eb4 -p $SHA_FIRST_COMMIT)
@@ -232,7 +236,7 @@ def step_add_commits() -> DictStrStr:
 def step_add_tag(commits: DictStrStr) -> None:
     GIT.run_general(
         f'{GIT.command_prefix} tag first-commit -m "First commit" {commits["commit1"]}',
-        env=GIT.get_env(),
+        env=GIT.env,
     )
 
     SRG.results(
@@ -331,7 +335,7 @@ def step_add_lightweight_tag(commits: DictStrStr) -> None:
 
 if __name__ == "__main__":
     SRG = StepResultsGenerator(example_name=EXAMPLE_NAME)
-    GIT = GitCommandMutate(SRG.repo_dir, date="01/01/25 09:00 +0100")
+    GIT = GitCommandMutate(SRG.example_dir, date=COMMIT_DATE)
     GIT.init()
 
     step_create_blob()

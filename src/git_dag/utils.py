@@ -2,7 +2,7 @@
 
 import codecs
 import re
-from datetime import datetime
+from datetime import datetime, timedelta
 
 
 def escape_decode(text: str) -> str:
@@ -62,3 +62,13 @@ def creator_timestamp_format(
         return creator, email, date
 
     raise ValueError("Creator pattern not matched.")
+
+
+def increase_date(
+    date: str,
+    hours: int = 1,
+    date_format: str = "%d/%m/%y %H:%M %z",
+) -> str:
+    """Increase a date by a given number of hours."""
+    date_obj = datetime.strptime(date, date_format)
+    return (date_obj + timedelta(hours=hours)).strftime(date_format)

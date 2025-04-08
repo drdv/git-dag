@@ -1,4 +1,4 @@
 
 .. code-block:: bash
 
-    git rebase --onto c95114c 4878cee feature
+    git rebase --onto main~1 f8ed6cd feature

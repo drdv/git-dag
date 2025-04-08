@@ -84,7 +84,7 @@ def test_repository_empty_with_index(
 def test_repository_clone_depth_1(git_repository_default: Path) -> None:
     src_repo = str(git_repository_default)
     target_repo = src_repo + "_cloned"
-    GitCommandMutate.clone_local_depth_1(src_repo, target_repo)
+    GitCommandMutate.clone_from_local(src_repo, target_repo, depth=1)
 
     repo = GitRepository(target_repo, parse_trees=True)
 

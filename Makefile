@@ -142,6 +142,7 @@ docs-examples-generate:
 	$(call generate_example_data,git_internals)
 	$(call generate_example_data,rebase_onto)
 	$(call generate_example_data,revisions_and_ranges)
+	$(call generate_example_data,fetch_merge_rebase)
 
 ## Generate SVG files for the docs (not used at the moment)
 # Unless --dry-run is passed to mktemp, a tmp directory is created even without

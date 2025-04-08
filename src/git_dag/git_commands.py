@@ -16,10 +16,16 @@ import time
 from pathlib import Path
 from typing import Any, Literal, Optional
 
-from git_dag.constants import CMD_TAGS_INFO, SHA_PATTERN, TAG_FORMAT_FIELDS, DictStrStr
+from git_dag.constants import (
+    CMD_TAGS_INFO,
+    COMMIT_DATE,
+    SHA_PATTERN,
+    TAG_FORMAT_FIELDS,
+    DictStrStr,
+)
 from git_dag.exceptions import CalledProcessCustomError
 from git_dag.parameters import Params, ParamsPublic, context_ignore_config_file
-from git_dag.utils import escape_decode
+from git_dag.utils import escape_decode, increase_date
 
 logging.basicConfig(level=logging.WARNING)
 LOG = logging.getLogger(__name__)
@@ -92,20 +98,22 @@ class GitCommandMutate(GitCommandBase):
         author: str = "First Last <first.last@mail.com>",
         committer: str = "Nom Prenom <nom.prenom@mail.com>",
         date: Optional[str] = None,
+        evolving_date: bool = False,
     ) -> None:
         """Initialize instance."""
         self.author = author
         self.committer = committer
         self.date = date
-        self.env = self.get_env()
+        self.evolving_date = evolving_date
 
         super().__init__(path)
 
-    def init(self, branch: str = "main") -> None:
+    def init(self, branch: str = "main", bare: bool = False) -> None:
         """Initialise a git repository."""
-        self._run(f"init -b {branch}")
+        self._run(f"init -b {branch} {'--bare' if bare else ''}")
 
-    def get_env(self) -> DictStrStr:
+    @property
+    def env(self) -> DictStrStr:
         """Return environment with author and committer to pass to commands."""
         env = {}
         match = re.search("(?P<name>.*) (?P<email><.*>)", self.author)
@@ -126,6 +134,8 @@ class GitCommandMutate(GitCommandBase):
             env["GIT_AUTHOR_DATE"] = self.date
             env["GIT_COMMITTER_DATE"] = self.date
 
+            self.date = increase_date(self.date) if self.evolving_date else self.date
+
         return env
 
     def add(self, files: DictStrStr) -> None:
@@ -141,7 +151,12 @@ class GitCommandMutate(GitCommandBase):
                 h.write(contents)
             self._run(f"add {filename}")
 
-    def cm(self, messages: str | list[str], files: Optional[DictStrStr] = None) -> None:
+    def cm(
+        self,
+        messages: str | list[str],
+        files: Optional[DictStrStr] = None,
+        author_info: Optional[DictStrStr] = None,
+    ) -> None:
         """Add commit(s).
 
         If ``files`` is not specified an empty commit is created.
@@ -152,16 +167,35 @@ class GitCommandMutate(GitCommandBase):
         cannot be specified).
 
         """
+
+        def update_author_info(env: DictStrStr) -> DictStrStr:
+            if author_info is not None:
+                env["GIT_AUTHOR_NAME"] = env["GIT_COMMITTER_NAME"] = author_info["name"]
+                env["GIT_AUTHOR_EMAIL"] = env["GIT_COMMITTER_EMAIL"] = author_info[
+                    "mail"
+                ]
+                if "date" in author_info:
+                    env["GIT_AUTHOR_DATE"] = env["GIT_COMMITTER_DATE"] = author_info[
+                        "date"
+                    ]
+            return env
+
         if isinstance(messages, str):
             if files is not None:
                 self.add(files)
 
-            self._run(f'commit --allow-empty -m "{messages}"', env=self.env)
+            self._run(
+                f'commit --allow-empty -m "{messages}"',
+                env=update_author_info(self.env),
+            )
         elif isinstance(messages, (list, tuple)):
             if files is not None:
                 raise ValueError("Cannot add files with multiple commits.")
             for msg in messages:
-                self._run(f'commit --allow-empty -m "{msg}"', env=self.env)
+                self._run(
+                    f'commit --allow-empty -m "{msg}"',
+                    env=update_author_info(self.env),
+                )
         else:
             raise ValueError("Unsupported message type.")
 
@@ -214,6 +248,10 @@ class GitCommandMutate(GitCommandBase):
                 self.cm(message)
             else:
                 raise
+
+    def rebase(self, branch: str) -> None:
+        """Rebase the current branch on the given branch (assuming no conflicts)."""
+        self._run(f"rebase {branch}", env=self.env)
 
     def stash(
         self,
@@ -283,8 +321,25 @@ class GitCommandMutate(GitCommandBase):
         """Set a gonfig option."""
         self._run(f"config {option}")
 
+    def push(self) -> None:
+        """Push."""
+        self._run("push")
+
+    def pull(self) -> None:
+        """Push."""
+        self._run("pull")
+
+    def fetch(self) -> None:
+        """Push."""
+        self._run("fetch")
+
     @classmethod
-    def clone_local_depth_1(cls, src_dir: str, target_dir: str) -> None:
+    def clone_from_local(
+        cls,
+        src_dir: Path | str,
+        target_dir: Path | str,
+        depth: Optional[int] = None,
+    ) -> None:
         """Clone a local repository with ``--depth 1`` flag.
 
         Note
@@ -295,7 +350,28 @@ class GitCommandMutate(GitCommandBase):
 
         """
         # note that git clone sends to stderr (so I suppress it using -q)
-        cls.run_general(f"git clone -q --depth 1 file://{src_dir} {target_dir}")
+        depth_arg = f"--depth {depth}" if depth is not None else ""
+        cls.run_general(
+            f"git clone -q {depth_arg} file://{src_dir} {target_dir}",
+            expected_stderr="You appear to have cloned an empty repository",
+        )
+
+    def init_remote_head(self, remote: str = "origin", branch: str = "main") -> None:
+        """Init remote HEAD.
+
+        Note
+        -----
+        When we clone an empty repo the remote HEAD is not initialized (we can use this
+        method to do it manually). If we clone a repo with at least one commit on it
+        (and a reasonable setup), then the remote HEAD would be initialized upon
+        cloning.
+
+        """
+        self.run_general(
+            f"{self.command_prefix} symbolic-ref "
+            f"refs/remotes/{remote}/HEAD "
+            f"refs/remotes/{remote}/{branch}"
+        )
 
 
 class GitCommand(GitCommandBase):
@@ -466,8 +542,14 @@ class GitCommand(GitCommandBase):
 
     def get_stash_info(self) -> Optional[list[str]]:
         """Return stash IDs and their associated SHAs."""
-        if not self._run("stash list").strip():
-            return None
+        try:
+            if not self._run("stash list").strip():
+                return None
+        except CalledProcessCustomError as e:
+            expected_error = "fatal: this operation must be run in a work tree"
+            if expected_error in e.stderr.decode("utf-8"):
+                return []  # we are in a bare repository
+            raise
 
         cmd = "reflog stash --no-abbrev --format='%H %gD %gs'"
         return self._run(cmd).strip().split("\n")
@@ -640,7 +722,7 @@ class TestGitRepository:
     @staticmethod
     def repository_default(path: Path | str) -> GitCommandMutate:
         """Default repository."""
-        git = GitCommandMutate(path, date="01/01/25 09:00 +0100")
+        git = GitCommandMutate(path, date=COMMIT_DATE)
         git.init()
         git.cm("A\n\nBody:\n * First line\n * Second line\n * Third line")
         git.br("topic", create=True)
