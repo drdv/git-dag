@@ -61,8 +61,10 @@ class CommitHandlerMixin:
         self.dag.edge("GIT-NOTES-LABEL", sha)
 
     def _add_commit(self: MixinProtocol, sha: str, item: GitCommit) -> None:
-        def form_tooltip(item: GitCommit) -> str:
+        def form_tooltip(item: GitCommit, sha: Optional[str] = None) -> str:
+            sha_field = "" if sha is None else f"sha: {sha}\n\n"
             return repr(
+                f"{sha_field}"
                 f"author: {item.author} {item.author_email}\n"
                 f"{item.author_date}\n"
                 f"committer: {item.committer} {item.committer_email}\n"
@@ -82,8 +84,10 @@ class CommitHandlerMixin:
             )
 
             if self.params.public.commit_message_as_label > 0:
+                tooltip_sha = sha
                 label = item.message[: self.params.public.commit_message_as_label]
             else:
+                tooltip_sha = None
                 label = sha[: self.params.misc.sha_truncate]
 
             color = getattr(self.params.dag_node_colors, color_label)
@@ -96,7 +100,7 @@ class CommitHandlerMixin:
                     else color
                 ),
                 fillcolor=color,
-                tooltip=form_tooltip(item),
+                tooltip=form_tooltip(item, tooltip_sha),
             )
 
             if self.repository.notes_dag_root is not None:
