@@ -207,6 +207,7 @@
 <li class="toctree-l1 has-children"><a class="reference internal" href="../../examples.html">Examples</a><input class="toctree-checkbox" id="toctree-checkbox-1" name="toctree-checkbox-1" role="switch" type="checkbox"/><label for="toctree-checkbox-1"><div class="visually-hidden">Toggle navigation of Examples</div><i class="icon"><svg><use href="#svg-arrow-right"></use></svg></i></label><ul>
 <li class="toctree-l2"><a class="reference internal" href="../../example_revisions_and_ranges.html">Revisions and ranges</a></li>
 <li class="toctree-l2"><a class="reference internal" href="../../example_rebase_onto.html">Rebase <code class="docutils literal notranslate"><span class="pre">--onto</span></code></a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../example_fetch_merge_rebase.html">Fetch &amp; merge or rebase</a></li>
 <li class="toctree-l2"><a class="reference internal" href="../../example_git_internals.html">Git Internals - Git Objects</a></li>
 </ul>
 </li>
@@ -220,6 +221,7 @@
 </ul>
 </li>
 <li class="toctree-l2 has-children"><a class="reference internal" href="../../.autosummary/git_dag.constants.html">git_dag.constants</a><input class="toctree-checkbox" id="toctree-checkbox-4" name="toctree-checkbox-4" role="switch" type="checkbox"/><label for="toctree-checkbox-4"><div class="visually-hidden">Toggle navigation of git_dag.constants</div><i class="icon"><svg><use href="#svg-arrow-right"></use></svg></i></label><ul>
+<li class="toctree-l3"><a class="reference internal" href="../../.autosummary/git_dag.constants.COMMIT_DATE.html">git_dag.constants.COMMIT_DATE</a></li>
 <li class="toctree-l3"><a class="reference internal" href="../../.autosummary/git_dag.constants.SHA_PATTERN.html">git_dag.constants.SHA_PATTERN</a></li>
 <li class="toctree-l3"><a class="reference internal" href="../../.autosummary/git_dag.constants.TAG_FORMAT_FIELDS.html">git_dag.constants.TAG_FORMAT_FIELDS</a></li>
 <li class="toctree-l3"><a class="reference internal" href="../../.autosummary/git_dag.constants.CMD_TAGS_INFO.html">git_dag.constants.CMD_TAGS_INFO</a></li>
@@ -279,6 +281,7 @@
 <li class="toctree-l2 has-children"><a class="reference internal" href="../../.autosummary/git_dag.utils.html">git_dag.utils</a><input class="toctree-checkbox" id="toctree-checkbox-12" name="toctree-checkbox-12" role="switch" type="checkbox"/><label for="toctree-checkbox-12"><div class="visually-hidden">Toggle navigation of git_dag.utils</div><i class="icon"><svg><use href="#svg-arrow-right"></use></svg></i></label><ul>
 <li class="toctree-l3"><a class="reference internal" href="../../.autosummary/git_dag.utils.creator_timestamp_format.html">git_dag.utils.creator_timestamp_format</a></li>
 <li class="toctree-l3"><a class="reference internal" href="../../.autosummary/git_dag.utils.escape_decode.html">git_dag.utils.escape_decode</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../../.autosummary/git_dag.utils.increase_date.html">git_dag.utils.increase_date</a></li>
 <li class="toctree-l3"><a class="reference internal" href="../../.autosummary/git_dag.utils.transform_ascii_control_chars.html">git_dag.utils.transform_ascii_control_chars</a></li>
 </ul>
 </li>
@@ -339,10 +342,16 @@
 <span class="kn">from</span> <span class="nn">pathlib</span> <span class="kn">import</span> <span class="n">Path</span>
 <span class="kn">from</span> <span class="nn">typing</span> <span class="kn">import</span> <span class="n">Any</span><span class="p">,</span> <span class="n">Literal</span><span class="p">,</span> <span class="n">Optional</span>
 
-<span class="kn">from</span> <span class="nn">git_dag.constants</span> <span class="kn">import</span> <span class="n">CMD_TAGS_INFO</span><span class="p">,</span> <span class="n">SHA_PATTERN</span><span class="p">,</span> <span class="n">TAG_FORMAT_FIELDS</span><span class="p">,</span> <span class="n">DictStrStr</span>
+<span class="kn">from</span> <span class="nn">git_dag.constants</span> <span class="kn">import</span> <span class="p">(</span>
+    <span class="n">CMD_TAGS_INFO</span><span class="p">,</span>
+    <span class="n">COMMIT_DATE</span><span class="p">,</span>
+    <span class="n">SHA_PATTERN</span><span class="p">,</span>
+    <span class="n">TAG_FORMAT_FIELDS</span><span class="p">,</span>
+    <span class="n">DictStrStr</span><span class="p">,</span>
+<span class="p">)</span>
 <span class="kn">from</span> <span class="nn">git_dag.exceptions</span> <span class="kn">import</span> <span class="n">CalledProcessCustomError</span>
 <span class="kn">from</span> <span class="nn">git_dag.parameters</span> <span class="kn">import</span> <span class="n">Params</span><span class="p">,</span> <span class="n">ParamsPublic</span><span class="p">,</span> <span class="n">context_ignore_config_file</span>
-<span class="kn">from</span> <span class="nn">git_dag.utils</span> <span class="kn">import</span> <span class="n">escape_decode</span>
+<span class="kn">from</span> <span class="nn">git_dag.utils</span> <span class="kn">import</span> <span class="n">escape_decode</span><span class="p">,</span> <span class="n">increase_date</span>
 
 <span class="n">logging</span><span class="o">.</span><span class="n">basicConfig</span><span class="p">(</span><span class="n">level</span><span class="o">=</span><span class="n">logging</span><span class="o">.</span><span class="n">WARNING</span><span class="p">)</span>
 <span class="n">LOG</span> <span class="o">=</span> <span class="n">logging</span><span class="o">.</span><span class="n">getLogger</span><span class="p">(</span><span class="vm">__name__</span><span class="p">)</span>
@@ -423,25 +432,25 @@
         <span class="n">author</span><span class="p">:</span> <span class="nb">str</span> <span class="o">=</span> <span class="s2">&quot;First Last &lt;first.last@mail.com&gt;&quot;</span><span class="p">,</span>
         <span class="n">committer</span><span class="p">:</span> <span class="nb">str</span> <span class="o">=</span> <span class="s2">&quot;Nom Prenom &lt;nom.prenom@mail.com&gt;&quot;</span><span class="p">,</span>
         <span class="n">date</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="nb">str</span><span class="p">]</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span>
+        <span class="n">evolving_date</span><span class="p">:</span> <span class="nb">bool</span> <span class="o">=</span> <span class="kc">False</span><span class="p">,</span>
     <span class="p">)</span> <span class="o">-&gt;</span> <span class="kc">None</span><span class="p">:</span>
 <span class="w">        </span><span class="sd">&quot;&quot;&quot;Initialize instance.&quot;&quot;&quot;</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">author</span> <span class="o">=</span> <span class="n">author</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">committer</span> <span class="o">=</span> <span class="n">committer</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">date</span> <span class="o">=</span> <span class="n">date</span>
-        <span class="bp">self</span><span class="o">.</span><span class="n">env</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">get_env</span><span class="p">()</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">evolving_date</span> <span class="o">=</span> <span class="n">evolving_date</span>
 
         <span class="nb">super</span><span class="p">()</span><span class="o">.</span><span class="fm">__init__</span><span class="p">(</span><span class="n">path</span><span class="p">)</span>
 
 <div class="viewcode-block" id="GitCommandMutate.init">
 <a class="viewcode-back" href="../../.autosummary/git_dag.git_commands.GitCommandMutate.html#git_dag.git_commands.GitCommandMutate.init">[docs]</a>
-    <span class="k">def</span> <span class="nf">init</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">branch</span><span class="p">:</span> <span class="nb">str</span> <span class="o">=</span> <span class="s2">&quot;main&quot;</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="kc">None</span><span class="p">:</span>
+    <span class="k">def</span> <span class="nf">init</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">branch</span><span class="p">:</span> <span class="nb">str</span> <span class="o">=</span> <span class="s2">&quot;main&quot;</span><span class="p">,</span> <span class="n">bare</span><span class="p">:</span> <span class="nb">bool</span> <span class="o">=</span> <span class="kc">False</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="kc">None</span><span class="p">:</span>
 <span class="w">        </span><span class="sd">&quot;&quot;&quot;Initialise a git repository.&quot;&quot;&quot;</span>
-        <span class="bp">self</span><span class="o">.</span><span class="n">_run</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;init -b </span><span class="si">{</span><span class="n">branch</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span></div>
+        <span class="bp">self</span><span class="o">.</span><span class="n">_run</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;init -b </span><span class="si">{</span><span class="n">branch</span><span class="si">}</span><span class="s2"> </span><span class="si">{</span><span class="s1">&#39;--bare&#39;</span><span class="w"> </span><span class="k">if</span><span class="w"> </span><span class="n">bare</span><span class="w"> </span><span class="k">else</span><span class="w"> </span><span class="s1">&#39;&#39;</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span></div>
 
 
-<div class="viewcode-block" id="GitCommandMutate.get_env">
-<a class="viewcode-back" href="../../.autosummary/git_dag.git_commands.GitCommandMutate.html#git_dag.git_commands.GitCommandMutate.get_env">[docs]</a>
-    <span class="k">def</span> <span class="nf">get_env</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">DictStrStr</span><span class="p">:</span>
+    <span class="nd">@property</span>
+    <span class="k">def</span> <span class="nf">env</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">DictStrStr</span><span class="p">:</span>
 <span class="w">        </span><span class="sd">&quot;&quot;&quot;Return environment with author and committer to pass to commands.&quot;&quot;&quot;</span>
         <span class="n">env</span> <span class="o">=</span> <span class="p">{}</span>
         <span class="n">match</span> <span class="o">=</span> <span class="n">re</span><span class="o">.</span><span class="n">search</span><span class="p">(</span><span class="s2">&quot;(?P&lt;name&gt;.*) (?P&lt;email&gt;&lt;.*&gt;)&quot;</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">author</span><span class="p">)</span>
@@ -462,8 +471,9 @@
             <span class="n">env</span><span class="p">[</span><span class="s2">&quot;GIT_AUTHOR_DATE&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">date</span>
             <span class="n">env</span><span class="p">[</span><span class="s2">&quot;GIT_COMMITTER_DATE&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">date</span>
 
-        <span class="k">return</span> <span class="n">env</span></div>
+            <span class="bp">self</span><span class="o">.</span><span class="n">date</span> <span class="o">=</span> <span class="n">increase_date</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">date</span><span class="p">)</span> <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">evolving_date</span> <span class="k">else</span> <span class="bp">self</span><span class="o">.</span><span class="n">date</span>
 
+        <span class="k">return</span> <span class="n">env</span>
 
 <div class="viewcode-block" id="GitCommandMutate.add">
 <a class="viewcode-back" href="../../.autosummary/git_dag.git_commands.GitCommandMutate.html#git_dag.git_commands.GitCommandMutate.add">[docs]</a>
@@ -483,7 +493,12 @@
 
 <div class="viewcode-block" id="GitCommandMutate.cm">
 <a class="viewcode-back" href="../../.autosummary/git_dag.git_commands.GitCommandMutate.html#git_dag.git_commands.GitCommandMutate.cm">[docs]</a>
-    <span class="k">def</span> <span class="nf">cm</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">messages</span><span class="p">:</span> <span class="nb">str</span> <span class="o">|</span> <span class="nb">list</span><span class="p">[</span><span class="nb">str</span><span class="p">],</span> <span class="n">files</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="n">DictStrStr</span><span class="p">]</span> <span class="o">=</span> <span class="kc">None</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="kc">None</span><span class="p">:</span>
+    <span class="k">def</span> <span class="nf">cm</span><span class="p">(</span>
+        <span class="bp">self</span><span class="p">,</span>
+        <span class="n">messages</span><span class="p">:</span> <span class="nb">str</span> <span class="o">|</span> <span class="nb">list</span><span class="p">[</span><span class="nb">str</span><span class="p">],</span>
+        <span class="n">files</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="n">DictStrStr</span><span class="p">]</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span>
+        <span class="n">author_info</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="n">DictStrStr</span><span class="p">]</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span>
+    <span class="p">)</span> <span class="o">-&gt;</span> <span class="kc">None</span><span class="p">:</span>
 <span class="w">        </span><span class="sd">&quot;&quot;&quot;Add commit(s).</span>
 
 <span class="sd">        If ``files`` is not specified an empty commit is created.</span>
@@ -494,16 +509,35 @@
 <span class="sd">        cannot be specified).</span>
 
 <span class="sd">        &quot;&quot;&quot;</span>
+
+        <span class="k">def</span> <span class="nf">update_author_info</span><span class="p">(</span><span class="n">env</span><span class="p">:</span> <span class="n">DictStrStr</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">DictStrStr</span><span class="p">:</span>
+            <span class="k">if</span> <span class="n">author_info</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span><span class="p">:</span>
+                <span class="n">env</span><span class="p">[</span><span class="s2">&quot;GIT_AUTHOR_NAME&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="n">env</span><span class="p">[</span><span class="s2">&quot;GIT_COMMITTER_NAME&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="n">author_info</span><span class="p">[</span><span class="s2">&quot;name&quot;</span><span class="p">]</span>
+                <span class="n">env</span><span class="p">[</span><span class="s2">&quot;GIT_AUTHOR_EMAIL&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="n">env</span><span class="p">[</span><span class="s2">&quot;GIT_COMMITTER_EMAIL&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="n">author_info</span><span class="p">[</span>
+                    <span class="s2">&quot;mail&quot;</span>
+                <span class="p">]</span>
+                <span class="k">if</span> <span class="s2">&quot;date&quot;</span> <span class="ow">in</span> <span class="n">author_info</span><span class="p">:</span>
+                    <span class="n">env</span><span class="p">[</span><span class="s2">&quot;GIT_AUTHOR_DATE&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="n">env</span><span class="p">[</span><span class="s2">&quot;GIT_COMMITTER_DATE&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="n">author_info</span><span class="p">[</span>
+                        <span class="s2">&quot;date&quot;</span>
+                    <span class="p">]</span>
+            <span class="k">return</span> <span class="n">env</span>
+
         <span class="k">if</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">messages</span><span class="p">,</span> <span class="nb">str</span><span class="p">):</span>
             <span class="k">if</span> <span class="n">files</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span><span class="p">:</span>
                 <span class="bp">self</span><span class="o">.</span><span class="n">add</span><span class="p">(</span><span class="n">files</span><span class="p">)</span>
 
-            <span class="bp">self</span><span class="o">.</span><span class="n">_run</span><span class="p">(</span><span class="sa">f</span><span class="s1">&#39;commit --allow-empty -m &quot;</span><span class="si">{</span><span class="n">messages</span><span class="si">}</span><span class="s1">&quot;&#39;</span><span class="p">,</span> <span class="n">env</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">env</span><span class="p">)</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">_run</span><span class="p">(</span>
+                <span class="sa">f</span><span class="s1">&#39;commit --allow-empty -m &quot;</span><span class="si">{</span><span class="n">messages</span><span class="si">}</span><span class="s1">&quot;&#39;</span><span class="p">,</span>
+                <span class="n">env</span><span class="o">=</span><span class="n">update_author_info</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">env</span><span class="p">),</span>
+            <span class="p">)</span>
         <span class="k">elif</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">messages</span><span class="p">,</span> <span class="p">(</span><span class="nb">list</span><span class="p">,</span> <span class="nb">tuple</span><span class="p">)):</span>
             <span class="k">if</span> <span class="n">files</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span><span class="p">:</span>
                 <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span><span class="s2">&quot;Cannot add files with multiple commits.&quot;</span><span class="p">)</span>
             <span class="k">for</span> <span class="n">msg</span> <span class="ow">in</span> <span class="n">messages</span><span class="p">:</span>
-                <span class="bp">self</span><span class="o">.</span><span class="n">_run</span><span class="p">(</span><span class="sa">f</span><span class="s1">&#39;commit --allow-empty -m &quot;</span><span class="si">{</span><span class="n">msg</span><span class="si">}</span><span class="s1">&quot;&#39;</span><span class="p">,</span> <span class="n">env</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">env</span><span class="p">)</span>
+                <span class="bp">self</span><span class="o">.</span><span class="n">_run</span><span class="p">(</span>
+                    <span class="sa">f</span><span class="s1">&#39;commit --allow-empty -m &quot;</span><span class="si">{</span><span class="n">msg</span><span class="si">}</span><span class="s1">&quot;&#39;</span><span class="p">,</span>
+                    <span class="n">env</span><span class="o">=</span><span class="n">update_author_info</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">env</span><span class="p">),</span>
+                <span class="p">)</span>
         <span class="k">else</span><span class="p">:</span>
             <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span><span class="s2">&quot;Unsupported message type.&quot;</span><span class="p">)</span></div>
 
@@ -565,6 +599,13 @@
                 <span class="bp">self</span><span class="o">.</span><span class="n">cm</span><span class="p">(</span><span class="n">message</span><span class="p">)</span>
             <span class="k">else</span><span class="p">:</span>
                 <span class="k">raise</span></div>
+
+
+<div class="viewcode-block" id="GitCommandMutate.rebase">
+<a class="viewcode-back" href="../../.autosummary/git_dag.git_commands.GitCommandMutate.html#git_dag.git_commands.GitCommandMutate.rebase">[docs]</a>
+    <span class="k">def</span> <span class="nf">rebase</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">branch</span><span class="p">:</span> <span class="nb">str</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="kc">None</span><span class="p">:</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;Rebase the current branch on the given branch (assuming no conflicts).&quot;&quot;&quot;</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">_run</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;rebase </span><span class="si">{</span><span class="n">branch</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">,</span> <span class="n">env</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">env</span><span class="p">)</span></div>
 
 
 <div class="viewcode-block" id="GitCommandMutate.stash">
@@ -647,10 +688,36 @@
         <span class="bp">self</span><span class="o">.</span><span class="n">_run</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;config </span><span class="si">{</span><span class="n">option</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span></div>
 
 
-<div class="viewcode-block" id="GitCommandMutate.clone_local_depth_1">
-<a class="viewcode-back" href="../../.autosummary/git_dag.git_commands.GitCommandMutate.html#git_dag.git_commands.GitCommandMutate.clone_local_depth_1">[docs]</a>
+<div class="viewcode-block" id="GitCommandMutate.push">
+<a class="viewcode-back" href="../../.autosummary/git_dag.git_commands.GitCommandMutate.html#git_dag.git_commands.GitCommandMutate.push">[docs]</a>
+    <span class="k">def</span> <span class="nf">push</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="kc">None</span><span class="p">:</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;Push.&quot;&quot;&quot;</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">_run</span><span class="p">(</span><span class="s2">&quot;push&quot;</span><span class="p">)</span></div>
+
+
+<div class="viewcode-block" id="GitCommandMutate.pull">
+<a class="viewcode-back" href="../../.autosummary/git_dag.git_commands.GitCommandMutate.html#git_dag.git_commands.GitCommandMutate.pull">[docs]</a>
+    <span class="k">def</span> <span class="nf">pull</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="kc">None</span><span class="p">:</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;Push.&quot;&quot;&quot;</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">_run</span><span class="p">(</span><span class="s2">&quot;pull&quot;</span><span class="p">)</span></div>
+
+
+<div class="viewcode-block" id="GitCommandMutate.fetch">
+<a class="viewcode-back" href="../../.autosummary/git_dag.git_commands.GitCommandMutate.html#git_dag.git_commands.GitCommandMutate.fetch">[docs]</a>
+    <span class="k">def</span> <span class="nf">fetch</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="kc">None</span><span class="p">:</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;Push.&quot;&quot;&quot;</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">_run</span><span class="p">(</span><span class="s2">&quot;fetch&quot;</span><span class="p">)</span></div>
+
+
+<div class="viewcode-block" id="GitCommandMutate.clone_from_local">
+<a class="viewcode-back" href="../../.autosummary/git_dag.git_commands.GitCommandMutate.html#git_dag.git_commands.GitCommandMutate.clone_from_local">[docs]</a>
     <span class="nd">@classmethod</span>
-    <span class="k">def</span> <span class="nf">clone_local_depth_1</span><span class="p">(</span><span class="bp">cls</span><span class="p">,</span> <span class="n">src_dir</span><span class="p">:</span> <span class="nb">str</span><span class="p">,</span> <span class="n">target_dir</span><span class="p">:</span> <span class="nb">str</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="kc">None</span><span class="p">:</span>
+    <span class="k">def</span> <span class="nf">clone_from_local</span><span class="p">(</span>
+        <span class="bp">cls</span><span class="p">,</span>
+        <span class="n">src_dir</span><span class="p">:</span> <span class="n">Path</span> <span class="o">|</span> <span class="nb">str</span><span class="p">,</span>
+        <span class="n">target_dir</span><span class="p">:</span> <span class="n">Path</span> <span class="o">|</span> <span class="nb">str</span><span class="p">,</span>
+        <span class="n">depth</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="nb">int</span><span class="p">]</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span>
+    <span class="p">)</span> <span class="o">-&gt;</span> <span class="kc">None</span><span class="p">:</span>
 <span class="w">        </span><span class="sd">&quot;&quot;&quot;Clone a local repository with ``--depth 1`` flag.</span>
 
 <span class="sd">        Note</span>
@@ -661,7 +728,31 @@
 
 <span class="sd">        &quot;&quot;&quot;</span>
         <span class="c1"># note that git clone sends to stderr (so I suppress it using -q)</span>
-        <span class="bp">cls</span><span class="o">.</span><span class="n">run_general</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;git clone -q --depth 1 file://</span><span class="si">{</span><span class="n">src_dir</span><span class="si">}</span><span class="s2"> </span><span class="si">{</span><span class="n">target_dir</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span></div>
+        <span class="n">depth_arg</span> <span class="o">=</span> <span class="sa">f</span><span class="s2">&quot;--depth </span><span class="si">{</span><span class="n">depth</span><span class="si">}</span><span class="s2">&quot;</span> <span class="k">if</span> <span class="n">depth</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span> <span class="k">else</span> <span class="s2">&quot;&quot;</span>
+        <span class="bp">cls</span><span class="o">.</span><span class="n">run_general</span><span class="p">(</span>
+            <span class="sa">f</span><span class="s2">&quot;git clone -q </span><span class="si">{</span><span class="n">depth_arg</span><span class="si">}</span><span class="s2"> file://</span><span class="si">{</span><span class="n">src_dir</span><span class="si">}</span><span class="s2"> </span><span class="si">{</span><span class="n">target_dir</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">,</span>
+            <span class="n">expected_stderr</span><span class="o">=</span><span class="s2">&quot;You appear to have cloned an empty repository&quot;</span><span class="p">,</span>
+        <span class="p">)</span></div>
+
+
+<div class="viewcode-block" id="GitCommandMutate.init_remote_head">
+<a class="viewcode-back" href="../../.autosummary/git_dag.git_commands.GitCommandMutate.html#git_dag.git_commands.GitCommandMutate.init_remote_head">[docs]</a>
+    <span class="k">def</span> <span class="nf">init_remote_head</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">remote</span><span class="p">:</span> <span class="nb">str</span> <span class="o">=</span> <span class="s2">&quot;origin&quot;</span><span class="p">,</span> <span class="n">branch</span><span class="p">:</span> <span class="nb">str</span> <span class="o">=</span> <span class="s2">&quot;main&quot;</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="kc">None</span><span class="p">:</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;Init remote HEAD.</span>
+
+<span class="sd">        Note</span>
+<span class="sd">        -----</span>
+<span class="sd">        When we clone an empty repo the remote HEAD is not initialized (we can use this</span>
+<span class="sd">        method to do it manually). If we clone a repo with at least one commit on it</span>
+<span class="sd">        (and a reasonable setup), then the remote HEAD would be initialized upon</span>
+<span class="sd">        cloning.</span>
+
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">run_general</span><span class="p">(</span>
+            <span class="sa">f</span><span class="s2">&quot;</span><span class="si">{</span><span class="bp">self</span><span class="o">.</span><span class="n">command_prefix</span><span class="si">}</span><span class="s2"> symbolic-ref &quot;</span>
+            <span class="sa">f</span><span class="s2">&quot;refs/remotes/</span><span class="si">{</span><span class="n">remote</span><span class="si">}</span><span class="s2">/HEAD &quot;</span>
+            <span class="sa">f</span><span class="s2">&quot;refs/remotes/</span><span class="si">{</span><span class="n">remote</span><span class="si">}</span><span class="s2">/</span><span class="si">{</span><span class="n">branch</span><span class="si">}</span><span class="s2">&quot;</span>
+        <span class="p">)</span></div>
 </div>
 
 
@@ -874,8 +965,14 @@
 <a class="viewcode-back" href="../../.autosummary/git_dag.git_commands.GitCommand.html#git_dag.git_commands.GitCommand.get_stash_info">[docs]</a>
     <span class="k">def</span> <span class="nf">get_stash_info</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Optional</span><span class="p">[</span><span class="nb">list</span><span class="p">[</span><span class="nb">str</span><span class="p">]]:</span>
 <span class="w">        </span><span class="sd">&quot;&quot;&quot;Return stash IDs and their associated SHAs.&quot;&quot;&quot;</span>
-        <span class="k">if</span> <span class="ow">not</span> <span class="bp">self</span><span class="o">.</span><span class="n">_run</span><span class="p">(</span><span class="s2">&quot;stash list&quot;</span><span class="p">)</span><span class="o">.</span><span class="n">strip</span><span class="p">():</span>
-            <span class="k">return</span> <span class="kc">None</span>
+        <span class="k">try</span><span class="p">:</span>
+            <span class="k">if</span> <span class="ow">not</span> <span class="bp">self</span><span class="o">.</span><span class="n">_run</span><span class="p">(</span><span class="s2">&quot;stash list&quot;</span><span class="p">)</span><span class="o">.</span><span class="n">strip</span><span class="p">():</span>
+                <span class="k">return</span> <span class="kc">None</span>
+        <span class="k">except</span> <span class="n">CalledProcessCustomError</span> <span class="k">as</span> <span class="n">e</span><span class="p">:</span>
+            <span class="n">expected_error</span> <span class="o">=</span> <span class="s2">&quot;fatal: this operation must be run in a work tree&quot;</span>
+            <span class="k">if</span> <span class="n">expected_error</span> <span class="ow">in</span> <span class="n">e</span><span class="o">.</span><span class="n">stderr</span><span class="o">.</span><span class="n">decode</span><span class="p">(</span><span class="s2">&quot;utf-8&quot;</span><span class="p">):</span>
+                <span class="k">return</span> <span class="p">[]</span>  <span class="c1"># we are in a bare repository</span>
+            <span class="k">raise</span>
 
         <span class="n">cmd</span> <span class="o">=</span> <span class="s2">&quot;reflog stash --no-abbrev --format=&#39;%H </span><span class="si">%g</span><span class="s2">D </span><span class="si">%g</span><span class="s2">s&#39;&quot;</span>
         <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">_run</span><span class="p">(</span><span class="n">cmd</span><span class="p">)</span><span class="o">.</span><span class="n">strip</span><span class="p">()</span><span class="o">.</span><span class="n">split</span><span class="p">(</span><span class="s2">&quot;</span><span class="se">\n</span><span class="s2">&quot;</span><span class="p">)</span></div>
@@ -1081,7 +1178,7 @@
     <span class="nd">@staticmethod</span>
     <span class="k">def</span> <span class="nf">repository_default</span><span class="p">(</span><span class="n">path</span><span class="p">:</span> <span class="n">Path</span> <span class="o">|</span> <span class="nb">str</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">GitCommandMutate</span><span class="p">:</span>
 <span class="w">        </span><span class="sd">&quot;&quot;&quot;Default repository.&quot;&quot;&quot;</span>
-        <span class="n">git</span> <span class="o">=</span> <span class="n">GitCommandMutate</span><span class="p">(</span><span class="n">path</span><span class="p">,</span> <span class="n">date</span><span class="o">=</span><span class="s2">&quot;01/01/25 09:00 +0100&quot;</span><span class="p">)</span>
+        <span class="n">git</span> <span class="o">=</span> <span class="n">GitCommandMutate</span><span class="p">(</span><span class="n">path</span><span class="p">,</span> <span class="n">date</span><span class="o">=</span><span class="n">COMMIT_DATE</span><span class="p">)</span>
         <span class="n">git</span><span class="o">.</span><span class="n">init</span><span class="p">()</span>
         <span class="n">git</span><span class="o">.</span><span class="n">cm</span><span class="p">(</span><span class="s2">&quot;A</span><span class="se">\n\n</span><span class="s2">Body:</span><span class="se">\n</span><span class="s2"> * First line</span><span class="se">\n</span><span class="s2"> * Second line</span><span class="se">\n</span><span class="s2"> * Third line&quot;</span><span class="p">)</span>
         <span class="n">git</span><span class="o">.</span><span class="n">br</span><span class="p">(</span><span class="s2">&quot;topic&quot;</span><span class="p">,</span> <span class="n">create</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
@@ -1244,7 +1341,7 @@
       
     </aside>
   </div>
-</div><script src="../../_static/documentation_options.js?v=d12a0371"></script>
+</div><script src="../../_static/documentation_options.js?v=fd0388e1"></script>
     <script src="../../_static/doctools.js?v=9bcbadda"></script>
     <script src="../../_static/sphinx_highlight.js?v=dc90522c"></script>
     <script src="../../_static/scripts/furo.js?v=5fa4622c"></script>

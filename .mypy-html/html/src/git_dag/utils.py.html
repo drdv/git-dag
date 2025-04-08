@@ -72,12 +72,22 @@
 <span id="L62" class="lineno"><a class="lineno" href="#L62">62</a></span>
 <span id="L63" class="lineno"><a class="lineno" href="#L63">63</a></span>
 <span id="L64" class="lineno"><a class="lineno" href="#L64">64</a></span>
+<span id="L65" class="lineno"><a class="lineno" href="#L65">65</a></span>
+<span id="L66" class="lineno"><a class="lineno" href="#L66">66</a></span>
+<span id="L67" class="lineno"><a class="lineno" href="#L67">67</a></span>
+<span id="L68" class="lineno"><a class="lineno" href="#L68">68</a></span>
+<span id="L69" class="lineno"><a class="lineno" href="#L69">69</a></span>
+<span id="L70" class="lineno"><a class="lineno" href="#L70">70</a></span>
+<span id="L71" class="lineno"><a class="lineno" href="#L71">71</a></span>
+<span id="L72" class="lineno"><a class="lineno" href="#L72">72</a></span>
+<span id="L73" class="lineno"><a class="lineno" href="#L73">73</a></span>
+<span id="L74" class="lineno"><a class="lineno" href="#L74">74</a></span>
 </pre></td>
 <td class="table-code"><pre><span class="line-empty" title="No Anys on this line!">"""Misc utils."""</span>
 <span class="line-empty" title="No Anys on this line!"></span>
 <span class="line-precise" title="No Anys on this line!">import codecs</span>
 <span class="line-precise" title="No Anys on this line!">import re</span>
-<span class="line-precise" title="No Anys on this line!">from datetime import datetime</span>
+<span class="line-precise" title="No Anys on this line!">from datetime import datetime, timedelta</span>
 <span class="line-empty" title="No Anys on this line!"></span>
 <span class="line-empty" title="No Anys on this line!"></span>
 <span class="line-precise" title="No Anys on this line!">def escape_decode(text: str) -&gt; str:</span>
@@ -138,6 +148,16 @@ Error (x2)">    return codecs.escape_decode(text.encode())[0].decode()  # type: 
 <span class="line-precise" title="No Anys on this line!">        return creator, email, date</span>
 <span class="line-empty" title="No Anys on this line!"></span>
 <span class="line-precise" title="No Anys on this line!">    raise ValueError("Creator pattern not matched.")</span>
+<span class="line-empty" title="No Anys on this line!"></span>
+<span class="line-empty" title="No Anys on this line!"></span>
+<span class="line-precise" title="No Anys on this line!">def increase_date(</span>
+<span class="line-empty" title="No Anys on this line!">    date: str,</span>
+<span class="line-precise" title="No Anys on this line!">    hours: int = 1,</span>
+<span class="line-precise" title="No Anys on this line!">    date_format: str = "%d/%m/%y %H:%M %z",</span>
+<span class="line-empty" title="No Anys on this line!">) -&gt; str:</span>
+<span class="line-empty" title="No Anys on this line!">    """Increase a date by a given number of hours."""</span>
+<span class="line-precise" title="No Anys on this line!">    date_obj = datetime.strptime(date, date_format)</span>
+<span class="line-precise" title="No Anys on this line!">    return (date_obj + timedelta(hours=hours)).strftime(date_format)</span>
 </pre></td>
 </tr></tbody>
 </table>

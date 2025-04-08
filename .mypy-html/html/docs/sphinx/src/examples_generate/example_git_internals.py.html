@@ -361,6 +361,10 @@
 <span id="L351" class="lineno"><a class="lineno" href="#L351">351</a></span>
 <span id="L352" class="lineno"><a class="lineno" href="#L352">352</a></span>
 <span id="L353" class="lineno"><a class="lineno" href="#L353">353</a></span>
+<span id="L354" class="lineno"><a class="lineno" href="#L354">354</a></span>
+<span id="L355" class="lineno"><a class="lineno" href="#L355">355</a></span>
+<span id="L356" class="lineno"><a class="lineno" href="#L356">356</a></span>
+<span id="L357" class="lineno"><a class="lineno" href="#L357">357</a></span>
 </pre></td>
 <td class="table-code"><pre><span class="line-empty" title="No Anys on this line!">"""Example from https://git-scm.com/book/en/v2/Git-Internals-Git-Objects"""</span>
 <span class="line-empty" title="No Anys on this line!"></span>
@@ -371,7 +375,7 @@
 <span class="line-precise" title="No Anys on this line!">from pathlib import Path</span>
 <span class="line-precise" title="No Anys on this line!">from textwrap import dedent</span>
 <span class="line-empty" title="No Anys on this line!"></span>
-<span class="line-precise" title="No Anys on this line!">from git_dag.constants import DictStrStr</span>
+<span class="line-precise" title="No Anys on this line!">from git_dag.constants import COMMIT_DATE, DictStrStr</span>
 <span class="line-precise" title="No Anys on this line!">from git_dag.git_commands import GitCommandMutate</span>
 <span class="line-empty" title="No Anys on this line!"></span>
 <span class="line-precise" title="No Anys on this line!">sys.path.append(str(Path(__file__).parent))</span>
@@ -538,17 +542,17 @@
 <span class="line-precise" title="No Anys on this line!">def step_add_commits() -&gt; DictStrStr:</span>
 <span class="line-precise" title="No Anys on this line!">    commit1 = GIT.run_general(</span>
 <span class="line-precise" title="No Anys on this line!">        f"echo 'First commit' | {GIT.command_prefix} commit-tree d8329fc",</span>
-<span class="line-precise" title="No Anys on this line!">        env=GIT.get_env(),</span>
+<span class="line-precise" title="No Anys on this line!">        env=GIT.env,</span>
 <span class="line-empty" title="No Anys on this line!">    )</span>
 <span class="line-empty" title="No Anys on this line!"></span>
 <span class="line-precise" title="No Anys on this line!">    commit2 = GIT.run_general(</span>
 <span class="line-precise" title="No Anys on this line!">        f"echo 'Second commit' | {GIT.command_prefix} commit-tree 0155eb4 -p {commit1}",</span>
-<span class="line-precise" title="No Anys on this line!">        env=GIT.get_env(),</span>
+<span class="line-precise" title="No Anys on this line!">        env=GIT.env,</span>
 <span class="line-empty" title="No Anys on this line!">    )</span>
 <span class="line-empty" title="No Anys on this line!"></span>
 <span class="line-precise" title="No Anys on this line!">    commit3 = GIT.run_general(</span>
 <span class="line-precise" title="No Anys on this line!">        f"echo 'Third commit' | {GIT.command_prefix} commit-tree 3c4e9cd -p {commit2}",</span>
-<span class="line-precise" title="No Anys on this line!">        env=GIT.get_env(),</span>
+<span class="line-precise" title="No Anys on this line!">        env=GIT.env,</span>
 <span class="line-empty" title="No Anys on this line!">    )</span>
 <span class="line-empty" title="No Anys on this line!"></span>
 <span class="line-precise" title="No Anys on this line!">    SRG.results(</span>
@@ -571,6 +575,10 @@
 <span class="line-empty" title="No Anys on this line!">                GIT_AUTHOR_EMAIL="first.last.mail.com"</span>
 <span class="line-empty" title="No Anys on this line!">                GIT_COMMITTER_NAME="Nom Prenom"</span>
 <span class="line-empty" title="No Anys on this line!">                GIT_COMMITTER_EMAIL="nom.prenom@mail.com"</span>
+<span class="line-empty" title="No Anys on this line!"></span>
+<span class="line-empty" title="No Anys on this line!">                # by fixing the author and committer dates as well, we have reproducible commit hashes</span>
+<span class="line-precise" title="No Anys on this line!">                GIT_AUTHOR_DATE="{COMMIT_DATE}"</span>
+<span class="line-precise" title="No Anys on this line!">                GIT_COMMITTER_DATE="{COMMIT_DATE}"</span>
 <span class="line-empty" title="No Anys on this line!"></span>
 <span class="line-empty" title="No Anys on this line!">                SHA_FIRST_COMMIT=$(echo 'First commit' | git commit-tree d8329fc)</span>
 <span class="line-empty" title="No Anys on this line!">                SHA_SECOND_COMMIT=$(echo 'Second commit' | git commit-tree 0155eb4 -p $SHA_FIRST_COMMIT)</span>
@@ -596,7 +604,7 @@
 <span class="line-precise" title="No Anys on this line!">def step_add_tag(commits: DictStrStr) -&gt; None:</span>
 <span class="line-precise" title="No Anys on this line!">    GIT.run_general(</span>
 <span class="line-precise" title="No Anys on this line!">        f'{GIT.command_prefix} tag first-commit -m "First commit" {commits["commit1"]}',</span>
-<span class="line-precise" title="No Anys on this line!">        env=GIT.get_env(),</span>
+<span class="line-precise" title="No Anys on this line!">        env=GIT.env,</span>
 <span class="line-empty" title="No Anys on this line!">    )</span>
 <span class="line-empty" title="No Anys on this line!"></span>
 <span class="line-precise" title="No Anys on this line!">    SRG.results(</span>
@@ -695,7 +703,7 @@
 <span class="line-empty" title="No Anys on this line!"></span>
 <span class="line-precise" title="No Anys on this line!">if __name__ == "__main__":</span>
 <span class="line-precise" title="No Anys on this line!">    SRG = StepResultsGenerator(example_name=EXAMPLE_NAME)</span>
-<span class="line-precise" title="No Anys on this line!">    GIT = GitCommandMutate(SRG.repo_dir, date="01/01/25 09:00 +0100")</span>
+<span class="line-precise" title="No Anys on this line!">    GIT = GitCommandMutate(SRG.example_dir, date=COMMIT_DATE)</span>
 <span class="line-precise" title="No Anys on this line!">    GIT.init()</span>
 <span class="line-empty" title="No Anys on this line!"></span>
 <span class="line-precise" title="No Anys on this line!">    step_create_blob()</span>

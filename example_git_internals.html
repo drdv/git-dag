@@ -3,7 +3,7 @@
   <head><meta charset="utf-8"/>
     <meta name="viewport" content="width=device-width,initial-scale=1"/>
     <meta name="color-scheme" content="light dark"><meta name="viewport" content="width=device-width, initial-scale=1" />
-<link rel="index" title="Index" href="genindex.html" /><link rel="search" title="Search" href="search.html" /><link rel="next" title="Command-line interface" href="cli.html" /><link rel="prev" title="Rebase --onto" href="example_rebase_onto.html" />
+<link rel="index" title="Index" href="genindex.html" /><link rel="search" title="Search" href="search.html" /><link rel="next" title="Command-line interface" href="cli.html" /><link rel="prev" title="Fetch &amp; merge or rebase" href="example_fetch_merge_rebase.html" />
 
     <!-- Generated with Sphinx 8.2.3 and Furo 2024.08.06 -->
         <title>Git Internals - Git Objects - git-dag</title>
@@ -208,6 +208,7 @@
 <li class="toctree-l1 current has-children"><a class="reference internal" href="examples.html">Examples</a><input checked="" class="toctree-checkbox" id="toctree-checkbox-1" name="toctree-checkbox-1" role="switch" type="checkbox"/><label for="toctree-checkbox-1"><div class="visually-hidden">Toggle navigation of Examples</div><i class="icon"><svg><use href="#svg-arrow-right"></use></svg></i></label><ul class="current">
 <li class="toctree-l2"><a class="reference internal" href="example_revisions_and_ranges.html">Revisions and ranges</a></li>
 <li class="toctree-l2"><a class="reference internal" href="example_rebase_onto.html">Rebase <code class="docutils literal notranslate"><span class="pre">--onto</span></code></a></li>
+<li class="toctree-l2"><a class="reference internal" href="example_fetch_merge_rebase.html">Fetch &amp; merge or rebase</a></li>
 <li class="toctree-l2 current current-page"><a class="current reference internal" href="#">Git Internals - Git Objects</a></li>
 </ul>
 </li>
@@ -221,6 +222,7 @@
 </ul>
 </li>
 <li class="toctree-l2 has-children"><a class="reference internal" href=".autosummary/git_dag.constants.html">git_dag.constants</a><input class="toctree-checkbox" id="toctree-checkbox-4" name="toctree-checkbox-4" role="switch" type="checkbox"/><label for="toctree-checkbox-4"><div class="visually-hidden">Toggle navigation of git_dag.constants</div><i class="icon"><svg><use href="#svg-arrow-right"></use></svg></i></label><ul>
+<li class="toctree-l3"><a class="reference internal" href=".autosummary/git_dag.constants.COMMIT_DATE.html">git_dag.constants.COMMIT_DATE</a></li>
 <li class="toctree-l3"><a class="reference internal" href=".autosummary/git_dag.constants.SHA_PATTERN.html">git_dag.constants.SHA_PATTERN</a></li>
 <li class="toctree-l3"><a class="reference internal" href=".autosummary/git_dag.constants.TAG_FORMAT_FIELDS.html">git_dag.constants.TAG_FORMAT_FIELDS</a></li>
 <li class="toctree-l3"><a class="reference internal" href=".autosummary/git_dag.constants.CMD_TAGS_INFO.html">git_dag.constants.CMD_TAGS_INFO</a></li>
@@ -280,6 +282,7 @@
 <li class="toctree-l2 has-children"><a class="reference internal" href=".autosummary/git_dag.utils.html">git_dag.utils</a><input class="toctree-checkbox" id="toctree-checkbox-12" name="toctree-checkbox-12" role="switch" type="checkbox"/><label for="toctree-checkbox-12"><div class="visually-hidden">Toggle navigation of git_dag.utils</div><i class="icon"><svg><use href="#svg-arrow-right"></use></svg></i></label><ul>
 <li class="toctree-l3"><a class="reference internal" href=".autosummary/git_dag.utils.creator_timestamp_format.html">git_dag.utils.creator_timestamp_format</a></li>
 <li class="toctree-l3"><a class="reference internal" href=".autosummary/git_dag.utils.escape_decode.html">git_dag.utils.escape_decode</a></li>
+<li class="toctree-l3"><a class="reference internal" href=".autosummary/git_dag.utils.increase_date.html">git_dag.utils.increase_date</a></li>
 <li class="toctree-l3"><a class="reference internal" href=".autosummary/git_dag.utils.transform_ascii_control_chars.html">git_dag.utils.transform_ascii_control_chars</a></li>
 </ul>
 </li>
@@ -508,6 +511,10 @@ associated tree (which of course may contain sub-trees).</p>
 <span class="nv">GIT_COMMITTER_NAME</span><span class="o">=</span><span class="s2">&quot;Nom Prenom&quot;</span>
 <span class="nv">GIT_COMMITTER_EMAIL</span><span class="o">=</span><span class="s2">&quot;nom.prenom@mail.com&quot;</span>
 
+<span class="c1"># by fixing the author and committer dates as well, we have reproducible commit hashes</span>
+<span class="nv">GIT_AUTHOR_DATE</span><span class="o">=</span><span class="s2">&quot;01/01/25 09:00 +0100&quot;</span>
+<span class="nv">GIT_COMMITTER_DATE</span><span class="o">=</span><span class="s2">&quot;01/01/25 09:00 +0100&quot;</span>
+
 <span class="nv">SHA_FIRST_COMMIT</span><span class="o">=</span><span class="k">$(</span><span class="nb">echo</span><span class="w"> </span><span class="s1">&#39;First commit&#39;</span><span class="w"> </span><span class="p">|</span><span class="w"> </span>git<span class="w"> </span>commit-tree<span class="w"> </span>d8329fc<span class="k">)</span>
 <span class="nv">SHA_SECOND_COMMIT</span><span class="o">=</span><span class="k">$(</span><span class="nb">echo</span><span class="w"> </span><span class="s1">&#39;Second commit&#39;</span><span class="w"> </span><span class="p">|</span><span class="w"> </span>git<span class="w"> </span>commit-tree<span class="w"> </span>0155eb4<span class="w"> </span>-p<span class="w"> </span><span class="nv">$SHA_FIRST_COMMIT</span><span class="k">)</span>
 <span class="nv">SHA_THIRD_COMMIT</span><span class="o">=</span><span class="k">$(</span><span class="nb">echo</span><span class="w"> </span><span class="s1">&#39;Third commit&#39;</span><span class="w"> </span><span class="p">|</span><span class="w"> </span>git<span class="w"> </span>commit-tree<span class="w"> </span>3c4e9cd<span class="w"> </span>-p<span class="w"> </span><span class="nv">$SHA_SECOND_COMMIT</span><span class="k">)</span>
@@ -681,14 +688,14 @@ tag or the reflog.</p>
               </div>
               <svg class="furo-related-icon"><use href="#svg-arrow-right"></use></svg>
             </a>
-          <a class="prev-page" href="example_rebase_onto.html">
+          <a class="prev-page" href="example_fetch_merge_rebase.html">
               <svg class="furo-related-icon"><use href="#svg-arrow-right"></use></svg>
               <div class="page-info">
                 <div class="context">
                   <span>Previous</span>
                 </div>
                 
-                <div class="title">Rebase <code class="docutils literal notranslate"><span class="pre">--onto</span></code></div>
+                <div class="title">Fetch &amp; merge or rebase</div>
                 
               </div>
             </a>
@@ -740,7 +747,7 @@ tag or the reflog.</p>
       
     </aside>
   </div>
-</div><script src="_static/documentation_options.js?v=d12a0371"></script>
+</div><script src="_static/documentation_options.js?v=fd0388e1"></script>
     <script src="_static/doctools.js?v=9bcbadda"></script>
     <script src="_static/sphinx_highlight.js?v=dc90522c"></script>
     <script src="_static/scripts/furo.js?v=5fa4622c"></script>

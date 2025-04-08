@@ -1,0 +1,6 @@
+git\_dag.utils.increase\_date
+=============================
+
+.. currentmodule:: git_dag.utils
+
+.. autofunction:: increase_date

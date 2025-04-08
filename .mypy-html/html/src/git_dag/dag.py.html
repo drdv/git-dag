@@ -519,6 +519,10 @@
 <span id="L509" class="lineno"><a class="lineno" href="#L509">509</a></span>
 <span id="L510" class="lineno"><a class="lineno" href="#L510">510</a></span>
 <span id="L511" class="lineno"><a class="lineno" href="#L511">511</a></span>
+<span id="L512" class="lineno"><a class="lineno" href="#L512">512</a></span>
+<span id="L513" class="lineno"><a class="lineno" href="#L513">513</a></span>
+<span id="L514" class="lineno"><a class="lineno" href="#L514">514</a></span>
+<span id="L515" class="lineno"><a class="lineno" href="#L515">515</a></span>
 </pre></td>
 <td class="table-code"><pre><span class="line-empty" title="No Anys on this line!">"""DAG visualization.</span>
 <span class="line-empty" title="No Anys on this line!"></span>
@@ -586,8 +590,10 @@ Explicit (x3)">        self.dag.node(</span>
 Explicit (x3)">        self.dag.edge("GIT-NOTES-LABEL", sha)</span>
 <span class="line-empty" title="No Anys on this line!"></span>
 <span class="line-precise" title="No Anys on this line!">    def _add_commit(self: MixinProtocol, sha: str, item: GitCommit) -&gt; None:</span>
-<span class="line-precise" title="No Anys on this line!">        def form_tooltip(item: GitCommit) -&gt; str:</span>
+<span class="line-precise" title="No Anys on this line!">        def form_tooltip(item: GitCommit, sha: Optional[str] = None) -&gt; str:</span>
+<span class="line-precise" title="No Anys on this line!">            sha_field = "" if sha is None else f"sha: {sha}\n\n"</span>
 <span class="line-precise" title="No Anys on this line!">            return repr(</span>
+<span class="line-precise" title="No Anys on this line!">                f"{sha_field}"</span>
 <span class="line-precise" title="No Anys on this line!">                f"author: {item.author} {item.author_email}\n"</span>
 <span class="line-precise" title="No Anys on this line!">                f"{item.author_date}\n"</span>
 <span class="line-precise" title="No Anys on this line!">                f"committer: {item.committer} {item.committer_email}\n"</span>
@@ -607,8 +613,10 @@ Explicit (x3)">        self.dag.edge("GIT-NOTES-LABEL", sha)</span>
 <span class="line-empty" title="No Anys on this line!">            )</span>
 <span class="line-empty" title="No Anys on this line!"></span>
 <span class="line-precise" title="No Anys on this line!">            if self.params.public.commit_message_as_label &gt; 0:</span>
+<span class="line-precise" title="No Anys on this line!">                tooltip_sha = sha</span>
 <span class="line-precise" title="No Anys on this line!">                label = item.message[: self.params.public.commit_message_as_label]</span>
 <span class="line-empty" title="No Anys on this line!">            else:</span>
+<span class="line-precise" title="No Anys on this line!">                tooltip_sha = None</span>
 <span class="line-precise" title="No Anys on this line!">                label = sha[: self.params.misc.sha_truncate]</span>
 <span class="line-empty" title="No Anys on this line!"></span>
 <span class="line-any" title="Any Types on this line: 
@@ -626,7 +634,7 @@ Explicit (x1)">                    else color</span>
 <span class="line-empty" title="No Anys on this line!">                ),</span>
 <span class="line-any" title="Any Types on this line: 
 Explicit (x1)">                fillcolor=color,</span>
-<span class="line-precise" title="No Anys on this line!">                tooltip=form_tooltip(item),</span>
+<span class="line-precise" title="No Anys on this line!">                tooltip=form_tooltip(item, tooltip_sha),</span>
 <span class="line-empty" title="No Anys on this line!">            )</span>
 <span class="line-empty" title="No Anys on this line!"></span>
 <span class="line-precise" title="No Anys on this line!">            if self.repository.notes_dag_root is not None:</span>

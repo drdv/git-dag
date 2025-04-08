@@ -206,6 +206,7 @@
 <li class="toctree-l1 has-children"><a class="reference internal" href="examples.html">Examples</a><input class="toctree-checkbox" id="toctree-checkbox-1" name="toctree-checkbox-1" role="switch" type="checkbox"/><label for="toctree-checkbox-1"><div class="visually-hidden">Toggle navigation of Examples</div><i class="icon"><svg><use href="#svg-arrow-right"></use></svg></i></label><ul>
 <li class="toctree-l2"><a class="reference internal" href="example_revisions_and_ranges.html">Revisions and ranges</a></li>
 <li class="toctree-l2"><a class="reference internal" href="example_rebase_onto.html">Rebase <code class="docutils literal notranslate"><span class="pre">--onto</span></code></a></li>
+<li class="toctree-l2"><a class="reference internal" href="example_fetch_merge_rebase.html">Fetch &amp; merge or rebase</a></li>
 <li class="toctree-l2"><a class="reference internal" href="example_git_internals.html">Git Internals - Git Objects</a></li>
 </ul>
 </li>
@@ -219,6 +220,7 @@
 </ul>
 </li>
 <li class="toctree-l2 has-children"><a class="reference internal" href=".autosummary/git_dag.constants.html">git_dag.constants</a><input class="toctree-checkbox" id="toctree-checkbox-4" name="toctree-checkbox-4" role="switch" type="checkbox"/><label for="toctree-checkbox-4"><div class="visually-hidden">Toggle navigation of git_dag.constants</div><i class="icon"><svg><use href="#svg-arrow-right"></use></svg></i></label><ul>
+<li class="toctree-l3"><a class="reference internal" href=".autosummary/git_dag.constants.COMMIT_DATE.html">git_dag.constants.COMMIT_DATE</a></li>
 <li class="toctree-l3"><a class="reference internal" href=".autosummary/git_dag.constants.SHA_PATTERN.html">git_dag.constants.SHA_PATTERN</a></li>
 <li class="toctree-l3"><a class="reference internal" href=".autosummary/git_dag.constants.TAG_FORMAT_FIELDS.html">git_dag.constants.TAG_FORMAT_FIELDS</a></li>
 <li class="toctree-l3"><a class="reference internal" href=".autosummary/git_dag.constants.CMD_TAGS_INFO.html">git_dag.constants.CMD_TAGS_INFO</a></li>
@@ -278,6 +280,7 @@
 <li class="toctree-l2 has-children"><a class="reference internal" href=".autosummary/git_dag.utils.html">git_dag.utils</a><input class="toctree-checkbox" id="toctree-checkbox-12" name="toctree-checkbox-12" role="switch" type="checkbox"/><label for="toctree-checkbox-12"><div class="visually-hidden">Toggle navigation of git_dag.utils</div><i class="icon"><svg><use href="#svg-arrow-right"></use></svg></i></label><ul>
 <li class="toctree-l3"><a class="reference internal" href=".autosummary/git_dag.utils.creator_timestamp_format.html">git_dag.utils.creator_timestamp_format</a></li>
 <li class="toctree-l3"><a class="reference internal" href=".autosummary/git_dag.utils.escape_decode.html">git_dag.utils.escape_decode</a></li>
+<li class="toctree-l3"><a class="reference internal" href=".autosummary/git_dag.utils.increase_date.html">git_dag.utils.increase_date</a></li>
 <li class="toctree-l3"><a class="reference internal" href=".autosummary/git_dag.utils.transform_ascii_control_chars.html">git_dag.utils.transform_ascii_control_chars</a></li>
 </ul>
 </li>
@@ -408,7 +411,7 @@
 </li>
         <li><a href="pydantic_models.html#git_dag.git_objects.GitTree.children">children (git_dag.git_objects.GitTree property)</a>
 </li>
-        <li><a href=".autosummary/git_dag.git_commands.GitCommandMutate.html#git_dag.git_commands.GitCommandMutate.clone_local_depth_1">clone_local_depth_1() (git_dag.git_commands.GitCommandMutate class method)</a>
+        <li><a href=".autosummary/git_dag.git_commands.GitCommandMutate.html#git_dag.git_commands.GitCommandMutate.clone_from_local">clone_from_local() (git_dag.git_commands.GitCommandMutate class method)</a>
 </li>
         <li><a href=".autosummary/git_dag.git_commands.GitCommandMutate.html#git_dag.git_commands.GitCommandMutate.cm">cm() (git_dag.git_commands.GitCommandMutate method)</a>
 </li>
@@ -428,6 +431,8 @@
           <li><a href="pydantic_models.html#git_dag.parameters.ParamsDagNodeColors.commit">(git_dag.parameters.ParamsDagNodeColors attribute)</a>
 </li>
         </ul></li>
+        <li><a href=".autosummary/git_dag.constants.COMMIT_DATE.html#git_dag.constants.COMMIT_DATE">COMMIT_DATE (in module git_dag.constants)</a>
+</li>
         <li><a href="pydantic_models.html#git_dag.parameters.ParamsDagNodeColors.commit_in_range">commit_in_range (git_dag.parameters.ParamsDagNodeColors attribute)</a>
 </li>
         <li><a href="pydantic_models.html#git_dag.parameters.ParamsPublic.commit_message_as_label">commit_message_as_label (git_dag.parameters.ParamsPublic attribute)</a>
@@ -514,6 +519,8 @@
     <td style="width: 33%; vertical-align: top;"><ul>
         <li><a href=".autosummary/git_dag.git_objects.GitObjectKind.html#git_dag.git_objects.GitObjectKind.endswith">endswith() (git_dag.git_objects.GitObjectKind method)</a>
 </li>
+        <li><a href=".autosummary/git_dag.git_commands.GitCommandMutate.html#git_dag.git_commands.GitCommandMutate.env">env (git_dag.git_commands.GitCommandMutate property)</a>
+</li>
         <li><a href=".autosummary/git_dag.utils.escape_decode.html#git_dag.utils.escape_decode">escape_decode() (in module git_dag.utils)</a>
 </li>
         <li><a href=".autosummary/git_dag.git_objects.GitObjectKind.html#git_dag.git_objects.GitObjectKind.expandtabs">expandtabs() (git_dag.git_objects.GitObjectKind method)</a>
@@ -526,20 +533,22 @@
   <h2>F</h2>
   <table style="width: 100%" class="indextable genindextable"><tr>
     <td style="width: 33%; vertical-align: top;"><ul>
+        <li><a href=".autosummary/git_dag.git_commands.GitCommandMutate.html#git_dag.git_commands.GitCommandMutate.fetch">fetch() (git_dag.git_commands.GitCommandMutate method)</a>
+</li>
         <li><a href="pydantic_models.html#git_dag.parameters.ParamsPublic.file">file (git_dag.parameters.ParamsPublic attribute)</a>
 </li>
         <li><a href=".autosummary/git_dag.git_repository.GitRepository.html#git_dag.git_repository.GitRepository.filter_objects">filter_objects() (git_dag.git_repository.GitRepository method)</a>
 </li>
         <li><a href=".autosummary/git_dag.git_objects.GitObjectKind.html#git_dag.git_objects.GitObjectKind.find">find() (git_dag.git_objects.GitObjectKind method)</a>
 </li>
+    </ul></td>
+    <td style="width: 33%; vertical-align: top;"><ul>
         <li><a href="pydantic_models.html#git_dag.parameters.ParamsDagNode.fontname">fontname (git_dag.parameters.ParamsDagNode attribute)</a>
 
         <ul>
           <li><a href="pydantic_models.html#git_dag.parameters.ParamsStandaloneCluster.fontname">(git_dag.parameters.ParamsStandaloneCluster attribute)</a>
 </li>
         </ul></li>
-    </ul></td>
-    <td style="width: 33%; vertical-align: top;"><ul>
         <li><a href="pydantic_models.html#git_dag.parameters.ParamsPublic.format">format (git_dag.parameters.ParamsPublic attribute)</a>
 </li>
         <li><a href=".autosummary/git_dag.git_objects.GitObjectKind.html#git_dag.git_objects.GitObjectKind.format">format() (git_dag.git_objects.GitObjectKind method)</a>
@@ -567,8 +576,6 @@
         <li><a href=".autosummary/git_dag.git_commands.GitCommand.html#git_dag.git_commands.GitCommand.get_branches">get_branches() (git_dag.git_commands.GitCommand method)</a>
 </li>
         <li><a href=".autosummary/git_dag.cli.get_cla_parser.html#git_dag.cli.get_cla_parser">get_cla_parser() (in module git_dag.cli)</a>
-</li>
-        <li><a href=".autosummary/git_dag.git_commands.GitCommandMutate.html#git_dag.git_commands.GitCommandMutate.get_env">get_env() (git_dag.git_commands.GitCommandMutate method)</a>
 </li>
         <li><a href=".autosummary/git_dag.git_commands.GitCommand.html#git_dag.git_commands.GitCommand.get_fsck_unreachable_commits">get_fsck_unreachable_commits() (git_dag.git_commands.GitCommand method)</a>
 </li>
@@ -720,6 +727,8 @@
   <h2>I</h2>
   <table style="width: 100%" class="indextable genindextable"><tr>
     <td style="width: 33%; vertical-align: top;"><ul>
+        <li><a href=".autosummary/git_dag.utils.increase_date.html#git_dag.utils.increase_date">increase_date() (in module git_dag.utils)</a>
+</li>
         <li><a href="pydantic_models.html#git_dag.git_objects.GitStash.index">index (git_dag.git_objects.GitStash attribute)</a>
 </li>
         <li><a href=".autosummary/git_dag.git_objects.GitObjectKind.html#git_dag.git_objects.GitObjectKind.index">index() (git_dag.git_objects.GitObjectKind method)</a>
@@ -727,6 +736,8 @@
         <li><a href=".autosummary/git_dag.git_commands.GitCommandMutate.html#git_dag.git_commands.GitCommandMutate.init">init() (git_dag.git_commands.GitCommandMutate method)</a>
 </li>
         <li><a href="pydantic_models.html#git_dag.parameters.ParamsPublic.init_refs">init_refs (git_dag.parameters.ParamsPublic attribute)</a>
+</li>
+        <li><a href=".autosummary/git_dag.git_commands.GitCommandMutate.html#git_dag.git_commands.GitCommandMutate.init_remote_head">init_remote_head() (git_dag.git_commands.GitCommandMutate method)</a>
 </li>
         <li><a href="pydantic_models.html#git_dag.git_objects.GitTag.is_deleted">is_deleted (git_dag.git_objects.GitTag attribute)</a>
 </li>
@@ -738,10 +749,10 @@
 </li>
         <li><a href=".autosummary/git_dag.git_objects.GitObjectKind.html#git_dag.git_objects.GitObjectKind.isalnum">isalnum() (git_dag.git_objects.GitObjectKind method)</a>
 </li>
-        <li><a href=".autosummary/git_dag.git_objects.GitObjectKind.html#git_dag.git_objects.GitObjectKind.isalpha">isalpha() (git_dag.git_objects.GitObjectKind method)</a>
-</li>
     </ul></td>
     <td style="width: 33%; vertical-align: top;"><ul>
+        <li><a href=".autosummary/git_dag.git_objects.GitObjectKind.html#git_dag.git_objects.GitObjectKind.isalpha">isalpha() (git_dag.git_objects.GitObjectKind method)</a>
+</li>
         <li><a href=".autosummary/git_dag.git_objects.GitObjectKind.html#git_dag.git_objects.GitObjectKind.isascii">isascii() (git_dag.git_objects.GitObjectKind method)</a>
 </li>
         <li><a href=".autosummary/git_dag.git_objects.GitObjectKind.html#git_dag.git_objects.GitObjectKind.isdecimal">isdecimal() (git_dag.git_objects.GitObjectKind method)</a>
@@ -933,10 +944,10 @@
 </li>
         <li><a href=".autosummary/git_dag.git_repository.RegexParser.html#git_dag.git_repository.RegexParser.parse_tag_info">parse_tag_info() (git_dag.git_repository.RegexParser static method)</a>
 </li>
-    </ul></td>
-    <td style="width: 33%; vertical-align: top;"><ul>
         <li><a href=".autosummary/git_dag.git_repository.RegexParser.html#git_dag.git_repository.RegexParser.parse_tree_info">parse_tree_info() (git_dag.git_repository.RegexParser static method)</a>
 </li>
+    </ul></td>
+    <td style="width: 33%; vertical-align: top;"><ul>
         <li><a href=".autosummary/git_dag.git_objects.GitObjectKind.html#git_dag.git_objects.GitObjectKind.partition">partition() (git_dag.git_objects.GitObjectKind method)</a>
 </li>
         <li><a href="pydantic_models.html#git_dag.parameters.ParamsPublic.path">path (git_dag.parameters.ParamsPublic attribute)</a>
@@ -944,6 +955,10 @@
         <li><a href=".autosummary/git_dag.git_repository.GitRepository.html#git_dag.git_repository.GitRepository.post_process_inspector_data">post_process_inspector_data() (git_dag.git_repository.GitRepository method)</a>
 </li>
         <li><a href="pydantic_models.html#git_dag.parameters.Params.public">public (git_dag.parameters.Params attribute)</a>
+</li>
+        <li><a href=".autosummary/git_dag.git_commands.GitCommandMutate.html#git_dag.git_commands.GitCommandMutate.pull">pull() (git_dag.git_commands.GitCommandMutate method)</a>
+</li>
+        <li><a href=".autosummary/git_dag.git_commands.GitCommandMutate.html#git_dag.git_commands.GitCommandMutate.push">push() (git_dag.git_commands.GitCommandMutate method)</a>
 </li>
     </ul></td>
   </tr></table>
@@ -967,6 +982,8 @@
         </ul></li>
         <li><a href=".autosummary/git_dag.git_commands.GitCommand.html#git_dag.git_commands.GitCommand.read_object_file">read_object_file() (git_dag.git_commands.GitCommand method)</a>
 </li>
+        <li><a href=".autosummary/git_dag.git_commands.GitCommandMutate.html#git_dag.git_commands.GitCommandMutate.rebase">rebase() (git_dag.git_commands.GitCommandMutate method)</a>
+</li>
         <li><a href=".autosummary/git_dag.git_repository.RegexParser.html#git_dag.git_repository.RegexParser">RegexParser (class in git_dag.git_repository)</a>
 </li>
         <li><a href="pydantic_models.html#git_dag.parameters.ParamsDagNodeColors.remote_branches">remote_branches (git_dag.parameters.ParamsDagNodeColors attribute)</a>
@@ -983,10 +1000,10 @@
         </ul></li>
         <li><a href=".autosummary/git_dag.git_objects.GitObjectKind.html#git_dag.git_objects.GitObjectKind.replace">replace() (git_dag.git_objects.GitObjectKind method)</a>
 </li>
-        <li><a href=".autosummary/git_dag.git_commands.TestGitRepository.html#git_dag.git_commands.TestGitRepository.repository_default">repository_default() (git_dag.git_commands.TestGitRepository static method)</a>
-</li>
     </ul></td>
     <td style="width: 33%; vertical-align: top;"><ul>
+        <li><a href=".autosummary/git_dag.git_commands.TestGitRepository.html#git_dag.git_commands.TestGitRepository.repository_default">repository_default() (git_dag.git_commands.TestGitRepository static method)</a>
+</li>
         <li><a href=".autosummary/git_dag.git_commands.TestGitRepository.html#git_dag.git_commands.TestGitRepository.repository_default_with_notes">repository_default_with_notes() (git_dag.git_commands.TestGitRepository class method)</a>
 </li>
         <li><a href=".autosummary/git_dag.git_commands.TestGitRepository.html#git_dag.git_commands.TestGitRepository.repository_empty">repository_empty() (git_dag.git_commands.TestGitRepository static method)</a>
@@ -1243,7 +1260,7 @@
       
     </aside>
   </div>
-</div><script src="_static/documentation_options.js?v=d12a0371"></script>
+</div><script src="_static/documentation_options.js?v=fd0388e1"></script>
     <script src="_static/doctools.js?v=9bcbadda"></script>
     <script src="_static/sphinx_highlight.js?v=dc90522c"></script>
     <script src="_static/scripts/furo.js?v=5fa4622c"></script>

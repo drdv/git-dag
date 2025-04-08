@@ -138,6 +138,7 @@
 <span id="L128" class="lineno"><a class="lineno" href="#L128">128</a></span>
 <span id="L129" class="lineno"><a class="lineno" href="#L129">129</a></span>
 <span id="L130" class="lineno"><a class="lineno" href="#L130">130</a></span>
+<span id="L131" class="lineno"><a class="lineno" href="#L131">131</a></span>
 </pre></td>
 <td class="table-code"><pre><span class="line-empty" title="No Anys on this line!">"""Example of revisions and ranges.</span>
 <span class="line-empty" title="No Anys on this line!"></span>
@@ -153,6 +154,7 @@
 <span class="line-precise" title="No Anys on this line!">import sys</span>
 <span class="line-precise" title="No Anys on this line!">from pathlib import Path</span>
 <span class="line-empty" title="No Anys on this line!"></span>
+<span class="line-precise" title="No Anys on this line!">from git_dag.constants import COMMIT_DATE</span>
 <span class="line-precise" title="No Anys on this line!">from git_dag.git_commands import GitCommandMutate</span>
 <span class="line-empty" title="No Anys on this line!"></span>
 <span class="line-precise" title="No Anys on this line!">sys.path.append(str(Path(__file__).parent))</span>
@@ -196,7 +198,7 @@
 <span class="line-empty" title="No Anys on this line!"></span>
 <span class="line-empty" title="No Anys on this line!"></span>
 <span class="line-precise" title="No Anys on this line!">def example_revisions() -&gt; None:</span>
-<span class="line-precise" title="No Anys on this line!">    git = GitCommandMutate(SRG.repo_dir, date="01/01/25 09:00 +0100")</span>
+<span class="line-precise" title="No Anys on this line!">    git = GitCommandMutate(SRG.example_dir, date=COMMIT_DATE)</span>
 <span class="line-precise" title="No Anys on this line!">    repo_jon_loeliger(git)</span>
 <span class="line-empty" title="No Anys on this line!"></span>
 <span class="line-precise" title="No Anys on this line!">    SRG.results(inspect.stack()[0][3], show_args=["-m 1"], rankdir="BT")</span>
@@ -248,7 +250,7 @@
 <span class="line-empty" title="No Anys on this line!"></span>
 <span class="line-empty" title="No Anys on this line!"></span>
 <span class="line-precise" title="No Anys on this line!">def example_ranges() -&gt; None:</span>
-<span class="line-precise" title="No Anys on this line!">    git = GitCommandMutate(SRG.repo_dir, date="01/01/25 09:00 +0100")</span>
+<span class="line-precise" title="No Anys on this line!">    git = GitCommandMutate(SRG.example_dir, date=COMMIT_DATE)</span>
 <span class="line-precise" title="No Anys on this line!">    repo_jon_loeliger(git)</span>
 <span class="line-empty" title="No Anys on this line!"></span>
 <span class="line-precise" title="No Anys on this line!">    SRG.results(inspect.stack()[0][3], show_args=["-m 1", "-R D F"], rankdir="BT")</span>

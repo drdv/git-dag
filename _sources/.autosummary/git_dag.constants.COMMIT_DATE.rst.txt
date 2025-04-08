@@ -1,0 +1,6 @@
+git\_dag.constants.COMMIT\_DATE
+===============================
+
+.. currentmodule:: git_dag.constants
+
+.. autodata:: COMMIT_DATE

@@ -10,6 +10,7 @@
    .. autosummary::
       :toctree:
    
+      COMMIT_DATE
       SHA_PATTERN
       TAG_FORMAT_FIELDS
       CMD_TAGS_INFO

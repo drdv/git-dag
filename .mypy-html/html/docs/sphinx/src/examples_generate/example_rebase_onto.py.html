@@ -254,6 +254,10 @@
 <span id="L244" class="lineno"><a class="lineno" href="#L244">244</a></span>
 <span id="L245" class="lineno"><a class="lineno" href="#L245">245</a></span>
 <span id="L246" class="lineno"><a class="lineno" href="#L246">246</a></span>
+<span id="L247" class="lineno"><a class="lineno" href="#L247">247</a></span>
+<span id="L248" class="lineno"><a class="lineno" href="#L248">248</a></span>
+<span id="L249" class="lineno"><a class="lineno" href="#L249">249</a></span>
+<span id="L250" class="lineno"><a class="lineno" href="#L250">250</a></span>
 </pre></td>
 <td class="table-code"><pre><span class="line-empty" title="No Anys on this line!">"""Example of using ``git rebase --onto``."""</span>
 <span class="line-empty" title="No Anys on this line!"></span>
@@ -265,6 +269,7 @@
 <span class="line-precise" title="No Anys on this line!">from textwrap import dedent</span>
 <span class="line-precise" title="No Anys on this line!">from typing import Optional</span>
 <span class="line-empty" title="No Anys on this line!"></span>
+<span class="line-precise" title="No Anys on this line!">from git_dag.constants import COMMIT_DATE</span>
 <span class="line-precise" title="No Anys on this line!">from git_dag.git_commands import GitCommandMutate</span>
 <span class="line-empty" title="No Anys on this line!"></span>
 <span class="line-precise" title="No Anys on this line!">sys.path.append(str(Path(__file__).parent))</span>
@@ -273,6 +278,9 @@
 <span class="line-precise" title="No Anys on this line!">EXAMPLE_NAME = "_".join(Path(__file__).stem.split("_")[1:])</span>
 <span class="line-empty" title="No Anys on this line!"></span>
 <span class="line-precise" title="No Anys on this line!">SHOW_ARGS = ["-l", "-H", "-u"]</span>
+<span class="line-empty" title="No Anys on this line!"></span>
+<span class="line-precise" title="No Anys on this line!">ELENA_CREDENTIALS = {"name": "Elena Coder", "mail": "elena.coder@mail.com"}</span>
+<span class="line-precise" title="No Anys on this line!">MARINA_CREDENTIALS = {"name": "Marina Coder", "mail": "marina.coder@mail.com"}</span>
 <span class="line-empty" title="No Anys on this line!"></span>
 <span class="line-empty" title="No Anys on this line!"></span>
 <span class="line-precise" title="No Anys on this line!">def repo_example1(show_args: Optional[list[str]] = None) -&gt; None:</span>
@@ -315,7 +323,7 @@ Omitted Generics (x3)">    GIT.cm(list("FG"))</span>
 <span class="line-empty" title="No Anys on this line!"></span>
 <span class="line-precise" title="No Anys on this line!">def example1_rebase_onto1(show_args: Optional[list[str]] = None) -&gt; None:</span>
 <span class="line-precise" title="No Anys on this line!">    GIT.run_general(</span>
-<span class="line-precise" title="No Anys on this line!">        f"{GIT.command_prefix} rebase --onto c95114c bc9b888 feature",</span>
+<span class="line-precise" title="No Anys on this line!">        f"{GIT.command_prefix} rebase --onto main~1 b5c0976 feature",</span>
 <span class="line-precise" title="No Anys on this line!">        env=GIT.env,</span>
 <span class="line-precise" title="No Anys on this line!">        expected_stderr="Successfully rebased and updated",</span>
 <span class="line-empty" title="No Anys on this line!">    )</span>
@@ -326,7 +334,7 @@ Omitted Generics (x3)">    GIT.cm(list("FG"))</span>
 <span class="line-precise" title="No Anys on this line!">            """</span>
 <span class="line-empty" title="No Anys on this line!">            .. code-block:: bash</span>
 <span class="line-empty" title="No Anys on this line!"></span>
-<span class="line-empty" title="No Anys on this line!">                git rebase --onto c95114c bc9b888 feature</span>
+<span class="line-empty" title="No Anys on this line!">                git rebase --onto main~1 b5c0976 feature</span>
 <span class="line-empty" title="No Anys on this line!">            """</span>
 <span class="line-empty" title="No Anys on this line!">        ),</span>
 <span class="line-empty" title="No Anys on this line!">    )</span>
@@ -334,7 +342,7 @@ Omitted Generics (x3)">    GIT.cm(list("FG"))</span>
 <span class="line-empty" title="No Anys on this line!"></span>
 <span class="line-precise" title="No Anys on this line!">def example1_rebase_onto2(show_args: Optional[list[str]] = None) -&gt; None:</span>
 <span class="line-precise" title="No Anys on this line!">    GIT.run_general(</span>
-<span class="line-precise" title="No Anys on this line!">        f"{GIT.command_prefix} rebase --onto c95114c 4878cee feature",</span>
+<span class="line-precise" title="No Anys on this line!">        f"{GIT.command_prefix} rebase --onto main~1 f8ed6cd feature",</span>
 <span class="line-precise" title="No Anys on this line!">        env=GIT.env,</span>
 <span class="line-precise" title="No Anys on this line!">        expected_stderr="Successfully rebased and updated",</span>
 <span class="line-empty" title="No Anys on this line!">    )</span>
@@ -345,7 +353,7 @@ Omitted Generics (x3)">    GIT.cm(list("FG"))</span>
 <span class="line-precise" title="No Anys on this line!">            """</span>
 <span class="line-empty" title="No Anys on this line!">            .. code-block:: bash</span>
 <span class="line-empty" title="No Anys on this line!"></span>
-<span class="line-empty" title="No Anys on this line!">                git rebase --onto c95114c 4878cee feature</span>
+<span class="line-empty" title="No Anys on this line!">                git rebase --onto main~1 f8ed6cd feature</span>
 <span class="line-empty" title="No Anys on this line!">            """</span>
 <span class="line-empty" title="No Anys on this line!">        ),</span>
 <span class="line-empty" title="No Anys on this line!">    )</span>
@@ -353,7 +361,7 @@ Omitted Generics (x3)">    GIT.cm(list("FG"))</span>
 <span class="line-empty" title="No Anys on this line!"></span>
 <span class="line-precise" title="No Anys on this line!">def example1_rebase_onto3(show_args: Optional[list[str]] = None) -&gt; None:</span>
 <span class="line-precise" title="No Anys on this line!">    GIT.run_general(</span>
-<span class="line-precise" title="No Anys on this line!">        f"{GIT.command_prefix} rebase --onto c95114c 4878cee 09fb3c2",</span>
+<span class="line-precise" title="No Anys on this line!">        f"{GIT.command_prefix} rebase --onto main~1 f8ed6cd feature~0",</span>
 <span class="line-precise" title="No Anys on this line!">        env=GIT.env,</span>
 <span class="line-precise" title="No Anys on this line!">        expected_stderr="Successfully rebased and updated",</span>
 <span class="line-empty" title="No Anys on this line!">    )</span>
@@ -364,7 +372,7 @@ Omitted Generics (x3)">    GIT.cm(list("FG"))</span>
 <span class="line-precise" title="No Anys on this line!">            """</span>
 <span class="line-empty" title="No Anys on this line!">            .. code-block:: bash</span>
 <span class="line-empty" title="No Anys on this line!"></span>
-<span class="line-empty" title="No Anys on this line!">                git rebase --onto c95114c 4878cee 09fb3c2</span>
+<span class="line-empty" title="No Anys on this line!">                git rebase --onto main~1 f8ed6cd feature~0</span>
 <span class="line-empty" title="No Anys on this line!">            """</span>
 <span class="line-empty" title="No Anys on this line!">        ),</span>
 <span class="line-empty" title="No Anys on this line!">    )</span>
@@ -373,7 +381,7 @@ Omitted Generics (x3)">    GIT.cm(list("FG"))</span>
 <span class="line-precise" title="No Anys on this line!">def example1_move_feature_after_rebase_onto3(</span>
 <span class="line-precise" title="No Anys on this line!">    show_args: Optional[list[str]] = None,</span>
 <span class="line-empty" title="No Anys on this line!">) -&gt; None:</span>
-<span class="line-precise" title="No Anys on this line!">    GIT.run_general(f"{GIT.command_prefix} branch -f feature 283df08", env=GIT.env)</span>
+<span class="line-precise" title="No Anys on this line!">    GIT.run_general(f"{GIT.command_prefix} branch -f feature HEAD", env=GIT.env)</span>
 <span class="line-precise" title="No Anys on this line!">    SRG.results(</span>
 <span class="line-precise" title="No Anys on this line!">        inspect.stack()[0][3],</span>
 <span class="line-precise" title="No Anys on this line!">        show_args=SHOW_ARGS if show_args is None else show_args,</span>
@@ -381,8 +389,8 @@ Omitted Generics (x3)">    GIT.cm(list("FG"))</span>
 <span class="line-precise" title="No Anys on this line!">            """</span>
 <span class="line-empty" title="No Anys on this line!">            .. code-block:: bash</span>
 <span class="line-empty" title="No Anys on this line!"></span>
-<span class="line-empty" title="No Anys on this line!">                git branch -f feature 283df08</span>
-<span class="line-empty" title="No Anys on this line!">                # alternative: git update-ref -m "reflog MSG" refs/heads/feature 283df08</span>
+<span class="line-empty" title="No Anys on this line!">                git branch -f feature HEAD</span>
+<span class="line-empty" title="No Anys on this line!">                # alternative: git update-ref -m "reflog MSG" refs/heads/feature HEAD</span>
 <span class="line-empty" title="No Anys on this line!">            """</span>
 <span class="line-empty" title="No Anys on this line!">        ),</span>
 <span class="line-empty" title="No Anys on this line!">    )</span>
@@ -410,11 +418,11 @@ Omitted Generics (x3)">    GIT.cm(list("FG"))</span>
 <span class="line-precise" title="No Anys on this line!">def repo_example2(show_args: Optional[list[str]] = None) -&gt; None:</span>
 <span class="line-precise" title="No Anys on this line!">    GIT.cm(["C1", "C2"])</span>
 <span class="line-precise" title="No Anys on this line!">    GIT.br("server", create=True)</span>
-<span class="line-precise" title="No Anys on this line!">    GIT.cm(["C3"])</span>
+<span class="line-precise" title="No Anys on this line!">    GIT.cm(["C3"], author_info=ELENA_CREDENTIALS)</span>
 <span class="line-precise" title="No Anys on this line!">    GIT.br("client", create=True)</span>
-<span class="line-precise" title="No Anys on this line!">    GIT.cm(["C8", "C9"])</span>
+<span class="line-precise" title="No Anys on this line!">    GIT.cm(["C8", "C9"], author_info=MARINA_CREDENTIALS)</span>
 <span class="line-precise" title="No Anys on this line!">    GIT.br("server")</span>
-<span class="line-precise" title="No Anys on this line!">    GIT.cm(["C4", "C10"])</span>
+<span class="line-precise" title="No Anys on this line!">    GIT.cm(["C4", "C10"], author_info=ELENA_CREDENTIALS)</span>
 <span class="line-precise" title="No Anys on this line!">    GIT.br("main")</span>
 <span class="line-precise" title="No Anys on this line!">    GIT.cm(["C5", "C6"])</span>
 <span class="line-precise" title="No Anys on this line!">    GIT.br("server")</span>
@@ -447,7 +455,7 @@ Omitted Generics (x3)">    GIT.cm(list("FG"))</span>
 <span class="line-precise" title="No Anys on this line!">def example2_rebase_client(show_args: Optional[list[str]] = None) -&gt; None:</span>
 <span class="line-precise" title="No Anys on this line!">    GIT.br("client")</span>
 <span class="line-precise" title="No Anys on this line!">    GIT.run_general(</span>
-<span class="line-precise" title="No Anys on this line!">        f"{GIT.command_prefix} rebase --onto server 998d091 client",</span>
+<span class="line-precise" title="No Anys on this line!">        f"{GIT.command_prefix} rebase --onto server 103ff1e client",</span>
 <span class="line-precise" title="No Anys on this line!">        env=GIT.env,</span>
 <span class="line-precise" title="No Anys on this line!">        expected_stderr="Successfully rebased and updated",</span>
 <span class="line-empty" title="No Anys on this line!">    )</span>
@@ -458,7 +466,7 @@ Omitted Generics (x3)">    GIT.cm(list("FG"))</span>
 <span class="line-precise" title="No Anys on this line!">            """</span>
 <span class="line-empty" title="No Anys on this line!">            .. code-block:: bash</span>
 <span class="line-empty" title="No Anys on this line!"></span>
-<span class="line-empty" title="No Anys on this line!">                git rebase --onto server 998d091 client</span>
+<span class="line-empty" title="No Anys on this line!">                git rebase --onto server 103ff1e client</span>
 <span class="line-empty" title="No Anys on this line!">            """</span>
 <span class="line-empty" title="No Anys on this line!">        ),</span>
 <span class="line-empty" title="No Anys on this line!">    )</span>
@@ -468,7 +476,7 @@ Omitted Generics (x3)">    GIT.cm(list("FG"))</span>
 <span class="line-precise" title="No Anys on this line!">    step_number: int = 1,</span>
 <span class="line-empty" title="No Anys on this line!">) -&gt; tuple[StepResultsGenerator, GitCommandMutate]:</span>
 <span class="line-precise" title="No Anys on this line!">    srg = StepResultsGenerator(example_name=EXAMPLE_NAME, step_number=step_number)</span>
-<span class="line-precise" title="No Anys on this line!">    git = GitCommandMutate(srg.repo_dir, date="01/01/25 09:00 +0100")</span>
+<span class="line-precise" title="No Anys on this line!">    git = GitCommandMutate(srg.example_dir, date=COMMIT_DATE, evolving_date=True)</span>
 <span class="line-precise" title="No Anys on this line!">    git.init()</span>
 <span class="line-empty" title="No Anys on this line!"></span>
 <span class="line-precise" title="No Anys on this line!">    return srg, git</span>
@@ -483,15 +491,15 @@ Omitted Generics (x3)">    GIT.cm(list("FG"))</span>
 <span class="line-precise" title="No Anys on this line!">    example1_rebase()</span>
 <span class="line-empty" title="No Anys on this line!"></span>
 <span class="line-precise" title="No Anys on this line!">    SRG, GIT = start_new_repo(SRG.step_number)</span>
-<span class="line-precise" title="No Anys on this line!">    repo_example1(SHOW_ARGS + ["-R", "bc9b888..feature"])</span>
+<span class="line-precise" title="No Anys on this line!">    repo_example1(SHOW_ARGS + ["-R", "b5c0976..feature"])</span>
 <span class="line-precise" title="No Anys on this line!">    example1_rebase_onto1()</span>
 <span class="line-empty" title="No Anys on this line!"></span>
 <span class="line-precise" title="No Anys on this line!">    SRG, GIT = start_new_repo(SRG.step_number)</span>
-<span class="line-precise" title="No Anys on this line!">    repo_example1(SHOW_ARGS + ["-R", "4878cee..feature"])</span>
+<span class="line-precise" title="No Anys on this line!">    repo_example1(SHOW_ARGS + ["-R", "f8ed6cd..feature"])</span>
 <span class="line-precise" title="No Anys on this line!">    example1_rebase_onto2()</span>
 <span class="line-empty" title="No Anys on this line!"></span>
 <span class="line-precise" title="No Anys on this line!">    SRG, GIT = start_new_repo(SRG.step_number)</span>
-<span class="line-precise" title="No Anys on this line!">    repo_example1(SHOW_ARGS + ["-R", "4878cee..09fb3c2"])</span>
+<span class="line-precise" title="No Anys on this line!">    repo_example1(SHOW_ARGS + ["-R", "f8ed6cd..feature~0"])</span>
 <span class="line-precise" title="No Anys on this line!">    example1_rebase_onto3()</span>
 <span class="line-precise" title="No Anys on this line!">    example1_move_feature_after_rebase_onto3()</span>
 <span class="line-precise" title="No Anys on this line!">    example1_switch_feature()</span>

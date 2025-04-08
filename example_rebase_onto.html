@@ -3,7 +3,7 @@
   <head><meta charset="utf-8"/>
     <meta name="viewport" content="width=device-width,initial-scale=1"/>
     <meta name="color-scheme" content="light dark"><meta name="viewport" content="width=device-width, initial-scale=1" />
-<link rel="index" title="Index" href="genindex.html" /><link rel="search" title="Search" href="search.html" /><link rel="next" title="Git Internals - Git Objects" href="example_git_internals.html" /><link rel="prev" title="Revisions and ranges" href="example_revisions_and_ranges.html" />
+<link rel="index" title="Index" href="genindex.html" /><link rel="search" title="Search" href="search.html" /><link rel="next" title="Fetch &amp; merge or rebase" href="example_fetch_merge_rebase.html" /><link rel="prev" title="Revisions and ranges" href="example_revisions_and_ranges.html" />
 
     <!-- Generated with Sphinx 8.2.3 and Furo 2024.08.06 -->
         <title>Rebase --onto - git-dag</title>
@@ -208,6 +208,7 @@
 <li class="toctree-l1 current has-children"><a class="reference internal" href="examples.html">Examples</a><input checked="" class="toctree-checkbox" id="toctree-checkbox-1" name="toctree-checkbox-1" role="switch" type="checkbox"/><label for="toctree-checkbox-1"><div class="visually-hidden">Toggle navigation of Examples</div><i class="icon"><svg><use href="#svg-arrow-right"></use></svg></i></label><ul class="current">
 <li class="toctree-l2"><a class="reference internal" href="example_revisions_and_ranges.html">Revisions and ranges</a></li>
 <li class="toctree-l2 current current-page"><a class="current reference internal" href="#">Rebase <code class="docutils literal notranslate"><span class="pre">--onto</span></code></a></li>
+<li class="toctree-l2"><a class="reference internal" href="example_fetch_merge_rebase.html">Fetch &amp; merge or rebase</a></li>
 <li class="toctree-l2"><a class="reference internal" href="example_git_internals.html">Git Internals - Git Objects</a></li>
 </ul>
 </li>
@@ -221,6 +222,7 @@
 </ul>
 </li>
 <li class="toctree-l2 has-children"><a class="reference internal" href=".autosummary/git_dag.constants.html">git_dag.constants</a><input class="toctree-checkbox" id="toctree-checkbox-4" name="toctree-checkbox-4" role="switch" type="checkbox"/><label for="toctree-checkbox-4"><div class="visually-hidden">Toggle navigation of git_dag.constants</div><i class="icon"><svg><use href="#svg-arrow-right"></use></svg></i></label><ul>
+<li class="toctree-l3"><a class="reference internal" href=".autosummary/git_dag.constants.COMMIT_DATE.html">git_dag.constants.COMMIT_DATE</a></li>
 <li class="toctree-l3"><a class="reference internal" href=".autosummary/git_dag.constants.SHA_PATTERN.html">git_dag.constants.SHA_PATTERN</a></li>
 <li class="toctree-l3"><a class="reference internal" href=".autosummary/git_dag.constants.TAG_FORMAT_FIELDS.html">git_dag.constants.TAG_FORMAT_FIELDS</a></li>
 <li class="toctree-l3"><a class="reference internal" href=".autosummary/git_dag.constants.CMD_TAGS_INFO.html">git_dag.constants.CMD_TAGS_INFO</a></li>
@@ -280,6 +282,7 @@
 <li class="toctree-l2 has-children"><a class="reference internal" href=".autosummary/git_dag.utils.html">git_dag.utils</a><input class="toctree-checkbox" id="toctree-checkbox-12" name="toctree-checkbox-12" role="switch" type="checkbox"/><label for="toctree-checkbox-12"><div class="visually-hidden">Toggle navigation of git_dag.utils</div><i class="icon"><svg><use href="#svg-arrow-right"></use></svg></i></label><ul>
 <li class="toctree-l3"><a class="reference internal" href=".autosummary/git_dag.utils.creator_timestamp_format.html">git_dag.utils.creator_timestamp_format</a></li>
 <li class="toctree-l3"><a class="reference internal" href=".autosummary/git_dag.utils.escape_decode.html">git_dag.utils.escape_decode</a></li>
+<li class="toctree-l3"><a class="reference internal" href=".autosummary/git_dag.utils.increase_date.html">git_dag.utils.increase_date</a></li>
 <li class="toctree-l3"><a class="reference internal" href=".autosummary/git_dag.utils.transform_ascii_control_chars.html">git_dag.utils.transform_ascii_control_chars</a></li>
 </ul>
 </li>
@@ -337,9 +340,9 @@ one describes a scenario where using the <code class="docutils literal notransla
 <div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>git<span class="w"> </span>rebase<span class="w"> </span>--onto<span class="w"> </span>&lt;new-base&gt;<span class="w"> </span>&lt;range-start&gt;<span class="w"> </span>&lt;range-end&gt;
 </pre></div>
 </div>
-<p>The range of commits to rebase onto the <code class="docutils literal notranslate"><span class="pre">&lt;new-base&gt;</span></code> is formed using
-<code class="docutils literal notranslate"><span class="pre">&lt;range-start&gt;..&lt;range-end&gt;</span></code> (the former is excluded from the range, while the latter
-is included).</p>
+<p>The <a class="reference internal" href="example_revisions_and_ranges.html"><span class="doc">range</span></a> of commits to rebase onto the
+<code class="docutils literal notranslate"><span class="pre">&lt;new-base&gt;</span></code> is formed using <code class="docutils literal notranslate"><span class="pre">&lt;range-start&gt;..&lt;range-end&gt;</span></code> (the former is excluded
+from the range, while the latter is included).</p>
 <section id="example-1">
 <h2>Example 1<a class="headerlink" href="#example-1" title="Link to this heading">¶</a></h2>
 <p>We consider four cases. In all of them, the “Before” tab depicts the same repository
@@ -352,12 +355,12 @@ commits in the range <code class="docutils literal notranslate"><span class="pre
 can be seen in the “After” tab, commits <code class="docutils literal notranslate"><span class="pre">C</span></code>, <code class="docutils literal notranslate"><span class="pre">D</span></code> and <code class="docutils literal notranslate"><span class="pre">E</span></code> have been recreated
 (compare their tooltips), that is:</p>
 <ul class="simple">
-<li><p><code class="docutils literal notranslate"><span class="pre">C</span></code>: <code class="docutils literal notranslate"><span class="pre">4878cee</span></code> → <code class="docutils literal notranslate"><span class="pre">9d41ef9</span></code></p></li>
-<li><p><code class="docutils literal notranslate"><span class="pre">D</span></code>: <code class="docutils literal notranslate"><span class="pre">63e7edb</span></code> → <code class="docutils literal notranslate"><span class="pre">5deeea5</span></code></p></li>
-<li><p><code class="docutils literal notranslate"><span class="pre">E</span></code>: <code class="docutils literal notranslate"><span class="pre">09fb3c2</span></code> → <code class="docutils literal notranslate"><span class="pre">5ede5cd</span></code>.</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">C</span></code>: <code class="docutils literal notranslate"><span class="pre">f8ed6cd</span></code> → <code class="docutils literal notranslate"><span class="pre">bd093d7</span></code></p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">D</span></code>: <code class="docutils literal notranslate"><span class="pre">30168f0</span></code> → <code class="docutils literal notranslate"><span class="pre">8bb9c6c</span></code></p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">E</span></code>: <code class="docutils literal notranslate"><span class="pre">7d655dc</span></code> → <code class="docutils literal notranslate"><span class="pre">d56f7af</span></code>.</p></li>
 </ul>
-<p>Of course, the original three commits are still available in the repository however they
-are unreachable from any branch (or tag) and, normally, would be garbage-collected
+<p>Of course, the original three commits are still available in the repository, however,
+they are unreachable from any branch (or tag) and, normally, would be garbage-collected
 eventually (note that they are displayed with a different color <a class="footnote-reference brackets" href="#id4" id="id1" role="doc-noteref"><span class="fn-bracket">[</span>1<span class="fn-bracket">]</span></a>).</p>
 <div class="tab-set docutils container">
 <input checked="True" class="tab-input" id="tab-set--0-input--1" name="tab-set--0" type="radio"><label class="tab-label" for="tab-set--0-input--1">Before (1)</label><div class="tab-content docutils container">
@@ -387,13 +390,14 @@ eventually (note that they are displayed with a different color <a class="footno
 </object></div>
 </div>
 <p>The range in the second case, is the same as in the first case even though it is defined
-using <code class="docutils literal notranslate"><span class="pre">bc9b888..feature</span></code> (note that <code class="docutils literal notranslate"><span class="pre">bc9b888</span></code> is the <a class="reference external" href="https://git-scm.com/docs/git-merge-base">merge-base</a> of <code class="docutils literal notranslate"><span class="pre">main</span></code> and <code class="docutils literal notranslate"><span class="pre">feature</span></code>). The difference
-here is that we rebase not on the tip of <code class="docutils literal notranslate"><span class="pre">main</span></code> but on commit <code class="docutils literal notranslate"><span class="pre">c95114c</span></code>.</p>
+using <code class="docutils literal notranslate"><span class="pre">b5c0976..feature</span></code> (<code class="docutils literal notranslate"><span class="pre">b5c0976</span></code> is the <a class="reference external" href="https://git-scm.com/docs/git-merge-base">merge-base</a> of <code class="docutils literal notranslate"><span class="pre">main</span></code> and <code class="docutils literal notranslate"><span class="pre">feature</span></code>). The difference
+here is that we rebase not on the tip of <code class="docutils literal notranslate"><span class="pre">main</span></code> but on <code class="docutils literal notranslate"><span class="pre">main~1</span></code> (i.e., commit
+<code class="docutils literal notranslate"><span class="pre">1202fea</span></code>).</p>
 <div class="tab-set docutils container">
 <input checked="True" class="tab-input" id="tab-set--1-input--1" name="tab-set--1" type="radio"><label class="tab-label" for="tab-set--1-input--1">Before (2)</label><div class="tab-content docutils container">
 <div class="literal-block-wrapper docutils container" id="id9">
 <div class="code-block-caption"><span class="caption-text">Visualize DAG</span><a class="headerlink" href="#id9" title="Link to this code">¶</a></div>
-<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>git<span class="w"> </span>dag<span class="w"> </span>-l<span class="w"> </span>-H<span class="w"> </span>-u<span class="w"> </span>-R<span class="w"> </span>bc9b888..feature
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>git<span class="w"> </span>dag<span class="w"> </span>-l<span class="w"> </span>-H<span class="w"> </span>-u<span class="w"> </span>-R<span class="w"> </span>b5c0976..feature
 </pre></div>
 </div>
 </div>
@@ -402,7 +406,7 @@ here is that we rebase not on the tip of <code class="docutils literal notransla
         type="image/svg+xml">
 </object></div>
 <input class="tab-input" id="tab-set--1-input--2" name="tab-set--1" type="radio"><label class="tab-label" for="tab-set--1-input--2">After (2)</label><div class="tab-content docutils container">
-<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>git<span class="w"> </span>rebase<span class="w"> </span>--onto<span class="w"> </span>c95114c<span class="w"> </span>bc9b888<span class="w"> </span>feature
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>git<span class="w"> </span>rebase<span class="w"> </span>--onto<span class="w"> </span>main~1<span class="w"> </span>b5c0976<span class="w"> </span>feature
 </pre></div>
 </div>
 <div class="literal-block-wrapper docutils container" id="id10">
@@ -416,13 +420,13 @@ here is that we rebase not on the tip of <code class="docutils literal notransla
         type="image/svg+xml">
 </object></div>
 </div>
-<p>In case 3 we rebase again on top of <code class="docutils literal notranslate"><span class="pre">c95114c</span></code> but this time the range has one commit
+<p>In case 3 we rebase again on top of <code class="docutils literal notranslate"><span class="pre">main~1</span></code> but this time the range has one commit
 less (we dropped commit <code class="docutils literal notranslate"><span class="pre">C</span></code>).</p>
 <div class="tab-set docutils container">
 <input checked="True" class="tab-input" id="tab-set--2-input--1" name="tab-set--2" type="radio"><label class="tab-label" for="tab-set--2-input--1">Before (3)</label><div class="tab-content docutils container">
 <div class="literal-block-wrapper docutils container" id="id11">
 <div class="code-block-caption"><span class="caption-text">Visualize DAG</span><a class="headerlink" href="#id11" title="Link to this code">¶</a></div>
-<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>git<span class="w"> </span>dag<span class="w"> </span>-l<span class="w"> </span>-H<span class="w"> </span>-u<span class="w"> </span>-R<span class="w"> </span>4878cee..feature
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>git<span class="w"> </span>dag<span class="w"> </span>-l<span class="w"> </span>-H<span class="w"> </span>-u<span class="w"> </span>-R<span class="w"> </span>f8ed6cd..feature
 </pre></div>
 </div>
 </div>
@@ -431,7 +435,7 @@ less (we dropped commit <code class="docutils literal notranslate"><span class="
         type="image/svg+xml">
 </object></div>
 <input class="tab-input" id="tab-set--2-input--2" name="tab-set--2" type="radio"><label class="tab-label" for="tab-set--2-input--2">After (3)</label><div class="tab-content docutils container">
-<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>git<span class="w"> </span>rebase<span class="w"> </span>--onto<span class="w"> </span>c95114c<span class="w"> </span>4878cee<span class="w"> </span>feature
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>git<span class="w"> </span>rebase<span class="w"> </span>--onto<span class="w"> </span>main~1<span class="w"> </span>f8ed6cd<span class="w"> </span>feature
 </pre></div>
 </div>
 <div class="literal-block-wrapper docutils container" id="id12">
@@ -448,13 +452,14 @@ less (we dropped commit <code class="docutils literal notranslate"><span class="
 <p>Finally, in case 4, we use the last commit on the <code class="docutils literal notranslate"><span class="pre">feature</span></code> branch (instead of the
 <code class="docutils literal notranslate"><span class="pre">feature</span></code> branch itself) to define the range. After the rebase, the HEAD is detached
 <a class="footnote-reference brackets" href="#id5" id="id2" role="doc-noteref"><span class="fn-bracket">[</span>2<span class="fn-bracket">]</span></a> (i.e., the <code class="docutils literal notranslate"><span class="pre">feature</span></code> branch didn’t move). This could be considered as a useful
-trick – we perform the rebase, then move <code class="docutils literal notranslate"><span class="pre">feature</span></code> to point to the updated <code class="docutils literal notranslate"><span class="pre">E</span></code>
-commit <code class="docutils literal notranslate"><span class="pre">283df08</span></code> if we are happy with the results (see the last two tabs) <a class="footnote-reference brackets" href="#id6" id="id3" role="doc-noteref"><span class="fn-bracket">[</span>3<span class="fn-bracket">]</span></a>.</p>
+trick – we perform the rebase, then move <code class="docutils literal notranslate"><span class="pre">feature</span></code> to point to HEAD (i.e., to the
+updated <code class="docutils literal notranslate"><span class="pre">E</span></code> commit <code class="docutils literal notranslate"><span class="pre">ce51afe</span></code>) if we are happy with the results (see the last two
+tabs) <a class="footnote-reference brackets" href="#id6" id="id3" role="doc-noteref"><span class="fn-bracket">[</span>3<span class="fn-bracket">]</span></a>.</p>
 <div class="tab-set docutils container">
 <input checked="True" class="tab-input" id="tab-set--3-input--1" name="tab-set--3" type="radio"><label class="tab-label" for="tab-set--3-input--1">Before (4)</label><div class="tab-content docutils container">
 <div class="literal-block-wrapper docutils container" id="id13">
 <div class="code-block-caption"><span class="caption-text">Visualize DAG</span><a class="headerlink" href="#id13" title="Link to this code">¶</a></div>
-<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>git<span class="w"> </span>dag<span class="w"> </span>-l<span class="w"> </span>-H<span class="w"> </span>-u<span class="w"> </span>-R<span class="w"> </span>4878cee..09fb3c2
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>git<span class="w"> </span>dag<span class="w"> </span>-l<span class="w"> </span>-H<span class="w"> </span>-u<span class="w"> </span>-R<span class="w"> </span>f8ed6cd..feature~0
 </pre></div>
 </div>
 </div>
@@ -463,7 +468,7 @@ commit <code class="docutils literal notranslate"><span class="pre">283df08</spa
         type="image/svg+xml">
 </object></div>
 <input class="tab-input" id="tab-set--3-input--2" name="tab-set--3" type="radio"><label class="tab-label" for="tab-set--3-input--2">After rebase (4)</label><div class="tab-content docutils container">
-<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>git<span class="w"> </span>rebase<span class="w"> </span>--onto<span class="w"> </span>c95114c<span class="w"> </span>4878cee<span class="w"> </span>09fb3c2
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>git<span class="w"> </span>rebase<span class="w"> </span>--onto<span class="w"> </span>main~1<span class="w"> </span>f8ed6cd<span class="w"> </span>feature~0
 </pre></div>
 </div>
 <div class="literal-block-wrapper docutils container" id="id14">
@@ -477,8 +482,8 @@ commit <code class="docutils literal notranslate"><span class="pre">283df08</spa
         type="image/svg+xml">
 </object></div>
 <input class="tab-input" id="tab-set--3-input--3" name="tab-set--3" type="radio"><label class="tab-label" for="tab-set--3-input--3">After update-ref (4)</label><div class="tab-content docutils container">
-<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>git<span class="w"> </span>branch<span class="w"> </span>-f<span class="w"> </span>feature<span class="w"> </span>283df08
-<span class="c1"># alternative: git update-ref -m &quot;reflog MSG&quot; refs/heads/feature 283df08</span>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>git<span class="w"> </span>branch<span class="w"> </span>-f<span class="w"> </span>feature<span class="w"> </span>HEAD
+<span class="c1"># alternative: git update-ref -m &quot;reflog MSG&quot; refs/heads/feature HEAD</span>
 </pre></div>
 </div>
 <div class="literal-block-wrapper docutils container" id="id15">
@@ -512,7 +517,7 @@ commit <code class="docutils literal notranslate"><span class="pre">283df08</spa
 <p>In the second example we reuse the repository from section “More Interesting Rebases” in
 <a class="reference external" href="https://git-scm.com/book/en/v2/Git-Branching-Rebasing">Git Branching - Rebasing</a>,
 however we perform a different sequence of operations.</p>
-<p>Suppose that, to add some server-side functionality, Elena commits <code class="docutils literal notranslate"><span class="pre">998d091</span></code> (<code class="docutils literal notranslate"><span class="pre">C3</span></code>)
+<p>Suppose that, to add some server-side functionality, Elena commits <code class="docutils literal notranslate"><span class="pre">103ff1e</span></code> (<code class="docutils literal notranslate"><span class="pre">C3</span></code>)
 on a feature branch <code class="docutils literal notranslate"><span class="pre">server</span></code>. A bit later Marina, adds related client-side
 functionality on a <code class="docutils literal notranslate"><span class="pre">client</span></code> branch. Then both of them continue working on their
 implementations. Meanwhile, <code class="docutils literal notranslate"><span class="pre">main</span></code> has evolved and Elena decides to rebase <code class="docutils literal notranslate"><span class="pre">server</span></code>
@@ -521,8 +526,8 @@ depicted in the second tab below.</p>
 <p>At that point Marina wants to sync her <code class="docutils literal notranslate"><span class="pre">client</span></code> branch with the updated <code class="docutils literal notranslate"><span class="pre">server</span></code>
 branch, but she doesn’t want to resolve the same conflict with <code class="docutils literal notranslate"><span class="pre">C3</span></code> (after all, it has
 already been resolved by Elena). So she uses the <code class="docutils literal notranslate"><span class="pre">--onto</span></code> flag of <code class="docutils literal notranslate"><span class="pre">git</span> <span class="pre">rebase</span></code> as
-shown in the third tab below. Note that the range <code class="docutils literal notranslate"><span class="pre">998d091..client</span></code> doesn’t include
-<code class="docutils literal notranslate"><span class="pre">998d091</span></code> – in effect, she only rebases her own work (commits <code class="docutils literal notranslate"><span class="pre">C8</span></code> and <code class="docutils literal notranslate"><span class="pre">C9</span></code>).</p>
+shown in the third tab below. Note that the range <code class="docutils literal notranslate"><span class="pre">103ff1e..client</span></code> doesn’t include
+<code class="docutils literal notranslate"><span class="pre">103ff1e</span></code> – in effect, she only rebases her own work (commits <code class="docutils literal notranslate"><span class="pre">C8</span></code> and <code class="docutils literal notranslate"><span class="pre">C9</span></code>).</p>
 <div class="tab-set docutils container">
 <input checked="True" class="tab-input" id="tab-set--4-input--1" name="tab-set--4" type="radio"><label class="tab-label" for="tab-set--4-input--1">Initial repo</label><div class="tab-content docutils container">
 <div class="literal-block-wrapper docutils container" id="id17">
@@ -550,7 +555,7 @@ shown in the third tab below. Note that the range <code class="docutils literal 
         type="image/svg+xml">
 </object></div>
 <input class="tab-input" id="tab-set--4-input--3" name="tab-set--4" type="radio"><label class="tab-label" for="tab-set--4-input--3">Rebase client on server</label><div class="tab-content docutils container">
-<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>git<span class="w"> </span>rebase<span class="w"> </span>--onto<span class="w"> </span>server<span class="w"> </span>998d091<span class="w"> </span>client
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>git<span class="w"> </span>rebase<span class="w"> </span>--onto<span class="w"> </span>server<span class="w"> </span>103ff1e<span class="w"> </span>client
 </pre></div>
 </div>
 <div class="literal-block-wrapper docutils container" id="id19">
@@ -589,12 +594,12 @@ simply create a branch (say <code class="docutils literal notranslate"><span cla
       <footer>
         
         <div class="related-pages">
-          <a class="next-page" href="example_git_internals.html">
+          <a class="next-page" href="example_fetch_merge_rebase.html">
               <div class="page-info">
                 <div class="context">
                   <span>Next</span>
                 </div>
-                <div class="title">Git Internals - Git Objects</div>
+                <div class="title">Fetch &amp; merge or rebase</div>
               </div>
               <svg class="furo-related-icon"><use href="#svg-arrow-right"></use></svg>
             </a>
@@ -653,7 +658,7 @@ simply create a branch (say <code class="docutils literal notranslate"><span cla
       
     </aside>
   </div>
-</div><script src="_static/documentation_options.js?v=d12a0371"></script>
+</div><script src="_static/documentation_options.js?v=fd0388e1"></script>
     <script src="_static/doctools.js?v=9bcbadda"></script>
     <script src="_static/sphinx_highlight.js?v=dc90522c"></script>
     <script src="_static/scripts/furo.js?v=5fa4622c"></script>

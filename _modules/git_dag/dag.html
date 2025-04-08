@@ -207,6 +207,7 @@
 <li class="toctree-l1 has-children"><a class="reference internal" href="../../examples.html">Examples</a><input class="toctree-checkbox" id="toctree-checkbox-1" name="toctree-checkbox-1" role="switch" type="checkbox"/><label for="toctree-checkbox-1"><div class="visually-hidden">Toggle navigation of Examples</div><i class="icon"><svg><use href="#svg-arrow-right"></use></svg></i></label><ul>
 <li class="toctree-l2"><a class="reference internal" href="../../example_revisions_and_ranges.html">Revisions and ranges</a></li>
 <li class="toctree-l2"><a class="reference internal" href="../../example_rebase_onto.html">Rebase <code class="docutils literal notranslate"><span class="pre">--onto</span></code></a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../example_fetch_merge_rebase.html">Fetch &amp; merge or rebase</a></li>
 <li class="toctree-l2"><a class="reference internal" href="../../example_git_internals.html">Git Internals - Git Objects</a></li>
 </ul>
 </li>
@@ -220,6 +221,7 @@
 </ul>
 </li>
 <li class="toctree-l2 has-children"><a class="reference internal" href="../../.autosummary/git_dag.constants.html">git_dag.constants</a><input class="toctree-checkbox" id="toctree-checkbox-4" name="toctree-checkbox-4" role="switch" type="checkbox"/><label for="toctree-checkbox-4"><div class="visually-hidden">Toggle navigation of git_dag.constants</div><i class="icon"><svg><use href="#svg-arrow-right"></use></svg></i></label><ul>
+<li class="toctree-l3"><a class="reference internal" href="../../.autosummary/git_dag.constants.COMMIT_DATE.html">git_dag.constants.COMMIT_DATE</a></li>
 <li class="toctree-l3"><a class="reference internal" href="../../.autosummary/git_dag.constants.SHA_PATTERN.html">git_dag.constants.SHA_PATTERN</a></li>
 <li class="toctree-l3"><a class="reference internal" href="../../.autosummary/git_dag.constants.TAG_FORMAT_FIELDS.html">git_dag.constants.TAG_FORMAT_FIELDS</a></li>
 <li class="toctree-l3"><a class="reference internal" href="../../.autosummary/git_dag.constants.CMD_TAGS_INFO.html">git_dag.constants.CMD_TAGS_INFO</a></li>
@@ -279,6 +281,7 @@
 <li class="toctree-l2 has-children"><a class="reference internal" href="../../.autosummary/git_dag.utils.html">git_dag.utils</a><input class="toctree-checkbox" id="toctree-checkbox-12" name="toctree-checkbox-12" role="switch" type="checkbox"/><label for="toctree-checkbox-12"><div class="visually-hidden">Toggle navigation of git_dag.utils</div><i class="icon"><svg><use href="#svg-arrow-right"></use></svg></i></label><ul>
 <li class="toctree-l3"><a class="reference internal" href="../../.autosummary/git_dag.utils.creator_timestamp_format.html">git_dag.utils.creator_timestamp_format</a></li>
 <li class="toctree-l3"><a class="reference internal" href="../../.autosummary/git_dag.utils.escape_decode.html">git_dag.utils.escape_decode</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../../.autosummary/git_dag.utils.increase_date.html">git_dag.utils.increase_date</a></li>
 <li class="toctree-l3"><a class="reference internal" href="../../.autosummary/git_dag.utils.transform_ascii_control_chars.html">git_dag.utils.transform_ascii_control_chars</a></li>
 </ul>
 </li>
@@ -389,8 +392,10 @@
         <span class="bp">self</span><span class="o">.</span><span class="n">dag</span><span class="o">.</span><span class="n">edge</span><span class="p">(</span><span class="s2">&quot;GIT-NOTES-LABEL&quot;</span><span class="p">,</span> <span class="n">sha</span><span class="p">)</span>
 
     <span class="k">def</span> <span class="nf">_add_commit</span><span class="p">(</span><span class="bp">self</span><span class="p">:</span> <span class="n">MixinProtocol</span><span class="p">,</span> <span class="n">sha</span><span class="p">:</span> <span class="nb">str</span><span class="p">,</span> <span class="n">item</span><span class="p">:</span> <span class="n">GitCommit</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="kc">None</span><span class="p">:</span>
-        <span class="k">def</span> <span class="nf">form_tooltip</span><span class="p">(</span><span class="n">item</span><span class="p">:</span> <span class="n">GitCommit</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">str</span><span class="p">:</span>
+        <span class="k">def</span> <span class="nf">form_tooltip</span><span class="p">(</span><span class="n">item</span><span class="p">:</span> <span class="n">GitCommit</span><span class="p">,</span> <span class="n">sha</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="nb">str</span><span class="p">]</span> <span class="o">=</span> <span class="kc">None</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">str</span><span class="p">:</span>
+            <span class="n">sha_field</span> <span class="o">=</span> <span class="s2">&quot;&quot;</span> <span class="k">if</span> <span class="n">sha</span> <span class="ow">is</span> <span class="kc">None</span> <span class="k">else</span> <span class="sa">f</span><span class="s2">&quot;sha: </span><span class="si">{</span><span class="n">sha</span><span class="si">}</span><span class="se">\n\n</span><span class="s2">&quot;</span>
             <span class="k">return</span> <span class="nb">repr</span><span class="p">(</span>
+                <span class="sa">f</span><span class="s2">&quot;</span><span class="si">{</span><span class="n">sha_field</span><span class="si">}</span><span class="s2">&quot;</span>
                 <span class="sa">f</span><span class="s2">&quot;author: </span><span class="si">{</span><span class="n">item</span><span class="o">.</span><span class="n">author</span><span class="si">}</span><span class="s2"> </span><span class="si">{</span><span class="n">item</span><span class="o">.</span><span class="n">author_email</span><span class="si">}</span><span class="se">\n</span><span class="s2">&quot;</span>
                 <span class="sa">f</span><span class="s2">&quot;</span><span class="si">{</span><span class="n">item</span><span class="o">.</span><span class="n">author_date</span><span class="si">}</span><span class="se">\n</span><span class="s2">&quot;</span>
                 <span class="sa">f</span><span class="s2">&quot;committer: </span><span class="si">{</span><span class="n">item</span><span class="o">.</span><span class="n">committer</span><span class="si">}</span><span class="s2"> </span><span class="si">{</span><span class="n">item</span><span class="o">.</span><span class="n">committer_email</span><span class="si">}</span><span class="se">\n</span><span class="s2">&quot;</span>
@@ -410,8 +415,10 @@
             <span class="p">)</span>
 
             <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">params</span><span class="o">.</span><span class="n">public</span><span class="o">.</span><span class="n">commit_message_as_label</span> <span class="o">&gt;</span> <span class="mi">0</span><span class="p">:</span>
+                <span class="n">tooltip_sha</span> <span class="o">=</span> <span class="n">sha</span>
                 <span class="n">label</span> <span class="o">=</span> <span class="n">item</span><span class="o">.</span><span class="n">message</span><span class="p">[:</span> <span class="bp">self</span><span class="o">.</span><span class="n">params</span><span class="o">.</span><span class="n">public</span><span class="o">.</span><span class="n">commit_message_as_label</span><span class="p">]</span>
             <span class="k">else</span><span class="p">:</span>
+                <span class="n">tooltip_sha</span> <span class="o">=</span> <span class="kc">None</span>
                 <span class="n">label</span> <span class="o">=</span> <span class="n">sha</span><span class="p">[:</span> <span class="bp">self</span><span class="o">.</span><span class="n">params</span><span class="o">.</span><span class="n">misc</span><span class="o">.</span><span class="n">sha_truncate</span><span class="p">]</span>
 
             <span class="n">color</span> <span class="o">=</span> <span class="nb">getattr</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">params</span><span class="o">.</span><span class="n">dag_node_colors</span><span class="p">,</span> <span class="n">color_label</span><span class="p">)</span>
@@ -424,7 +431,7 @@
                     <span class="k">else</span> <span class="n">color</span>
                 <span class="p">),</span>
                 <span class="n">fillcolor</span><span class="o">=</span><span class="n">color</span><span class="p">,</span>
-                <span class="n">tooltip</span><span class="o">=</span><span class="n">form_tooltip</span><span class="p">(</span><span class="n">item</span><span class="p">),</span>
+                <span class="n">tooltip</span><span class="o">=</span><span class="n">form_tooltip</span><span class="p">(</span><span class="n">item</span><span class="p">,</span> <span class="n">tooltip_sha</span><span class="p">),</span>
             <span class="p">)</span>
 
             <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">repository</span><span class="o">.</span><span class="n">notes_dag_root</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span><span class="p">:</span>
@@ -891,7 +898,7 @@
       
     </aside>
   </div>
-</div><script src="../../_static/documentation_options.js?v=d12a0371"></script>
+</div><script src="../../_static/documentation_options.js?v=fd0388e1"></script>
     <script src="../../_static/doctools.js?v=9bcbadda"></script>
     <script src="../../_static/sphinx_highlight.js?v=dc90522c"></script>
     <script src="../../_static/scripts/furo.js?v=5fa4622c"></script>

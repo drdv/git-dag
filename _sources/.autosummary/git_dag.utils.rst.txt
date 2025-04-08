@@ -17,6 +17,7 @@
    
       creator_timestamp_format
       escape_decode
+      increase_date
       transform_ascii_control_chars
    
    

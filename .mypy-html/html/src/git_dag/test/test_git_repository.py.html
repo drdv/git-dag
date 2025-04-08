@@ -375,7 +375,7 @@ Explicit (x1)">    with open(repo_path / "empty_repo_cluster.gv", "r", encoding=
 <span class="line-precise" title="No Anys on this line!">def test_repository_clone_depth_1(git_repository_default: Path) -&gt; None:</span>
 <span class="line-precise" title="No Anys on this line!">    src_repo = str(git_repository_default)</span>
 <span class="line-precise" title="No Anys on this line!">    target_repo = src_repo + "_cloned"</span>
-<span class="line-precise" title="No Anys on this line!">    GitCommandMutate.clone_local_depth_1(src_repo, target_repo)</span>
+<span class="line-precise" title="No Anys on this line!">    GitCommandMutate.clone_from_local(src_repo, target_repo, depth=1)</span>
 <span class="line-empty" title="No Anys on this line!"></span>
 <span class="line-precise" title="No Anys on this line!">    repo = GitRepository(target_repo, parse_trees=True)</span>
 <span class="line-empty" title="No Anys on this line!"></span>

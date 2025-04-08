@@ -18,14 +18,18 @@ git\_dag.git\_commands.GitCommandMutate
    
       ~GitCommandMutate.add
       ~GitCommandMutate.br
-      ~GitCommandMutate.clone_local_depth_1
+      ~GitCommandMutate.clone_from_local
       ~GitCommandMutate.cm
       ~GitCommandMutate.config
-      ~GitCommandMutate.get_env
+      ~GitCommandMutate.fetch
       ~GitCommandMutate.init
+      ~GitCommandMutate.init_remote_head
       ~GitCommandMutate.mg
       ~GitCommandMutate.mg_multiple
       ~GitCommandMutate.note
+      ~GitCommandMutate.pull
+      ~GitCommandMutate.push
+      ~GitCommandMutate.rebase
       ~GitCommandMutate.run_general
       ~GitCommandMutate.stash
       ~GitCommandMutate.tag
@@ -33,5 +37,11 @@ git\_dag.git\_commands.GitCommandMutate
    
 
    
+   
+   .. rubric:: Attributes
+
+   .. autosummary::
+   
+      ~GitCommandMutate.env
    
    
