@@ -1,18 +1,18 @@
 <!doctype html>
 <html class="no-js" lang="en" data-content_root="../">
-  <head><meta charset="utf-8"/>
-    <meta name="viewport" content="width=device-width,initial-scale=1"/>
+  <head><meta charset="utf-8">
+    <meta name="viewport" content="width=device-width,initial-scale=1">
     <meta name="color-scheme" content="light dark"><meta name="viewport" content="width=device-width, initial-scale=1" />
-<link rel="index" title="Index" href="../genindex.html" /><link rel="search" title="Search" href="../search.html" /><link rel="next" title="git_dag.parameters" href="git_dag.parameters.html" /><link rel="prev" title="git_dag.git_objects.GitTagRawDataType" href="git_dag.git_objects.GitTagRawDataType.html" />
+<link rel="index" title="Index" href="../genindex.html"><link rel="search" title="Search" href="../search.html"><link rel="next" title="git_dag.git_objects.GitStash" href="git_dag.git_objects.GitStash.html"><link rel="prev" title="git_dag.git_objects.GitObject" href="git_dag.git_objects.GitObject.html">
 
-    <!-- Generated with Sphinx 8.2.3 and Furo 2024.08.06 -->
+    <!-- Generated with Sphinx 9.1.1 and Furo 2025.12.19 -->
         <title>git_dag.git_objects.GitObjectKind - git-dag</title>
-      <link rel="stylesheet" type="text/css" href="../_static/pygments.css?v=a746c00c" />
-    <link rel="stylesheet" type="text/css" href="../_static/styles/furo.css?v=354aac6f" />
+      <link rel="stylesheet" type="text/css" href="../_static/pygments.css?v=acfd86a5" />
+    <link rel="stylesheet" type="text/css" href="../_static/styles/furo.css?v=7bdb33bb" />
     <link rel="stylesheet" type="text/css" href="../_static/autodoc_pydantic.css" />
     <link rel="stylesheet" type="text/css" href="../_static/copybutton.css?v=76b2166b" />
     <link rel="stylesheet" type="text/css" href="../_static/tabs.css?v=4c969af8" />
-    <link rel="stylesheet" type="text/css" href="../_static/styles/furo-extensions.css?v=302659d7" />
+    <link rel="stylesheet" type="text/css" href="../_static/styles/furo-extensions.css?v=8dab3a3b" />
     <link rel="stylesheet" type="text/css" href="../_static/css/custom.css?v=dcb81c43" />
     
     
@@ -20,8 +20,8 @@
 
 <style>
   body {
-    --color-code-background: #f8f8f8;
-  --color-code-foreground: black;
+    --color-code-background: #f2f2f2;
+  --color-code-foreground: #1e1e1e;
   
   }
   @media not print {
@@ -148,14 +148,10 @@
   </symbol>
 </svg>
 
-<input type="checkbox" class="sidebar-toggle" name="__navigation" id="__navigation">
-<input type="checkbox" class="sidebar-toggle" name="__toc" id="__toc">
-<label class="overlay sidebar-overlay" for="__navigation">
-  <div class="visually-hidden">Hide navigation sidebar</div>
-</label>
-<label class="overlay toc-overlay" for="__toc">
-  <div class="visually-hidden">Hide table of contents sidebar</div>
-</label>
+<input type="checkbox" class="sidebar-toggle" name="__navigation" id="__navigation" aria-label="Toggle site navigation sidebar">
+<input type="checkbox" class="sidebar-toggle" name="__toc" id="__toc" aria-label="Toggle table of contents sidebar">
+<label class="overlay sidebar-overlay" for="__navigation"></label>
+<label class="overlay toc-overlay" for="__toc"></label>
 
 <a class="skip-to-content muted-link" href="#furo-main-content">Skip to content</a>
 
@@ -165,8 +161,7 @@
   <header class="mobile-header">
     <div class="header-left">
       <label class="nav-overlay-icon" for="__navigation">
-        <div class="visually-hidden">Toggle site navigation sidebar</div>
-        <i class="icon"><svg><use href="#svg-menu"></use></svg></i>
+        <span class="icon"><svg><use href="#svg-menu"></use></svg></span>
       </label>
     </div>
     <div class="header-center">
@@ -174,8 +169,7 @@
     </div>
     <div class="header-right">
       <div class="theme-toggle-container theme-toggle-header">
-        <button class="theme-toggle">
-          <div class="visually-hidden">Toggle Light / Dark / Auto color theme</div>
+        <button class="theme-toggle" aria-label="Toggle Light / Dark / Auto color theme">
           <svg class="theme-icon-when-auto-light"><use href="#svg-sun-with-moon"></use></svg>
           <svg class="theme-icon-when-auto-dark"><use href="#svg-moon-with-sun"></use></svg>
           <svg class="theme-icon-when-dark"><use href="#svg-moon"></use></svg>
@@ -183,8 +177,7 @@
         </button>
       </div>
       <label class="toc-overlay-icon toc-header-icon" for="__toc">
-        <div class="visually-hidden">Toggle table of contents sidebar</div>
-        <i class="icon"><svg><use href="#svg-toc"></use></svg></i>
+        <span class="icon"><svg><use href="#svg-toc"></use></svg></span>
       </label>
     </div>
   </header>
@@ -192,7 +185,6 @@
     <div class="sidebar-container">
       
       <div class="sidebar-sticky"><a class="sidebar-brand" href="../index.html">
-  
   
   <span class="sidebar-brand-text">git-dag</span>
   
@@ -205,7 +197,7 @@
   <ul class="current">
 <li class="toctree-l1"><a class="reference internal" href="../install.html">Install</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../quickstart.html">Quickstart</a></li>
-<li class="toctree-l1 has-children"><a class="reference internal" href="../examples.html">Examples</a><input class="toctree-checkbox" id="toctree-checkbox-1" name="toctree-checkbox-1" role="switch" type="checkbox"/><label for="toctree-checkbox-1"><div class="visually-hidden">Toggle navigation of Examples</div><i class="icon"><svg><use href="#svg-arrow-right"></use></svg></i></label><ul>
+<li class="toctree-l1 has-children"><a class="reference internal" href="../examples.html">Examples</a><input aria-label="Toggle navigation of Examples" class="toctree-checkbox" id="toctree-checkbox-1" name="toctree-checkbox-1" role="switch" type="checkbox"/><label for="toctree-checkbox-1"><span class="icon"><svg><use href="#svg-arrow-right"></use></svg></span></label><ul>
 <li class="toctree-l2"><a class="reference internal" href="../example_revisions_and_ranges.html">Revisions and ranges</a></li>
 <li class="toctree-l2"><a class="reference internal" href="../example_rebase_onto.html">Rebase <code class="docutils literal notranslate"><span class="pre">--onto</span></code></a></li>
 <li class="toctree-l2"><a class="reference internal" href="../example_fetch_merge_rebase.html">Fetch &amp; merge or rebase</a></li>
@@ -213,15 +205,15 @@
 </ul>
 </li>
 <li class="toctree-l1"><a class="reference internal" href="../cli.html">Command-line interface</a></li>
-<li class="toctree-l1 current has-children"><a class="reference internal" href="../code_docs.html">Code</a><input checked="" class="toctree-checkbox" id="toctree-checkbox-2" name="toctree-checkbox-2" role="switch" type="checkbox"/><label for="toctree-checkbox-2"><div class="visually-hidden">Toggle navigation of Code</div><i class="icon"><svg><use href="#svg-arrow-right"></use></svg></i></label><ul class="current">
-<li class="toctree-l2 has-children"><a class="reference internal" href="git_dag.cli.html">git_dag.cli</a><input class="toctree-checkbox" id="toctree-checkbox-3" name="toctree-checkbox-3" role="switch" type="checkbox"/><label for="toctree-checkbox-3"><div class="visually-hidden">Toggle navigation of git_dag.cli</div><i class="icon"><svg><use href="#svg-arrow-right"></use></svg></i></label><ul>
+<li class="toctree-l1 current has-children"><a class="reference internal" href="../code_docs.html">Code</a><input aria-label="Toggle navigation of Code" checked="" class="toctree-checkbox" id="toctree-checkbox-2" name="toctree-checkbox-2" role="switch" type="checkbox"/><label for="toctree-checkbox-2"><span class="icon"><svg><use href="#svg-arrow-right"></use></svg></span></label><ul class="current">
+<li class="toctree-l2 has-children"><a class="reference internal" href="git_dag.cli.html">git_dag.cli</a><input aria-label="Toggle navigation of git_dag.cli" class="toctree-checkbox" id="toctree-checkbox-3" name="toctree-checkbox-3" role="switch" type="checkbox"/><label for="toctree-checkbox-3"><span class="icon"><svg><use href="#svg-arrow-right"></use></svg></span></label><ul>
 <li class="toctree-l3"><a class="reference internal" href="git_dag.cli.get_cla_parser.html">git_dag.cli.get_cla_parser</a></li>
 <li class="toctree-l3"><a class="reference internal" href="git_dag.cli.get_user_defined_cla.html">git_dag.cli.get_user_defined_cla</a></li>
 <li class="toctree-l3"><a class="reference internal" href="git_dag.cli.main.html">git_dag.cli.main</a></li>
 <li class="toctree-l3"><a class="reference internal" href="git_dag.cli.CustomArgparseNamespace.html">git_dag.cli.CustomArgparseNamespace</a></li>
 </ul>
 </li>
-<li class="toctree-l2 has-children"><a class="reference internal" href="git_dag.constants.html">git_dag.constants</a><input class="toctree-checkbox" id="toctree-checkbox-4" name="toctree-checkbox-4" role="switch" type="checkbox"/><label for="toctree-checkbox-4"><div class="visually-hidden">Toggle navigation of git_dag.constants</div><i class="icon"><svg><use href="#svg-arrow-right"></use></svg></i></label><ul>
+<li class="toctree-l2 has-children"><a class="reference internal" href="git_dag.constants.html">git_dag.constants</a><input aria-label="Toggle navigation of git_dag.constants" class="toctree-checkbox" id="toctree-checkbox-4" name="toctree-checkbox-4" role="switch" type="checkbox"/><label for="toctree-checkbox-4"><span class="icon"><svg><use href="#svg-arrow-right"></use></svg></span></label><ul>
 <li class="toctree-l3"><a class="reference internal" href="git_dag.constants.COMMIT_DATE.html">git_dag.constants.COMMIT_DATE</a></li>
 <li class="toctree-l3"><a class="reference internal" href="git_dag.constants.SHA_PATTERN.html">git_dag.constants.SHA_PATTERN</a></li>
 <li class="toctree-l3"><a class="reference internal" href="git_dag.constants.TAG_FORMAT_FIELDS.html">git_dag.constants.TAG_FORMAT_FIELDS</a></li>
@@ -232,7 +224,7 @@
 <li class="toctree-l3"><a class="reference internal" href="git_dag.constants.DagBackends.html">git_dag.constants.DagBackends</a></li>
 </ul>
 </li>
-<li class="toctree-l2 has-children"><a class="reference internal" href="git_dag.dag.html">git_dag.dag</a><input class="toctree-checkbox" id="toctree-checkbox-5" name="toctree-checkbox-5" role="switch" type="checkbox"/><label for="toctree-checkbox-5"><div class="visually-hidden">Toggle navigation of git_dag.dag</div><i class="icon"><svg><use href="#svg-arrow-right"></use></svg></i></label><ul>
+<li class="toctree-l2 has-children"><a class="reference internal" href="git_dag.dag.html">git_dag.dag</a><input aria-label="Toggle navigation of git_dag.dag" class="toctree-checkbox" id="toctree-checkbox-5" name="toctree-checkbox-5" role="switch" type="checkbox"/><label for="toctree-checkbox-5"><span class="icon"><svg><use href="#svg-arrow-right"></use></svg></span></label><ul>
 <li class="toctree-l3"><a class="reference internal" href="git_dag.dag.BranchHandlerMixin.html">git_dag.dag.BranchHandlerMixin</a></li>
 <li class="toctree-l3"><a class="reference internal" href="git_dag.dag.CommitHandlerMixin.html">git_dag.dag.CommitHandlerMixin</a></li>
 <li class="toctree-l3"><a class="reference internal" href="git_dag.dag.DagVisualizer.html">git_dag.dag.DagVisualizer</a></li>
@@ -243,7 +235,7 @@
 <li class="toctree-l3"><a class="reference internal" href="git_dag.dag.TreeBlobHandlerMixin.html">git_dag.dag.TreeBlobHandlerMixin</a></li>
 </ul>
 </li>
-<li class="toctree-l2 has-children"><a class="reference internal" href="git_dag.git_commands.html">git_dag.git_commands</a><input class="toctree-checkbox" id="toctree-checkbox-6" name="toctree-checkbox-6" role="switch" type="checkbox"/><label for="toctree-checkbox-6"><div class="visually-hidden">Toggle navigation of git_dag.git_commands</div><i class="icon"><svg><use href="#svg-arrow-right"></use></svg></i></label><ul>
+<li class="toctree-l2 has-children"><a class="reference internal" href="git_dag.git_commands.html">git_dag.git_commands</a><input aria-label="Toggle navigation of git_dag.git_commands" class="toctree-checkbox" id="toctree-checkbox-6" name="toctree-checkbox-6" role="switch" type="checkbox"/><label for="toctree-checkbox-6"><span class="icon"><svg><use href="#svg-arrow-right"></use></svg></span></label><ul>
 <li class="toctree-l3"><a class="reference internal" href="git_dag.git_commands.create_test_repo_and_reference_dot_file.html">git_dag.git_commands.create_test_repo_and_reference_dot_file</a></li>
 <li class="toctree-l3"><a class="reference internal" href="git_dag.git_commands.GitCommand.html">git_dag.git_commands.GitCommand</a></li>
 <li class="toctree-l3"><a class="reference internal" href="git_dag.git_commands.GitCommandBase.html">git_dag.git_commands.GitCommandBase</a></li>
@@ -251,35 +243,55 @@
 <li class="toctree-l3"><a class="reference internal" href="git_dag.git_commands.TestGitRepository.html">git_dag.git_commands.TestGitRepository</a></li>
 </ul>
 </li>
-<li class="toctree-l2 has-children"><a class="reference internal" href="git_dag.git_repository.html">git_dag.git_repository</a><input class="toctree-checkbox" id="toctree-checkbox-7" name="toctree-checkbox-7" role="switch" type="checkbox"/><label for="toctree-checkbox-7"><div class="visually-hidden">Toggle navigation of git_dag.git_repository</div><i class="icon"><svg><use href="#svg-arrow-right"></use></svg></i></label><ul>
+<li class="toctree-l2 has-children"><a class="reference internal" href="git_dag.git_repository.html">git_dag.git_repository</a><input aria-label="Toggle navigation of git_dag.git_repository" class="toctree-checkbox" id="toctree-checkbox-7" name="toctree-checkbox-7" role="switch" type="checkbox"/><label for="toctree-checkbox-7"><span class="icon"><svg><use href="#svg-arrow-right"></use></svg></span></label><ul>
 <li class="toctree-l3"><a class="reference internal" href="git_dag.git_repository.time_it.html">git_dag.git_repository.time_it</a></li>
 <li class="toctree-l3"><a class="reference internal" href="git_dag.git_repository.GitInspector.html">git_dag.git_repository.GitInspector</a></li>
 <li class="toctree-l3"><a class="reference internal" href="git_dag.git_repository.GitRepository.html">git_dag.git_repository.GitRepository</a></li>
 <li class="toctree-l3"><a class="reference internal" href="git_dag.git_repository.RegexParser.html">git_dag.git_repository.RegexParser</a></li>
 </ul>
 </li>
-<li class="toctree-l2 current has-children"><a class="reference internal" href="git_dag.git_objects.html">git_dag.git_objects</a><input checked="" class="toctree-checkbox" id="toctree-checkbox-8" name="toctree-checkbox-8" role="switch" type="checkbox"/><label for="toctree-checkbox-8"><div class="visually-hidden">Toggle navigation of git_dag.git_objects</div><i class="icon"><svg><use href="#svg-arrow-right"></use></svg></i></label><ul class="current">
+<li class="toctree-l2 current has-children"><a class="reference internal" href="git_dag.git_objects.html">git_dag.git_objects</a><input aria-label="Toggle navigation of git_dag.git_objects" checked="" class="toctree-checkbox" id="toctree-checkbox-8" name="toctree-checkbox-8" role="switch" type="checkbox"/><label for="toctree-checkbox-8"><span class="icon"><svg><use href="#svg-arrow-right"></use></svg></span></label><ul class="current">
 <li class="toctree-l3"><a class="reference internal" href="git_dag.git_objects.GitCommitRawDataType.html">git_dag.git_objects.GitCommitRawDataType</a></li>
 <li class="toctree-l3"><a class="reference internal" href="git_dag.git_objects.GitTreeRawDataType.html">git_dag.git_objects.GitTreeRawDataType</a></li>
 <li class="toctree-l3"><a class="reference internal" href="git_dag.git_objects.GitTagRawDataType.html">git_dag.git_objects.GitTagRawDataType</a></li>
+<li class="toctree-l3"><a class="reference internal" href="git_dag.git_objects.GitBlob.html">git_dag.git_objects.GitBlob</a></li>
+<li class="toctree-l3"><a class="reference internal" href="git_dag.git_objects.GitBranch.html">git_dag.git_objects.GitBranch</a></li>
+<li class="toctree-l3"><a class="reference internal" href="git_dag.git_objects.GitCommit.html">git_dag.git_objects.GitCommit</a></li>
+<li class="toctree-l3"><a class="reference internal" href="git_dag.git_objects.GitHead.html">git_dag.git_objects.GitHead</a></li>
+<li class="toctree-l3"><a class="reference internal" href="git_dag.git_objects.GitObject.html">git_dag.git_objects.GitObject</a></li>
 <li class="toctree-l3 current current-page"><a class="current reference internal" href="#">git_dag.git_objects.GitObjectKind</a></li>
+<li class="toctree-l3"><a class="reference internal" href="git_dag.git_objects.GitStash.html">git_dag.git_objects.GitStash</a></li>
+<li class="toctree-l3"><a class="reference internal" href="git_dag.git_objects.GitTag.html">git_dag.git_objects.GitTag</a></li>
+<li class="toctree-l3"><a class="reference internal" href="git_dag.git_objects.GitTagLightweight.html">git_dag.git_objects.GitTagLightweight</a></li>
+<li class="toctree-l3"><a class="reference internal" href="git_dag.git_objects.GitTree.html">git_dag.git_objects.GitTree</a></li>
 </ul>
 </li>
-<li class="toctree-l2 has-children"><a class="reference internal" href="git_dag.parameters.html">git_dag.parameters</a><input class="toctree-checkbox" id="toctree-checkbox-9" name="toctree-checkbox-9" role="switch" type="checkbox"/><label for="toctree-checkbox-9"><div class="visually-hidden">Toggle navigation of git_dag.parameters</div><i class="icon"><svg><use href="#svg-arrow-right"></use></svg></i></label><ul>
+<li class="toctree-l2 has-children"><a class="reference internal" href="git_dag.parameters.html">git_dag.parameters</a><input aria-label="Toggle navigation of git_dag.parameters" class="toctree-checkbox" id="toctree-checkbox-9" name="toctree-checkbox-9" role="switch" type="checkbox"/><label for="toctree-checkbox-9"><span class="icon"><svg><use href="#svg-arrow-right"></use></svg></span></label><ul>
 <li class="toctree-l3"><a class="reference internal" href="git_dag.parameters.CustomYamlDumper.html">git_dag.parameters.CustomYamlDumper</a></li>
+<li class="toctree-l3"><a class="reference internal" href="git_dag.parameters.LinksTemplates.html">git_dag.parameters.LinksTemplates</a></li>
+<li class="toctree-l3"><a class="reference internal" href="git_dag.parameters.Params.html">git_dag.parameters.Params</a></li>
+<li class="toctree-l3"><a class="reference internal" href="git_dag.parameters.ParamsBase.html">git_dag.parameters.ParamsBase</a></li>
+<li class="toctree-l3"><a class="reference internal" href="git_dag.parameters.ParamsDagEdge.html">git_dag.parameters.ParamsDagEdge</a></li>
+<li class="toctree-l3"><a class="reference internal" href="git_dag.parameters.ParamsDagGlobal.html">git_dag.parameters.ParamsDagGlobal</a></li>
+<li class="toctree-l3"><a class="reference internal" href="git_dag.parameters.ParamsDagNode.html">git_dag.parameters.ParamsDagNode</a></li>
+<li class="toctree-l3"><a class="reference internal" href="git_dag.parameters.ParamsDagNodeColors.html">git_dag.parameters.ParamsDagNodeColors</a></li>
+<li class="toctree-l3"><a class="reference internal" href="git_dag.parameters.ParamsLinks.html">git_dag.parameters.ParamsLinks</a></li>
+<li class="toctree-l3"><a class="reference internal" href="git_dag.parameters.ParamsMisc.html">git_dag.parameters.ParamsMisc</a></li>
+<li class="toctree-l3"><a class="reference internal" href="git_dag.parameters.ParamsPublic.html">git_dag.parameters.ParamsPublic</a></li>
+<li class="toctree-l3"><a class="reference internal" href="git_dag.parameters.ParamsStandaloneCluster.html">git_dag.parameters.ParamsStandaloneCluster</a></li>
 <li class="toctree-l3"><a class="reference internal" href="git_dag.parameters.context_ignore_config_file.html">git_dag.parameters.context_ignore_config_file</a></li>
 </ul>
 </li>
-<li class="toctree-l2 has-children"><a class="reference internal" href="git_dag.interfaces.dag_base.html">git_dag.interfaces.dag_base</a><input class="toctree-checkbox" id="toctree-checkbox-10" name="toctree-checkbox-10" role="switch" type="checkbox"/><label for="toctree-checkbox-10"><div class="visually-hidden">Toggle navigation of git_dag.interfaces.dag_base</div><i class="icon"><svg><use href="#svg-arrow-right"></use></svg></i></label><ul>
+<li class="toctree-l2 has-children"><a class="reference internal" href="git_dag.interfaces.dag_base.html">git_dag.interfaces.dag_base</a><input aria-label="Toggle navigation of git_dag.interfaces.dag_base" class="toctree-checkbox" id="toctree-checkbox-10" name="toctree-checkbox-10" role="switch" type="checkbox"/><label for="toctree-checkbox-10"><span class="icon"><svg><use href="#svg-arrow-right"></use></svg></span></label><ul>
 <li class="toctree-l3"><a class="reference internal" href="git_dag.interfaces.dag_base.DagBase.html">git_dag.interfaces.dag_base.DagBase</a></li>
 </ul>
 </li>
-<li class="toctree-l2 has-children"><a class="reference internal" href="git_dag.interfaces.graphviz.html">git_dag.interfaces.graphviz</a><input class="toctree-checkbox" id="toctree-checkbox-11" name="toctree-checkbox-11" role="switch" type="checkbox"/><label for="toctree-checkbox-11"><div class="visually-hidden">Toggle navigation of git_dag.interfaces.graphviz</div><i class="icon"><svg><use href="#svg-arrow-right"></use></svg></i></label><ul>
+<li class="toctree-l2 has-children"><a class="reference internal" href="git_dag.interfaces.graphviz.html">git_dag.interfaces.graphviz</a><input aria-label="Toggle navigation of git_dag.interfaces.graphviz" class="toctree-checkbox" id="toctree-checkbox-11" name="toctree-checkbox-11" role="switch" type="checkbox"/><label for="toctree-checkbox-11"><span class="icon"><svg><use href="#svg-arrow-right"></use></svg></span></label><ul>
 <li class="toctree-l3"><a class="reference internal" href="git_dag.interfaces.graphviz.handle_none.html">git_dag.interfaces.graphviz.handle_none</a></li>
 <li class="toctree-l3"><a class="reference internal" href="git_dag.interfaces.graphviz.DagGraphviz.html">git_dag.interfaces.graphviz.DagGraphviz</a></li>
 </ul>
 </li>
-<li class="toctree-l2 has-children"><a class="reference internal" href="git_dag.utils.html">git_dag.utils</a><input class="toctree-checkbox" id="toctree-checkbox-12" name="toctree-checkbox-12" role="switch" type="checkbox"/><label for="toctree-checkbox-12"><div class="visually-hidden">Toggle navigation of git_dag.utils</div><i class="icon"><svg><use href="#svg-arrow-right"></use></svg></i></label><ul>
+<li class="toctree-l2 has-children"><a class="reference internal" href="git_dag.utils.html">git_dag.utils</a><input aria-label="Toggle navigation of git_dag.utils" class="toctree-checkbox" id="toctree-checkbox-12" name="toctree-checkbox-12" role="switch" type="checkbox"/><label for="toctree-checkbox-12"><span class="icon"><svg><use href="#svg-arrow-right"></use></svg></span></label><ul>
 <li class="toctree-l3"><a class="reference internal" href="git_dag.utils.creator_timestamp_format.html">git_dag.utils.creator_timestamp_format</a></li>
 <li class="toctree-l3"><a class="reference internal" href="git_dag.utils.escape_decode.html">git_dag.utils.escape_decode</a></li>
 <li class="toctree-l3"><a class="reference internal" href="git_dag.utils.increase_date.html">git_dag.utils.increase_date</a></li>
@@ -316,8 +328,7 @@
   </a>
 </div>
 <div class="theme-toggle-container theme-toggle-content">
-            <button class="theme-toggle">
-              <div class="visually-hidden">Toggle Light / Dark / Auto color theme</div>
+            <button class="theme-toggle" aria-label="Toggle Light / Dark / Auto color theme">
               <svg class="theme-icon-when-auto-light"><use href="#svg-sun-with-moon"></use></svg>
               <svg class="theme-icon-when-auto-dark"><use href="#svg-moon-with-sun"></use></svg>
               <svg class="theme-icon-when-dark"><use href="#svg-moon"></use></svg>
@@ -325,8 +336,7 @@
             </button>
           </div>
           <label class="toc-overlay-icon toc-content-icon" for="__toc">
-            <div class="visually-hidden">Toggle table of contents sidebar</div>
-            <i class="icon"><svg><use href="#svg-toc"></use></svg></i>
+            <span class="icon"><svg><use href="#svg-toc"></use></svg></span>
           </label>
         </div>
         <article role="main" id="furo-main-content">
@@ -334,7 +344,7 @@
 <h1>git_dag.git_objects.GitObjectKind<a class="headerlink" href="#git-dag-git-objects-gitobjectkind" title="Link to this heading">¶</a></h1>
 <dl class="py class">
 <dt class="sig sig-object py" id="git_dag.git_objects.GitObjectKind">
-<em class="property"><span class="k"><span class="pre">class</span></span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">git_dag.git_objects.</span></span><span class="sig-name descname"><span class="pre">GitObjectKind</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="o"><span class="pre">*</span></span><span class="n"><span class="pre">values</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/git_dag/git_objects.html#GitObjectKind"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#git_dag.git_objects.GitObjectKind" title="Link to this definition">¶</a></dt>
+<span class="property"><span class="k"><span class="pre">class</span></span><span class="w"> </span></span><span class="sig-prename descclassname"><span class="pre">git_dag.git_objects.</span></span><span class="sig-name descname"><span class="pre">GitObjectKind</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="o"><span class="pre">*</span></span><span class="n"><span class="pre">values</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/git_dag/git_objects.html#GitObjectKind"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#git_dag.git_objects.GitObjectKind" title="Link to this definition">¶</a></dt>
 <dd><p>Bases: <code class="xref py py-class docutils literal notranslate"><span class="pre">str</span></code>, <code class="xref py py-class docutils literal notranslate"><span class="pre">Enum</span></code></p>
 <p>Git object kind/type.</p>
 <p class="rubric">Methods</p>
@@ -369,19 +379,19 @@
 <td><p>Return a centered string of length width.</p></td>
 </tr>
 <tr class="row-even"><td><p><a class="reference internal" href="#git_dag.git_objects.GitObjectKind.count" title="git_dag.git_objects.GitObjectKind.count"><code class="xref py py-obj docutils literal notranslate"><span class="pre">count</span></code></a></p></td>
-<td><p>S.count(sub[, start[, end]]) -&gt; int</p></td>
+<td><p>Return the number of non-overlapping occurrences of substring sub in string S[start:end].</p></td>
 </tr>
 <tr class="row-odd"><td><p><a class="reference internal" href="#git_dag.git_objects.GitObjectKind.expandtabs" title="git_dag.git_objects.GitObjectKind.expandtabs"><code class="xref py py-obj docutils literal notranslate"><span class="pre">expandtabs</span></code></a></p></td>
 <td><p>Return a copy where all tab characters are expanded using spaces.</p></td>
 </tr>
 <tr class="row-even"><td><p><a class="reference internal" href="#git_dag.git_objects.GitObjectKind.find" title="git_dag.git_objects.GitObjectKind.find"><code class="xref py py-obj docutils literal notranslate"><span class="pre">find</span></code></a></p></td>
-<td><p>S.find(sub[, start[, end]]) -&gt; int</p></td>
+<td><p>Return the lowest index in S where substring sub is found, such that sub is contained within S[start:end].</p></td>
 </tr>
 <tr class="row-odd"><td><p><a class="reference internal" href="#git_dag.git_objects.GitObjectKind.partition" title="git_dag.git_objects.GitObjectKind.partition"><code class="xref py py-obj docutils literal notranslate"><span class="pre">partition</span></code></a></p></td>
 <td><p>Partition the string into three parts using the given separator.</p></td>
 </tr>
 <tr class="row-even"><td><p><a class="reference internal" href="#git_dag.git_objects.GitObjectKind.index" title="git_dag.git_objects.GitObjectKind.index"><code class="xref py py-obj docutils literal notranslate"><span class="pre">index</span></code></a></p></td>
-<td><p>S.index(sub[, start[, end]]) -&gt; int</p></td>
+<td><p>Return the lowest index in S where substring sub is found, such that sub is contained within S[start:end].</p></td>
 </tr>
 <tr class="row-odd"><td><p><a class="reference internal" href="#git_dag.git_objects.GitObjectKind.ljust" title="git_dag.git_objects.GitObjectKind.ljust"><code class="xref py py-obj docutils literal notranslate"><span class="pre">ljust</span></code></a></p></td>
 <td><p>Return a left-justified string of length width.</p></td>
@@ -393,10 +403,10 @@
 <td><p>Return a copy of the string with leading whitespace removed.</p></td>
 </tr>
 <tr class="row-even"><td><p><a class="reference internal" href="#git_dag.git_objects.GitObjectKind.rfind" title="git_dag.git_objects.GitObjectKind.rfind"><code class="xref py py-obj docutils literal notranslate"><span class="pre">rfind</span></code></a></p></td>
-<td><p>S.rfind(sub[, start[, end]]) -&gt; int</p></td>
+<td><p>Return the highest index in S where substring sub is found, such that sub is contained within S[start:end].</p></td>
 </tr>
 <tr class="row-odd"><td><p><a class="reference internal" href="#git_dag.git_objects.GitObjectKind.rindex" title="git_dag.git_objects.GitObjectKind.rindex"><code class="xref py py-obj docutils literal notranslate"><span class="pre">rindex</span></code></a></p></td>
-<td><p>S.rindex(sub[, start[, end]]) -&gt; int</p></td>
+<td><p>Return the highest index in S where substring sub is found, such that sub is contained within S[start:end].</p></td>
 </tr>
 <tr class="row-even"><td><p><a class="reference internal" href="#git_dag.git_objects.GitObjectKind.rjust" title="git_dag.git_objects.GitObjectKind.rjust"><code class="xref py py-obj docutils literal notranslate"><span class="pre">rjust</span></code></a></p></td>
 <td><p>Return a right-justified string of length width.</p></td>
@@ -423,10 +433,10 @@
 <td><p>Return a copy of the string converted to uppercase.</p></td>
 </tr>
 <tr class="row-even"><td><p><a class="reference internal" href="#git_dag.git_objects.GitObjectKind.startswith" title="git_dag.git_objects.GitObjectKind.startswith"><code class="xref py py-obj docutils literal notranslate"><span class="pre">startswith</span></code></a></p></td>
-<td><p>S.startswith(prefix[, start[, end]]) -&gt; bool</p></td>
+<td><p>Return True if S starts with the specified prefix, False otherwise.</p></td>
 </tr>
 <tr class="row-odd"><td><p><a class="reference internal" href="#git_dag.git_objects.GitObjectKind.endswith" title="git_dag.git_objects.GitObjectKind.endswith"><code class="xref py py-obj docutils literal notranslate"><span class="pre">endswith</span></code></a></p></td>
-<td><p>S.endswith(suffix[, start[, end]]) -&gt; bool</p></td>
+<td><p>Return True if S ends with the specified suffix, False otherwise.</p></td>
 </tr>
 <tr class="row-even"><td><p><a class="reference internal" href="#git_dag.git_objects.GitObjectKind.removeprefix" title="git_dag.git_objects.GitObjectKind.removeprefix"><code class="xref py py-obj docutils literal notranslate"><span class="pre">removeprefix</span></code></a></p></td>
 <td><p>Return a str with the given prefix string removed if present.</p></td>
@@ -474,10 +484,10 @@
 <td><p>Pad a numeric string with zeros on the left, to fill a field of the given width.</p></td>
 </tr>
 <tr class="row-odd"><td><p><a class="reference internal" href="#git_dag.git_objects.GitObjectKind.format" title="git_dag.git_objects.GitObjectKind.format"><code class="xref py py-obj docutils literal notranslate"><span class="pre">format</span></code></a></p></td>
-<td><p>S.format(<a href="#id1"><span class="problematic" id="id2">*</span></a>args, <a href="#id3"><span class="problematic" id="id4">**</span></a>kwargs) -&gt; str</p></td>
+<td><p>Return a formatted version of S, using substitutions from args and kwargs.</p></td>
 </tr>
 <tr class="row-even"><td><p><a class="reference internal" href="#git_dag.git_objects.GitObjectKind.format_map" title="git_dag.git_objects.GitObjectKind.format_map"><code class="xref py py-obj docutils literal notranslate"><span class="pre">format_map</span></code></a></p></td>
-<td><p>S.format_map(mapping) -&gt; str</p></td>
+<td><p>Return a formatted version of S, using substitutions from mapping.</p></td>
 </tr>
 <tr class="row-odd"><td><p><a class="reference internal" href="#git_dag.git_objects.GitObjectKind.maketrans" title="git_dag.git_objects.GitObjectKind.maketrans"><code class="xref py py-obj docutils literal notranslate"><span class="pre">maketrans</span></code></a></p></td>
 <td><p>Return a translation table usable for str.translate().</p></td>
@@ -736,7 +746,7 @@ The result is returned as a new string.</p>
 
 <dl class="py method">
 <dt class="sig sig-object py" id="git_dag.git_objects.GitObjectKind.maketrans">
-<em class="property"><span class="k"><span class="pre">static</span></span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">maketrans</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#git_dag.git_objects.GitObjectKind.maketrans" title="Link to this definition">¶</a></dt>
+<span class="property"><span class="k"><span class="pre">static</span></span><span class="w"> </span></span><span class="sig-name descname"><span class="pre">maketrans</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#git_dag.git_objects.GitObjectKind.maketrans" title="Link to this definition">¶</a></dt>
 <dd><p>Return a translation table usable for str.translate().</p>
 <p>If there is only one argument, it must be a dictionary mapping Unicode
 ordinals (integers) or characters to Unicode ordinals, strings or None.
@@ -950,23 +960,23 @@ left untouched.  Characters mapped to None are deleted.</p>
       <footer>
         
         <div class="related-pages">
-          <a class="next-page" href="git_dag.parameters.html">
+          <a class="next-page" href="git_dag.git_objects.GitStash.html">
               <div class="page-info">
                 <div class="context">
                   <span>Next</span>
                 </div>
-                <div class="title">git_dag.parameters</div>
+                <div class="title">git_dag.git_objects.GitStash</div>
               </div>
               <svg class="furo-related-icon"><use href="#svg-arrow-right"></use></svg>
             </a>
-          <a class="prev-page" href="git_dag.git_objects.GitTagRawDataType.html">
+          <a class="prev-page" href="git_dag.git_objects.GitObject.html">
               <svg class="furo-related-icon"><use href="#svg-arrow-right"></use></svg>
               <div class="page-info">
                 <div class="context">
                   <span>Previous</span>
                 </div>
                 
-                <div class="title">git_dag.git_objects.GitTagRawDataType</div>
+                <div class="title">git_dag.git_objects.GitObject</div>
                 
               </div>
             </a>
@@ -1064,10 +1074,10 @@ left untouched.  Characters mapped to None are deleted.</p>
       
     </aside>
   </div>
-</div><script src="../_static/documentation_options.js?v=fd0388e1"></script>
-    <script src="../_static/doctools.js?v=9bcbadda"></script>
-    <script src="../_static/sphinx_highlight.js?v=dc90522c"></script>
-    <script src="../_static/scripts/furo.js?v=5fa4622c"></script>
+</div><script src="../_static/documentation_options.js?v=fba3305f"></script>
+    <script src="../_static/doctools.js?v=fd6eb6e6"></script>
+    <script src="../_static/sphinx_highlight.js?v=6ffebe34"></script>
+    <script src="../_static/scripts/furo.js?v=46bd48cc"></script>
     <script src="../_static/clipboard.min.js?v=a7894cd8"></script>
     <script src="../_static/copybutton.js?v=f281be69"></script>
     <script src="../_static/tabs.js?v=3ee01567"></script>

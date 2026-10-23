@@ -29,7 +29,16 @@
       :template: custom-class-template.rst
       :nosignatures:
    
+      GitBlob
+      GitBranch
+      GitCommit
+      GitHead
+      GitObject
       GitObjectKind
+      GitStash
+      GitTag
+      GitTagLightweight
+      GitTree
    
    
 

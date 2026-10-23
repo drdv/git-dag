@@ -1,0 +1,61 @@
+git\_dag.git\_objects.GitBranch
+===============================
+
+.. currentmodule:: git_dag.git_objects
+
+.. autoclass:: GitBranch
+   :members:
+   :show-inheritance:
+   :inherited-members:
+   :special-members: __call__, __add__, __mul__
+
+   
+   
+   .. rubric:: Methods
+
+   .. autosummary::
+      :nosignatures:
+   
+      ~GitBranch.construct
+      ~GitBranch.copy
+      ~GitBranch.dict
+      ~GitBranch.from_orm
+      ~GitBranch.json
+      ~GitBranch.model_construct
+      ~GitBranch.model_copy
+      ~GitBranch.model_dump
+      ~GitBranch.model_dump_json
+      ~GitBranch.model_json_schema
+      ~GitBranch.model_parametrized_name
+      ~GitBranch.model_post_init
+      ~GitBranch.model_rebuild
+      ~GitBranch.model_validate
+      ~GitBranch.model_validate_json
+      ~GitBranch.model_validate_strings
+      ~GitBranch.parse_file
+      ~GitBranch.parse_obj
+      ~GitBranch.parse_raw
+      ~GitBranch.schema
+      ~GitBranch.schema_json
+      ~GitBranch.update_forward_refs
+      ~GitBranch.validate
+   
+   
+
+   
+   
+   .. rubric:: Attributes
+
+   .. autosummary::
+   
+      ~GitBranch.model_computed_fields
+      ~GitBranch.model_config
+      ~GitBranch.model_extra
+      ~GitBranch.model_fields
+      ~GitBranch.model_fields_set
+      ~GitBranch.name
+      ~GitBranch.commit
+      ~GitBranch.is_local
+      ~GitBranch.tracking
+   
+   

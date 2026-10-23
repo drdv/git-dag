@@ -1,0 +1,68 @@
+git\_dag.git\_objects.GitTag
+============================
+
+.. currentmodule:: git_dag.git_objects
+
+.. autoclass:: GitTag
+   :members:
+   :show-inheritance:
+   :inherited-members:
+   :special-members: __call__, __add__, __mul__
+
+   
+   
+   .. rubric:: Methods
+
+   .. autosummary::
+      :nosignatures:
+   
+      ~GitTag.construct
+      ~GitTag.copy
+      ~GitTag.dict
+      ~GitTag.from_orm
+      ~GitTag.json
+      ~GitTag.model_construct
+      ~GitTag.model_copy
+      ~GitTag.model_dump
+      ~GitTag.model_dump_json
+      ~GitTag.model_json_schema
+      ~GitTag.model_parametrized_name
+      ~GitTag.model_post_init
+      ~GitTag.model_rebuild
+      ~GitTag.model_validate
+      ~GitTag.model_validate_json
+      ~GitTag.model_validate_strings
+      ~GitTag.parse_file
+      ~GitTag.parse_obj
+      ~GitTag.parse_raw
+      ~GitTag.schema
+      ~GitTag.schema_json
+      ~GitTag.update_forward_refs
+      ~GitTag.validate
+   
+   
+
+   
+   
+   .. rubric:: Attributes
+
+   .. autosummary::
+   
+      ~GitTag.anchor
+      ~GitTag.is_ready
+      ~GitTag.kind
+      ~GitTag.message
+      ~GitTag.model_computed_fields
+      ~GitTag.model_config
+      ~GitTag.model_extra
+      ~GitTag.model_fields
+      ~GitTag.model_fields_set
+      ~GitTag.tagger
+      ~GitTag.tagger_date
+      ~GitTag.tagger_email
+      ~GitTag.name
+      ~GitTag.raw_data
+      ~GitTag.is_deleted
+      ~GitTag.sha
+   
+   

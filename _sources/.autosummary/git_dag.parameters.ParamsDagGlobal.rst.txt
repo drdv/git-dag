@@ -1,0 +1,64 @@
+git\_dag.parameters.ParamsDagGlobal
+===================================
+
+.. currentmodule:: git_dag.parameters
+
+.. autoclass:: ParamsDagGlobal
+   :members:
+   :show-inheritance:
+   :inherited-members:
+   :special-members: __call__, __add__, __mul__
+
+   
+   
+   .. rubric:: Methods
+
+   .. autosummary::
+      :nosignatures:
+   
+      ~ParamsDagGlobal.construct
+      ~ParamsDagGlobal.copy
+      ~ParamsDagGlobal.dict
+      ~ParamsDagGlobal.from_orm
+      ~ParamsDagGlobal.json
+      ~ParamsDagGlobal.model_construct
+      ~ParamsDagGlobal.model_copy
+      ~ParamsDagGlobal.model_dump
+      ~ParamsDagGlobal.model_dump_json
+      ~ParamsDagGlobal.model_json_schema
+      ~ParamsDagGlobal.model_parametrized_name
+      ~ParamsDagGlobal.model_post_init
+      ~ParamsDagGlobal.model_rebuild
+      ~ParamsDagGlobal.model_validate
+      ~ParamsDagGlobal.model_validate_json
+      ~ParamsDagGlobal.model_validate_strings
+      ~ParamsDagGlobal.parse_file
+      ~ParamsDagGlobal.parse_obj
+      ~ParamsDagGlobal.parse_raw
+      ~ParamsDagGlobal.schema
+      ~ParamsDagGlobal.schema_json
+      ~ParamsDagGlobal.section_in_config
+      ~ParamsDagGlobal.set_defaults_values
+      ~ParamsDagGlobal.set_ignore_config_file
+      ~ParamsDagGlobal.update_forward_refs
+      ~ParamsDagGlobal.validate
+   
+   
+
+   
+   
+   .. rubric:: Attributes
+
+   .. autosummary::
+   
+      ~ParamsDagGlobal.ignore_config_file
+      ~ParamsDagGlobal.model_computed_fields
+      ~ParamsDagGlobal.model_config
+      ~ParamsDagGlobal.model_extra
+      ~ParamsDagGlobal.model_fields
+      ~ParamsDagGlobal.model_fields_set
+      ~ParamsDagGlobal.rankdir
+      ~ParamsDagGlobal.dpi
+      ~ParamsDagGlobal.bgcolor
+   
+   

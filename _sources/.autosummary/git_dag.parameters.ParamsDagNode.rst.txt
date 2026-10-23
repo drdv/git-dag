@@ -1,0 +1,67 @@
+git\_dag.parameters.ParamsDagNode
+=================================
+
+.. currentmodule:: git_dag.parameters
+
+.. autoclass:: ParamsDagNode
+   :members:
+   :show-inheritance:
+   :inherited-members:
+   :special-members: __call__, __add__, __mul__
+
+   
+   
+   .. rubric:: Methods
+
+   .. autosummary::
+      :nosignatures:
+   
+      ~ParamsDagNode.construct
+      ~ParamsDagNode.copy
+      ~ParamsDagNode.dict
+      ~ParamsDagNode.from_orm
+      ~ParamsDagNode.json
+      ~ParamsDagNode.model_construct
+      ~ParamsDagNode.model_copy
+      ~ParamsDagNode.model_dump
+      ~ParamsDagNode.model_dump_json
+      ~ParamsDagNode.model_json_schema
+      ~ParamsDagNode.model_parametrized_name
+      ~ParamsDagNode.model_post_init
+      ~ParamsDagNode.model_rebuild
+      ~ParamsDagNode.model_validate
+      ~ParamsDagNode.model_validate_json
+      ~ParamsDagNode.model_validate_strings
+      ~ParamsDagNode.parse_file
+      ~ParamsDagNode.parse_obj
+      ~ParamsDagNode.parse_raw
+      ~ParamsDagNode.schema
+      ~ParamsDagNode.schema_json
+      ~ParamsDagNode.section_in_config
+      ~ParamsDagNode.set_defaults_values
+      ~ParamsDagNode.set_ignore_config_file
+      ~ParamsDagNode.update_forward_refs
+      ~ParamsDagNode.validate
+   
+   
+
+   
+   
+   .. rubric:: Attributes
+
+   .. autosummary::
+   
+      ~ParamsDagNode.ignore_config_file
+      ~ParamsDagNode.model_computed_fields
+      ~ParamsDagNode.model_config
+      ~ParamsDagNode.model_extra
+      ~ParamsDagNode.model_fields
+      ~ParamsDagNode.model_fields_set
+      ~ParamsDagNode.shape
+      ~ParamsDagNode.style
+      ~ParamsDagNode.margin
+      ~ParamsDagNode.width
+      ~ParamsDagNode.height
+      ~ParamsDagNode.fontname
+   
+   

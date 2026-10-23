@@ -1,0 +1,61 @@
+git\_dag.git\_objects.GitHead
+=============================
+
+.. currentmodule:: git_dag.git_objects
+
+.. autoclass:: GitHead
+   :members:
+   :show-inheritance:
+   :inherited-members:
+   :special-members: __call__, __add__, __mul__
+
+   
+   
+   .. rubric:: Methods
+
+   .. autosummary::
+      :nosignatures:
+   
+      ~GitHead.construct
+      ~GitHead.copy
+      ~GitHead.dict
+      ~GitHead.from_orm
+      ~GitHead.json
+      ~GitHead.model_construct
+      ~GitHead.model_copy
+      ~GitHead.model_dump
+      ~GitHead.model_dump_json
+      ~GitHead.model_json_schema
+      ~GitHead.model_parametrized_name
+      ~GitHead.model_post_init
+      ~GitHead.model_rebuild
+      ~GitHead.model_validate
+      ~GitHead.model_validate_json
+      ~GitHead.model_validate_strings
+      ~GitHead.parse_file
+      ~GitHead.parse_obj
+      ~GitHead.parse_raw
+      ~GitHead.schema
+      ~GitHead.schema_json
+      ~GitHead.update_forward_refs
+      ~GitHead.validate
+   
+   
+
+   
+   
+   .. rubric:: Attributes
+
+   .. autosummary::
+   
+      ~GitHead.is_defined
+      ~GitHead.is_detached
+      ~GitHead.model_computed_fields
+      ~GitHead.model_config
+      ~GitHead.model_extra
+      ~GitHead.model_fields
+      ~GitHead.model_fields_set
+      ~GitHead.commit
+      ~GitHead.branch
+   
+   

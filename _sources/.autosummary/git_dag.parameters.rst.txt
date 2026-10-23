@@ -21,6 +21,17 @@
       :nosignatures:
    
       CustomYamlDumper
+      LinksTemplates
+      Params
+      ParamsBase
+      ParamsDagEdge
+      ParamsDagGlobal
+      ParamsDagNode
+      ParamsDagNodeColors
+      ParamsLinks
+      ParamsMisc
+      ParamsPublic
+      ParamsStandaloneCluster
       context_ignore_config_file
    
    

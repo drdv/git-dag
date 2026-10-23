@@ -117,14 +117,12 @@
 <span class="line-precise" title="No Anys on this line!">    git = GitCommandMutate(git_repository_empty)</span>
 <span class="line-empty" title="No Anys on this line!"></span>
 <span class="line-precise" title="Any Types on this line: 
-Omitted Generics (x6)
-Explicit (x5)">    with pytest.raises(ValueError, match="Unsupported message type."):</span>
+Omitted Generics (x4)">    with pytest.raises(ValueError, match="Unsupported message type."):</span>
 <span class="line-precise" title="Any Types on this line: 
 Omitted Generics (x3)">        git.cm(set(["a", "b"]))  # type: ignore[arg-type]</span>
 <span class="line-empty" title="No Anys on this line!"></span>
 <span class="line-precise" title="Any Types on this line: 
-Omitted Generics (x6)
-Explicit (x5)">    with pytest.raises(ValueError, match="Cannot add files with multiple commits."):</span>
+Omitted Generics (x4)">    with pytest.raises(ValueError, match="Cannot add files with multiple commits."):</span>
 <span class="line-precise" title="No Anys on this line!">        git.cm(["a", "b"], {"filename": "file content"})</span>
 <span class="line-empty" title="No Anys on this line!"></span>
 <span class="line-empty" title="No Anys on this line!"></span>
@@ -132,8 +130,7 @@ Explicit (x5)">    with pytest.raises(ValueError, match="Cannot add files with m
 <span class="line-precise" title="No Anys on this line!">    git = GitCommandMutate(git_repository_empty)</span>
 <span class="line-empty" title="No Anys on this line!"></span>
 <span class="line-precise" title="Any Types on this line: 
-Omitted Generics (x6)
-Explicit (x5)">    with pytest.raises(</span>
+Omitted Generics (x4)">    with pytest.raises(</span>
 <span class="line-precise" title="No Anys on this line!">        ValueError,</span>
 <span class="line-precise" title="No Anys on this line!">        match="At most one of create and delete can be True.",</span>
 <span class="line-empty" title="No Anys on this line!">    ):</span>
@@ -144,8 +141,7 @@ Explicit (x5)">    with pytest.raises(</span>
 <span class="line-precise" title="No Anys on this line!">    git = GitCommandMutate(git_repository_empty)</span>
 <span class="line-empty" title="No Anys on this line!"></span>
 <span class="line-precise" title="Any Types on this line: 
-Omitted Generics (x6)
-Explicit (x5)">    with pytest.raises(</span>
+Omitted Generics (x4)">    with pytest.raises(</span>
 <span class="line-precise" title="No Anys on this line!">        ValueError,</span>
 <span class="line-precise" title="No Anys on this line!">        match="When delete is True, message should be None.",</span>
 <span class="line-empty" title="No Anys on this line!">    ):</span>
@@ -157,8 +153,7 @@ Explicit (x5)">    with pytest.raises(</span>
 <span class="line-precise" title="No Anys on this line!">    tar_file_name = repo_path / "tmp.tar.gz"</span>
 <span class="line-empty" title="No Anys on this line!"></span>
 <span class="line-precise" title="Any Types on this line: 
-Omitted Generics (x6)
-Explicit (x5)">    with pytest.raises(</span>
+Omitted Generics (x4)">    with pytest.raises(</span>
 <span class="line-precise" title="No Anys on this line!">        ValueError,</span>
 <span class="line-precise" title="No Anys on this line!">        match="Unknown repository label: missing-repo-name",</span>
 <span class="line-empty" title="No Anys on this line!">    ):</span>
@@ -196,13 +191,11 @@ Explicit (x1)">    TestGitRepository.create(</span>
 <span class="line-precise" title="No Anys on this line!">    git.run_general("crazy-command-run", expected_stderr="crazy-command-run")</span>
 <span class="line-empty" title="No Anys on this line!"></span>
 <span class="line-precise" title="Any Types on this line: 
-Omitted Generics (x6)
-Explicit (x5)">    with pytest.raises(RuntimeError):</span>
+Omitted Generics (x4)">    with pytest.raises(RuntimeError):</span>
 <span class="line-precise" title="No Anys on this line!">        git.run_general("crazy-command-run")</span>
 <span class="line-empty" title="No Anys on this line!"></span>
 <span class="line-precise" title="Any Types on this line: 
-Omitted Generics (x6)
-Explicit (x5)">    with pytest.raises(RuntimeError):</span>
+Omitted Generics (x4)">    with pytest.raises(RuntimeError):</span>
 <span class="line-precise" title="No Anys on this line!">        git.run_general("crazy-command-run", expected_stderr="not matchd")</span>
 </pre></td>
 </tr></tbody>

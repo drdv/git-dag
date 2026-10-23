@@ -485,26 +485,21 @@ Omitted Generics (x2)">    def set_defaults_values(self) -&gt; Self:</span>
 <span class="line-imprecise" title="Any Types on this line: 
 Omitted Generics (x1)">        if not self.ignore_config_file and CONFIG_FILE.is_file():</span>
 <span class="line-precise" title="Any Types on this line: 
-Unimported (x7)
 Explicit (x1)">            with open(CONFIG_FILE, "r", encoding="utf-8") as h:</span>
-<span class="line-any" title="Any Types on this line: 
-Explicit (x3)">                params_from_config_file = yaml.safe_load(h)</span>
+<span class="line-precise" title="No Anys on this line!">                params_from_config_file = yaml.safe_load(h)</span>
 <span class="line-empty" title="No Anys on this line!"></span>
-<span class="line-any" title="Any Types on this line: 
-Omitted Generics (x1)
-Explicit (x1)">            if self.section_in_config() in params_from_config_file:</span>
-<span class="line-any" title="Any Types on this line: 
-Explicit (x3)
+<span class="line-imprecise" title="Any Types on this line: 
+Omitted Generics (x1)">            if self.section_in_config() in params_from_config_file:</span>
+<span class="line-imprecise" title="Any Types on this line: 
 Omitted Generics (x1)">                section_params = params_from_config_file[self.section_in_config()]</span>
 <span class="line-imprecise" title="Any Types on this line: 
 Explicit (x6)
 Omitted Generics (x1)">                fields_defined_by_user = self.model_dump(exclude_unset=True)</span>
+<span class="line-precise" title="No Anys on this line!">                for key, value in section_params.items():</span>
+<span class="line-imprecise" title="Any Types on this line: 
+Explicit (x1)">                    if key not in fields_defined_by_user:</span>
 <span class="line-any" title="Any Types on this line: 
-Explicit (x5)">                for key, value in section_params.items():</span>
-<span class="line-any" title="Any Types on this line: 
-Explicit (x2)">                    if key not in fields_defined_by_user:</span>
-<span class="line-any" title="Any Types on this line: 
-Explicit (x3)
+Explicit (x1)
 Omitted Generics (x1)">                        setattr(self, key, value)</span>
 <span class="line-empty" title="No Anys on this line!"></span>
 <span class="line-imprecise" title="Any Types on this line: 
@@ -733,30 +728,30 @@ Omitted Generics (x1)">        return self</span>
 <span class="line-precise" title="No Anys on this line!">    model_config = ConfigDict(extra="forbid")</span>
 <span class="line-empty" title="No Anys on this line!"></span>
 <span class="line-precise" title="Any Types on this line: 
-Explicit (x7)
+Explicit (x21)
 Omitted Generics (x5)">    public: ParamsPublic = Field(default_factory=ParamsPublic)</span>
 <span class="line-precise" title="Any Types on this line: 
-Explicit (x7)
+Explicit (x21)
 Omitted Generics (x5)">    dag_global: ParamsDagGlobal = Field(default_factory=ParamsDagGlobal)</span>
 <span class="line-precise" title="Any Types on this line: 
-Explicit (x7)
+Explicit (x21)
 Omitted Generics (x5)">    dag_node: ParamsDagNode = Field(default_factory=ParamsDagNode)</span>
 <span class="line-precise" title="Any Types on this line: 
-Explicit (x7)
+Explicit (x21)
 Omitted Generics (x5)">    dag_edge: ParamsDagEdge = Field(default_factory=ParamsDagEdge)</span>
 <span class="line-precise" title="Any Types on this line: 
-Explicit (x7)
+Explicit (x21)
 Omitted Generics (x5)">    dag_node_colors: ParamsDagNodeColors = Field(default_factory=ParamsDagNodeColors)</span>
 <span class="line-precise" title="Any Types on this line: 
-Explicit (x7)
+Explicit (x21)
 Omitted Generics (x5)">    standalone_cluster: ParamsStandaloneCluster = Field(</span>
 <span class="line-precise" title="No Anys on this line!">        default_factory=ParamsStandaloneCluster</span>
 <span class="line-empty" title="No Anys on this line!">    )</span>
 <span class="line-precise" title="Any Types on this line: 
-Explicit (x7)
+Explicit (x21)
 Omitted Generics (x5)">    links: ParamsLinks = Field(default_factory=ParamsLinks)</span>
 <span class="line-precise" title="Any Types on this line: 
-Explicit (x7)
+Explicit (x21)
 Omitted Generics (x5)">    misc: ParamsMisc = Field(default_factory=ParamsMisc)</span>
 <span class="line-empty" title="No Anys on this line!"></span>
 <span class="line-empty" title="No Anys on this line!">    @staticmethod</span>
@@ -775,16 +770,13 @@ Omitted Generics (x5)">    misc: ParamsMisc = Field(default_factory=ParamsMisc)<
 <span class="line-empty" title="No Anys on this line!">        """Create a config file from the parameters in the current instance."""</span>
 <span class="line-precise" title="No Anys on this line!">        if not CONFIG_FILE.is_file():</span>
 <span class="line-precise" title="Any Types on this line: 
-Unimported (x7)
 Explicit (x1)">            with open(CONFIG_FILE, "w", encoding="utf-8") as h:</span>
 <span class="line-precise" title="Any Types on this line: 
-Explicit (x4)
 Unannotated (x3)">                yaml.dump(</span>
 <span class="line-imprecise" title="Any Types on this line: 
 Explicit (x5)">                    self.model_dump(),</span>
 <span class="line-precise" title="No Anys on this line!">                    h,</span>
-<span class="line-precise" title="Any Types on this line: 
-Explicit (x1)">                    Dumper=CustomYamlDumper,</span>
+<span class="line-precise" title="No Anys on this line!">                    Dumper=CustomYamlDumper,</span>
 <span class="line-precise" title="No Anys on this line!">                    sort_keys=False,</span>
 <span class="line-empty" title="No Anys on this line!">                )</span>
 <span class="line-precise" title="No Anys on this line!">            print(f"Created config {CONFIG_FILE}.")</span>

@@ -748,7 +748,7 @@
 <span class="line-precise" title="No Anys on this line!">from .utils import creator_timestamp_format</span>
 <span class="line-empty" title="No Anys on this line!"></span>
 <span class="line-precise" title="Any Types on this line: 
-Omitted Generics (x8)">IG = itemgetter("sha", "kind")</span>
+Omitted Generics (x10)">IG = itemgetter("sha", "kind")</span>
 <span class="line-precise" title="No Anys on this line!">logging.basicConfig(level=logging.WARNING)</span>
 <span class="line-precise" title="No Anys on this line!">LOG = logging.getLogger(__name__)</span>
 <span class="line-empty" title="No Anys on this line!"></span>
@@ -924,7 +924,7 @@ Explicit (x1)">            "parents": parents,</span>
 <span class="line-precise" title="No Anys on this line!">        output = {}</span>
 <span class="line-precise" title="Any Types on this line: 
 Explicit (x9)
-Omitted Generics (x30)">        for pattern, string, label in zip(patterns, data, labels):</span>
+Omitted Generics (x37)">        for pattern, string, label in zip(patterns, data, labels):</span>
 <span class="line-precise" title="No Anys on this line!">            match = re.search(pattern, string)</span>
 <span class="line-precise" title="No Anys on this line!">            if match:</span>
 <span class="line-precise" title="No Anys on this line!">                output[label] = match.group(label)</span>
@@ -1079,7 +1079,7 @@ Explicit (x3)">        with multiprocessing.Pool() as pool:</span>
 <span class="line-precise" title="No Anys on this line!">                all_sha,</span>
 <span class="line-empty" title="No Anys on this line!">            )</span>
 <span class="line-precise" title="Any Types on this line: 
-Omitted Generics (x48)
+Omitted Generics (x65)
 Explicit (x9)">        return dict(zip(all_sha, object_file_content))</span>
 <span class="line-empty" title="No Anys on this line!"></span>
 <span class="line-precise" title="No Anys on this line!">    def _get_objects_info_parsed(self, sha: str, kind: str) -&gt; GitObject:</span>
@@ -1164,8 +1164,7 @@ Explicit (x1)">                *IG(RegexParser.parse_object_descriptor(object_de
 <span class="line-empty" title="No Anys on this line!">        return {</span>
 <span class="line-precise" title="No Anys on this line!">            obj.sha: obj</span>
 <span class="line-any" title="Any Types on this line: 
-Explicit (x3)
-Omitted Generics (x9)">            for obj in TypeAdapter(list[GitObjectAnnotated]).validate_python(</span>
+Explicit (x2)">            for obj in TypeAdapter(list[GitObjectAnnotated]).validate_python(</span>
 <span class="line-precise" title="No Anys on this line!">                self.objects_sha_kind</span>
 <span class="line-empty" title="No Anys on this line!">            )</span>
 <span class="line-empty" title="No Anys on this line!">        }</span>
@@ -1280,7 +1279,7 @@ Omitted Generics (x6)">    @time_it</span>
 <span class="line-precise" title="No Anys on this line!">        tags = {}</span>
 <span class="line-precise" title="No Anys on this line!">        for sha, obj in self.objects.items():</span>
 <span class="line-precise" title="No Anys on this line!">            match obj:</span>
-<span class="line-unanalyzed" title="No Anys on this line!">                case GitTag():</span>
+<span class="line-precise" title="No Anys on this line!">                case GitTag():</span>
 <span class="line-precise" title="No Anys on this line!">                    tags[sha] = obj</span>
 <span class="line-empty" title="No Anys on this line!"></span>
 <span class="line-precise" title="No Anys on this line!">        return tags</span>
@@ -1311,7 +1310,7 @@ Omitted Generics (x6)">    @time_it</span>
 <span class="line-precise" title="No Anys on this line!">        git_empty_tree_object_exists = False</span>
 <span class="line-precise" title="No Anys on this line!">        for obj in git_objects.values():</span>
 <span class="line-precise" title="No Anys on this line!">            match obj:</span>
-<span class="line-unanalyzed" title="No Anys on this line!">                case GitCommit():</span>
+<span class="line-precise" title="No Anys on this line!">                case GitCommit():</span>
 <span class="line-precise" title="No Anys on this line!">                    tree_key = cast(str, obj.raw_data["tree"])</span>
 <span class="line-precise" title="No Anys on this line!">                    parent_keys = cast(list[str], obj.raw_data["parents"])</span>
 <span class="line-empty" title="No Anys on this line!"></span>
@@ -1329,14 +1328,14 @@ Omitted Generics (x6)">    @time_it</span>
 <span class="line-precise" title="No Anys on this line!">                    except KeyError:</span>
 <span class="line-empty" title="No Anys on this line!">                        # the only way to be here is if the repo is cloned with --depth</span>
 <span class="line-precise" title="No Anys on this line!">                        obj.parents = []</span>
-<span class="line-unanalyzed" title="No Anys on this line!">                case GitTree():</span>
+<span class="line-precise" title="No Anys on this line!">                case GitTree():</span>
 <span class="line-precise" title="No Anys on this line!">                    obj.children = [</span>
 <span class="line-precise" title="No Anys on this line!">                        cast(GitTree | GitBlob, git_objects[child["sha"]])</span>
 <span class="line-precise" title="No Anys on this line!">                        for child in obj.raw_data</span>
 <span class="line-empty" title="No Anys on this line!">                    ]</span>
-<span class="line-unanalyzed" title="No Anys on this line!">                case GitTag():</span>
+<span class="line-precise" title="No Anys on this line!">                case GitTag():</span>
 <span class="line-precise" title="No Anys on this line!">                    obj.anchor = git_objects[obj.raw_data["anchor"]]</span>
-<span class="line-unanalyzed" title="No Anys on this line!">                case GitBlob():</span>
+<span class="line-precise" title="No Anys on this line!">                case GitBlob():</span>
 <span class="line-precise" title="No Anys on this line!">                    pass  # no need of post-processing</span>
 <span class="line-empty" title="No Anys on this line!"></span>
 <span class="line-empty" title="No Anys on this line!">        # add the empty tree if it was detected</span>

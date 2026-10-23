@@ -690,10 +690,10 @@ Explicit (x1)">            fillcolor=color,</span>
 <span class="line-empty" title="No Anys on this line!"></span>
 <span class="line-precise" title="No Anys on this line!">        for child in item.children:</span>
 <span class="line-precise" title="No Anys on this line!">            match child:</span>
-<span class="line-unanalyzed" title="No Anys on this line!">                case GitTree():</span>
+<span class="line-precise" title="No Anys on this line!">                case GitTree():</span>
 <span class="line-any" title="Any Types on this line: 
 Explicit (x3)">                    self.dag.edge(sha, child.sha)</span>
-<span class="line-unanalyzed" title="No Anys on this line!">                case GitBlob():</span>
+<span class="line-precise" title="No Anys on this line!">                case GitBlob():</span>
 <span class="line-precise" title="No Anys on this line!">                    if self.params.public.show_blobs:</span>
 <span class="line-any" title="Any Types on this line: 
 Explicit (x3)">                        self.dag.edge(sha, child.sha)</span>
@@ -936,7 +936,7 @@ Explicit (x3)">                    self.dag.edge(name, sha, style="dashed")</spa
 <span class="line-empty" title="No Anys on this line!"></span>
 <span class="line-empty" title="No Anys on this line!"></span>
 <span class="line-precise" title="Any Types on this line: 
-Omitted Generics (x6)">@dataclass</span>
+Omitted Generics (x4)">@dataclass</span>
 <span class="line-precise" title="No Anys on this line!">class DagVisualizer(</span>
 <span class="line-empty" title="No Anys on this line!">    CommitHandlerMixin,</span>
 <span class="line-empty" title="No Anys on this line!">    TreeBlobHandlerMixin,</span>
@@ -975,7 +975,6 @@ Unannotated (x7)">                    f"Unrecognised backend: {self.params.publi
 <span class="line-empty" title="No Anys on this line!">    @staticmethod</span>
 <span class="line-precise" title="No Anys on this line!">    def _embed_svg_in_html(filename: str) -&gt; None:</span>
 <span class="line-precise" title="Any Types on this line: 
-Unimported (x7)
 Explicit (x1)">        with open(</span>
 <span class="line-precise" title="No Anys on this line!">            "docs/sphinx/src/.static/js/svg-pan-zoom.min.js",</span>
 <span class="line-precise" title="No Anys on this line!">            "r",</span>
@@ -984,7 +983,6 @@ Explicit (x1)">        with open(</span>
 <span class="line-precise" title="No Anys on this line!">            svg_pan_zoom_js = h.read()</span>
 <span class="line-empty" title="No Anys on this line!"></span>
 <span class="line-precise" title="Any Types on this line: 
-Unimported (x7)
 Explicit (x1)">        with open(</span>
 <span class="line-precise" title="No Anys on this line!">            "docs/sphinx/src/.static/js/custom.js",</span>
 <span class="line-precise" title="No Anys on this line!">            "r",</span>
@@ -993,7 +991,6 @@ Explicit (x1)">        with open(</span>
 <span class="line-precise" title="No Anys on this line!">            custom_js = h.read()</span>
 <span class="line-empty" title="No Anys on this line!"></span>
 <span class="line-precise" title="Any Types on this line: 
-Unimported (x7)
 Explicit (x1)">        with open(filename + ".html", "w", encoding="utf-8") as h:</span>
 <span class="line-precise" title="No Anys on this line!">            h.write(</span>
 <span class="line-precise" title="No Anys on this line!">                HTML_EMBED_SVG.format(</span>
@@ -1022,7 +1019,6 @@ Explicit (x1)">    def show(self, xdg_open: bool = False) -&gt; Any:</span>
 <span class="line-empty" title="No Anys on this line!">        """</span>
 <span class="line-precise" title="No Anys on this line!">        if self.params.public.format == "gv":</span>
 <span class="line-precise" title="Any Types on this line: 
-Unimported (x7)
 Explicit (x1)">            with open(self.params.public.file, "w", encoding="utf-8") as h:</span>
 <span class="line-precise" title="No Anys on this line!">                h.write(self.dag.source())</span>
 <span class="line-empty" title="No Anys on this line!">        else:</span>
@@ -1031,7 +1027,7 @@ Explicit (x1)">            with open(self.params.public.file, "w", encoding="utf
 <span class="line-precise" title="No Anys on this line!">            filename_format = f"{self.params.public.file}.{self.params.public.format}"</span>
 <span class="line-precise" title="No Anys on this line!">            if xdg_open:  # pragma: no cover</span>
 <span class="line-precise" title="Any Types on this line: 
-Explicit (x13)">                subprocess.run(</span>
+Explicit (x7)">                subprocess.run(</span>
 <span class="line-precise" title="No Anys on this line!">                    f"xdg-open {filename_format}",</span>
 <span class="line-precise" title="No Anys on this line!">                    shell=True,</span>
 <span class="line-precise" title="No Anys on this line!">                    check=True,</span>
@@ -1055,17 +1051,17 @@ Explicit (x2)">        return self.dag.get()</span>
 <span class="line-precise" title="No Anys on this line!">            to_include = self._is_object_to_include(sha)</span>
 <span class="line-precise" title="No Anys on this line!">            not_reachable = sha not in self.repository.all_reachable_objects_sha</span>
 <span class="line-precise" title="No Anys on this line!">            match item:</span>
-<span class="line-unanalyzed" title="No Anys on this line!">                case GitTree():</span>
+<span class="line-precise" title="No Anys on this line!">                case GitTree():</span>
 <span class="line-precise" title="No Anys on this line!">                    if not_reachable and self.params.public.show_trees_standalone:</span>
 <span class="line-precise" title="No Anys on this line!">                        self._add_tree(sha, item, standalone=True)</span>
 <span class="line-precise" title="No Anys on this line!">                    elif to_include and self.params.public.show_trees:</span>
 <span class="line-precise" title="No Anys on this line!">                        self._add_tree(sha, item)</span>
-<span class="line-unanalyzed" title="No Anys on this line!">                case GitBlob():</span>
+<span class="line-precise" title="No Anys on this line!">                case GitBlob():</span>
 <span class="line-precise" title="No Anys on this line!">                    if not_reachable and self.params.public.show_blobs_standalone:</span>
 <span class="line-precise" title="No Anys on this line!">                        self._add_blob(sha, standalone=True)</span>
 <span class="line-precise" title="No Anys on this line!">                    elif to_include and self.params.public.show_blobs:</span>
 <span class="line-precise" title="No Anys on this line!">                        self._add_blob(sha)</span>
-<span class="line-unanalyzed" title="No Anys on this line!">                case GitCommit():</span>
+<span class="line-precise" title="No Anys on this line!">                case GitCommit():</span>
 <span class="line-precise" title="No Anys on this line!">                    self._add_commit(sha, item)</span>
 <span class="line-empty" title="No Anys on this line!"></span>
 <span class="line-empty" title="No Anys on this line!">        # no point in displaying HEAD if branches are not displayed</span>

@@ -1,0 +1,61 @@
+git\_dag.parameters.ParamsBase
+==============================
+
+.. currentmodule:: git_dag.parameters
+
+.. autoclass:: ParamsBase
+   :members:
+   :show-inheritance:
+   :inherited-members:
+   :special-members: __call__, __add__, __mul__
+
+   
+   
+   .. rubric:: Methods
+
+   .. autosummary::
+      :nosignatures:
+   
+      ~ParamsBase.construct
+      ~ParamsBase.copy
+      ~ParamsBase.dict
+      ~ParamsBase.from_orm
+      ~ParamsBase.json
+      ~ParamsBase.model_construct
+      ~ParamsBase.model_copy
+      ~ParamsBase.model_dump
+      ~ParamsBase.model_dump_json
+      ~ParamsBase.model_json_schema
+      ~ParamsBase.model_parametrized_name
+      ~ParamsBase.model_post_init
+      ~ParamsBase.model_rebuild
+      ~ParamsBase.model_validate
+      ~ParamsBase.model_validate_json
+      ~ParamsBase.model_validate_strings
+      ~ParamsBase.parse_file
+      ~ParamsBase.parse_obj
+      ~ParamsBase.parse_raw
+      ~ParamsBase.schema
+      ~ParamsBase.schema_json
+      ~ParamsBase.section_in_config
+      ~ParamsBase.set_defaults_values
+      ~ParamsBase.set_ignore_config_file
+      ~ParamsBase.update_forward_refs
+      ~ParamsBase.validate
+   
+   
+
+   
+   
+   .. rubric:: Attributes
+
+   .. autosummary::
+   
+      ~ParamsBase.ignore_config_file
+      ~ParamsBase.model_computed_fields
+      ~ParamsBase.model_config
+      ~ParamsBase.model_extra
+      ~ParamsBase.model_fields
+      ~ParamsBase.model_fields_set
+   
+   

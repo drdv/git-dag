@@ -1,0 +1,60 @@
+git\_dag.git\_objects.GitStash
+==============================
+
+.. currentmodule:: git_dag.git_objects
+
+.. autoclass:: GitStash
+   :members:
+   :show-inheritance:
+   :inherited-members:
+   :special-members: __call__, __add__, __mul__
+
+   
+   
+   .. rubric:: Methods
+
+   .. autosummary::
+      :nosignatures:
+   
+      ~GitStash.construct
+      ~GitStash.copy
+      ~GitStash.dict
+      ~GitStash.from_orm
+      ~GitStash.json
+      ~GitStash.model_construct
+      ~GitStash.model_copy
+      ~GitStash.model_dump
+      ~GitStash.model_dump_json
+      ~GitStash.model_json_schema
+      ~GitStash.model_parametrized_name
+      ~GitStash.model_post_init
+      ~GitStash.model_rebuild
+      ~GitStash.model_validate
+      ~GitStash.model_validate_json
+      ~GitStash.model_validate_strings
+      ~GitStash.parse_file
+      ~GitStash.parse_obj
+      ~GitStash.parse_raw
+      ~GitStash.schema
+      ~GitStash.schema_json
+      ~GitStash.update_forward_refs
+      ~GitStash.validate
+   
+   
+
+   
+   
+   .. rubric:: Attributes
+
+   .. autosummary::
+   
+      ~GitStash.model_computed_fields
+      ~GitStash.model_config
+      ~GitStash.model_extra
+      ~GitStash.model_fields
+      ~GitStash.model_fields_set
+      ~GitStash.index
+      ~GitStash.title
+      ~GitStash.commit
+   
+   

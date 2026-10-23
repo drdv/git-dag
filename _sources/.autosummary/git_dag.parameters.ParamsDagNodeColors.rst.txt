@@ -1,0 +1,76 @@
+git\_dag.parameters.ParamsDagNodeColors
+=======================================
+
+.. currentmodule:: git_dag.parameters
+
+.. autoclass:: ParamsDagNodeColors
+   :members:
+   :show-inheritance:
+   :inherited-members:
+   :special-members: __call__, __add__, __mul__
+
+   
+   
+   .. rubric:: Methods
+
+   .. autosummary::
+      :nosignatures:
+   
+      ~ParamsDagNodeColors.construct
+      ~ParamsDagNodeColors.copy
+      ~ParamsDagNodeColors.dict
+      ~ParamsDagNodeColors.from_orm
+      ~ParamsDagNodeColors.json
+      ~ParamsDagNodeColors.model_construct
+      ~ParamsDagNodeColors.model_copy
+      ~ParamsDagNodeColors.model_dump
+      ~ParamsDagNodeColors.model_dump_json
+      ~ParamsDagNodeColors.model_json_schema
+      ~ParamsDagNodeColors.model_parametrized_name
+      ~ParamsDagNodeColors.model_post_init
+      ~ParamsDagNodeColors.model_rebuild
+      ~ParamsDagNodeColors.model_validate
+      ~ParamsDagNodeColors.model_validate_json
+      ~ParamsDagNodeColors.model_validate_strings
+      ~ParamsDagNodeColors.parse_file
+      ~ParamsDagNodeColors.parse_obj
+      ~ParamsDagNodeColors.parse_raw
+      ~ParamsDagNodeColors.schema
+      ~ParamsDagNodeColors.schema_json
+      ~ParamsDagNodeColors.section_in_config
+      ~ParamsDagNodeColors.set_defaults_values
+      ~ParamsDagNodeColors.set_ignore_config_file
+      ~ParamsDagNodeColors.update_forward_refs
+      ~ParamsDagNodeColors.validate
+   
+   
+
+   
+   
+   .. rubric:: Attributes
+
+   .. autosummary::
+   
+      ~ParamsDagNodeColors.ignore_config_file
+      ~ParamsDagNodeColors.model_computed_fields
+      ~ParamsDagNodeColors.model_config
+      ~ParamsDagNodeColors.model_extra
+      ~ParamsDagNodeColors.model_fields
+      ~ParamsDagNodeColors.model_fields_set
+      ~ParamsDagNodeColors.commit
+      ~ParamsDagNodeColors.commit_unreachable
+      ~ParamsDagNodeColors.commit_in_range
+      ~ParamsDagNodeColors.tree
+      ~ParamsDagNodeColors.the_empty_tree
+      ~ParamsDagNodeColors.blob
+      ~ParamsDagNodeColors.tag
+      ~ParamsDagNodeColors.tag_deleted
+      ~ParamsDagNodeColors.tag_lw
+      ~ParamsDagNodeColors.head
+      ~ParamsDagNodeColors.local_branches
+      ~ParamsDagNodeColors.remote_branches
+      ~ParamsDagNodeColors.stash
+      ~ParamsDagNodeColors.notes
+      ~ParamsDagNodeColors.annotations
+   
+   

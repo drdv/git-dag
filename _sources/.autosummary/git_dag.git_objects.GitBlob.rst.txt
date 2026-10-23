@@ -1,0 +1,60 @@
+git\_dag.git\_objects.GitBlob
+=============================
+
+.. currentmodule:: git_dag.git_objects
+
+.. autoclass:: GitBlob
+   :members:
+   :show-inheritance:
+   :inherited-members:
+   :special-members: __call__, __add__, __mul__
+
+   
+   
+   .. rubric:: Methods
+
+   .. autosummary::
+      :nosignatures:
+   
+      ~GitBlob.construct
+      ~GitBlob.copy
+      ~GitBlob.dict
+      ~GitBlob.from_orm
+      ~GitBlob.json
+      ~GitBlob.model_construct
+      ~GitBlob.model_copy
+      ~GitBlob.model_dump
+      ~GitBlob.model_dump_json
+      ~GitBlob.model_json_schema
+      ~GitBlob.model_parametrized_name
+      ~GitBlob.model_post_init
+      ~GitBlob.model_rebuild
+      ~GitBlob.model_validate
+      ~GitBlob.model_validate_json
+      ~GitBlob.model_validate_strings
+      ~GitBlob.parse_file
+      ~GitBlob.parse_obj
+      ~GitBlob.parse_raw
+      ~GitBlob.schema
+      ~GitBlob.schema_json
+      ~GitBlob.update_forward_refs
+      ~GitBlob.validate
+   
+   
+
+   
+   
+   .. rubric:: Attributes
+
+   .. autosummary::
+   
+      ~GitBlob.is_ready
+      ~GitBlob.kind
+      ~GitBlob.model_computed_fields
+      ~GitBlob.model_config
+      ~GitBlob.model_extra
+      ~GitBlob.model_fields
+      ~GitBlob.model_fields_set
+      ~GitBlob.sha
+   
+   

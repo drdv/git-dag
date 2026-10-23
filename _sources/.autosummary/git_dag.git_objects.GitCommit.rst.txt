@@ -1,0 +1,71 @@
+git\_dag.git\_objects.GitCommit
+===============================
+
+.. currentmodule:: git_dag.git_objects
+
+.. autoclass:: GitCommit
+   :members:
+   :show-inheritance:
+   :inherited-members:
+   :special-members: __call__, __add__, __mul__
+
+   
+   
+   .. rubric:: Methods
+
+   .. autosummary::
+      :nosignatures:
+   
+      ~GitCommit.construct
+      ~GitCommit.copy
+      ~GitCommit.dict
+      ~GitCommit.from_orm
+      ~GitCommit.json
+      ~GitCommit.model_construct
+      ~GitCommit.model_copy
+      ~GitCommit.model_dump
+      ~GitCommit.model_dump_json
+      ~GitCommit.model_json_schema
+      ~GitCommit.model_parametrized_name
+      ~GitCommit.model_post_init
+      ~GitCommit.model_rebuild
+      ~GitCommit.model_validate
+      ~GitCommit.model_validate_json
+      ~GitCommit.model_validate_strings
+      ~GitCommit.parse_file
+      ~GitCommit.parse_obj
+      ~GitCommit.parse_raw
+      ~GitCommit.schema
+      ~GitCommit.schema_json
+      ~GitCommit.update_forward_refs
+      ~GitCommit.validate
+   
+   
+
+   
+   
+   .. rubric:: Attributes
+
+   .. autosummary::
+   
+      ~GitCommit.author
+      ~GitCommit.author_date
+      ~GitCommit.author_email
+      ~GitCommit.committer
+      ~GitCommit.committer_date
+      ~GitCommit.committer_email
+      ~GitCommit.is_ready
+      ~GitCommit.kind
+      ~GitCommit.message
+      ~GitCommit.model_computed_fields
+      ~GitCommit.model_config
+      ~GitCommit.model_extra
+      ~GitCommit.model_fields
+      ~GitCommit.model_fields_set
+      ~GitCommit.parents
+      ~GitCommit.tree
+      ~GitCommit.is_reachable
+      ~GitCommit.raw_data
+      ~GitCommit.sha
+   
+   

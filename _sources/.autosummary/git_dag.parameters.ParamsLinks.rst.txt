@@ -1,0 +1,62 @@
+git\_dag.parameters.ParamsLinks
+===============================
+
+.. currentmodule:: git_dag.parameters
+
+.. autoclass:: ParamsLinks
+   :members:
+   :show-inheritance:
+   :inherited-members:
+   :special-members: __call__, __add__, __mul__
+
+   
+   
+   .. rubric:: Methods
+
+   .. autosummary::
+      :nosignatures:
+   
+      ~ParamsLinks.construct
+      ~ParamsLinks.copy
+      ~ParamsLinks.dict
+      ~ParamsLinks.from_orm
+      ~ParamsLinks.json
+      ~ParamsLinks.model_construct
+      ~ParamsLinks.model_copy
+      ~ParamsLinks.model_dump
+      ~ParamsLinks.model_dump_json
+      ~ParamsLinks.model_json_schema
+      ~ParamsLinks.model_parametrized_name
+      ~ParamsLinks.model_post_init
+      ~ParamsLinks.model_rebuild
+      ~ParamsLinks.model_validate
+      ~ParamsLinks.model_validate_json
+      ~ParamsLinks.model_validate_strings
+      ~ParamsLinks.parse_file
+      ~ParamsLinks.parse_obj
+      ~ParamsLinks.parse_raw
+      ~ParamsLinks.schema
+      ~ParamsLinks.schema_json
+      ~ParamsLinks.section_in_config
+      ~ParamsLinks.set_defaults_values
+      ~ParamsLinks.set_ignore_config_file
+      ~ParamsLinks.update_forward_refs
+      ~ParamsLinks.validate
+   
+   
+
+   
+   
+   .. rubric:: Attributes
+
+   .. autosummary::
+   
+      ~ParamsLinks.ignore_config_file
+      ~ParamsLinks.model_computed_fields
+      ~ParamsLinks.model_config
+      ~ParamsLinks.model_extra
+      ~ParamsLinks.model_fields
+      ~ParamsLinks.model_fields_set
+      ~ParamsLinks.templates
+   
+   

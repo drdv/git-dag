@@ -1,0 +1,67 @@
+git\_dag.parameters.Params
+==========================
+
+.. currentmodule:: git_dag.parameters
+
+.. autoclass:: Params
+   :members:
+   :show-inheritance:
+   :inherited-members:
+   :special-members: __call__, __add__, __mul__
+
+   
+   
+   .. rubric:: Methods
+
+   .. autosummary::
+      :nosignatures:
+   
+      ~Params.construct
+      ~Params.copy
+      ~Params.create_config
+      ~Params.dict
+      ~Params.from_orm
+      ~Params.json
+      ~Params.model_construct
+      ~Params.model_copy
+      ~Params.model_dump
+      ~Params.model_dump_json
+      ~Params.model_json_schema
+      ~Params.model_parametrized_name
+      ~Params.model_post_init
+      ~Params.model_rebuild
+      ~Params.model_validate
+      ~Params.model_validate_json
+      ~Params.model_validate_strings
+      ~Params.parse_file
+      ~Params.parse_obj
+      ~Params.parse_raw
+      ~Params.schema
+      ~Params.schema_json
+      ~Params.set_ignore_config_file
+      ~Params.update_forward_refs
+      ~Params.validate
+   
+   
+
+   
+   
+   .. rubric:: Attributes
+
+   .. autosummary::
+   
+      ~Params.model_computed_fields
+      ~Params.model_config
+      ~Params.model_extra
+      ~Params.model_fields
+      ~Params.model_fields_set
+      ~Params.public
+      ~Params.dag_global
+      ~Params.dag_node
+      ~Params.dag_edge
+      ~Params.dag_node_colors
+      ~Params.standalone_cluster
+      ~Params.links
+      ~Params.misc
+   
+   

@@ -1,0 +1,63 @@
+git\_dag.parameters.ParamsDagEdge
+=================================
+
+.. currentmodule:: git_dag.parameters
+
+.. autoclass:: ParamsDagEdge
+   :members:
+   :show-inheritance:
+   :inherited-members:
+   :special-members: __call__, __add__, __mul__
+
+   
+   
+   .. rubric:: Methods
+
+   .. autosummary::
+      :nosignatures:
+   
+      ~ParamsDagEdge.construct
+      ~ParamsDagEdge.copy
+      ~ParamsDagEdge.dict
+      ~ParamsDagEdge.from_orm
+      ~ParamsDagEdge.json
+      ~ParamsDagEdge.model_construct
+      ~ParamsDagEdge.model_copy
+      ~ParamsDagEdge.model_dump
+      ~ParamsDagEdge.model_dump_json
+      ~ParamsDagEdge.model_json_schema
+      ~ParamsDagEdge.model_parametrized_name
+      ~ParamsDagEdge.model_post_init
+      ~ParamsDagEdge.model_rebuild
+      ~ParamsDagEdge.model_validate
+      ~ParamsDagEdge.model_validate_json
+      ~ParamsDagEdge.model_validate_strings
+      ~ParamsDagEdge.parse_file
+      ~ParamsDagEdge.parse_obj
+      ~ParamsDagEdge.parse_raw
+      ~ParamsDagEdge.schema
+      ~ParamsDagEdge.schema_json
+      ~ParamsDagEdge.section_in_config
+      ~ParamsDagEdge.set_defaults_values
+      ~ParamsDagEdge.set_ignore_config_file
+      ~ParamsDagEdge.update_forward_refs
+      ~ParamsDagEdge.validate
+   
+   
+
+   
+   
+   .. rubric:: Attributes
+
+   .. autosummary::
+   
+      ~ParamsDagEdge.ignore_config_file
+      ~ParamsDagEdge.model_computed_fields
+      ~ParamsDagEdge.model_config
+      ~ParamsDagEdge.model_extra
+      ~ParamsDagEdge.model_fields
+      ~ParamsDagEdge.model_fields_set
+      ~ParamsDagEdge.arrowsize
+      ~ParamsDagEdge.color
+   
+   

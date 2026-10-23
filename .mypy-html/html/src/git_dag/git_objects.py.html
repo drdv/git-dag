@@ -366,7 +366,7 @@
 <span class="line-empty" title="No Anys on this line!">    # https://docs.pydantic.dev/2.0/usage/computed_fields/</span>
 <span class="line-unanalyzed" title="No Anys on this line!">    @is_ready.setter  # type: ignore[no-redef]</span>
 <span class="line-precise" title="No Anys on this line!">    def is_ready(self, ready: bool) -&gt; None:</span>
-<span class="line-unanalyzed" title="No Anys on this line!">        self._is_ready = ready</span>
+<span class="line-precise" title="No Anys on this line!">        self._is_ready = ready</span>
 <span class="line-empty" title="No Anys on this line!"></span>
 <span class="line-precise" title="No Anys on this line!">    sha: str</span>
 <span class="line-empty" title="No Anys on this line!"></span>
@@ -391,7 +391,7 @@
 <span class="line-precise" title="No Anys on this line!">    name: str</span>
 <span class="line-empty" title="No Anys on this line!"></span>
 <span class="line-any" title="Any Types on this line: 
-Explicit (x8)
+Explicit (x22)
 Omitted Generics (x5)">    raw_data: GitTagRawDataType = Field(repr=False)</span>
 <span class="line-empty" title="No Anys on this line!"></span>
 <span class="line-empty" title="No Anys on this line!">    # I keep track of deleted (annotated) tags that haven't been garbage-collected</span>
@@ -444,7 +444,7 @@ Omitted Generics (x5)">    raw_data: GitTagRawDataType = Field(repr=False)</span
 <span class="line-precise" title="No Anys on this line!">    is_reachable: bool</span>
 <span class="line-empty" title="No Anys on this line!"></span>
 <span class="line-any" title="Any Types on this line: 
-Explicit (x8)
+Explicit (x22)
 Omitted Generics (x5)">    raw_data: GitCommitRawDataType = Field(repr=False)</span>
 <span class="line-precise" title="No Anys on this line!">    _tree: GitTree</span>
 <span class="line-precise" title="No Anys on this line!">    _parents: list[GitCommit]</span>
@@ -512,7 +512,7 @@ Omitted Generics (x5)">    raw_data: GitCommitRawDataType = Field(repr=False)</s
 <span class="line-empty" title="No Anys on this line!"></span>
 <span class="line-empty" title="No Anys on this line!">    #: Raw data.</span>
 <span class="line-any" title="Any Types on this line: 
-Explicit (x8)
+Explicit (x22)
 Omitted Generics (x5)">    raw_data: GitTreeRawDataType = Field(repr=False)</span>
 <span class="line-empty" title="No Anys on this line!"></span>
 <span class="line-empty" title="No Anys on this line!">    #: Child trees and blobs.</span>

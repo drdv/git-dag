@@ -1,0 +1,60 @@
+git\_dag.git\_objects.GitObject
+===============================
+
+.. currentmodule:: git_dag.git_objects
+
+.. autoclass:: GitObject
+   :members:
+   :show-inheritance:
+   :inherited-members:
+   :special-members: __call__, __add__, __mul__
+
+   
+   
+   .. rubric:: Methods
+
+   .. autosummary::
+      :nosignatures:
+   
+      ~GitObject.construct
+      ~GitObject.copy
+      ~GitObject.dict
+      ~GitObject.from_orm
+      ~GitObject.json
+      ~GitObject.model_construct
+      ~GitObject.model_copy
+      ~GitObject.model_dump
+      ~GitObject.model_dump_json
+      ~GitObject.model_json_schema
+      ~GitObject.model_parametrized_name
+      ~GitObject.model_post_init
+      ~GitObject.model_rebuild
+      ~GitObject.model_validate
+      ~GitObject.model_validate_json
+      ~GitObject.model_validate_strings
+      ~GitObject.parse_file
+      ~GitObject.parse_obj
+      ~GitObject.parse_raw
+      ~GitObject.schema
+      ~GitObject.schema_json
+      ~GitObject.update_forward_refs
+      ~GitObject.validate
+   
+   
+
+   
+   
+   .. rubric:: Attributes
+
+   .. autosummary::
+   
+      ~GitObject.is_ready
+      ~GitObject.kind
+      ~GitObject.model_computed_fields
+      ~GitObject.model_config
+      ~GitObject.model_extra
+      ~GitObject.model_fields
+      ~GitObject.model_fields_set
+      ~GitObject.sha
+   
+   

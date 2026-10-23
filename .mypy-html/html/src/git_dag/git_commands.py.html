@@ -906,7 +906,7 @@
 <span class="line-empty" title="No Anys on this line!">        """Run a git command."""</span>
 <span class="line-empty" title="No Anys on this line!">        try:</span>
 <span class="line-precise" title="Any Types on this line: 
-Explicit (x13)">            return subprocess.run(</span>
+Explicit (x7)">            return subprocess.run(</span>
 <span class="line-precise" title="No Anys on this line!">                shlex.split(f"{self.command_prefix} {command}"),</span>
 <span class="line-precise" title="No Anys on this line!">                stdout=subprocess.PIPE,</span>
 <span class="line-precise" title="No Anys on this line!">                stderr=subprocess.PIPE,</span>
@@ -925,7 +925,8 @@ Explicit (x13)">            return subprocess.run(</span>
 <span class="line-empty" title="No Anys on this line!">    ) -&gt; str:</span>
 <span class="line-empty" title="No Anys on this line!">        """Run a general command."""</span>
 <span class="line-precise" title="Any Types on this line: 
-Explicit (x13)">        with subprocess.Popen(</span>
+Explicit (x7)
+Omitted Generics (x6)">        with subprocess.Popen(</span>
 <span class="line-precise" title="No Anys on this line!">            command,</span>
 <span class="line-precise" title="No Anys on this line!">            shell=True,</span>
 <span class="line-precise" title="No Anys on this line!">            stdout=subprocess.PIPE,</span>
@@ -1008,7 +1009,6 @@ Explicit (x13)">        with subprocess.Popen(</span>
 <span class="line-empty" title="No Anys on this line!">        """</span>
 <span class="line-precise" title="No Anys on this line!">        for filename, contents in files.items():</span>
 <span class="line-precise" title="Any Types on this line: 
-Unimported (x7)
 Explicit (x1)">            with open(Path(self.path) / filename, "w", encoding="utf-8") as h:</span>
 <span class="line-precise" title="No Anys on this line!">                h.write(contents)</span>
 <span class="line-precise" title="No Anys on this line!">            self._run(f"add {filename}")</span>
@@ -1140,7 +1140,6 @@ Explicit (x3)">                in e.output.decode("utf-8")</span>
 <span class="line-empty" title="No Anys on this line!">        """</span>
 <span class="line-precise" title="No Anys on this line!">        for filename, contents in files.items():</span>
 <span class="line-precise" title="Any Types on this line: 
-Unimported (x7)
 Explicit (x1)">            with open(Path(self.path) / filename, "w", encoding="utf-8") as h:</span>
 <span class="line-precise" title="No Anys on this line!">                h.write(contents)</span>
 <span class="line-empty" title="No Anys on this line!"></span>
@@ -1511,7 +1510,7 @@ Explicit (x3)">            if expected_error in e.stderr.decode("utf-8"):</span>
 Explicit (x1)">        for raw_tag in [</span>
 <span class="line-imprecise" title="Any Types on this line: 
 Explicit (x14)
-Omitted Generics (x48)">            dict(zip(TAG_FORMAT_FIELDS, re.findall(r"'((?:[^'\\]|\\.)*)'", t)))</span>
+Omitted Generics (x65)">            dict(zip(TAG_FORMAT_FIELDS, re.findall(r"'((?:[^'\\]|\\.)*)'", t)))</span>
 <span class="line-empty" title="No Anys on this line!">            # splitlines() cannot be used here because it splits on CRLF characters</span>
 <span class="line-precise" title="No Anys on this line!">            for t in self._run(CMD_TAGS_INFO).strip().split("\n")</span>
 <span class="line-precise" title="No Anys on this line!">            if t  # when there are no tags "".split("\n") results in [""]</span>
@@ -1722,7 +1721,6 @@ Explicit (x2)">    repo.show(params)</span>
 <span class="line-empty" title="No Anys on this line!">    # TestGitRepository.tar(path, path / "../default_repo.tar.gz")</span>
 <span class="line-empty" title="No Anys on this line!"></span>
 <span class="line-precise" title="Any Types on this line: 
-Unimported (x7)
 Explicit (x1)">    with open(path / "../default_repo.repr", "w", encoding="utf-8") as h:</span>
 <span class="line-precise" title="No Anys on this line!">        h.write(repr(repo))</span>
 <span class="line-empty" title="No Anys on this line!"></span>

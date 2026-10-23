@@ -217,10 +217,10 @@ Explicit (x6)">            assert params_from_config_file[section][key] == value
 Explicit (x4)">            params_default_values = param_class_name().model_dump()</span>
 <span class="line-any" title="Any Types on this line: 
 Explicit (x4)">            for key, value in params_default_values.items():</span>
-<span class="line-imprecise" title="Any Types on this line: 
-Explicit (x1)">                if key not in passed_params_values:</span>
 <span class="line-any" title="Any Types on this line: 
-Explicit (x6)">                    assert params_from_config_file[section][key] == value</span>
+Explicit (x2)">                if key not in passed_params_values:</span>
+<span class="line-any" title="Any Types on this line: 
+Explicit (x7)">                    assert params_from_config_file[section][key] == value</span>
 <span class="line-empty" title="No Anys on this line!"></span>
 <span class="line-precise" title="No Anys on this line!">    config_file = tmp_path / CONFIG_FILE.name</span>
 <span class="line-empty" title="No Anys on this line!"></span>
@@ -254,30 +254,27 @@ Explicit (x2)">            standalone_cluster=ParamsStandaloneCluster.model_vali
 <span class="line-empty" title="No Anys on this line!"></span>
 <span class="line-precise" title="No Anys on this line!">    assert config_file.is_file()</span>
 <span class="line-precise" title="Any Types on this line: 
-Unimported (x7)
 Explicit (x1)">    with open(config_file, "r", encoding="utf-8") as h:</span>
-<span class="line-any" title="Any Types on this line: 
-Explicit (x3)">        params_from_config_file = yaml.safe_load(h)</span>
+<span class="line-precise" title="No Anys on this line!">        params_from_config_file = yaml.safe_load(h)</span>
 <span class="line-empty" title="No Anys on this line!"></span>
-<span class="line-any" title="Any Types on this line: 
-Explicit (x3)">    verify_parameters(params_from_config_file, ParamsPublic, public)</span>
-<span class="line-any" title="Any Types on this line: 
-Explicit (x3)">    verify_parameters(params_from_config_file, ParamsDagGlobal, dag_global)</span>
-<span class="line-any" title="Any Types on this line: 
-Explicit (x3)">    verify_parameters(params_from_config_file, ParamsDagNode, dag_node)</span>
-<span class="line-any" title="Any Types on this line: 
-Explicit (x3)">    verify_parameters(params_from_config_file, ParamsDagEdge, dag_edge)</span>
-<span class="line-any" title="Any Types on this line: 
-Explicit (x3)">    verify_parameters(params_from_config_file, ParamsDagNodeColors, node_colors)</span>
-<span class="line-any" title="Any Types on this line: 
-Explicit (x3)">    verify_parameters(params_from_config_file, ParamsStandaloneCluster, cluster)</span>
+<span class="line-imprecise" title="Any Types on this line: 
+Explicit (x2)">    verify_parameters(params_from_config_file, ParamsPublic, public)</span>
+<span class="line-imprecise" title="Any Types on this line: 
+Explicit (x2)">    verify_parameters(params_from_config_file, ParamsDagGlobal, dag_global)</span>
+<span class="line-imprecise" title="Any Types on this line: 
+Explicit (x2)">    verify_parameters(params_from_config_file, ParamsDagNode, dag_node)</span>
+<span class="line-imprecise" title="Any Types on this line: 
+Explicit (x2)">    verify_parameters(params_from_config_file, ParamsDagEdge, dag_edge)</span>
+<span class="line-imprecise" title="Any Types on this line: 
+Explicit (x2)">    verify_parameters(params_from_config_file, ParamsDagNodeColors, node_colors)</span>
+<span class="line-imprecise" title="Any Types on this line: 
+Explicit (x2)">    verify_parameters(params_from_config_file, ParamsStandaloneCluster, cluster)</span>
 <span class="line-empty" title="No Anys on this line!"></span>
 <span class="line-empty" title="No Anys on this line!"></span>
 <span class="line-precise" title="No Anys on this line!">def test_default_values_from_config(tmp_path: Path) -&gt; None:</span>
 <span class="line-precise" title="No Anys on this line!">    config_file = tmp_path / CONFIG_FILE.name</span>
 <span class="line-empty" title="No Anys on this line!"></span>
 <span class="line-precise" title="Any Types on this line: 
-Unimported (x7)
 Explicit (x1)">    with open(config_file, "w", encoding="utf-8") as h:</span>
 <span class="line-precise" title="No Anys on this line!">        h.write(PARTIAL_CONFIG)</span>
 <span class="line-empty" title="No Anys on this line!"></span>
@@ -303,7 +300,6 @@ Explicit (x1)">    with open(config_file, "w", encoding="utf-8") as h:</span>
 <span class="line-precise" title="No Anys on this line!">    config_file = tmp_path / CONFIG_FILE.name</span>
 <span class="line-empty" title="No Anys on this line!"></span>
 <span class="line-precise" title="Any Types on this line: 
-Unimported (x7)
 Explicit (x1)">    with open(config_file, "w", encoding="utf-8") as h:</span>
 <span class="line-precise" title="No Anys on this line!">        h.write(PARTIAL_CONFIG)</span>
 <span class="line-empty" title="No Anys on this line!"></span>

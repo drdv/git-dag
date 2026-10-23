@@ -1,0 +1,61 @@
+git\_dag.parameters.LinksTemplates
+==================================
+
+.. currentmodule:: git_dag.parameters
+
+.. autoclass:: LinksTemplates
+   :members:
+   :show-inheritance:
+   :inherited-members:
+   :special-members: __call__, __add__, __mul__
+
+   
+   
+   .. rubric:: Methods
+
+   .. autosummary::
+      :nosignatures:
+   
+      ~LinksTemplates.construct
+      ~LinksTemplates.copy
+      ~LinksTemplates.dict
+      ~LinksTemplates.from_orm
+      ~LinksTemplates.json
+      ~LinksTemplates.model_construct
+      ~LinksTemplates.model_copy
+      ~LinksTemplates.model_dump
+      ~LinksTemplates.model_dump_json
+      ~LinksTemplates.model_json_schema
+      ~LinksTemplates.model_parametrized_name
+      ~LinksTemplates.model_post_init
+      ~LinksTemplates.model_rebuild
+      ~LinksTemplates.model_validate
+      ~LinksTemplates.model_validate_json
+      ~LinksTemplates.model_validate_strings
+      ~LinksTemplates.parse_file
+      ~LinksTemplates.parse_obj
+      ~LinksTemplates.parse_raw
+      ~LinksTemplates.schema
+      ~LinksTemplates.schema_json
+      ~LinksTemplates.update_forward_refs
+      ~LinksTemplates.validate
+   
+   
+
+   
+   
+   .. rubric:: Attributes
+
+   .. autosummary::
+   
+      ~LinksTemplates.model_computed_fields
+      ~LinksTemplates.model_config
+      ~LinksTemplates.model_extra
+      ~LinksTemplates.model_fields
+      ~LinksTemplates.model_fields_set
+      ~LinksTemplates.base
+      ~LinksTemplates.commit
+      ~LinksTemplates.branch
+      ~LinksTemplates.tag
+   
+   

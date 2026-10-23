@@ -1,0 +1,85 @@
+git\_dag.parameters.ParamsPublic
+================================
+
+.. currentmodule:: git_dag.parameters
+
+.. autoclass:: ParamsPublic
+   :members:
+   :show-inheritance:
+   :inherited-members:
+   :special-members: __call__, __add__, __mul__
+
+   
+   
+   .. rubric:: Methods
+
+   .. autosummary::
+      :nosignatures:
+   
+      ~ParamsPublic.construct
+      ~ParamsPublic.copy
+      ~ParamsPublic.dict
+      ~ParamsPublic.from_orm
+      ~ParamsPublic.json
+      ~ParamsPublic.model_construct
+      ~ParamsPublic.model_copy
+      ~ParamsPublic.model_dump
+      ~ParamsPublic.model_dump_json
+      ~ParamsPublic.model_json_schema
+      ~ParamsPublic.model_parametrized_name
+      ~ParamsPublic.model_post_init
+      ~ParamsPublic.model_rebuild
+      ~ParamsPublic.model_validate
+      ~ParamsPublic.model_validate_json
+      ~ParamsPublic.model_validate_strings
+      ~ParamsPublic.parse_file
+      ~ParamsPublic.parse_obj
+      ~ParamsPublic.parse_raw
+      ~ParamsPublic.schema
+      ~ParamsPublic.schema_json
+      ~ParamsPublic.section_in_config
+      ~ParamsPublic.set_defaults_values
+      ~ParamsPublic.set_ignore_config_file
+      ~ParamsPublic.update_forward_refs
+      ~ParamsPublic.validate
+   
+   
+
+   
+   
+   .. rubric:: Attributes
+
+   .. autosummary::
+   
+      ~ParamsPublic.ignore_config_file
+      ~ParamsPublic.model_computed_fields
+      ~ParamsPublic.model_config
+      ~ParamsPublic.model_extra
+      ~ParamsPublic.model_fields
+      ~ParamsPublic.model_fields_set
+      ~ParamsPublic.path
+      ~ParamsPublic.file
+      ~ParamsPublic.format
+      ~ParamsPublic.dag_backend
+      ~ParamsPublic.log_level
+      ~ParamsPublic.range_expr
+      ~ParamsPublic.init_refs
+      ~ParamsPublic.annotations
+      ~ParamsPublic.max_numb_commits
+      ~ParamsPublic.commit_message_as_label
+      ~ParamsPublic.html_embed_svg
+      ~ParamsPublic.show_unreachable_commits
+      ~ParamsPublic.show_tags
+      ~ParamsPublic.show_deleted_tags
+      ~ParamsPublic.show_local_branches
+      ~ParamsPublic.show_remote_branches
+      ~ParamsPublic.show_stash
+      ~ParamsPublic.show_trees
+      ~ParamsPublic.show_trees_standalone
+      ~ParamsPublic.show_blobs
+      ~ParamsPublic.show_blobs_standalone
+      ~ParamsPublic.show_head
+      ~ParamsPublic.show_prs_heads
+      ~ParamsPublic.xdg_open
+   
+   

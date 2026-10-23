@@ -1,0 +1,65 @@
+git\_dag.parameters.ParamsMisc
+==============================
+
+.. currentmodule:: git_dag.parameters
+
+.. autoclass:: ParamsMisc
+   :members:
+   :show-inheritance:
+   :inherited-members:
+   :special-members: __call__, __add__, __mul__
+
+   
+   
+   .. rubric:: Methods
+
+   .. autosummary::
+      :nosignatures:
+   
+      ~ParamsMisc.construct
+      ~ParamsMisc.copy
+      ~ParamsMisc.dict
+      ~ParamsMisc.from_orm
+      ~ParamsMisc.json
+      ~ParamsMisc.model_construct
+      ~ParamsMisc.model_copy
+      ~ParamsMisc.model_dump
+      ~ParamsMisc.model_dump_json
+      ~ParamsMisc.model_json_schema
+      ~ParamsMisc.model_parametrized_name
+      ~ParamsMisc.model_post_init
+      ~ParamsMisc.model_rebuild
+      ~ParamsMisc.model_validate
+      ~ParamsMisc.model_validate_json
+      ~ParamsMisc.model_validate_strings
+      ~ParamsMisc.parse_file
+      ~ParamsMisc.parse_obj
+      ~ParamsMisc.parse_raw
+      ~ParamsMisc.schema
+      ~ParamsMisc.schema_json
+      ~ParamsMisc.section_in_config
+      ~ParamsMisc.set_defaults_values
+      ~ParamsMisc.set_ignore_config_file
+      ~ParamsMisc.update_forward_refs
+      ~ParamsMisc.validate
+   
+   
+
+   
+   
+   .. rubric:: Attributes
+
+   .. autosummary::
+   
+      ~ParamsMisc.ignore_config_file
+      ~ParamsMisc.model_computed_fields
+      ~ParamsMisc.model_config
+      ~ParamsMisc.model_extra
+      ~ParamsMisc.model_fields
+      ~ParamsMisc.model_fields_set
+      ~ParamsMisc.annotations_symbol
+      ~ParamsMisc.annotations_shape
+      ~ParamsMisc.annotations_truncate
+      ~ParamsMisc.sha_truncate
+   
+   

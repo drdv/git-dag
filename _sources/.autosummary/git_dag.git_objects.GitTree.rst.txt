@@ -1,0 +1,63 @@
+git\_dag.git\_objects.GitTree
+=============================
+
+.. currentmodule:: git_dag.git_objects
+
+.. autoclass:: GitTree
+   :members:
+   :show-inheritance:
+   :inherited-members:
+   :special-members: __call__, __add__, __mul__
+
+   
+   
+   .. rubric:: Methods
+
+   .. autosummary::
+      :nosignatures:
+   
+      ~GitTree.construct
+      ~GitTree.copy
+      ~GitTree.dict
+      ~GitTree.from_orm
+      ~GitTree.json
+      ~GitTree.model_construct
+      ~GitTree.model_copy
+      ~GitTree.model_dump
+      ~GitTree.model_dump_json
+      ~GitTree.model_json_schema
+      ~GitTree.model_parametrized_name
+      ~GitTree.model_post_init
+      ~GitTree.model_rebuild
+      ~GitTree.model_validate
+      ~GitTree.model_validate_json
+      ~GitTree.model_validate_strings
+      ~GitTree.parse_file
+      ~GitTree.parse_obj
+      ~GitTree.parse_raw
+      ~GitTree.schema
+      ~GitTree.schema_json
+      ~GitTree.update_forward_refs
+      ~GitTree.validate
+   
+   
+
+   
+   
+   .. rubric:: Attributes
+
+   .. autosummary::
+   
+      ~GitTree.children
+      ~GitTree.is_ready
+      ~GitTree.kind
+      ~GitTree.model_computed_fields
+      ~GitTree.model_config
+      ~GitTree.model_extra
+      ~GitTree.model_fields
+      ~GitTree.model_fields_set
+      ~GitTree.raw_data
+      ~GitTree.no_children
+      ~GitTree.sha
+   
+   

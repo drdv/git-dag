@@ -302,8 +302,7 @@
 <span class="line-precise" title="No Anys on this line!">def test_missing_path(tmp_path: Path) -&gt; None:</span>
 <span class="line-precise" title="No Anys on this line!">    repo_path = tmp_path / "missing"</span>
 <span class="line-precise" title="Any Types on this line: 
-Omitted Generics (x6)
-Explicit (x5)">    with pytest.raises(</span>
+Omitted Generics (x4)">    with pytest.raises(</span>
 <span class="line-precise" title="No Anys on this line!">        RuntimeError,</span>
 <span class="line-precise" title="No Anys on this line!">        match=f"Path {repo_path} doesn't exist.",</span>
 <span class="line-empty" title="No Anys on this line!">    ):</span>
@@ -313,8 +312,7 @@ Explicit (x5)">    with pytest.raises(</span>
 <span class="line-precise" title="No Anys on this line!">def test_not_a_git_repository(tmp_path: Path) -&gt; None:</span>
 <span class="line-precise" title="No Anys on this line!">    repo_path = tmp_path</span>
 <span class="line-precise" title="Any Types on this line: 
-Omitted Generics (x6)
-Explicit (x5)">    with pytest.raises(</span>
+Omitted Generics (x4)">    with pytest.raises(</span>
 <span class="line-precise" title="No Anys on this line!">        CalledProcessCustomError,</span>
 <span class="line-precise" title="No Anys on this line!">        match="not a git repository",</span>
 <span class="line-empty" title="No Anys on this line!">    ):</span>
@@ -348,12 +346,10 @@ Explicit (x5)">    with pytest.raises(</span>
 <span class="line-any" title="Any Types on this line: 
 Explicit (x2)">    repo.show(params)</span>
 <span class="line-precise" title="Any Types on this line: 
-Unimported (x7)
 Explicit (x1)">    with open(TEST_DIR / "resources/empty_repo_cluster.gv", "r", encoding="utf-8") as h:</span>
 <span class="line-precise" title="No Anys on this line!">        reference_gv = h.read()</span>
 <span class="line-empty" title="No Anys on this line!"></span>
 <span class="line-precise" title="Any Types on this line: 
-Unimported (x7)
 Explicit (x1)">    with open(repo_path / "empty_repo_cluster.gv", "r", encoding="utf-8") as h:</span>
 <span class="line-precise" title="No Anys on this line!">        result_gv = h.read()</span>
 <span class="line-empty" title="No Anys on this line!"></span>
@@ -466,7 +462,6 @@ Explicit (x1)">    with open(repo_path / "empty_repo_cluster.gv", "r", encoding=
 <span class="line-any" title="Any Types on this line: 
 Explicit (x2)">    repo.show(params)</span>
 <span class="line-precise" title="Any Types on this line: 
-Unimported (x7)
 Explicit (x1)">    with open(file, "r", encoding="utf-8") as h:</span>
 <span class="line-precise" title="No Anys on this line!">        result_gv = h.read()</span>
 <span class="line-empty" title="No Anys on this line!"></span>
@@ -492,8 +487,7 @@ Omitted Generics (x3)">    for name in list("ABCDEFGHINmO"):</span>
 <span class="line-empty" title="No Anys on this line!">    )</span>
 <span class="line-empty" title="No Anys on this line!"></span>
 <span class="line-precise" title="Any Types on this line: 
-Omitted Generics (x6)
-Explicit (x5)">    with pytest.raises(KeyError):</span>
+Omitted Generics (x4)">    with pytest.raises(KeyError):</span>
 <span class="line-any" title="Any Types on this line: 
 Explicit (x2)">        repo.show(params)</span>
 <span class="line-empty" title="No Anys on this line!"></span>
@@ -534,19 +528,16 @@ Explicit (x2)">        repo.show(params)</span>
 Explicit (x2)">    repo.show(params)</span>
 <span class="line-empty" title="No Anys on this line!"></span>
 <span class="line-precise" title="Any Types on this line: 
-Unimported (x7)
 Explicit (x1)">    with open(TEST_DIR / "resources/default_repo.gv", "r", encoding="utf-8") as h:</span>
 <span class="line-precise" title="No Anys on this line!">        reference_gv = h.read()</span>
 <span class="line-empty" title="No Anys on this line!"></span>
 <span class="line-precise" title="Any Types on this line: 
-Unimported (x7)
 Explicit (x1)">    with open(repo_path / "default_repo.gv", "r", encoding="utf-8") as h:</span>
 <span class="line-precise" title="No Anys on this line!">        result_gv = h.read()</span>
 <span class="line-empty" title="No Anys on this line!"></span>
 <span class="line-precise" title="No Anys on this line!">    assert result_gv == reference_gv</span>
 <span class="line-empty" title="No Anys on this line!"></span>
 <span class="line-precise" title="Any Types on this line: 
-Unimported (x7)
 Explicit (x1)">    with open(TEST_DIR / "resources/default_repo.repr", "r", encoding="utf-8") as h:</span>
 <span class="line-precise" title="No Anys on this line!">        reference_repr = h.read()</span>
 <span class="line-empty" title="No Anys on this line!"></span>
@@ -571,8 +562,7 @@ Explicit (x2)">    repo.show(</span>
 <span class="line-precise" title="No Anys on this line!">def test_gittree_children() -&gt; None:</span>
 <span class="line-precise" title="No Anys on this line!">    tree = GitTree(sha=GIT_EMPTY_TREE_OBJECT_SHA, raw_data=[], no_children=True)</span>
 <span class="line-precise" title="Any Types on this line: 
-Omitted Generics (x6)
-Explicit (x5)">    with pytest.raises(</span>
+Omitted Generics (x4)">    with pytest.raises(</span>
 <span class="line-precise" title="No Anys on this line!">        TypeError,</span>
 <span class="line-precise" title="No Anys on this line!">        match="Attempting to set children when there should be none.",</span>
 <span class="line-empty" title="No Anys on this line!">    ):</span>

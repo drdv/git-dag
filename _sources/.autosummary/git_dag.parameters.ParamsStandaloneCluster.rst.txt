@@ -1,0 +1,64 @@
+git\_dag.parameters.ParamsStandaloneCluster
+===========================================
+
+.. currentmodule:: git_dag.parameters
+
+.. autoclass:: ParamsStandaloneCluster
+   :members:
+   :show-inheritance:
+   :inherited-members:
+   :special-members: __call__, __add__, __mul__
+
+   
+   
+   .. rubric:: Methods
+
+   .. autosummary::
+      :nosignatures:
+   
+      ~ParamsStandaloneCluster.construct
+      ~ParamsStandaloneCluster.copy
+      ~ParamsStandaloneCluster.dict
+      ~ParamsStandaloneCluster.from_orm
+      ~ParamsStandaloneCluster.json
+      ~ParamsStandaloneCluster.model_construct
+      ~ParamsStandaloneCluster.model_copy
+      ~ParamsStandaloneCluster.model_dump
+      ~ParamsStandaloneCluster.model_dump_json
+      ~ParamsStandaloneCluster.model_json_schema
+      ~ParamsStandaloneCluster.model_parametrized_name
+      ~ParamsStandaloneCluster.model_post_init
+      ~ParamsStandaloneCluster.model_rebuild
+      ~ParamsStandaloneCluster.model_validate
+      ~ParamsStandaloneCluster.model_validate_json
+      ~ParamsStandaloneCluster.model_validate_strings
+      ~ParamsStandaloneCluster.parse_file
+      ~ParamsStandaloneCluster.parse_obj
+      ~ParamsStandaloneCluster.parse_raw
+      ~ParamsStandaloneCluster.schema
+      ~ParamsStandaloneCluster.schema_json
+      ~ParamsStandaloneCluster.section_in_config
+      ~ParamsStandaloneCluster.set_defaults_values
+      ~ParamsStandaloneCluster.set_ignore_config_file
+      ~ParamsStandaloneCluster.update_forward_refs
+      ~ParamsStandaloneCluster.validate
+   
+   
+
+   
+   
+   .. rubric:: Attributes
+
+   .. autosummary::
+   
+      ~ParamsStandaloneCluster.ignore_config_file
+      ~ParamsStandaloneCluster.model_computed_fields
+      ~ParamsStandaloneCluster.model_config
+      ~ParamsStandaloneCluster.model_extra
+      ~ParamsStandaloneCluster.model_fields
+      ~ParamsStandaloneCluster.model_fields_set
+      ~ParamsStandaloneCluster.color
+      ~ParamsStandaloneCluster.label
+      ~ParamsStandaloneCluster.fontname
+   
+   

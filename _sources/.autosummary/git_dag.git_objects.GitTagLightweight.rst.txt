@@ -1,0 +1,59 @@
+git\_dag.git\_objects.GitTagLightweight
+=======================================
+
+.. currentmodule:: git_dag.git_objects
+
+.. autoclass:: GitTagLightweight
+   :members:
+   :show-inheritance:
+   :inherited-members:
+   :special-members: __call__, __add__, __mul__
+
+   
+   
+   .. rubric:: Methods
+
+   .. autosummary::
+      :nosignatures:
+   
+      ~GitTagLightweight.construct
+      ~GitTagLightweight.copy
+      ~GitTagLightweight.dict
+      ~GitTagLightweight.from_orm
+      ~GitTagLightweight.json
+      ~GitTagLightweight.model_construct
+      ~GitTagLightweight.model_copy
+      ~GitTagLightweight.model_dump
+      ~GitTagLightweight.model_dump_json
+      ~GitTagLightweight.model_json_schema
+      ~GitTagLightweight.model_parametrized_name
+      ~GitTagLightweight.model_post_init
+      ~GitTagLightweight.model_rebuild
+      ~GitTagLightweight.model_validate
+      ~GitTagLightweight.model_validate_json
+      ~GitTagLightweight.model_validate_strings
+      ~GitTagLightweight.parse_file
+      ~GitTagLightweight.parse_obj
+      ~GitTagLightweight.parse_raw
+      ~GitTagLightweight.schema
+      ~GitTagLightweight.schema_json
+      ~GitTagLightweight.update_forward_refs
+      ~GitTagLightweight.validate
+   
+   
+
+   
+   
+   .. rubric:: Attributes
+
+   .. autosummary::
+   
+      ~GitTagLightweight.model_computed_fields
+      ~GitTagLightweight.model_config
+      ~GitTagLightweight.model_extra
+      ~GitTagLightweight.model_fields
+      ~GitTagLightweight.model_fields_set
+      ~GitTagLightweight.name
+      ~GitTagLightweight.anchor
+   
+   
