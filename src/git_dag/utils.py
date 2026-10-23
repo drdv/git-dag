@@ -15,7 +15,7 @@ def escape_decode(text: str) -> str:
     ``codecs.escape_decode`` (https://github.com/python/cpython/issues/74773).
 
     """
-    return codecs.escape_decode(text.encode())[0].decode()  # type: ignore
+    return codecs.escape_decode(text.encode())[0].decode()
 
 
 def transform_ascii_control_chars(text: str) -> str:
