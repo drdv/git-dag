@@ -151,11 +151,13 @@ def example_rebase() -> None:
     )
 
 
-SRG = start_new_repo()
-example_initial_state()
+if __name__ == "__main__":
 
-SRG = start_new_repo(SRG.step_number)
-example_merge()
+    SRG = start_new_repo()
+    example_initial_state()
 
-SRG = start_new_repo(SRG.step_number)
-example_rebase()
+    SRG = start_new_repo(SRG.step_number)
+    example_merge()
+
+    SRG = start_new_repo(SRG.step_number)
+    example_rebase()
